@@ -32,7 +32,7 @@
 #include "SpotForecasts.h"
 
 // Name of the MeteoVache server
-#define DEFAULT_METEOVACHE_SERVER_NAME "vendredi.homelinux.net"
+#define DEFAULT_METEOVACHE_SERVER_NAME "meteovache.dyndns.org"
 // Port of the MeteoVache server
 #define DEFAULT_METEOVACHE_SERVER_PORT 31837
 // Maximum size of server' response to a forecast request
