@@ -1,9 +1,3 @@
-##---------------------------------------------------------------------------
-## Author:      nohal aka. Pavel Kalian
-## Copyright:   
-## License:     wxWidgets License
-##---------------------------------------------------------------------------
- 
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6.2)
 
 PROJECT(meteovache_pi)
@@ -19,6 +13,8 @@ SET(VERSION_PATCH "1")
 SET(VERSION_DATE "29/03/2020")
 
 INCLUDE("cmake/PluginConfigure.cmake")
+
+ADD_DEFINITIONS("-Wall" "-Wextra" "-pedantic")
 
 SET(SRC_MV
     src/DateTime.h
