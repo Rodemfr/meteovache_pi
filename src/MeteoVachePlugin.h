@@ -1,3 +1,29 @@
+/***************************************************************************
+ *                                                                         *
+ * Project:  meteovache_pi                                                 *
+ * Purpose:  Weather forecast plugin for OpenCPN                           *
+ * Author:   Ronan Demoment                                                *
+ *                                                                         *
+ ***************************************************************************
+ *   Copyright (C) 2020 by Ronan Demoment                                  *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************
+ */
+
 #ifndef _METEOVACHEPLUGIN_H_
 #define _METEOVACHEPLUGIN_H_
 
@@ -13,6 +39,7 @@
 
 #include <MVReportFrame.h>
 
+// This plug-in uses OpenCPN Plug-in API v1.8
 #define PI_API_VERSION_MAJOR 1
 #define PI_API_VERSION_MINOR 8
 
@@ -46,17 +73,17 @@ public:
 	MVReportFrame *weatherReportFrame;
 
 private:
-	wxBitmap *mvPluginIcon;
-	wxBitmap *mvToolbarIcon;
-	int toolBarIconId;
-	int contextMenuId;
-	wxWindow *ocpnParentWindow;
-	wxMenuItem *contextMenu;
-	float cursorLat, cursorLon;
-    wxFileConfig *ocpnConfig;
-    int windowWidth, windowHeight;
-    int windowXPos, windowYPos;
-    wxString selectedModelName;
+	wxBitmap *mvPluginIcon;        // Plug-in icon for the plug-in manager (bright background)
+	wxBitmap *mvToolbarIcon;       // plug-in icon for the tool-bar (dark background)
+	int toolBarIconId;             // Id of the plug-in icon in the tool-bar
+	int contextMenuId;             // Id of the plug-in item in context menu
+	wxWindow *ocpnParentWindow;    // Pointer to the OpenCPN parent window
+	wxMenuItem *contextMenu;       // Pointer to plug-in context menu item object
+	float cursorLat, cursorLon;    // Latest known position of the mouse cursor
+    wxFileConfig *ocpnConfig;      // Pointer to the OpenCPN configuration object
+    int windowWidth, windowHeight; // Current report window size
+    int windowXPos, windowYPos;    // Current report window position
+    wxString selectedModelName;    // Currenttly selected weather model
 
     bool LoadConfig(void);
     bool SaveConfig(void);

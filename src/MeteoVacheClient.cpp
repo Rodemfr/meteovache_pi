@@ -1,25 +1,46 @@
-/*
- * MeteoVacheClient.cpp
- *
- *  Created on: 10 nov. 2019
- *      Author: ronan
+/***************************************************************************
+ *                                                                         *
+ * Project:  meteovache_pi                                                 *
+ * Purpose:  Weather forecast plugin for OpenCPN                           *
+ * Author:   Ronan Demoment                                                *
+ *                                                                         *
+ ***************************************************************************
+ *   Copyright (C) 2020 by Ronan Demoment                                  *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************
  */
 
+#include <MeteoVacheClient.h>
+#include <SpotForecasts.h>
 #include <Forecast.h>
 #include <zlib.h>
-#include "MeteoVacheClient.h"
-#include "SpotForecasts.h"
 
 #define MV_CMD_REQUEST_ALL_FORECATS_AT_LOCATION 1
 
 MeteoVacheClient::MeteoVacheClient() {
+	// Setup IP address of distant server
 	serverIpAddr.Hostname(DEFAULT_METEOVACHE_SERVER_NAME);
 	serverIpAddr.Service(DEFAULT_METEOVACHE_SERVER_PORT);
 
+	// Create the local UDP socket
 	localIpAddr.AnyAddress();
 	localIpAddr.Service(0x8000);
-
 	localSocket = new wxDatagramSocket(localIpAddr, wxSOCKET_BLOCK);
+	// Set timeout to second
 	localSocket->SetTimeout(1);
 }
 
@@ -31,6 +52,10 @@ bool MeteoVacheClient::downloadAllForecasts(float latitude, float longitude, Spo
 	char requestBuffer[9];
 	int nbForecasts;
 
+	// Prepare REQUEST_ALL_FORECATS_AT_LOCATION :
+	// 1 byte = command
+	// 1 float = latitude (little endian)
+	// 1 float = longitude (little endian)
 	requestBuffer[0] = MV_CMD_REQUEST_ALL_FORECATS_AT_LOCATION;
 	// TODO : Handle endianess
 	*((float*) (requestBuffer + 1)) = latitude;
