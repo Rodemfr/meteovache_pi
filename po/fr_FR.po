@@ -170,11 +170,3 @@ msgstr "  SE"
 msgid "S-SE"
 msgstr "S-SE"
 
-#~ msgid "MeteoVache: Can't create the working thread!"
-#~ msgstr "MeteoVache: Can't create the working thread!"
-
-#~ msgid "MeteoVache: deleting background thread"
-#~ msgstr "MeteoVache: deleting background thread"
-
-#~ msgid "MeteoVache: Can't delete background thread"
-#~ msgstr "MeteoVache: Can't delete background thread"
