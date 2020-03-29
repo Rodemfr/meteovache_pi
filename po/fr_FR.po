@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-28 09:47+0100\n"
+"POT-Creation-Date: 2020-03-29 21:03+0200\n"
 "PO-Revision-Date: 2020-03-29 14:14+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -17,63 +17,62 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 2.3\n"
 
-#: src/MeteoVachePlugin.cpp:92 src/MeteoVachePlugin.cpp:104
-#: src/MeteoVachePlugin.cpp:144
+#: src/MeteoVachePlugin.cpp:86 src/MeteoVachePlugin.cpp:100
+#: src/MeteoVachePlugin.cpp:142
 msgid "MeteoVache"
 msgstr "MétéoVache"
 
-#: src/MeteoVachePlugin.cpp:92
-msgid "MeteoVache plugin"
+#: src/MeteoVachePlugin.cpp:86
+msgid "MeteoVache plug-in"
 msgstr "Extension MétéoVache"
 
-#: src/MeteoVachePlugin.cpp:98
+#: src/MeteoVachePlugin.cpp:93
 msgid "Weather forecast"
 msgstr "Prédictions météo"
 
-#: src/MeteoVachePlugin.cpp:99
-msgid ""
-"Request weather forecast from MeteoVache server at the location of the cursor"
+#: src/MeteoVachePlugin.cpp:94
+msgid "Request weather forecast from MeteoVache server at cursor location"
 msgstr ""
 "Télécharge les prédictions météo pour la position du curseur depuis le "
 "serveur MétéoVache"
 
-#: src/MeteoVachePlugin.cpp:148
-msgid "MeteoVache weather plugin for OpenCPN"
+#: src/MeteoVachePlugin.cpp:146
+msgid "MeteoVache weather plug-in for OpenCPN"
 msgstr "Extension MétéoVache pour OpenCPN"
 
-#: src/MeteoVachePlugin.cpp:153
+#: src/MeteoVachePlugin.cpp:151
 msgid ""
-"MeteoVache is a weather plugin for OpenCPN.\n"
+"MeteoVache is a weather plug-in for OpenCPN.\n"
 "It provides weather forecasts everywhere in the world with only\n"
-"a low bandwidth internet connection."
+"a low bandwidth Internet connection."
 msgstr ""
 "MétéoVache est une extension météo pour OpenCPN\n"
 "Elle fournit des prédiciton météorologiques partout dans le monde\n"
-"même avec une connection internet à très faible débit."
+"même avec une connection Internet à très faible débit."
 
-#: src/MVReportFrame.cpp:29
+#: src/MVReportFrame.cpp:33
 msgid "Weather model :"
 msgstr "Modèle météo :"
 
-#: src/MVReportFrame.cpp:34
+#: src/MVReportFrame.cpp:37
 msgid "No data"
 msgstr "Pas de données"
 
-#: src/MVReportFrame.cpp:40
+#: src/MVReportFrame.cpp:42
 msgid "Weather report"
 msgstr "Rapport de prévisions"
 
-#: src/MVReportFrame.cpp:178
+#: src/MVReportFrame.cpp:163
 #, c-format
 msgid "Position :       %s %s\n"
 msgstr "Position :       %s %s\n"
 
-#: src/MVReportFrame.cpp:182
+#: src/MVReportFrame.cpp:164
 #, c-format
 msgid "Model :          %s (%s)\n"
 msgstr "Modèle :         %s (%s)\n"
 
-#: src/MVReportFrame.cpp:185
+#: src/MVReportFrame.cpp:166
 #, c-format
 msgid ""
 "Run date :       %02d/%02d/%d %dh%02d\n"
@@ -82,91 +81,89 @@ msgstr ""
 "Date de calcul : %02d/%02d/%d %dh%02d\n"
 "\n"
 
-#: src/MVReportFrame.cpp:190
+#: src/MVReportFrame.cpp:168
 msgid "           Wind Gust   Dir  Rain Cloud Temp\n"
 msgstr "           Vent Rafl   Dir Précp CouvN Temp\n"
 
-#: src/MVReportFrame.cpp:192
-msgid "             kt   kt        mm/h     %   °C\n"
-msgstr "             nd   nd        mm/h     %   °C\n"
-
-#: src/MVReportFrame.cpp:245
+#: src/MVReportFrame.cpp:218
 msgid "S"
 msgstr "S"
 
-#: src/MVReportFrame.cpp:245
+#: src/MVReportFrame.cpp:218
 msgid "N"
 msgstr "N"
 
-#: src/MVReportFrame.cpp:258
+#: src/MVReportFrame.cpp:231
 msgid "W"
 msgstr "O"
 
-#: src/MVReportFrame.cpp:258
+#: src/MVReportFrame.cpp:231
 msgid "E"
 msgstr "E"
 
-#: src/MVReportFrame.cpp:271
+#: src/MVReportFrame.cpp:245
 msgid "   S"
 msgstr "   S"
 
-#: src/MVReportFrame.cpp:273
+#: src/MVReportFrame.cpp:247
 msgid "S-SW"
 msgstr "S-SO"
 
-#: src/MVReportFrame.cpp:275
+#: src/MVReportFrame.cpp:249
 msgid "  SW"
 msgstr "  SO"
 
-#: src/MVReportFrame.cpp:277
+#: src/MVReportFrame.cpp:251
 msgid "W-SW"
 msgstr "O-SO"
 
-#: src/MVReportFrame.cpp:279
+#: src/MVReportFrame.cpp:253
 msgid "   W"
 msgstr "   O"
 
-#: src/MVReportFrame.cpp:281
+#: src/MVReportFrame.cpp:255
 msgid "W-NW"
 msgstr "O-NO"
 
-#: src/MVReportFrame.cpp:283
+#: src/MVReportFrame.cpp:257
 msgid "  NW"
 msgstr "  NO"
 
-#: src/MVReportFrame.cpp:285
+#: src/MVReportFrame.cpp:259
 msgid "N-NW"
 msgstr "N-NO"
 
-#: src/MVReportFrame.cpp:287 src/MVReportFrame.cpp:303
+#: src/MVReportFrame.cpp:261 src/MVReportFrame.cpp:277
 msgid "   N"
 msgstr "   N"
 
-#: src/MVReportFrame.cpp:289
+#: src/MVReportFrame.cpp:263
 msgid "N-NE"
 msgstr "N-NE"
 
-#: src/MVReportFrame.cpp:291
+#: src/MVReportFrame.cpp:265
 msgid "  NE"
 msgstr "  NE"
 
-#: src/MVReportFrame.cpp:293
+#: src/MVReportFrame.cpp:267
 msgid "E-NE"
 msgstr "E-NE"
 
-#: src/MVReportFrame.cpp:295
+#: src/MVReportFrame.cpp:269
 msgid "   E"
 msgstr "   E"
 
-#: src/MVReportFrame.cpp:297
+#: src/MVReportFrame.cpp:271
 msgid "E-SE"
 msgstr "E-SE"
 
-#: src/MVReportFrame.cpp:299
+#: src/MVReportFrame.cpp:273
 msgid "  SE"
 msgstr "  SE"
 
-#: src/MVReportFrame.cpp:301
+#: src/MVReportFrame.cpp:275
 msgid "S-SE"
 msgstr "S-SE"
 
+#~ msgid "             kt   kt        mm/h     %   °C\n"
+#~ msgstr "             nd   nd        mm/h     %   °C\n"
