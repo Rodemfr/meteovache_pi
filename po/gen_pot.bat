@@ -1,0 +1,1 @@
+xgettext --force-po --from-code=iso-8859-1 --output=meteovache_pi.pot --keyword=_ --width=80 --files-from=POTFILES.in

@@ -1,0 +1,180 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-03-28 09:47+0100\n"
+"PO-Revision-Date: 2020-03-28 11:44+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.3\n"
+
+#: src/MeteoVachePlugin.cpp:92 src/MeteoVachePlugin.cpp:104
+#: src/MeteoVachePlugin.cpp:144
+msgid "MeteoVache"
+msgstr "MétéoVache"
+
+#: src/MeteoVachePlugin.cpp:92
+msgid "MeteoVache plugin"
+msgstr "Extension MétéoVache"
+
+#: src/MeteoVachePlugin.cpp:98
+msgid "Weather forecast"
+msgstr "Prédiction météo"
+
+#: src/MeteoVachePlugin.cpp:99
+msgid ""
+"Request weather forecast from MeteoVache server at the location of the cursor"
+msgstr ""
+"Télécharge les prédictions météo pour la position du curseur depuis le "
+"serveur MétéoVache"
+
+#: src/MeteoVachePlugin.cpp:148
+msgid "MeteoVache weather plugin for OpenCPN"
+msgstr "Extension MétéoVache pour OpenCPN"
+
+#: src/MeteoVachePlugin.cpp:153
+msgid ""
+"MeteoVache is a weather plugin for OpenCPN.\n"
+"It provides weather forecasts everywhere in the world with only\n"
+"a low bandwidth internet connection."
+msgstr ""
+"MétéoVache est une extension météo pour OpenCPN\n"
+"Elle fournit des prédiciton météorologiques partout dans le monde\n"
+"même avec une connection internet à très faible débit."
+
+#: src/MVReportFrame.cpp:29
+msgid "Weather model :"
+msgstr "Modèle météo :"
+
+#: src/MVReportFrame.cpp:34
+msgid "No data"
+msgstr "Pas de données"
+
+#: src/MVReportFrame.cpp:40
+msgid "Weather report"
+msgstr "Rapport de prévisions"
+
+#: src/MVReportFrame.cpp:178
+#, c-format
+msgid "Position :       %s %s\n"
+msgstr "Position :       %s %s\n"
+
+#: src/MVReportFrame.cpp:182
+#, c-format
+msgid "Model :          %s (%s)\n"
+msgstr "Modèle :         %s (%s)\n"
+
+#: src/MVReportFrame.cpp:185
+#, c-format
+msgid ""
+"Run date :       %02d/%02d/%d %dh%02d\n"
+"\n"
+msgstr ""
+"Date de calcul : %02d/%02d/%d %dh%02d\n"
+"\n"
+
+#: src/MVReportFrame.cpp:190
+msgid "           Wind Gust   Dir  Rain Cloud Temp\n"
+msgstr "           Vent Rafl   Dir Précp CouvN Temp\n"
+
+#: src/MVReportFrame.cpp:192
+msgid "             kt   kt        mm/h     %   °C\n"
+msgstr "             nd   nd        mm/h     %   °C\n"
+
+#: src/MVReportFrame.cpp:245
+msgid "S"
+msgstr "S"
+
+#: src/MVReportFrame.cpp:245
+msgid "N"
+msgstr "N"
+
+#: src/MVReportFrame.cpp:258
+msgid "W"
+msgstr "O"
+
+#: src/MVReportFrame.cpp:258
+msgid "E"
+msgstr "E"
+
+#: src/MVReportFrame.cpp:271
+msgid "   S"
+msgstr "   S"
+
+#: src/MVReportFrame.cpp:273
+msgid "S-SW"
+msgstr "S-SO"
+
+#: src/MVReportFrame.cpp:275
+msgid "  SW"
+msgstr "  SO"
+
+#: src/MVReportFrame.cpp:277
+msgid "W-SW"
+msgstr "O-SO"
+
+#: src/MVReportFrame.cpp:279
+msgid "   W"
+msgstr "   O"
+
+#: src/MVReportFrame.cpp:281
+msgid "W-NW"
+msgstr "O-NO"
+
+#: src/MVReportFrame.cpp:283
+msgid "  NW"
+msgstr "  NO"
+
+#: src/MVReportFrame.cpp:285
+msgid "N-NW"
+msgstr "N-NO"
+
+#: src/MVReportFrame.cpp:287 src/MVReportFrame.cpp:303
+msgid "   N"
+msgstr "   N"
+
+#: src/MVReportFrame.cpp:289
+msgid "N-NE"
+msgstr "N-NE"
+
+#: src/MVReportFrame.cpp:291
+msgid "  NE"
+msgstr "  NE"
+
+#: src/MVReportFrame.cpp:293
+msgid "E-NE"
+msgstr "E-NE"
+
+#: src/MVReportFrame.cpp:295
+msgid "   E"
+msgstr "   E"
+
+#: src/MVReportFrame.cpp:297
+msgid "E-SE"
+msgstr "E-SE"
+
+#: src/MVReportFrame.cpp:299
+msgid "  SE"
+msgstr "  SE"
+
+#: src/MVReportFrame.cpp:301
+msgid "S-SE"
+msgstr "S-SE"
+
+#~ msgid "MeteoVache: Can't create the working thread!"
+#~ msgstr "MeteoVache: Can't create the working thread!"
+
+#~ msgid "MeteoVache: deleting background thread"
+#~ msgstr "MeteoVache: deleting background thread"
+
+#~ msgid "MeteoVache: Can't delete background thread"
+#~ msgstr "MeteoVache: Can't delete background thread"
