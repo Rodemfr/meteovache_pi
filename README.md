@@ -1,9 +1,21 @@
 # MeteoVache plugin for OpenCPN
 
-meteovache_pi is a small weather plugin for OpenCPN. It provides weather forecasts anywhere in the world as long as you have an internet connection.
-MeteoVache has been especially designed to be useable with very low bandwidth connections. It runs fine and fast with a low quality Edge GSM connection.
+meteovache_pi is a small weather plugin for OpenCPN. It provides weather forecasts anywhere in Europe as long as you have an internet connection.
+MeteoVache has been especially designed to be useable with very low bandwidth connections. It runs fine and fast with only a few kilobits per second.
 
 ![Sample picture](files/meteovache_en_256.png)
+
+## Description
+
+meteovache_pi is a plugin for OpenCPN which provides weather forecast from a number of meteorological forecast models :
+
+- "AROME" : local model (0.05°) from Météo France (Coverage : France)
+- "ARPEGE HD" : global model (0.1°) from Météo France (Coverage : Europe)
+- "ICON EU" : global model (0.125°) from Deutscher Wetterdienst (Coverage Europe)
+
+meteovache_pi needs a internet connection to retreive weather data from MeteoVache server. It has been especially designed to minimize the amount of data required to get a forecast at a given location. A typical request weights between 1 and 1.5kb, making it suitable for very low bandwidth internet connections like Edge GSM.
+
+Current coverage is limited to Europe, but the entire world should come in a few weeks...
 
 ## Author
 
@@ -15,5 +27,5 @@ This program is distributed under the terms of the GPL v2. - see the [gpl.txt](c
 
 ## Acknowledgments
 
-* Thanks to Pavel Kalian who provided most of the templates and documentation on which this plugin is based.
+* Thanks to @OpenCPN team for providing a comprehensive set of templates and examples to develop plugins
 
