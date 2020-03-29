@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-03-28 09:47+0100\n"
-"PO-Revision-Date: 2020-03-28 11:44+0100\n"
+"PO-Revision-Date: 2020-03-29 14:14+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -28,7 +28,7 @@ msgstr "Extension MétéoVache"
 
 #: src/MeteoVachePlugin.cpp:98
 msgid "Weather forecast"
-msgstr "Prédiction météo"
+msgstr "Prédictions météo"
 
 #: src/MeteoVachePlugin.cpp:99
 msgid ""
