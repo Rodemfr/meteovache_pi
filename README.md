@@ -25,6 +25,17 @@ Current coverage is limited to Europe, but the entire world should come in a few
 
 This program is distributed under the terms of the GPL v2. - see the [gpl.txt](cmake/gpl.txt) file for details
 
+## Download
+
+Latest release is v0.2.1. Here are the binaries for OpenCPN 5.0 :
+
+- Win32 x86 : [meteovache_pi_v0.2.1_ocpn50_win32_x86.zip](files/binaries/opencpn50/win32_x86/meteovache_pi_v0.2.1_ocpn50_win32_x86.zip)
+- Linux x64 : [meteovache_pi_v0.2.1_opcn50_linux_x86.tar.gz](files/binaries/opencpn50/win32_x86/meteovache_pi_v0.2.1_opcn50_linux_x86.tar.gz)
+
+Installers are not available at this time. You will have to uncompress archives yourself and to copy the various files in OpenCPN install directory. Archives have been made in such a way that the folder structure inside OpenCPN install directory is preserved.
+
+Other platforms (OSX and ARM/RPi) will come soon.
+
 ## Acknowledgments
 
 * Thanks to @OpenCPN team for providing a comprehensive set of templates and examples to develop plugins
