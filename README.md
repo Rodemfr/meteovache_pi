@@ -25,7 +25,7 @@ Current coverage is limited to Europe, but the entire world should come in a few
 
 This program is distributed under the terms of the GPL v2. - see the [gpl.txt](cmake/gpl.txt) file for details
 
-## Download
+## Download binary releases
 
 Latest release is v0.2.1. Here are the binaries for OpenCPN 5.0 :
 
