@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-30 14:24+0200\n"
+"POT-Creation-Date: 2020-03-30 18:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -45,191 +45,196 @@ msgid ""
 "a low bandwidth Internet connection."
 msgstr ""
 
-#: src/MVReportFrame.cpp:33
+#: src/MVReportFrame.cpp:34
 msgid "Weather model :"
 msgstr ""
 
-#: src/MVReportFrame.cpp:37
+#: src/MVReportFrame.cpp:38
 msgid "No data"
 msgstr ""
 
-#: src/MVReportFrame.cpp:42
+#: src/MVReportFrame.cpp:43
 msgid "Weather report"
-msgstr ""
-
-#: src/MVReportFrame.cpp:163
-#, c-format
-msgid "Position :       %s %s\n"
 msgstr ""
 
 #: src/MVReportFrame.cpp:164
 #, c-format
+msgid "Position :       %s %s\n"
+msgstr ""
+
+#: src/MVReportFrame.cpp:165
+#, c-format
 msgid "Model :          %s (%s)\n"
 msgstr ""
 
-#: src/MVReportFrame.cpp:166
+#: src/MVReportFrame.cpp:167
 #, c-format
 msgid ""
 "Run date :       %02d/%02d/%d %dh%02d\n"
 "\n"
 msgstr ""
 
-#: src/MVReportFrame.cpp:168
+#: src/MVReportFrame.cpp:169
 msgid "           Wind Gust   Dir  Rain Cloud Temp\n"
 msgstr ""
 
-#: src/MVReportFrame.cpp:218
+#: src/MVReportFrame.cpp:170
+#, c-format
+msgid "             kt   kt        mm/h     %    C\n"
+msgstr ""
+
+#: src/MVReportFrame.cpp:219
 msgid "S"
 msgstr ""
 
-#: src/MVReportFrame.cpp:218
+#: src/MVReportFrame.cpp:219
 msgid "N"
 msgstr ""
 
-#: src/MVReportFrame.cpp:231
+#: src/MVReportFrame.cpp:232
 msgid "W"
 msgstr ""
 
-#: src/MVReportFrame.cpp:231
+#: src/MVReportFrame.cpp:232
 msgid "E"
 msgstr ""
 
-#: src/MVReportFrame.cpp:245
+#: src/MVReportFrame.cpp:246
 msgid "   S"
 msgstr ""
 
-#: src/MVReportFrame.cpp:247
+#: src/MVReportFrame.cpp:248
 msgid "S-SW"
 msgstr ""
 
-#: src/MVReportFrame.cpp:249
+#: src/MVReportFrame.cpp:250
 msgid "  SW"
 msgstr ""
 
-#: src/MVReportFrame.cpp:251
+#: src/MVReportFrame.cpp:252
 msgid "W-SW"
 msgstr ""
 
-#: src/MVReportFrame.cpp:253
+#: src/MVReportFrame.cpp:254
 msgid "   W"
 msgstr ""
 
-#: src/MVReportFrame.cpp:255
+#: src/MVReportFrame.cpp:256
 msgid "W-NW"
 msgstr ""
 
-#: src/MVReportFrame.cpp:257
+#: src/MVReportFrame.cpp:258
 msgid "  NW"
 msgstr ""
 
-#: src/MVReportFrame.cpp:259
+#: src/MVReportFrame.cpp:260
 msgid "N-NW"
 msgstr ""
 
-#: src/MVReportFrame.cpp:261 src/MVReportFrame.cpp:277
+#: src/MVReportFrame.cpp:262 src/MVReportFrame.cpp:278
 msgid "   N"
 msgstr ""
 
-#: src/MVReportFrame.cpp:263
+#: src/MVReportFrame.cpp:264
 msgid "N-NE"
 msgstr ""
 
-#: src/MVReportFrame.cpp:265
+#: src/MVReportFrame.cpp:266
 msgid "  NE"
 msgstr ""
 
-#: src/MVReportFrame.cpp:267
+#: src/MVReportFrame.cpp:268
 msgid "E-NE"
 msgstr ""
 
-#: src/MVReportFrame.cpp:269
+#: src/MVReportFrame.cpp:270
 msgid "   E"
 msgstr ""
 
-#: src/MVReportFrame.cpp:271
+#: src/MVReportFrame.cpp:272
 msgid "E-SE"
 msgstr ""
 
-#: src/MVReportFrame.cpp:273
+#: src/MVReportFrame.cpp:274
 msgid "  SE"
 msgstr ""
 
-#: src/MVReportFrame.cpp:275
+#: src/MVReportFrame.cpp:276
 msgid "S-SE"
 msgstr ""
 
-#: src/DateTime.cpp:9
-msgid "Sunday"
-msgstr ""
-
-#: src/DateTime.cpp:9
-msgid "Monday"
-msgstr ""
-
-#: src/DateTime.cpp:9
-msgid "Tuesday"
-msgstr ""
-
-#: src/DateTime.cpp:9
-msgid "Wednesday"
-msgstr ""
-
-#: src/DateTime.cpp:10
-msgid "Thursday"
-msgstr ""
-
-#: src/DateTime.cpp:10
-msgid "Friday"
-msgstr ""
-
-#: src/DateTime.cpp:10
-msgid "Saturday"
-msgstr ""
-
-#: src/DateTime.cpp:12
+#: src/DateTime.cpp:227
 msgid "January"
 msgstr ""
 
-#: src/DateTime.cpp:12
+#: src/DateTime.cpp:230
 msgid "February"
 msgstr ""
 
-#: src/DateTime.cpp:12
+#: src/DateTime.cpp:233
 msgid "March"
 msgstr ""
 
-#: src/DateTime.cpp:12
+#: src/DateTime.cpp:236
 msgid "April"
 msgstr ""
 
-#: src/DateTime.cpp:13
+#: src/DateTime.cpp:239
 msgid "May"
 msgstr ""
 
-#: src/DateTime.cpp:13
+#: src/DateTime.cpp:242
 msgid "June"
 msgstr ""
 
-#: src/DateTime.cpp:13
+#: src/DateTime.cpp:245
 msgid "July"
 msgstr ""
 
-#: src/DateTime.cpp:13
+#: src/DateTime.cpp:248
 msgid "August"
 msgstr ""
 
-#: src/DateTime.cpp:14
+#: src/DateTime.cpp:251
 msgid "September"
 msgstr ""
 
-#: src/DateTime.cpp:14
+#: src/DateTime.cpp:254
 msgid "October"
 msgstr ""
 
-#: src/DateTime.cpp:14
+#: src/DateTime.cpp:257
 msgid "November"
 msgstr ""
 
-#: src/DateTime.cpp:15
+#: src/DateTime.cpp:260
 msgid "December"
+msgstr ""
+
+#: src/DateTime.cpp:270
+msgid "Sunday"
+msgstr ""
+
+#: src/DateTime.cpp:273
+msgid "Monday"
+msgstr ""
+
+#: src/DateTime.cpp:276
+msgid "Tuesday"
+msgstr ""
+
+#: src/DateTime.cpp:279
+msgid "Wednesday"
+msgstr ""
+
+#: src/DateTime.cpp:282
+msgid "Thursday"
+msgstr ""
+
+#: src/DateTime.cpp:285
+msgid "Friday"
+msgstr ""
+
+#: src/DateTime.cpp:288
+msgid "Saturday"
 msgstr ""

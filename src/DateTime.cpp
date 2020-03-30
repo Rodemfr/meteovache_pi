@@ -5,36 +5,24 @@
 #include <stdio.h>
 #include <wx/translation.h>
 
-std::string DateTime::dayNames[7] =
-{ _("Sunday").ToStdString(), _("Monday").ToStdString(), _("Tuesday").ToStdString(), _("Wednesday").ToStdString(),
-		_("Thursday").ToStdString(), _("Friday").ToStdString(), _("Saturday").ToStdString() };
-std::string DateTime::monthNames[12] =
-{ _("January").ToStdString(), _("February").ToStdString(), _("March").ToStdString(), _("April").ToStdString(),
-		_("May").ToStdString(), _("June").ToStdString(), _("July").ToStdString(), _("August").ToStdString(),
-		_("September").ToStdString(), _("October").ToStdString(), _("November").ToStdString(),
-		_("December").ToStdString() };
-
 DateTime::DateTime() :
-		timeValue(0)
-{
+		timeValue(0) {
 }
 
-DateTime::~DateTime()
-{
+DateTime::~DateTime() {
 }
 
-char* DateTime::parseGmtIso8601(const char *timeString)
-{
+bool DateTime::ParseGmtIso8601(std::string timeString) {
 	struct tm timeData;
 	char *returnCode;
 
 	memset(&timeData, 0, sizeof(struct tm));
 #ifndef __WIN32__
-	returnCode = strptime(timeString, "%FT%T", &timeData);
+	returnCode = strptime(timeString.c_str(), "%FT%T", &timeData);
 	timeData.tm_isdst = 1;
 	timeValue = timegm(&timeData);
 #else
-    sscanf(timeString, "%d-%d-%dT%d%*c%d", &timeData.tm_year,
+    sscanf(timeString.c_str(), "%d-%d-%dT%d%*c%d", &timeData.tm_year,
            &timeData.tm_mon, &timeData.tm_mday, &timeData.tm_hour,
            &timeData.tm_min);
     timeData.tm_year -= 1900;
@@ -43,29 +31,29 @@ char* DateTime::parseGmtIso8601(const char *timeString)
     timeValue = _mkgmtime(&timeData);
     returnCode = (char *)1;
 #endif
-	return (returnCode);
+	return (returnCode != NULL);
 }
 
-void DateTime::formatGmtIso8601(char *timeString, int maxLength)
-{
+std::string DateTime::FormatGmtIso8601() {
 	struct tm *timeData;
 	time_t tv = timeValue;
+	char timeString[64];
 
 	timeData = gmtime(&tv);
 
-	strftime(timeString, maxLength, "%FT%TZ", timeData);
+	strftime(timeString, sizeof(timeString), "%FT%TZ", timeData);
+
+	return (std::string(timeString));
 }
 
-void DateTime::setToCurrentTime()
-{
+void DateTime::SetToCurrentTime() {
 	time_t tv;
 
 	time(&tv);
 	timeValue = tv;
 }
 
-int DateTime::getLocalYear()
-{
+uint32_t DateTime::GetLocalYear() {
 	struct tm *timeData;
 	time_t tv = timeValue;
 
@@ -74,8 +62,7 @@ int DateTime::getLocalYear()
 	return (timeData->tm_year + 1900);
 }
 
-int DateTime::getGmtYear()
-{
+uint32_t DateTime::GetGmtYear() {
 	struct tm *timeData;
 	time_t tv = timeValue;
 
@@ -84,8 +71,7 @@ int DateTime::getGmtYear()
 	return (timeData->tm_year + 1900);
 }
 
-int DateTime::getLocalMonth()
-{
+uint32_t DateTime::GetLocalMonth() {
 	struct tm *timeData;
 	time_t tv = timeValue;
 
@@ -94,8 +80,7 @@ int DateTime::getLocalMonth()
 	return (timeData->tm_mon + 1);
 }
 
-int DateTime::getGmtMonth()
-{
+uint32_t DateTime::GetGmtMonth() {
 	struct tm *timeData;
 	time_t tv = timeValue;
 
@@ -104,28 +89,26 @@ int DateTime::getGmtMonth()
 	return (timeData->tm_mon + 1);
 }
 
-std::string DateTime::getLocalMonthName()
-{
+std::string DateTime::GetLocalMonthName() {
 	struct tm *timeData;
 	time_t tv = timeValue;
+	std::string monthName;
 
 	timeData = localtime(&tv);
 
-	return (monthNames[timeData->tm_mon]);
+	return GetMonthName(timeData->tm_mon);
 }
 
-std::string DateTime::getGmtMonthName()
-{
+std::string DateTime::GetGmtMonthName() {
 	struct tm *timeData;
 	time_t tv = timeValue;
 
 	timeData = gmtime(&tv);
 
-	return (monthNames[timeData->tm_mon]);
+	return GetMonthName(timeData->tm_mon);
 }
 
-int DateTime::getLocalDay()
-{
+uint32_t DateTime::GetLocalDay() {
 	struct tm *timeData;
 	time_t tv = timeValue;
 
@@ -134,8 +117,7 @@ int DateTime::getLocalDay()
 	return (timeData->tm_mday);
 }
 
-int DateTime::getGmtDay()
-{
+uint32_t DateTime::GetGmtDay() {
 	struct tm *timeData;
 	time_t tv = timeValue;
 
@@ -144,28 +126,25 @@ int DateTime::getGmtDay()
 	return (timeData->tm_mday);
 }
 
-std::string DateTime::getLocalDayName()
-{
+std::string DateTime::GetLocalDayName() {
 	struct tm *timeData;
 	time_t tv = timeValue;
 
 	timeData = localtime(&tv);
 
-	return (dayNames[timeData->tm_wday]);
+	return GetDayName(timeData->tm_wday);
 }
 
-std::string DateTime::getGmtDayName()
-{
+std::string DateTime::GetGmtDayName() {
 	struct tm *timeData;
 	time_t tv = timeValue;
 
 	timeData = gmtime(&tv);
 
-	return (dayNames[timeData->tm_wday]);
+	return GetDayName(timeData->tm_wday);
 }
 
-int DateTime::getLocalHour()
-{
+uint32_t DateTime::GetLocalHour() {
 	struct tm *timeData;
 	time_t tv = timeValue;
 
@@ -174,8 +153,7 @@ int DateTime::getLocalHour()
 	return (timeData->tm_hour);
 }
 
-int DateTime::getGmtHour()
-{
+uint32_t DateTime::GetGmtHour() {
 	struct tm *timeData;
 	time_t tv = timeValue;
 
@@ -184,8 +162,7 @@ int DateTime::getGmtHour()
 	return (timeData->tm_hour);
 }
 
-int DateTime::getLocalMinute()
-{
+uint32_t DateTime::GetLocalMinute() {
 	struct tm *timeData;
 	time_t tv = timeValue;
 
@@ -194,8 +171,7 @@ int DateTime::getLocalMinute()
 	return (timeData->tm_min);
 }
 
-int DateTime::getGmtMinute()
-{
+uint32_t DateTime::GetGmtMinute() {
 	struct tm *timeData;
 	time_t tv = timeValue;
 
@@ -204,19 +180,16 @@ int DateTime::getGmtMinute()
 	return (timeData->tm_min);
 }
 
-void DateTime::addHours(int hours)
-{
+void DateTime::AddHours(int hours) {
 	timeValue += (3600 * hours);
 }
 
-int DateTime::isLaterThan(DateTime *dateTime)
-{
-	return (timeValue > dateTime->timeValue);
+bool DateTime::IsLaterThan(DateTime &dateTime) {
+	return (timeValue > dateTime.timeValue);
 }
 
-unsigned int DateTime::getTimeCode()
-{
-	unsigned int timeCode;
+uint32_t DateTime::GetTimeCode() {
+	uint32_t timeCode;
 	struct tm *timeData;
 	time_t tv = timeValue;
 
@@ -231,8 +204,7 @@ unsigned int DateTime::getTimeCode()
 	return (timeCode);
 }
 
-void DateTime::setTimeCode(unsigned int code)
-{
+void DateTime::SetTimeCode(uint32_t code) {
 	struct tm timeData;
 
 	memset(&timeData, 0, sizeof(timeData));
@@ -248,3 +220,75 @@ void DateTime::setTimeCode(unsigned int code)
 	timeValue = _mkgmtime(&timeData);
 #endif
 }
+
+std::string DateTime::GetMonthName(uint32_t month) {
+	switch (month) {
+	case 0:
+		return _("January").ToStdString();
+		break;
+	case 1:
+		return _("February").ToStdString();
+		break;
+	case 2:
+		return _("March").ToStdString();
+		break;
+	case 3:
+		return _("April").ToStdString();
+		break;
+	case 4:
+		return _("May").ToStdString();
+		break;
+	case 5:
+		return _("June").ToStdString();
+		break;
+	case 6:
+		return _("July").ToStdString();
+		break;
+	case 7:
+		return _("August").ToStdString();
+		break;
+	case 8:
+		return _("September").ToStdString();
+		break;
+	case 9:
+		return _("October").ToStdString();
+		break;
+	case 10:
+		return _("November").ToStdString();
+		break;
+	case 11:
+		return _("December").ToStdString();
+		break;
+	}
+
+	return (std::string(""));
+}
+
+std::string DateTime::GetDayName(uint32_t day) {
+	switch (day) {
+	case 0:
+		return _("Sunday").ToStdString();
+		break;
+	case 1:
+		return _("Monday").ToStdString();
+		break;
+	case 2:
+		return _("Tuesday").ToStdString();
+		break;
+	case 3:
+		return _("Wednesday").ToStdString();
+		break;
+	case 4:
+		return _("Thursday").ToStdString();
+		break;
+	case 5:
+		return _("Friday").ToStdString();
+		break;
+	case 6:
+		return _("Saturday").ToStdString();
+		break;
+	}
+
+	return (std::string(""));
+}
+
