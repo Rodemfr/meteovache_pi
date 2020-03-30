@@ -14,7 +14,9 @@ SET(VERSION_DATE "29/03/2020")
 
 INCLUDE("cmake/PluginConfigure.cmake")
 
+IF (NOT MSVC)
 ADD_DEFINITIONS("-Wall" "-Wextra" "-pedantic")
+ENDIF (NOT MSVC)
 
 SET(SRC_MV
     src/DateTime.h

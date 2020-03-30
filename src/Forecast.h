@@ -1,14 +1,36 @@
-/*
- * SpotForecast.h
- *
- *  Created on: 13 nov. 2019
- *      Author: ronan
+/***************************************************************************
+ *                                                                         *
+ * Project:  meteovache_pi                                                 *
+ * Purpose:  Weather forecast plugin for OpenCPN                           *
+ * Author:   Ronan Demoment                                                *
+ *                                                                         *
+ ***************************************************************************
+ *   Copyright (C) 2020 by Ronan Demoment                                  *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************
  */
 
-#ifndef FORECAST_H_
-#define FORECAST_H_
+#ifndef _FORECAST_H_
+#define _FORECAST_H_
 
-#define FC_MAX_NAME_LENGTH 64
+#include <stdint.h>
+#include <string>
+
+#define NB_VALUES_PER_WEATHER_DATA 8
 
 typedef struct
 {
@@ -25,11 +47,12 @@ typedef struct
 class Forecast
 {
 private:
-	char providerName[FC_MAX_NAME_LENGTH];
-	char modelName[FC_MAX_NAME_LENGTH];
-	int runTimeCode;
-	unsigned short timeStepInHours;
-	unsigned short numberOfSteps;
+	std::string providerName;
+	std::string modelName;
+	uint32_t runTimeCode;
+	uint16_t timeStepInHours;
+	uint16_t numberOfSteps;
+	// TODO : Use std::vector instead of arrays
 	WeatherData *forecastData;
 
 public:
@@ -43,21 +66,21 @@ public:
 
 	WeatherData& getForecastData(int index);
 
-	unsigned int getBinarySize();
-	unsigned short getNumberOfSteps();
+	uint32_t getBinarySize();
+	uint16_t getNumberOfSteps();
 
-	int writeBinary(void *buffer);
-	int readBinary(void *buffer);
+	uint32_t writeBinary(void *buffer);
+	uint32_t readBinary(void *buffer);
 
-	void setProviderName(const char *providerName);
-	void setModelName(const char *modelName);
-	void setRunTimeCode(int runTimeCode);
-	void setTimeStepInHours(int timeStepInHours);
+	void setProviderName(std::string &providerName);
+	void setModelName(std::string &modelName);
+	void setRunTimeCode(uint32_t runTimeCode);
+	void setTimeStepInHours(uint32_t timeStepInHours);
 
-	char* getModelName();
-	char* getProviderName();
-	int getRunTimeCode();
-	int getTimeStepInHours();
+	std::string getModelName();
+	std::string getProviderName();
+	uint32_t getRunTimeCode();
+	uint32_t getTimeStepInHours();
 
 private:
 	float getMinWindDirectionDeg();
@@ -78,4 +101,4 @@ private:
 	float getMaxTemperatureC();
 };
 
-#endif /* FORECAST_H_ */
+#endif /* _FORECAST_H_ */
