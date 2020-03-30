@@ -1,17 +1,52 @@
-/*
- * MeteoVacheThread.h
- *
- *  Created on: 14 oct. 2019
- *      Author: ronan
+/***************************************************************************
+ *                                                                         *
+ * Project:  meteovache_pi                                                 *
+ * Purpose:  Weather forecast plugin for OpenCPN                           *
+ * Author:   Ronan Demoment                                                *
+ *                                                                         *
+ ***************************************************************************
+ *   Copyright (C) 2020 by Ronan Demoment                                  *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************
  */
 
-#ifndef METEOVACHETHREAD_H_
-#define METEOVACHETHREAD_H_
+#ifndef _METEOVACHETHREAD_H_
+#define _METEOVACHETHREAD_H_
 
-#include "JobQueue.h"
-#include "MeteoVacheClient.h"
+/***************************************************************************/
+/*                              Includes                                   */
+/***************************************************************************/
+
+#include <JobQueue.h>
+#include <MeteoVacheClient.h>
 #include <wx/thread.h>
 #include <wx/event.h>
+
+/***************************************************************************/
+/*                              Constants                                  */
+/***************************************************************************/
+
+/***************************************************************************/
+/*                                Types                                    */
+/***************************************************************************/
+
+/***************************************************************************/
+/*                               Classes                                   */
+/***************************************************************************/
 
 class MVReportFrame;
 
@@ -27,4 +62,4 @@ private:
 	MeteoVacheClient *meteoVacheClient;
 };
 
-#endif /* METEOVACHETHREAD_H_ */
+#endif /* _METEOVACHETHREAD_H_ */

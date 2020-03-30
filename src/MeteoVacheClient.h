@@ -27,16 +27,30 @@
 #ifndef _METEOVACHECLIENT_H_
 #define _METEOVACHECLIENT_H_
 
+/***************************************************************************/
+/*                              Includes                                   */
+/***************************************************************************/
+
 #include "wx/wx.h"
 #include "wx/socket.h"
 #include "SpotForecasts.h"
 
-// Name of the MeteoVache server
+/***************************************************************************/
+/*                              Constants                                  */
+/***************************************************************************/
+
 #define DEFAULT_METEOVACHE_SERVER_NAME "meteovache.dyndns.org"
-// Port of the MeteoVache server
 #define DEFAULT_METEOVACHE_SERVER_PORT 31837
-// Maximum size of server' response to a forecast request
+// Maximum size of server's response to a forecast request
 #define MVC_MAX_RESPONSE_LENGTH 8192
+
+/***************************************************************************/
+/*                                Types                                    */
+/***************************************************************************/
+
+/***************************************************************************/
+/*                               Classes                                   */
+/***************************************************************************/
 
 class MeteoVacheClient {
 public:

@@ -27,6 +27,10 @@
 #ifndef _METEOVACHEPLUGIN_H_
 #define _METEOVACHEPLUGIN_H_
 
+/***************************************************************************/
+/*                              Includes                                   */
+/***************************************************************************/
+
 #include "wx/wxprec.h"
 #ifndef  WX_PRECOMP
 #include "wx/wx.h"
@@ -39,13 +43,22 @@
 
 #include <MVReportFrame.h>
 
+/***************************************************************************/
+/*                              Constants                                  */
+/***************************************************************************/
+
 // This plug-in uses OpenCPN Plug-in API v1.8
 #define PI_API_VERSION_MAJOR 1
 #define PI_API_VERSION_MINOR 8
 
-//----------------------------------------------------------------------------------------------------------
-//    The PlugIn Class Definition
-//----------------------------------------------------------------------------------------------------------
+/***************************************************************************/
+/*                                Types                                    */
+/***************************************************************************/
+
+/***************************************************************************/
+/*                               Classes                                   */
+/***************************************************************************/
+
 class MeteoVachePlugin: public opencpn_plugin_18 {
 public:
 	MeteoVachePlugin(void *ppimgr);
@@ -83,7 +96,7 @@ private:
     wxFileConfig *ocpnConfig;      // Pointer to the OpenCPN configuration object
     int windowWidth, windowHeight; // Current report window size
     int windowXPos, windowYPos;    // Current report window position
-    wxString selectedModelName;    // Currenttly selected weather model
+    wxString selectedModelName;    // Currently selected weather model
 
     bool LoadConfig(void);
     bool SaveConfig(void);
