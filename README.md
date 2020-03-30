@@ -29,8 +29,8 @@ This program is distributed under the terms of the GPL v2. - see the [gpl.txt](c
 
 Latest release is v0.2.1. Here are the binaries for OpenCPN 5.0 :
 
-- Win32 x86 : [meteovache_pi_v0.2.1_ocpn50_win32_x86.zip](files/binaries/opencpn50/win32_x86/meteovache_pi_v0.2.1_ocpn50_win32_x86.zip)
-- Linux x64 : [meteovache_pi_v0.2.1_opcn50_linux_x86.tar.gz](files/binaries/opencpn50/win32_x86/meteovache_pi_v0.2.1_opcn50_linux_x86.tar.gz)
+- Win32 x86 : [meteovache_pi_v0.2.1_ocpn50_win32_x86.zip](https://github.com/Rodemfr/meteovache_pi/raw/master/files/binaries/opencpn50/win32_x86/meteovache_pi_v0.2.1_ocpn50_win32_x86.zip)
+- Linux x64 : [meteovache_pi_v0.2.1_opcn50_linux_x86.tar.gz](https://github.com/Rodemfr/meteovache_pi/raw/master/files/binaries/opencpn50/linux_x64/meteovache_pi_v0.2.1_opcn50_linux_x86.tar.gz)
 
 Installers are not available at this time. You will have to uncompress archives yourself and to copy the various files in OpenCPN install directory. Archives have been made in such a way that the folder structure inside OpenCPN install directory is preserved.
 
