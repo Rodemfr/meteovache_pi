@@ -52,7 +52,6 @@ private:
 	uint32_t runTimeCode;
 	uint16_t timeStepInHours;
 	uint16_t numberOfSteps;
-	// TODO : Use std::vector instead of arrays
 	WeatherData *forecastData;
 
 public:
@@ -64,7 +63,7 @@ public:
 	void Create(int numberOfSteps);
 	void Clear();
 
-	WeatherData& getForecastData(int index);
+	WeatherData getForecastData(uint32_t index);
 
 	uint32_t getBinarySize();
 	uint16_t getNumberOfSteps();

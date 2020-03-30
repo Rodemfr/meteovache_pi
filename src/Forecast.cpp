@@ -132,7 +132,7 @@ void Forecast::Clear()
     numberOfSteps = 0;
 }
 
-WeatherData &Forecast::getForecastData(int index)
+WeatherData Forecast::getForecastData(uint32_t index)
 {
     return(forecastData[index]);
 }

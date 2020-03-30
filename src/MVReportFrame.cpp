@@ -1,3 +1,4 @@
+#include <stdint.h>
 #include "MVReportFrame.h"
 #include "MeteoVacheThread.h"
 #include "JobQueue.h"
@@ -125,7 +126,7 @@ void MVReportFrame::OnThreadEvent(
 	wxString newString;
 
 	MVReportModelSelector->Clear();
-	for (int i = 0; i < spotForecast.GetNumberOfForecast(); i++)
+	for (uint32_t i = 0; i < spotForecast.GetNumberOfForecast(); i++)
 	{
 		newString = wxString(spotForecast.Get(i).getModelName());
 		MVReportModelSelector->Append(newString);
@@ -148,7 +149,7 @@ void MVReportFrame::PublishWeatherReport(
 {
 	wxString modelInfo;
 	Forecast *forecast;
-	WeatherData *data;
+	WeatherData data;
 	float cloudCover;
 
 	// FIXME : Use a local copy of forecasts instead
@@ -157,40 +158,40 @@ void MVReportFrame::PublishWeatherReport(
 	forecast = &spotForecast.Get(model);
 
 	DateTime runDate;
-	runDate.setTimeCode(forecast->getRunTimeCode());
+	runDate.SetTimeCode(forecast->getRunTimeCode());
 
 	modelInfo = modelInfo.Append(
 			wxString::Format(_("Position :       %s %s\n"), getLatitudeString(spotForecast.GetLatitude()), getLongitudeString(spotForecast.GetLongitude())));
 	modelInfo = modelInfo.Append(wxString::Format(_("Model :          %s (%s)\n"), forecast->getModelName(), forecast->getProviderName()));
 	modelInfo = modelInfo.Append(
-			wxString::Format(_("Run date :       %02d/%02d/%d %dh%02d\n\n"), runDate.getLocalDay(), runDate.getLocalMonth(), runDate.getLocalYear(),
-					runDate.getLocalHour(), runDate.getLocalMinute()));
+			wxString::Format(_("Run date :       %02d/%02d/%d %dh%02d\n\n"), runDate.GetLocalDay(), runDate.GetLocalMonth(), runDate.GetLocalYear(),
+					runDate.GetLocalHour(), runDate.GetLocalMinute()));
 	modelInfo = modelInfo.Append(_("           Wind Gust   Dir  Rain Cloud Temp\n"));
-	modelInfo = modelInfo.Append(_(wxString::FromUTF8("             kt   kt        mm/h     %   °C\n")));
+	modelInfo = modelInfo.Append(_("             kt   kt        mm/h     %    C\n"));
 
 	DateTime stepTime = runDate;
 	std::string dayName;
 	for (int step = 0; step < forecast->getNumberOfSteps(); step += 1)
 	{
-		stepTime.addHours(forecast->getTimeStepInHours());
-		dayName = stepTime.getLocalDayName();
+		stepTime.AddHours(forecast->getTimeStepInHours());
+		dayName = stepTime.GetLocalDayName();
 
-		modelInfo = modelInfo.Append(wxString::Format("%c%c.%02d  %2dh  ", dayName[0], dayName[1], stepTime.getLocalDay(), stepTime.getLocalHour()));
-		data = &forecast->getForecastData(step);
-		cloudCover = data->lowCloudCoverPer;
-		if (data->midCloudCoverPer * 0.66f > cloudCover)
-			cloudCover = data->midCloudCoverPer * 0.66f;
-		if (data->highCloudCoverPer * 0.33f > cloudCover)
-			cloudCover = data->highCloudCoverPer * 0.33f;
-		wxString precipitationString = wxString::Format("%4.1f", data->precipitationMmH);
-		if (data->precipitationMmH < 0.05)
+		modelInfo = modelInfo.Append(wxString::Format("%c%c.%02d  %2dh  ", dayName[0], dayName[1], stepTime.GetLocalDay(), stepTime.GetLocalHour()));
+		data = forecast->getForecastData(step);
+		cloudCover = data.lowCloudCoverPer;
+		if (data.midCloudCoverPer * 0.66f > cloudCover)
+			cloudCover = data.midCloudCoverPer * 0.66f;
+		if (data.highCloudCoverPer * 0.33f > cloudCover)
+			cloudCover = data.highCloudCoverPer * 0.33f;
+		wxString precipitationString = wxString::Format("%4.1f", data.precipitationMmH);
+		if (data.precipitationMmH < 0.05)
 		{
 			precipitationString = "    ";
 		}
 		// TODO : convert m/s to kts
 		modelInfo = modelInfo.Append(
-				wxString::Format("%3.0f  %3.0f  %s  %s   %3.0f  %3.0f\n", data->windSpeedKt, data->gustSpeedKt, getTextDirection(data->windDirectionDeg),
-						precipitationString, cloudCover, data->TemperatureC));
+				wxString::Format("%3.0f  %3.0f  %s  %s   %3.0f  %3.0f\n", data.windSpeedKt, data.gustSpeedKt, getTextDirection(data.windDirectionDeg),
+						precipitationString, cloudCover, data.TemperatureC));
 	}
 	modelInfo = modelInfo.Append("\n");
 	spotForecast.Unlock();

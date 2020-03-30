@@ -51,6 +51,7 @@ MeteoVacheClient::~MeteoVacheClient() {
 bool MeteoVacheClient::downloadAllForecasts(float latitude, float longitude, SpotForecasts &spotForecast) {
 	char requestBuffer[9];
 	int nbForecasts;
+	Forecast forecast;
 
 	// Prepare REQUEST_ALL_FORECATS_AT_LOCATION :
 	// 1 byte = command
@@ -68,12 +69,13 @@ bool MeteoVacheClient::downloadAllForecasts(float latitude, float longitude, Spo
 
 	nbForecasts = serverResponse[0];
 	spotForecast.Lock();
-	spotForecast.Reset(nbForecasts);
+	spotForecast.Reset();
 	spotForecast.SetPosition(latitude, longitude);
 
 	int dataOffset = 1;
 	for (int i = 0; i < nbForecasts; i++) {
-		dataOffset += spotForecast.Get(i).readBinary(serverResponse + dataOffset);
+		dataOffset += forecast.readBinary(serverResponse + dataOffset);
+		spotForecast.Add(forecast);
 	}
 
 	spotForecast.Unlock();
