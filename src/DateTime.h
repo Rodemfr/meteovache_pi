@@ -2,14 +2,14 @@
 #define DATETIME_H_
 
 #include <time.h>
+#include <string>
 
-class DateTime
-{
+class DateTime {
 
 private:
 	time_t timeValue;
-	static char *dayNames[7];
-	static char *monthNames[12];
+	static std::string dayNames[7];
+	static std::string monthNames[12];
 
 public:
 	DateTime();
@@ -21,17 +21,17 @@ public:
 
 	int getLocalYear();
 	int getLocalMonth();
-	const char* getLocalMonthName();
+	std::string getLocalMonthName();
 	int getLocalDay();
-	const char* getLocalDayName();
+	std::string getLocalDayName();
 	int getLocalHour();
 	int getLocalMinute();
 
 	int getGmtYear();
 	int getGmtMonth();
-	const char* getGmtMonthName();
+	std::string getGmtMonthName();
 	int getGmtDay();
-	const char* getGmtDayName();
+	std::string getGmtDayName();
 	int getGmtHour();
 	int getGmtMinute();
 

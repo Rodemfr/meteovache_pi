@@ -7,48 +7,48 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-29 21:03+0200\n"
-"PO-Revision-Date: 2020-03-29 14:14+0200\n"
+"POT-Creation-Date: 2020-03-30 14:24+0200\n"
+"PO-Revision-Date: 2020-03-30 14:27+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 2.2.1\n"
 
-#: src/MeteoVachePlugin.cpp:86 src/MeteoVachePlugin.cpp:100
-#: src/MeteoVachePlugin.cpp:142
+#: src/MeteoVachePlugin.cpp:107 src/MeteoVachePlugin.cpp:121
+#: src/MeteoVachePlugin.cpp:163
 msgid "MeteoVache"
 msgstr "MétéoVache"
 
-#: src/MeteoVachePlugin.cpp:86
+#: src/MeteoVachePlugin.cpp:107
 msgid "MeteoVache plug-in"
 msgstr "Extension MétéoVache"
 
-#: src/MeteoVachePlugin.cpp:93
+#: src/MeteoVachePlugin.cpp:114
 msgid "Weather forecast"
 msgstr "Prédictions météo"
 
-#: src/MeteoVachePlugin.cpp:94
+#: src/MeteoVachePlugin.cpp:115
 msgid "Request weather forecast from MeteoVache server at cursor location"
 msgstr ""
 "Télécharge les prédictions météo pour la position du curseur depuis le "
 "serveur MétéoVache"
 
-#: src/MeteoVachePlugin.cpp:146
+#: src/MeteoVachePlugin.cpp:167
 msgid "MeteoVache weather plug-in for OpenCPN"
 msgstr "Extension MétéoVache pour OpenCPN"
 
-#: src/MeteoVachePlugin.cpp:151
+#: src/MeteoVachePlugin.cpp:172
 msgid ""
 "MeteoVache is a weather plug-in for OpenCPN.\n"
 "It provides weather forecasts everywhere in the world with only\n"
 "a low bandwidth Internet connection."
 msgstr ""
 "MétéoVache est une extension météo pour OpenCPN\n"
-"Elle fournit des prédiciton météorologiques partout dans le monde\n"
-"même avec une connection Internet à très faible débit."
+"Elle fournit des prédictions météorologiques partout dans le monde,\n"
+"même avec une connexion Internet à très faible débit."
 
 #: src/MVReportFrame.cpp:33
 msgid "Weather model :"
@@ -164,6 +164,82 @@ msgstr "  SE"
 #: src/MVReportFrame.cpp:275
 msgid "S-SE"
 msgstr "S-SE"
+
+#: src/DateTime.cpp:9
+msgid "Sunday"
+msgstr "Dimanche"
+
+#: src/DateTime.cpp:9
+msgid "Monday"
+msgstr "Lundi"
+
+#: src/DateTime.cpp:9
+msgid "Tuesday"
+msgstr "Mardi"
+
+#: src/DateTime.cpp:9
+msgid "Wednesday"
+msgstr "Mercredi"
+
+#: src/DateTime.cpp:10
+msgid "Thursday"
+msgstr "Jeudi"
+
+#: src/DateTime.cpp:10
+msgid "Friday"
+msgstr "Vendredi"
+
+#: src/DateTime.cpp:10
+msgid "Saturday"
+msgstr "Samedi"
+
+#: src/DateTime.cpp:12
+msgid "January"
+msgstr "Janvier"
+
+#: src/DateTime.cpp:12
+msgid "February"
+msgstr "Février"
+
+#: src/DateTime.cpp:12
+msgid "March"
+msgstr "Mars"
+
+#: src/DateTime.cpp:12
+msgid "April"
+msgstr "Avril"
+
+#: src/DateTime.cpp:13
+msgid "May"
+msgstr "Mai"
+
+#: src/DateTime.cpp:13
+msgid "June"
+msgstr "Juin"
+
+#: src/DateTime.cpp:13
+msgid "July"
+msgstr "Juillet"
+
+#: src/DateTime.cpp:13
+msgid "August"
+msgstr "Août"
+
+#: src/DateTime.cpp:14
+msgid "September"
+msgstr "Septembre"
+
+#: src/DateTime.cpp:14
+msgid "October"
+msgstr "Octobre"
+
+#: src/DateTime.cpp:14
+msgid "November"
+msgstr "Novembre"
+
+#: src/DateTime.cpp:15
+msgid "December"
+msgstr "Décembre"
 
 #~ msgid "             kt   kt        mm/h     %   °C\n"
 #~ msgstr "             nd   nd        mm/h     %   °C\n"

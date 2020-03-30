@@ -3,15 +3,16 @@
 #include <time.h>
 #include <string.h>
 #include <stdio.h>
+#include <wx/translation.h>
 
-char *DateTime::dayNames[7] =
-{ (char*) "Dimanche", (char*) "Lundi", (char*) "Mardi", (char*) "Mercredi",
-		(char*) "Jeudi", (char*) "Vendredi", (char*) "Samedi" };
-char *DateTime::monthNames[12] =
-{ (char*) "Janvier", (char*) "Février", (char*) "Mars", (char*) "Avril",
-		(char*) "Mai", (char*) "Juin", (char*) "Juillet", (char*) "Août",
-		(char*) "Septembre", (char*) "Octobre", (char*) "Novembre",
-		(char*) "Décembre" };
+std::string DateTime::dayNames[7] =
+{ _("Sunday").ToStdString(), _("Monday").ToStdString(), _("Tuesday").ToStdString(), _("Wednesday").ToStdString(),
+		_("Thursday").ToStdString(), _("Friday").ToStdString(), _("Saturday").ToStdString() };
+std::string DateTime::monthNames[12] =
+{ _("January").ToStdString(), _("February").ToStdString(), _("March").ToStdString(), _("April").ToStdString(),
+		_("May").ToStdString(), _("June").ToStdString(), _("July").ToStdString(), _("August").ToStdString(),
+		_("September").ToStdString(), _("October").ToStdString(), _("November").ToStdString(),
+		_("December").ToStdString() };
 
 DateTime::DateTime() :
 		timeValue(0)
@@ -103,7 +104,7 @@ int DateTime::getGmtMonth()
 	return (timeData->tm_mon + 1);
 }
 
-const char* DateTime::getLocalMonthName()
+std::string DateTime::getLocalMonthName()
 {
 	struct tm *timeData;
 	time_t tv = timeValue;
@@ -113,7 +114,7 @@ const char* DateTime::getLocalMonthName()
 	return (monthNames[timeData->tm_mon]);
 }
 
-const char* DateTime::getGmtMonthName()
+std::string DateTime::getGmtMonthName()
 {
 	struct tm *timeData;
 	time_t tv = timeValue;
@@ -143,7 +144,7 @@ int DateTime::getGmtDay()
 	return (timeData->tm_mday);
 }
 
-const char* DateTime::getLocalDayName()
+std::string DateTime::getLocalDayName()
 {
 	struct tm *timeData;
 	time_t tv = timeValue;
@@ -153,7 +154,7 @@ const char* DateTime::getLocalDayName()
 	return (dayNames[timeData->tm_wday]);
 }
 
-const char* DateTime::getGmtDayName()
+std::string DateTime::getGmtDayName()
 {
 	struct tm *timeData;
 	time_t tv = timeValue;

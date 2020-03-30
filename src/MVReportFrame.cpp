@@ -169,7 +169,7 @@ void MVReportFrame::PublishWeatherReport(
 	modelInfo = modelInfo.Append(_(wxString::FromUTF8("             kt   kt        mm/h     %   °C\n")));
 
 	DateTime stepTime = runDate;
-	const char *dayName;
+	std::string dayName;
 	for (int step = 0; step < forecast->getNumberOfSteps(); step += 1)
 	{
 		stepTime.addHours(forecast->getTimeStepInHours());

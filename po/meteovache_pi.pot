@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-29 21:03+0200\n"
+"POT-Creation-Date: 2020-03-30 14:24+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,28 +17,28 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/MeteoVachePlugin.cpp:86 src/MeteoVachePlugin.cpp:100
-#: src/MeteoVachePlugin.cpp:142
+#: src/MeteoVachePlugin.cpp:107 src/MeteoVachePlugin.cpp:121
+#: src/MeteoVachePlugin.cpp:163
 msgid "MeteoVache"
 msgstr ""
 
-#: src/MeteoVachePlugin.cpp:86
+#: src/MeteoVachePlugin.cpp:107
 msgid "MeteoVache plug-in"
 msgstr ""
 
-#: src/MeteoVachePlugin.cpp:93
+#: src/MeteoVachePlugin.cpp:114
 msgid "Weather forecast"
 msgstr ""
 
-#: src/MeteoVachePlugin.cpp:94
+#: src/MeteoVachePlugin.cpp:115
 msgid "Request weather forecast from MeteoVache server at cursor location"
 msgstr ""
 
-#: src/MeteoVachePlugin.cpp:146
+#: src/MeteoVachePlugin.cpp:167
 msgid "MeteoVache weather plug-in for OpenCPN"
 msgstr ""
 
-#: src/MeteoVachePlugin.cpp:151
+#: src/MeteoVachePlugin.cpp:172
 msgid ""
 "MeteoVache is a weather plug-in for OpenCPN.\n"
 "It provides weather forecasts everywhere in the world with only\n"
@@ -156,4 +156,80 @@ msgstr ""
 
 #: src/MVReportFrame.cpp:275
 msgid "S-SE"
+msgstr ""
+
+#: src/DateTime.cpp:9
+msgid "Sunday"
+msgstr ""
+
+#: src/DateTime.cpp:9
+msgid "Monday"
+msgstr ""
+
+#: src/DateTime.cpp:9
+msgid "Tuesday"
+msgstr ""
+
+#: src/DateTime.cpp:9
+msgid "Wednesday"
+msgstr ""
+
+#: src/DateTime.cpp:10
+msgid "Thursday"
+msgstr ""
+
+#: src/DateTime.cpp:10
+msgid "Friday"
+msgstr ""
+
+#: src/DateTime.cpp:10
+msgid "Saturday"
+msgstr ""
+
+#: src/DateTime.cpp:12
+msgid "January"
+msgstr ""
+
+#: src/DateTime.cpp:12
+msgid "February"
+msgstr ""
+
+#: src/DateTime.cpp:12
+msgid "March"
+msgstr ""
+
+#: src/DateTime.cpp:12
+msgid "April"
+msgstr ""
+
+#: src/DateTime.cpp:13
+msgid "May"
+msgstr ""
+
+#: src/DateTime.cpp:13
+msgid "June"
+msgstr ""
+
+#: src/DateTime.cpp:13
+msgid "July"
+msgstr ""
+
+#: src/DateTime.cpp:13
+msgid "August"
+msgstr ""
+
+#: src/DateTime.cpp:14
+msgid "September"
+msgstr ""
+
+#: src/DateTime.cpp:14
+msgid "October"
+msgstr ""
+
+#: src/DateTime.cpp:14
+msgid "November"
+msgstr ""
+
+#: src/DateTime.cpp:15
+msgid "December"
 msgstr ""
