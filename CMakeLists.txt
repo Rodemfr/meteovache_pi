@@ -35,10 +35,6 @@ SET(SRC_MV
     src/icons.cpp
     src/MVReportFrame.h
     src/MVReportFrame.cpp
-    src/PointForecast.h
-    src/PointForecast.cpp
-    src/RegionForecast.h
-    src/RegionForecast.cpp
     src/SpotForecasts.h
     src/SpotForecasts.cpp
 	)
