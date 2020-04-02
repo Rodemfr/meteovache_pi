@@ -22,6 +22,9 @@ INCLUDE("cmake/PluginConfigure.cmake")
 
 IF(NOT UNIX)
     INCLUDE_DIRECTORIES(src/zlib-1.2.3)
+    SET (ZLIB_LIBRARY "../buildwin/zlib1")
+ELSE (NOT UNIX)
+	FIND_PACKAGE(ZLIB REQUIRED)
 ENDIF(NOT UNIX)
 
 IF (NOT MSVC)
@@ -50,7 +53,7 @@ SET(SRC_MV
 	)
 
 ADD_LIBRARY(${PACKAGE_NAME} SHARED ${SRC_MV})
-TARGET_LINK_LIBRARIES( ${PACKAGE_NAME} ${wxWidgets_LIBRARIES} ../buildwin/zlib1)
+TARGET_LINK_LIBRARIES( ${PACKAGE_NAME} ${wxWidgets_LIBRARIES} ${ZLIB_LIBRARY})
 
 INCLUDE("cmake/PluginInstall.cmake")
 INCLUDE("cmake/PluginLocalization.cmake")

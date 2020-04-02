@@ -286,9 +286,9 @@ class DECL_EXP PlugInChartBase : public wxObject
             virtual void GetValidCanvasRegion(const PlugIn_ViewPort& VPoint, wxRegion *pValidRegion);
 
             virtual int GetCOVREntries(){ return  0; }
-            virtual int GetCOVRTablePoints(int iTable) { return 0; }
-            virtual int  GetCOVRTablenPoints(int iTable){ return 0; }
-            virtual float *GetCOVRTableHead(int iTable){ return (float *)NULL; }
+            virtual int GetCOVRTablePoints(int iTable) { (void) iTable; return 0; }
+            virtual int  GetCOVRTablenPoints(int iTable){ (void) iTable; return 0; }
+            virtual float *GetCOVRTableHead(int iTable){ (void) iTable; return (float *)NULL; }
 
             virtual wxBitmap *GetThumbnail(int tnx, int tny, int cs);
 
@@ -376,7 +376,7 @@ class DECL_EXP opencpn_plugin
 {
 
 public:
-      opencpn_plugin(void *pmgr) {}
+      opencpn_plugin(void *pmgr) {(void)pmgr;}
       virtual ~opencpn_plugin();
 
       //    Public API to the PlugIn class
