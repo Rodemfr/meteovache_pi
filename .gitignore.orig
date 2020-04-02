@@ -1,0 +1,6 @@
+<<<<<<< HEAD
+po/*.mo
+buildwin/*
+=======
+build/*
+>>>>>>> standalone_compilation
