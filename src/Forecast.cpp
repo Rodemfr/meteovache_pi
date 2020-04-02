@@ -288,7 +288,7 @@ uint32_t Forecast::readBinary(void *inputBuffer)
 
     for (index = 0; index < numberOfSteps; index++)
     {
-    	forecastData[index].TemperatureC = (*(pInput++));
+    	forecastData[index].TemperatureC = (*((char *)(pInput++)));
     }
 
     return(pInput - (unsigned char *)inputBuffer);
