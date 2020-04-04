@@ -68,6 +68,8 @@ private:
 	SpotForecasts spotForecast;
 	JobQueue *jobQueue;
 	wxString selectedString;
+	wxString windUnitString;
+	wxString tempUnitString;
 
 	virtual void MVReportFrameOnClose(wxCloseEvent &event);
 	virtual void MVModelOnSelect(wxCommandEvent &event);
@@ -89,10 +91,17 @@ public:
 	void OnThreadEvent(wxCommandEvent&);
 	void PublishWeatherReport(int model);
 	void RequestForecast(float latitude, float longitude);
-	const wxString &getSelectedModelName();
-	void setSelectedModelName(wxString modelName);
+	const wxString &GetSelectedModelName();
+	void SetSelectedModelName(wxString modelName);
+	void SetWindUnitString(wxString windUnitString);
+	void SetTempUnitString(wxString windUnitString);
 
 	DECLARE_EVENT_TABLE()
+
+private:
+	wxString GetConvertedWind(float windSpeedKt);
+	wxString GetConvertedTemp(float tempC);
+	wxString GetConvertedTempId();
 };
 
 #endif //_MVREPORTFRAME_H__

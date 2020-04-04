@@ -31,15 +31,15 @@
 /*                              Includes                                   */
 /***************************************************************************/
 
-#include "wx/wxprec.h"
+#include <wx/wxprec.h>
 #ifndef  WX_PRECOMP
-#include "wx/wx.h"
+#include <wx/wx.h>
 #endif
 #include <wx/fileconf.h>
 
-#include "version.h"
-#include "wxWTranslateCatalog.h"
-#include "ocpn_plugin.h"
+#include <version.h>
+#include <wxWTranslateCatalog.h>
+#include <ocpn_plugin.h>
 
 #include <MVReportFrame.h>
 
@@ -59,7 +59,8 @@
 /*                               Classes                                   */
 /***************************************************************************/
 
-class MeteoVachePlugin: public opencpn_plugin_18 {
+class MeteoVachePlugin: public opencpn_plugin_18
+{
 public:
 	MeteoVachePlugin(void *ppimgr);
 	~MeteoVachePlugin();
@@ -67,6 +68,7 @@ public:
 	// The required PlugIn Methods
 	int Init(void);
 	bool DeInit(void);
+	void ShowPreferencesDialog(wxWindow *parent);
 
 	int GetAPIVersionMajor();
 	int GetAPIVersionMinor();
@@ -93,13 +95,15 @@ private:
 	wxWindow *ocpnParentWindow;    // Pointer to the OpenCPN parent window
 	wxMenuItem *contextMenu;       // Pointer to plug-in context menu item object
 	float cursorLat, cursorLon;    // Latest known position of the mouse cursor
-    wxFileConfig *ocpnConfig;      // Pointer to the OpenCPN configuration object
-    int windowWidth, windowHeight; // Current report window size
-    int windowXPos, windowYPos;    // Current report window position
-    wxString selectedModelName;    // Currently selected weather model
+	wxFileConfig *ocpnConfig;      // Pointer to the OpenCPN configuration object
+	int windowWidth, windowHeight; // Current report window size
+	int windowXPos, windowYPos;    // Current report window position
+	wxString selectedModelName;    // Currently selected weather model
+	wxString windUnitString;       // String of the wind unit to use
+	wxString tempUnitString;       // String of the temperature unit to use
 
-    bool LoadConfig(void);
-    bool SaveConfig(void);
+	bool LoadConfig(void);
+	bool SaveConfig(void);
 };
 
 #endif

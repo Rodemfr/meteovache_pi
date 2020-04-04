@@ -34,6 +34,7 @@
 #include <DateTime.h>
 #include <stdint.h>
 #include <wx/log.h>
+#include <math.h>
 
 /***************************************************************************/
 /*                              Constants                                  */
@@ -57,16 +58,11 @@
 wxBEGIN_EVENT_TABLE(MVReportFrame, wxDialog) EVT_COMMAND(wxID_ANY, wxEVT_THREAD_JOB_COMPLETED, MVReportFrame::OnThreadEvent)
 wxEND_EVENT_TABLE()
 
-MVReportFrame::MVReportFrame(
-		wxWindow *parent,
-		wxWindowID id,
-		const wxString &title,
-		const wxPoint &pos,
-		const wxSize &size,
-		long style) :
+MVReportFrame::MVReportFrame(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &pos, const wxSize &size, long style) :
 		wxDialog(parent, id, title, pos, size, style)
 {
 	workerThread = nullptr;
+	windUnitString = _("kt");
 
 	jobQueue = new JobQueue(GetEventHandler());
 
@@ -116,23 +112,20 @@ MVReportFrame::~MVReportFrame()
 	delete jobQueue;
 }
 
-void MVReportFrame::MVReportFrameOnClose(
-		wxCloseEvent &event)
+void MVReportFrame::MVReportFrameOnClose(wxCloseEvent &event)
 {
 	this->Show(false);
 	event.WasProcessed();
 }
 
-void MVReportFrame::MVModelOnSelect(
-		wxCommandEvent &event)
+void MVReportFrame::MVModelOnSelect(wxCommandEvent &event)
 {
 	selectedString = MVReportModelSelector->GetStringSelection();
 	PublishWeatherReport(MVReportModelSelector->GetSelection());
 	event.WasProcessed();
 }
 
-void MVReportFrame::SetReportText(
-		const wxString &text)
+void MVReportFrame::SetReportText(const wxString &text)
 {
 	MVReportTextArea->Remove(0, -1);
 	MVReportTextArea->WriteText(text);
@@ -167,8 +160,7 @@ void MVReportFrame::stopThread()
 	}
 }
 
-void MVReportFrame::OnThreadEvent(
-		wxCommandEvent&)
+void MVReportFrame::OnThreadEvent(wxCommandEvent&)
 {
 	spotForecast.Lock();
 	wxString newString;
@@ -192,8 +184,7 @@ void MVReportFrame::OnThreadEvent(
 	spotForecast.Unlock();
 }
 
-void MVReportFrame::PublishWeatherReport(
-		int model)
+void MVReportFrame::PublishWeatherReport(int model)
 {
 	wxString modelInfo;
 	Forecast *forecast;
@@ -214,8 +205,8 @@ void MVReportFrame::PublishWeatherReport(
 	modelInfo = modelInfo.Append(
 			wxString::Format(_("Run date :       %02d/%02d/%d %dh%02d\n\n"), runDate.GetLocalDay(), runDate.GetLocalMonth(), runDate.GetLocalYear(),
 					runDate.GetLocalHour(), runDate.GetLocalMinute()));
-	modelInfo = modelInfo.Append(_("           Wind Gust   Dir  Rain Cloud Temp\n"));
-	modelInfo = modelInfo.Append(_("             kt   kt        mm/h     %    C\n"));
+	modelInfo = modelInfo.Append(wxString::Format("           %4s %4s %5s %5s %5s %4s\n", _("Wind"), _("Gust"), "Dir", _("Rain"), "Cloud", _("Temp")));
+	modelInfo = modelInfo.Append(wxString::Format("           %4s %4s %5s %5s %5s %4s\n", _(windUnitString), _(windUnitString), " ", _("mm/h"), "%", GetConvertedTempId()));
 
 	DateTime stepTime = runDate;
 	std::string dayName;
@@ -224,22 +215,21 @@ void MVReportFrame::PublishWeatherReport(
 		stepTime.AddHours(forecast->getTimeStepInHours());
 		dayName = stepTime.GetLocalDayName();
 
-		modelInfo = modelInfo.Append(wxString::Format("%c%c.%02d  %2dh  ", dayName[0], dayName[1], stepTime.GetLocalDay(), stepTime.GetLocalHour()));
+		modelInfo = modelInfo.Append(wxString::Format("%c%c.%02d  %2dh ", dayName[0], dayName[1], stepTime.GetLocalDay(), stepTime.GetLocalHour()));
 		data = forecast->getForecastData(step);
 		cloudCover = data.lowCloudCoverPer;
 		if (data.midCloudCoverPer * 0.66f > cloudCover)
 			cloudCover = data.midCloudCoverPer * 0.66f;
 		if (data.highCloudCoverPer * 0.33f > cloudCover)
 			cloudCover = data.highCloudCoverPer * 0.33f;
-		wxString precipitationString = wxString::Format("%4.1f", data.precipitationMmH);
+		wxString precipitationString = wxString::Format("%.1f", data.precipitationMmH);
 		if (data.precipitationMmH < 0.05)
 		{
-			precipitationString = "    ";
+			precipitationString = "";
 		}
-		// TODO : convert m/s to kts
 		modelInfo = modelInfo.Append(
-				wxString::Format("%3.0f  %3.0f  %s  %s   %3.0f  %3.0f\n", data.windSpeedKt, data.gustSpeedKt, getTextDirection(data.windDirectionDeg),
-						precipitationString, cloudCover, data.TemperatureC));
+				wxString::Format("%4s %4s %5s %5s   %3.0f %4s\n", GetConvertedWind(data.windSpeedKt).c_str(), GetConvertedWind(data.gustSpeedKt).c_str(), getTextDirection(data.windDirectionDeg),
+						precipitationString, cloudCover, GetConvertedTemp(data.TemperatureC).c_str()));
 	}
 	modelInfo = modelInfo.Append("\n");
 	spotForecast.Unlock();
@@ -249,16 +239,13 @@ void MVReportFrame::PublishWeatherReport(
 	Layout();
 }
 
-void MVReportFrame::RequestForecast(
-		float latitude,
-		float longitude)
+void MVReportFrame::RequestForecast(float latitude, float longitude)
 {
 	JobRequest job(JobRequest::CMD_GET_ALL_FORECASTS_AT_LOCATION, latitude, longitude);
 	jobQueue->addJob(job);
 }
 
-wxString MVReportFrame::getLatitudeString(
-		float latitude)
+wxString MVReportFrame::getLatitudeString(float latitude)
 {
 	wxString latitudeString;
 
@@ -270,8 +257,7 @@ wxString MVReportFrame::getLatitudeString(
 
 }
 
-wxString MVReportFrame::getLongitudeString(
-		float longitude)
+wxString MVReportFrame::getLongitudeString(float longitude)
 {
 	wxString latitudeString;
 	int degs = (int) roundf(floorf(fabsf(longitude)));
@@ -282,8 +268,7 @@ wxString MVReportFrame::getLongitudeString(
 	return (latitudeString);
 }
 
-wxString MVReportFrame::getTextDirection(
-		float windDirectionDeg)
+wxString MVReportFrame::getTextDirection(float windDirectionDeg)
 {
 	const float angleStep = 22.5f;
 	float angle = angleStep / 2;
@@ -291,48 +276,126 @@ wxString MVReportFrame::getTextDirection(
 	if (windDirectionDeg < 0.0f)
 		windDirectionDeg += 360.0f;
 	if (windDirectionDeg < angle)
-		return (_("   S"));
+		return (_("S"));
 	else if (windDirectionDeg < angle + angleStep)
 		return (_("S-SW"));
 	else if (windDirectionDeg < angle + 2 * angleStep)
-		return (_("  SW"));
+		return (_("SW"));
 	else if (windDirectionDeg < angle + 3 * angleStep)
 		return (_("W-SW"));
 	else if (windDirectionDeg < angle + 4 * angleStep)
-		return (_("   W"));
+		return (_("W"));
 	else if (windDirectionDeg < angle + 5 * angleStep)
 		return (_("W-NW"));
 	else if (windDirectionDeg < angle + 6 * angleStep)
-		return (_("  NW"));
+		return (_("NW"));
 	else if (windDirectionDeg < angle + 7 * angleStep)
 		return (_("N-NW"));
 	else if (windDirectionDeg < angle + 8 * angleStep)
-		return (_("   N"));
+		return (_("N"));
 	else if (windDirectionDeg < angle + 9 * angleStep)
 		return (_("N-NE"));
 	else if (windDirectionDeg < angle + 10 * angleStep)
-		return (_("  NE"));
+		return (_("NE"));
 	else if (windDirectionDeg < angle + 11 * angleStep)
 		return (_("E-NE"));
 	else if (windDirectionDeg < angle + 12 * angleStep)
-		return (_("   E"));
+		return (_("E"));
 	else if (windDirectionDeg < angle + 13 * angleStep)
 		return (_("E-SE"));
 	else if (windDirectionDeg < angle + 14 * angleStep)
-		return (_("  SE"));
+		return (_("SE"));
 	else if (windDirectionDeg < angle + 15 * angleStep)
 		return (_("S-SE"));
 	else
-		return (_("   N"));
+		return (_("N"));
 }
 
-const wxString& MVReportFrame::getSelectedModelName()
+const wxString& MVReportFrame::GetSelectedModelName()
 {
 	return (selectedString);
 }
 
-void MVReportFrame::setSelectedModelName(
-		wxString modelName)
+void MVReportFrame::SetSelectedModelName(wxString modelName)
 {
 	selectedString = modelName;
+}
+
+void MVReportFrame::SetWindUnitString(wxString windUnitString)
+{
+	this->windUnitString = windUnitString;
+}
+
+void MVReportFrame::SetTempUnitString(wxString windUnitString)
+{
+	this->tempUnitString = windUnitString;
+}
+
+wxString MVReportFrame::GetConvertedWind(float windSpeedKt)
+{
+	if (this->windUnitString.IsSameAs("kt"))
+	{
+		return (wxString::Format("%d", (int)roundf(windSpeedKt)));
+	} else if (this->windUnitString.IsSameAs("Bft"))
+	{
+		if (windSpeedKt < 1.0f)
+			return ("0");
+		else if (windSpeedKt < 3.5f)
+			return ("1");
+		else if (windSpeedKt < 6.5f)
+			return ("2");
+		else if (windSpeedKt < 10.5f)
+			return ("3");
+		else if (windSpeedKt < 16.5f)
+			return ("4");
+		else if (windSpeedKt < 21.5f)
+			return ("5");
+		else if (windSpeedKt < 27.5f)
+			return ("6");
+		else if (windSpeedKt < 33.5f)
+			return ("7");
+		else if (windSpeedKt < 40.5f)
+			return ("8");
+		else if (windSpeedKt < 47.5f)
+			return ("9");
+		else if (windSpeedKt < 55.5f)
+			return ("10");
+		else if (windSpeedKt < 63.5f)
+			return ("11");
+		else
+			return ("12");
+	} else if (this->windUnitString.IsSameAs("m/s"))
+	{
+		return (wxString::Format("%d", (int)roundf(windSpeedKt / 1.94384f)));
+	} else if (this->windUnitString.IsSameAs("kph"))
+	{
+		return (wxString::Format("%d", (int)roundf(windSpeedKt * 1.852f)));
+	} else if (this->windUnitString.IsSameAs("mph"))
+	{
+		return (wxString::Format("%d", (int)roundf(windSpeedKt * 1.15078f)));
+	}
+
+	this->windUnitString = "kt";
+	return (wxString::Format("%d", (int)roundf(windSpeedKt)));
+}
+
+wxString MVReportFrame::GetConvertedTemp(float tempC)
+{
+	if (this->tempUnitString.IsSameAs("Farenheit"))
+	{
+		return (wxString::Format("%d", (int)roundf(tempC * (9.0f / 5.0f) + 32)));
+	}
+
+	this->windUnitString = "Celsius";
+	return (wxString::Format("%d", (int)roundf(tempC)));
+}
+
+wxString MVReportFrame::GetConvertedTempId()
+{
+	if (this->tempUnitString.IsSameAs("Farenheit"))
+	{
+		return (_("F"));
+	}
+
+	return (_("C"));
 }

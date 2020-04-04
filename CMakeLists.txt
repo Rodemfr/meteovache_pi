@@ -48,6 +48,8 @@ SET(SRC_MV
     src/icons.cpp
     src/MVReportFrame.h
     src/MVReportFrame.cpp
+    src/MVPrefDialog.h
+    src/MVPrefDialog.cpp
     src/SpotForecasts.h
     src/SpotForecasts.cpp
 	)
