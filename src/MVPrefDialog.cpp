@@ -3,7 +3,7 @@
 MVPrefDialog::MVPrefDialog(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &pos, const wxSize &size, long style) :
 		wxDialog(parent, id, title, pos, size, style)
 {
-	wxString windUnits[] = { _("Kt"), _("Bft"), _("m/s"), _("kph"), _("mph") };
+	wxString windUnits[] = { _("kt"), _("bft"), _("m/s"), _("kph"), _("mph") };
 	wxString tempUnits[] = { _("Celsius"), _("Farenheit") };
 
 	this->SetSizeHints(wxDefaultSize, wxDefaultSize);
@@ -16,7 +16,7 @@ MVPrefDialog::MVPrefDialog(wxWindow *parent, wxWindowID id, const wxString &titl
 	MVPrefWindUnitLabel = new wxStaticText(MVPrefUnitSizer->GetStaticBox(), wxID_ANY, _("Wind unit"), wxDefaultPosition, wxDefaultSize, 0);
 	MVPrefWindUnitLabel->Wrap(-1);
 	MVPrefWindUnitSizer->Add(MVPrefWindUnitLabel, 1, wxALIGN_CENTER_VERTICAL | wxALL, 5);
-	WMPrefWindUnitBox = new wxComboBox(MVPrefUnitSizer->GetStaticBox(), wxID_ANY, _("Kt"), wxDefaultPosition, wxDefaultSize, 5, windUnits, 0);
+	WMPrefWindUnitBox = new wxComboBox(MVPrefUnitSizer->GetStaticBox(), wxID_ANY, _("kt"), wxDefaultPosition, wxDefaultSize, 5, windUnits, 0);
 	MVPrefWindUnitSizer->Add(WMPrefWindUnitBox, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
 	MVPrefUnitSizer->Add(MVPrefWindUnitSizer, 0, wxEXPAND, 5);
 
@@ -105,9 +105,9 @@ wxString MVPrefDialog::GetWindUnitString()
 	if (translatedUnit.IsSameAs(_("kt")))
 	{
 		return("kt");
-	} else if (translatedUnit.IsSameAs(_("Bft")))
+	} else if (translatedUnit.IsSameAs(_("bft")))
 	{
-		return("Bft");
+		return("bft");
 	} else if (translatedUnit.IsSameAs(_("m/s")))
 	{
 		return("m/s");

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-04 21:13+0200\n"
+"POT-Creation-Date: 2020-04-05 09:30+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -48,7 +48,8 @@ msgstr ""
 msgid "MeteoVache preferences"
 msgstr ""
 
-#: src/MVReportFrame.cpp:65
+#: src/MVReportFrame.cpp:65 src/MVPrefDialog.cpp:6 src/MVPrefDialog.cpp:19
+#: src/MVPrefDialog.cpp:105
 msgid "kt"
 msgstr ""
 
@@ -90,7 +91,15 @@ msgid "Gust"
 msgstr ""
 
 #: src/MVReportFrame.cpp:208
+msgid "Dir"
+msgstr ""
+
+#: src/MVReportFrame.cpp:208
 msgid "Rain"
+msgstr ""
+
+#: src/MVReportFrame.cpp:208
+msgid "Cloud"
 msgstr ""
 
 #: src/MVReportFrame.cpp:208
@@ -248,4 +257,44 @@ msgstr ""
 
 #: src/DateTime.cpp:337
 msgid "Saturday"
+msgstr ""
+
+#: src/MVPrefDialog.cpp:6 src/MVPrefDialog.cpp:108
+msgid "bft"
+msgstr ""
+
+#: src/MVPrefDialog.cpp:6 src/MVPrefDialog.cpp:111
+msgid "m/s"
+msgstr ""
+
+#: src/MVPrefDialog.cpp:6 src/MVPrefDialog.cpp:114
+msgid "kph"
+msgstr ""
+
+#: src/MVPrefDialog.cpp:6 src/MVPrefDialog.cpp:117
+msgid "mph"
+msgstr ""
+
+#: src/MVPrefDialog.cpp:7 src/MVPrefDialog.cpp:27 src/MVPrefDialog.cpp:129
+msgid "Celsius"
+msgstr ""
+
+#: src/MVPrefDialog.cpp:7 src/MVPrefDialog.cpp:132
+msgid "Farenheit"
+msgstr ""
+
+#: src/MVPrefDialog.cpp:13
+msgid "Units"
+msgstr ""
+
+#: src/MVPrefDialog.cpp:16
+msgid "Wind unit"
+msgstr ""
+
+#: src/MVPrefDialog.cpp:24
+msgid "Temperature unit"
+msgstr ""
+
+#: src/MVPrefDialog.cpp:76
+msgid "Cancel"
 msgstr ""

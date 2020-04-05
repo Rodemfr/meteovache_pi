@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-04 21:13+0200\n"
-"PO-Revision-Date: 2020-04-04 21:21+0200\n"
+"POT-Creation-Date: 2020-04-05 09:30+0200\n"
+"PO-Revision-Date: 2020-04-05 09:32+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -54,7 +54,8 @@ msgstr ""
 msgid "MeteoVache preferences"
 msgstr "Préférences MétéoVache"
 
-#: src/MVReportFrame.cpp:65
+#: src/MVReportFrame.cpp:65 src/MVPrefDialog.cpp:6 src/MVPrefDialog.cpp:19
+#: src/MVPrefDialog.cpp:105
 msgid "kt"
 msgstr "nd"
 
@@ -98,8 +99,16 @@ msgid "Gust"
 msgstr "Rafl"
 
 #: src/MVReportFrame.cpp:208
+msgid "Dir"
+msgstr "Dir"
+
+#: src/MVReportFrame.cpp:208
 msgid "Rain"
 msgstr "Précp"
+
+#: src/MVReportFrame.cpp:208
+msgid "Cloud"
+msgstr "CouvN"
 
 #: src/MVReportFrame.cpp:208
 msgid "Temp"
@@ -258,33 +267,42 @@ msgstr "Vendredi"
 msgid "Saturday"
 msgstr "Samedi"
 
-#~ msgid "           Wind Gust   Dir  Rain Cloud Temp\n"
-#~ msgstr "           Vent Rafl   Dir Précp CouvN Temp\n"
+#: src/MVPrefDialog.cpp:6 src/MVPrefDialog.cpp:108
+msgid "bft"
+msgstr "bft"
 
-#, c-format
-#~ msgid "             kt   kt        mm/h     %    C\n"
-#~ msgstr "             nd   nd        mm/h     %    C\n"
+#: src/MVPrefDialog.cpp:6 src/MVPrefDialog.cpp:111
+msgid "m/s"
+msgstr "m/s"
 
-#~ msgid "   S"
-#~ msgstr "   S"
+#: src/MVPrefDialog.cpp:6 src/MVPrefDialog.cpp:114
+msgid "kph"
+msgstr "km/h"
 
-#~ msgid "  SW"
-#~ msgstr "  SO"
+#: src/MVPrefDialog.cpp:6 src/MVPrefDialog.cpp:117
+msgid "mph"
+msgstr "mi/h"
 
-#~ msgid "   W"
-#~ msgstr "   O"
+#: src/MVPrefDialog.cpp:7 src/MVPrefDialog.cpp:27 src/MVPrefDialog.cpp:129
+msgid "Celsius"
+msgstr "Celsius"
 
-#~ msgid "  NW"
-#~ msgstr "  NO"
+#: src/MVPrefDialog.cpp:7 src/MVPrefDialog.cpp:132
+msgid "Farenheit"
+msgstr "Farenheit"
 
-#~ msgid "   N"
-#~ msgstr "   N"
+#: src/MVPrefDialog.cpp:13
+msgid "Units"
+msgstr "Unités"
 
-#~ msgid "  NE"
-#~ msgstr "  NE"
+#: src/MVPrefDialog.cpp:16
+msgid "Wind unit"
+msgstr "Unités de vent"
 
-#~ msgid "   E"
-#~ msgstr "   E"
+#: src/MVPrefDialog.cpp:24
+msgid "Temperature unit"
+msgstr "Unités de température"
 
-#~ msgid "  SE"
-#~ msgstr "  SE"
+#: src/MVPrefDialog.cpp:76
+msgid "Cancel"
+msgstr "Abandon"

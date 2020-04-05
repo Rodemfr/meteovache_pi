@@ -205,7 +205,7 @@ void MVReportFrame::PublishWeatherReport(int model)
 	modelInfo = modelInfo.Append(
 			wxString::Format(_("Run date :       %02d/%02d/%d %dh%02d\n\n"), runDate.GetLocalDay(), runDate.GetLocalMonth(), runDate.GetLocalYear(),
 					runDate.GetLocalHour(), runDate.GetLocalMinute()));
-	modelInfo = modelInfo.Append(wxString::Format("           %4s %4s %5s %5s %5s %4s\n", _("Wind"), _("Gust"), "Dir", _("Rain"), "Cloud", _("Temp")));
+	modelInfo = modelInfo.Append(wxString::Format("           %4s %4s %5s %5s %5s %4s\n", _("Wind"), _("Gust"), _("Dir"), _("Rain"), _("Cloud"), _("Temp")));
 	modelInfo = modelInfo.Append(wxString::Format("           %4s %4s %5s %5s %5s %4s\n", _(windUnitString), _(windUnitString), " ", _("mm/h"), "%", GetConvertedTempId()));
 
 	DateTime stepTime = runDate;
@@ -336,7 +336,7 @@ wxString MVReportFrame::GetConvertedWind(float windSpeedKt)
 	if (this->windUnitString.IsSameAs("kt"))
 	{
 		return (wxString::Format("%d", (int)roundf(windSpeedKt)));
-	} else if (this->windUnitString.IsSameAs("Bft"))
+	} else if (this->windUnitString.IsSameAs("bft"))
 	{
 		if (windSpeedKt < 1.0f)
 			return ("0");
