@@ -326,9 +326,9 @@ void MVReportFrame::SetWindUnitString(wxString windUnitString)
 	this->windUnitString = windUnitString;
 }
 
-void MVReportFrame::SetTempUnitString(wxString windUnitString)
+void MVReportFrame::SetTempUnitString(wxString tempUnitString)
 {
-	this->tempUnitString = windUnitString;
+	this->tempUnitString = tempUnitString;
 }
 
 wxString MVReportFrame::GetConvertedWind(float windSpeedKt)
@@ -386,7 +386,7 @@ wxString MVReportFrame::GetConvertedTemp(float tempC)
 		return (wxString::Format("%d", (int)roundf(tempC * (9.0f / 5.0f) + 32)));
 	}
 
-	this->windUnitString = "Celsius";
+	this->tempUnitString = "Celsius";
 	return (wxString::Format("%d", (int)roundf(tempC)));
 }
 
