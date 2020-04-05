@@ -17,7 +17,7 @@ meteovache_pi needs an Internet connection to retrieve weather data from MeteoVa
 
 ## Author
 
-* **R. Demoment** - [Rodemfr](https://github.com/Rodemfr)
+* **Ronan Demoment** - [Rodemfr](https://github.com/Rodemfr)
 
 ## License
 
@@ -25,21 +25,27 @@ This program is distributed under the terms of the GPL v2. - see the [gpl.txt](c
 
 ## Download
 
-Latest release is v0.2.1
+Latest release is v0.3
 
-Pre-compiled binaries for OpenCPN 5.0 are available here :
+Pre-compiled binaries and source code are available here :
 
-- Win32 x86 : [meteovache_pi_v0.2.1_ocpn50_win32_x86.zip](https://github.com/Rodemfr/meteovache_pi/raw/master/files/binaries/opencpn50/win32_x86/meteovache_pi_v0.2.1_ocpn50_win32_x86.zip)
-- Linux x64 : [meteovache_pi_v0.2.1_ocpn50_linux_x86.tar.gz](https://github.com/Rodemfr/meteovache_pi/raw/master/files/binaries/opencpn50/linux_x64/meteovache_pi_v0.2.1_ocpn50_linux_x86.tar.gz)
+https://github.com/Rodemfr/meteovache_pi/releases/tag/v0.3
 
-Installers are not available at this time. You will have to uncompress archives manually and to copy the various files in OpenCPN install directory. Archives have been made so that the folder structure inside OpenCPN install directory is preserved.
+Installer is only available for Windows OS. On Linux, you have to uncompress archives manually and to copy the various files in OpenCPN install directory. Archives have been made so that the folder structure inside OpenCPN install directory is preserved.
 
 ## Release history
+
+**v0.3**
+* Added a preference panel with the possibility to change display units
+* Fixed negative temperature bug
+* Plug-in now compiles standalone
+* Windows installer is now generated
+* On server side : added Arpege model with world wide coverage
 
 **v0.2.1**
 * First binary release for Windows x86 and Linux x64
 
 ## Acknowledgments
 
-* Thanks to @OpenCPN team for providing a comprehensive set of templates and examples to develop plugins
+* Thanks to @OpenCPN team for providing a comprehensive set of templates and examples to develop plug-ins and to maintain this wonderful Open Source application.
 
