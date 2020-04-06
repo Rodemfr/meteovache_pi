@@ -34,6 +34,8 @@
 #include <DateTime.h>
 #include <stdint.h>
 #include <wx/log.h>
+#include <wx/File.h>
+#include <wx/filedlg.h>
 #include <math.h>
 
 /***************************************************************************/
@@ -56,6 +58,7 @@
 /*                              Functions                                  */
 /***************************************************************************/
 wxBEGIN_EVENT_TABLE(MVReportFrame, wxDialog) EVT_COMMAND(wxID_ANY, wxEVT_THREAD_JOB_COMPLETED, MVReportFrame::OnThreadEvent)
+EVT_BUTTON ( BUTTON_SaveAs, MVReportFrame::OnSaveAs )
 wxEND_EVENT_TABLE()
 
 MVReportFrame::MVReportFrame(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &pos, const wxSize &size, long style) :
@@ -90,7 +93,7 @@ MVReportFrame::MVReportFrame(wxWindow *parent, wxWindowID id, const wxString &ti
 	MVReportGlobalSizer->Add(MVReportTextArea, 1, wxLEFT | wxRIGHT | wxTOP | wxEXPAND, 5);
 
 	wxBoxSizer *MVButtonSizer = new wxBoxSizer(wxHORIZONTAL);
-	wxButton *MVReportSaveButton = new wxButton(this, wxID_ANY, _("Save"));
+	wxButton *MVReportSaveButton = new wxButton(this, BUTTON_SaveAs, _("Save As..."));
 	MVButtonSizer->Add(MVReportSaveButton, 0, wxLEFT | wxRIGHT | wxTOP | wxBOTTOM, 5);
 	MVReportGlobalSizer->Add(MVButtonSizer, 0, wxEXPAND, 5);
 
@@ -125,7 +128,9 @@ void MVReportFrame::MVReportFrameOnClose(wxCloseEvent &event)
 void MVReportFrame::MVModelOnSelect(wxCommandEvent &event)
 {
 	selectedString = MVReportModelSelector->GetStringSelection();
-	PublishWeatherReport(MVReportModelSelector->GetSelection());
+	SetReportText(PublishWeatherReport(MVReportModelSelector->GetSelection()));
+	Show();
+	Layout();
 	event.WasProcessed();
 }
 
@@ -183,12 +188,14 @@ void MVReportFrame::OnThreadEvent(wxCommandEvent&)
 		}
 	}
 	selectedString = MVReportModelSelector->GetStringSelection();
-	PublishWeatherReport(MVReportModelSelector->GetSelection());
+	SetReportText(PublishWeatherReport(MVReportModelSelector->GetSelection()));
+	Show();
+	Layout();
 
 	spotForecast.Unlock();
 }
 
-void MVReportFrame::PublishWeatherReport(int model)
+wxString MVReportFrame::PublishWeatherReport(int model)
 {
 	wxString modelInfo;
 	Forecast *forecast;
@@ -210,7 +217,8 @@ void MVReportFrame::PublishWeatherReport(int model)
 			wxString::Format(_("Run date :       %02d/%02d/%d %dh%02d\n\n"), runDate.GetLocalDay(), runDate.GetLocalMonth(), runDate.GetLocalYear(),
 					runDate.GetLocalHour(), runDate.GetLocalMinute()));
 	modelInfo = modelInfo.Append(wxString::Format("           %4s %4s %5s %5s %5s %4s\n", _("Wind"), _("Gust"), _("Dir"), _("Rain"), _("Cloud"), _("Temp")));
-	modelInfo = modelInfo.Append(wxString::Format("           %4s %4s %5s %5s %5s %4s\n", _(windUnitString), _(windUnitString), " ", _("mm/h"), "%", GetConvertedTempId()));
+	modelInfo = modelInfo.Append(
+			wxString::Format("           %4s %4s %5s %5s %5s %4s\n", _(windUnitString), _(windUnitString), " ", _("mm/h"), "%", GetConvertedTempId()));
 
 	DateTime stepTime = runDate;
 	std::string dayName;
@@ -232,15 +240,13 @@ void MVReportFrame::PublishWeatherReport(int model)
 			precipitationString = "";
 		}
 		modelInfo = modelInfo.Append(
-				wxString::Format("%4s %4s %5s %5s   %3.0f %4s\n", GetConvertedWind(data.windSpeedKt).c_str(), GetConvertedWind(data.gustSpeedKt).c_str(), getTextDirection(data.windDirectionDeg),
-						precipitationString, cloudCover, GetConvertedTemp(data.TemperatureC).c_str()));
+				wxString::Format("%4s %4s %5s %5s   %3.0f %4s\n", GetConvertedWind(data.windSpeedKt).c_str(), GetConvertedWind(data.gustSpeedKt).c_str(),
+						getTextDirection(data.windDirectionDeg), precipitationString, cloudCover, GetConvertedTemp(data.TemperatureC).c_str()));
 	}
 	modelInfo = modelInfo.Append("\n");
 	spotForecast.Unlock();
 
-	SetReportText(modelInfo);
-	Show();
-	Layout();
+	return (modelInfo);
 }
 
 void MVReportFrame::RequestForecast(float latitude, float longitude)
@@ -339,7 +345,7 @@ wxString MVReportFrame::GetConvertedWind(float windSpeedKt)
 {
 	if (this->windUnitString.IsSameAs("kt"))
 	{
-		return (wxString::Format("%d", (int)roundf(windSpeedKt)));
+		return (wxString::Format("%d", (int) roundf(windSpeedKt)));
 	} else if (this->windUnitString.IsSameAs("bft"))
 	{
 		if (windSpeedKt < 1.0f)
@@ -370,28 +376,28 @@ wxString MVReportFrame::GetConvertedWind(float windSpeedKt)
 			return ("12");
 	} else if (this->windUnitString.IsSameAs("m/s"))
 	{
-		return (wxString::Format("%d", (int)roundf(windSpeedKt / 1.94384f)));
+		return (wxString::Format("%d", (int) roundf(windSpeedKt / 1.94384f)));
 	} else if (this->windUnitString.IsSameAs("kph"))
 	{
-		return (wxString::Format("%d", (int)roundf(windSpeedKt * 1.852f)));
+		return (wxString::Format("%d", (int) roundf(windSpeedKt * 1.852f)));
 	} else if (this->windUnitString.IsSameAs("mph"))
 	{
-		return (wxString::Format("%d", (int)roundf(windSpeedKt * 1.15078f)));
+		return (wxString::Format("%d", (int) roundf(windSpeedKt * 1.15078f)));
 	}
 
 	this->windUnitString = "kt";
-	return (wxString::Format("%d", (int)roundf(windSpeedKt)));
+	return (wxString::Format("%d", (int) roundf(windSpeedKt)));
 }
 
 wxString MVReportFrame::GetConvertedTemp(float tempC)
 {
 	if (this->tempUnitString.IsSameAs("Farenheit"))
 	{
-		return (wxString::Format("%d", (int)roundf(tempC * (9.0f / 5.0f) + 32)));
+		return (wxString::Format("%d", (int) roundf(tempC * (9.0f / 5.0f) + 32)));
 	}
 
 	this->tempUnitString = "Celsius";
-	return (wxString::Format("%d", (int)roundf(tempC)));
+	return (wxString::Format("%d", (int) roundf(tempC)));
 }
 
 wxString MVReportFrame::GetConvertedTempId()
@@ -403,3 +409,29 @@ wxString MVReportFrame::GetConvertedTempId()
 
 	return (_("C"));
 }
+
+void MVReportFrame::OnSaveAs(wxCommandEvent&)
+{
+	wxDateTime dateTime = wxDateTime::Now();
+	wxString defaultFileName = wxString::Format("Report_%d-%02d-%02d_%02dh%02d_%02d.txt", dateTime.GetYear(), dateTime.GetMonth(), dateTime.GetDay(),
+			dateTime.GetHour(), dateTime.GetMinute(), dateTime.GetSecond());
+
+	wxFileDialog saveFileDialog(this, _("Save weather report"), "", defaultFileName, _("Text File (*.txt)|*.txt|Rich Text File (*.rtf)|*.rtf"),
+			wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+	if (saveFileDialog.ShowModal() == wxID_OK)
+	{
+		wxFile file(saveFileDialog.GetPath(), wxFile::write);
+		if (file.IsOpened())
+		{
+			spotForecast.Lock();
+			for (uint32_t i = 0; i < spotForecast.GetNumberOfForecast(); i++)
+			{
+				file.Write(PublishWeatherReport(i));
+			}
+			spotForecast.Unlock();
+			file.Close();
+		}
+	}
+
+}
+

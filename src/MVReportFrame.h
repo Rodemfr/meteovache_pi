@@ -51,6 +51,11 @@
 /*                              Constants                                  */
 /***************************************************************************/
 
+ enum
+ {
+   BUTTON_SaveAs = wxID_HIGHEST + 1
+ };
+
 /***************************************************************************/
 /*                                Types                                    */
 /***************************************************************************/
@@ -59,7 +64,8 @@
 /*                               Classes                                   */
 /***************************************************************************/
 
-class MVReportFrame: public wxDialog {
+class MVReportFrame: public wxDialog
+{
 private:
 	wxStaticText *MVReportModelLabel;
 	wxComboBox *MVReportModelSelector;
@@ -73,30 +79,32 @@ private:
 
 	virtual void MVReportFrameOnClose(wxCloseEvent &event);
 	virtual void MVModelOnSelect(wxCommandEvent &event);
-    wxString getLatitudeString(float latitude);
-    wxString getLongitudeString(float longitude);
-    wxString getTextDirection(float windDirectionDeg);
+	wxString getLatitudeString(float latitude);
+	wxString getLongitudeString(float longitude);
+	wxString getTextDirection(float windDirectionDeg);
 
-    void startThread();
+	void startThread();
 	void stopThread();
 
 public:
 	friend class MeteoVacheThread;
 
 	MVReportFrame(wxWindow *parent, wxWindowID id = wxID_ANY, const wxString &title = _("MeteoVache"), const wxPoint &pos = wxDefaultPosition,
-			const wxSize &size = wxSize(497, 445), long style = wxMINIMIZE_BOX | wxMAXIMIZE_BOX | wxRESIZE_BORDER | wxCAPTION | wxCLOSE_BOX | wxCLIP_CHILDREN | wxSTAY_ON_TOP | wxTAB_TRAVERSAL);
+			const wxSize &size = wxSize(497, 445),
+			long style = wxMINIMIZE_BOX | wxMAXIMIZE_BOX | wxRESIZE_BORDER | wxCAPTION | wxCLOSE_BOX | wxCLIP_CHILDREN | wxSTAY_ON_TOP | wxTAB_TRAVERSAL);
 	~MVReportFrame();
 
 	void SetReportText(const wxString &text);
 	void OnThreadEvent(wxCommandEvent&);
-	void PublishWeatherReport(int model);
+	wxString PublishWeatherReport(int model);
 	void RequestForecast(float latitude, float longitude);
-	const wxString &GetSelectedModelName();
+	const wxString& GetSelectedModelName();
 	void SetSelectedModelName(wxString modelName);
 	void SetWindUnitString(wxString windUnitString);
 	void SetTempUnitString(wxString windUnitString);
+	void OnSaveAs(wxCommandEvent &event);
 
-	DECLARE_EVENT_TABLE()
+DECLARE_EVENT_TABLE()
 
 private:
 	wxString GetConvertedWind(float windSpeedKt);
