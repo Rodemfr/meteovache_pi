@@ -72,15 +72,14 @@ MVReportFrame::MVReportFrame(wxWindow *parent, wxWindowID id, const wxString &ti
 	wxBoxSizer *MVReportGlobalSizer;
 	MVReportGlobalSizer = new wxBoxSizer(wxVERTICAL);
 
-	wxBoxSizer *MVReportTopSizer;
-	MVReportTopSizer = new wxBoxSizer(wxHORIZONTAL);
+	wxBoxSizer *MVReportTopSizer = new wxBoxSizer(wxHORIZONTAL);
 
 	MVReportModelLabel = new wxStaticText(this, wxID_ANY, _("Weather model :"), wxDefaultPosition, wxDefaultSize, 0);
 	MVReportModelLabel->Wrap(-1);
 	MVReportTopSizer->Add(MVReportModelLabel, 0, wxALIGN_CENTER | wxALL, 5);
 
 	MVReportModelSelector = new wxComboBox(this, wxID_ANY, _("No data"), wxDefaultPosition, wxDefaultSize, 0, NULL, 0);
-	MVReportTopSizer->Add(MVReportModelSelector, 0, wxALL, 5);
+	MVReportTopSizer->Add(MVReportModelSelector, 0, wxLEFT | wxRIGHT | wxTOP, 5);
 
 	MVReportGlobalSizer->Add(MVReportTopSizer, 0, wxEXPAND, 5);
 
@@ -88,7 +87,12 @@ MVReportFrame::MVReportFrame(wxWindow *parent, wxWindowID id, const wxString &ti
 	wxFont reportFont = MVReportTextArea->GetFont();
 	reportFont.SetFamily(wxFONTFAMILY_TELETYPE);
 	MVReportTextArea->SetFont(reportFont);
-	MVReportGlobalSizer->Add(MVReportTextArea, 1, wxALL | wxEXPAND, 5);
+	MVReportGlobalSizer->Add(MVReportTextArea, 1, wxLEFT | wxRIGHT | wxTOP | wxEXPAND, 5);
+
+	wxBoxSizer *MVButtonSizer = new wxBoxSizer(wxHORIZONTAL);
+	wxButton *MVReportSaveButton = new wxButton(this, wxID_ANY, _("Save"));
+	MVButtonSizer->Add(MVReportSaveButton, 0, wxLEFT | wxRIGHT | wxTOP | wxBOTTOM, 5);
+	MVReportGlobalSizer->Add(MVButtonSizer, 0, wxEXPAND, 5);
 
 	this->SetSizer(MVReportGlobalSizer);
 	this->Layout();
