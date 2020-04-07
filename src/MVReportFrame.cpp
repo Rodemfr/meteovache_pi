@@ -413,10 +413,10 @@ wxString MVReportFrame::GetConvertedTempId()
 void MVReportFrame::OnSaveAs(wxCommandEvent&)
 {
 	wxDateTime dateTime = wxDateTime::Now();
-	wxString defaultFileName = wxString::Format("Report_%d-%02d-%02d_%02dh%02d_%02d.txt", dateTime.GetYear(), dateTime.GetMonth(), dateTime.GetDay(),
+	wxString defaultFileName = wxString::Format(_("Forecast") + "_%d-%02d-%02d_%02dh%02dm%02ds.txt", dateTime.GetYear(), dateTime.GetMonth(), dateTime.GetDay(),
 			dateTime.GetHour(), dateTime.GetMinute(), dateTime.GetSecond());
 
-	wxFileDialog saveFileDialog(this, _("Save weather report"), "", defaultFileName, _("Text File (*.txt)|*.txt|Rich Text File (*.rtf)|*.rtf"),
+	wxFileDialog saveFileDialog(this, _("Save weather report"), "", defaultFileName, _("Text File") + " (*.txt)|*.txt",
 			wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
 	if (saveFileDialog.ShowModal() == wxID_OK)
 	{
