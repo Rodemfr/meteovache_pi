@@ -415,23 +415,55 @@ void MVReportFrame::OnSaveAs(wxCommandEvent&)
 	wxDateTime dateTime = wxDateTime::Now();
 	wxString defaultFileName = wxString::Format(_("Forecast") + "_%d-%02d-%02d_%02dh%02dm%02ds.txt", dateTime.GetYear(), dateTime.GetMonth(), dateTime.GetDay(),
 			dateTime.GetHour(), dateTime.GetMinute(), dateTime.GetSecond());
+	wxFileDialog saveFileDialog(this, _("Save weather report"), "", defaultFileName,
+	_("Text File") + " (*.txt)|*.txt|" + _("Column Text File") + " (*.txt)|*.txt", wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
 
-	wxFileDialog saveFileDialog(this, _("Save weather report"), "", defaultFileName, _("Text File") + " (*.txt)|*.txt",
-			wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+	uint32_t nbReports = spotForecast.GetNumberOfForecast();
+	wxString *reportArray = new wxString[nbReports];
+
 	if (saveFileDialog.ShowModal() == wxID_OK)
 	{
 		wxFile file(saveFileDialog.GetPath(), wxFile::write);
 		if (file.IsOpened())
 		{
 			spotForecast.Lock();
-			for (uint32_t i = 0; i < spotForecast.GetNumberOfForecast(); i++)
+			for (uint32_t i = 0; i < nbReports; i++)
 			{
-				file.Write(PublishWeatherReport(i));
+				reportArray[i] = PublishWeatherReport(i);
 			}
 			spotForecast.Unlock();
+
+			if (saveFileDialog.GetFilterIndex() == 1)
+			{
+				bool continueLoop;
+				int crPos;
+				do
+				{
+					continueLoop = false;
+					for (uint32_t i = 0; i < nbReports; i++)
+					{
+						file.Write(wxString::Format("%-55s", reportArray[i].BeforeFirst('\n')));
+						reportArray[i] = reportArray[i].AfterFirst('\n');
+						if (reportArray[i].length() > 0)
+						{
+							continueLoop = true;
+						}
+					}
+					file.Write('\n');
+				} while (continueLoop);
+			} else
+			{
+				for (uint32_t i = 0; i < nbReports; i++)
+				{
+					file.Write(reportArray[i]);
+				}
+			}
+
 			file.Close();
 		}
 	}
+
+	delete[] reportArray;
 
 }
 

@@ -33,6 +33,43 @@ MVPrefDialog::MVPrefDialog(wxWindow *parent, wxWindowID id, const wxString &titl
 
 	MVPrefGlobalSizer->Add(MVPrefUnitSizer, 0, wxALL | wxEXPAND, 5);
 
+	wxStaticBoxSizer* sbSizer3;
+	sbSizer3 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, wxT("Auto save") ), wxVERTICAL );
+
+	wxBoxSizer* bSizer7;
+	bSizer7 = new wxBoxSizer( wxHORIZONTAL );
+
+	m_staticText5 = new wxStaticText( sbSizer3->GetStaticBox(), wxID_ANY, wxT("Save directory"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText5->Wrap( -1 );
+	bSizer7->Add( m_staticText5, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+
+	m_textCtrl3 = new wxTextCtrl( sbSizer3->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer7->Add( m_textCtrl3, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+
+	m_button1 = new wxButton( sbSizer3->GetStaticBox(), wxID_ANY, wxT("..."), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT );
+	bSizer7->Add( m_button1, 0, wxALIGN_CENTER_VERTICAL, 5 );
+
+
+	sbSizer3->Add( bSizer7, 0, wxEXPAND, 5 );
+
+	wxBoxSizer* bSizer8;
+	bSizer8 = new wxBoxSizer( wxHORIZONTAL );
+
+
+	bSizer8->Add( 0, 0, 1, wxEXPAND, 5 );
+
+	m_checkBox1 = new wxCheckBox( sbSizer3->GetStaticBox(), wxID_ANY, wxT("Column format"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_checkBox1->SetValue(true);
+	bSizer8->Add( m_checkBox1, 0, wxALL, 5 );
+
+	m_checkBox3 = new wxCheckBox( sbSizer3->GetStaticBox(), wxID_ANY, wxT("Compress with GZIP"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer8->Add( m_checkBox3, 0, wxALL, 5 );
+
+
+	sbSizer3->Add( bSizer8, 1, wxEXPAND, 5 );
+
+	MVPrefGlobalSizer->Add( sbSizer3, 0, wxBOTTOM|wxEXPAND|wxLEFT|wxRIGHT, 5 );
+
 	wxStaticBoxSizer *MVPrefServerSizer = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, wxT("Server")), wxVERTICAL);
 	wxBoxSizer *MVPrefServerPrefSizer = new wxBoxSizer(wxHORIZONTAL);
 

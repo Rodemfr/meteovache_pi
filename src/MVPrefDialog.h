@@ -29,6 +29,11 @@ protected:
 	wxStaticText *MVPrefServerPortLabel;
 	wxTextCtrl *MVPrefServerNameEdit;
 	wxTextCtrl *MVPrefServerPortEdit;
+	wxStaticText* m_staticText5;
+	wxTextCtrl* m_textCtrl3;
+	wxButton* m_button1;
+	wxCheckBox* m_checkBox1;
+	wxCheckBox* m_checkBox3;
 
 public:
 	MVPrefDialog(wxWindow *parent, wxWindowID id = wxID_ANY, const wxString &title = wxEmptyString, const wxPoint &pos = wxDefaultPosition, const wxSize &size =
