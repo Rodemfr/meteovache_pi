@@ -72,12 +72,17 @@ private:
 	wxString selectedString;
 	wxString windUnitString;
 	wxString tempUnitString;
+	wxString autosavePath;
+	bool autosaveEnable;
+	bool autosaveColumn;
+	bool autosaveCompress;
 
 	virtual void MVReportFrameOnClose(wxCloseEvent &event);
 	virtual void MVModelOnSelect(wxCommandEvent &event);
 	wxString getLatitudeString(float latitude);
 	wxString getLongitudeString(float longitude);
 	wxString getTextDirection(float windDirectionDeg);
+	wxString GetReportBaseName();
 
 	void startThread();
 	void stopThread();
@@ -90,9 +95,13 @@ public:
 			long style = wxMINIMIZE_BOX | wxMAXIMIZE_BOX | wxRESIZE_BORDER | wxCAPTION | wxCLOSE_BOX | wxCLIP_CHILDREN | wxSTAY_ON_TOP | wxTAB_TRAVERSAL);
 	~MVReportFrame();
 
+	void SetAutosavePreferences(wxString path, bool enable, bool column, bool compress);
 	void SetReportText(const wxString &text);
 	void OnThreadEvent(wxCommandEvent&);
-	wxString PublishWeatherReport(int model);
+	void AutoSaveReport();
+	wxString PrintWeatherReport(int model);
+	wxString PrintWeatherReports();
+	wxString PrintWeatherColumnReports();
 	void RequestForecast(float latitude, float longitude);
 	const wxString& GetSelectedModelName();
 	void SetSelectedModelName(wxString modelName);

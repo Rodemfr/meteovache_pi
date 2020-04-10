@@ -36,14 +36,16 @@
 #include <wx/log.h>
 #include <wx/File.h>
 #include <wx/filedlg.h>
+#include <wx/FileName.h>
+#include <wx/wfstream.h>
+#include <wx/zipstrm.h>
 #include <math.h>
 
 /***************************************************************************/
 /*                              Constants                                  */
 /***************************************************************************/
 
-wxBEGIN_EVENT_TABLE(MVReportFrame, wxDialog)
-EVT_COMMAND(wxID_ANY, wxEVT_THREAD_JOB_COMPLETED, MVReportFrame::OnThreadEvent)
+wxBEGIN_EVENT_TABLE(MVReportFrame, wxDialog) EVT_COMMAND(wxID_ANY, wxEVT_THREAD_JOB_COMPLETED, MVReportFrame::OnThreadEvent)
 wxEND_EVENT_TABLE()
 
 /***************************************************************************/
@@ -130,10 +132,18 @@ void MVReportFrame::MVReportFrameOnClose(wxCloseEvent &event)
 void MVReportFrame::MVModelOnSelect(wxCommandEvent &event)
 {
 	selectedString = MVReportModelSelector->GetStringSelection();
-	SetReportText(PublishWeatherReport(MVReportModelSelector->GetSelection()));
+	SetReportText(PrintWeatherReport(MVReportModelSelector->GetSelection()));
 	Show();
 	Layout();
 	event.WasProcessed();
+}
+
+void MVReportFrame::SetAutosavePreferences(wxString path, bool enable, bool column, bool compress)
+{
+	autosavePath = path;
+	autosaveEnable = enable;
+	autosaveColumn = column;
+	autosaveCompress = compress;
 }
 
 void MVReportFrame::SetReportText(const wxString &text)
@@ -190,14 +200,51 @@ void MVReportFrame::OnThreadEvent(wxCommandEvent&)
 		}
 	}
 	selectedString = MVReportModelSelector->GetStringSelection();
-	SetReportText(PublishWeatherReport(MVReportModelSelector->GetSelection()));
+	SetReportText(PrintWeatherReport(MVReportModelSelector->GetSelection()));
+	AutoSaveReport();
 	Show();
 	Layout();
 
 	spotForecast.Unlock();
 }
 
-wxString MVReportFrame::PublishWeatherReport(int model)
+void MVReportFrame::AutoSaveReport()
+{
+	if (autosaveEnable)
+	{
+		wxString fileReport;
+		if (autosaveColumn)
+		{
+			fileReport = PrintWeatherColumnReports();
+		} else
+		{
+			fileReport = PrintWeatherReports();
+		}
+		if (autosaveCompress)
+		{
+			wxFileOutputStream outputStream(autosavePath + wxFileName::GetPathSeparator() + GetReportBaseName() + ".zip");
+			if (outputStream.IsOk())
+			{
+				wxZipOutputStream zipStream(outputStream);
+				zipStream.SetLevel(9);
+				zipStream.PutNextEntry(GetReportBaseName() + ".txt");
+				zipStream.Write(fileReport.c_str().AsChar(), fileReport.length());
+				zipStream.CloseEntry();
+				zipStream.Close();
+			}
+		} else
+		{
+			wxFileOutputStream outputStream(autosavePath + wxFileName::GetPathSeparator() + GetReportBaseName() + ".txt");
+			if (outputStream.IsOk())
+			{
+				outputStream.Write(fileReport.c_str().AsChar(), fileReport.length());
+				outputStream.Close();
+			}
+		}
+	}
+}
+
+wxString MVReportFrame::PrintWeatherReport(int modelIndex)
 {
 	wxString modelInfo;
 	Forecast *forecast;
@@ -207,7 +254,7 @@ wxString MVReportFrame::PublishWeatherReport(int model)
 	// FIXME : Use a local copy of forecasts instead
 	spotForecast.Lock();
 
-	forecast = &spotForecast.Get(model);
+	forecast = &spotForecast.Get(modelIndex);
 
 	DateTime runDate;
 	runDate.SetTimeCode(forecast->getRunTimeCode());
@@ -249,6 +296,59 @@ wxString MVReportFrame::PublishWeatherReport(int model)
 	spotForecast.Unlock();
 
 	return (modelInfo);
+}
+
+wxString MVReportFrame::PrintWeatherReports()
+{
+	wxString report;
+
+	spotForecast.Lock();
+
+	uint32_t nbReports = spotForecast.GetNumberOfForecast();
+	for (uint32_t i = 0; i < nbReports; i++)
+	{
+		report += PrintWeatherReport(i);
+	}
+
+	spotForecast.Unlock();
+
+	return (report);
+}
+
+wxString MVReportFrame::PrintWeatherColumnReports()
+{
+	wxString *reportArray = nullptr;
+	uint32_t nbReports;
+	wxString columnReport;
+
+	spotForecast.Lock();
+	nbReports = spotForecast.GetNumberOfForecast();
+	reportArray = new wxString[nbReports];
+	for (uint32_t i = 0; i < nbReports; i++)
+	{
+		reportArray[i] = PrintWeatherReport(i);
+	}
+	spotForecast.Unlock();
+
+	bool continueLoop;
+	do
+	{
+		continueLoop = false;
+		for (uint32_t i = 0; i < nbReports; i++)
+		{
+			columnReport += wxString::Format("%-55s", reportArray[i].BeforeFirst('\n'));
+			reportArray[i] = reportArray[i].AfterFirst('\n');
+			if (reportArray[i].length() > 0)
+			{
+				continueLoop = true;
+			}
+		}
+		columnReport += '\n';
+	} while (continueLoop);
+
+	delete[] reportArray;
+
+	return (columnReport);
 }
 
 void MVReportFrame::RequestForecast(float latitude, float longitude)
@@ -414,56 +514,30 @@ wxString MVReportFrame::GetConvertedTempId()
 
 void MVReportFrame::OnSaveAs(wxCommandEvent&)
 {
-	wxDateTime dateTime = wxDateTime::Now();
-	wxString defaultFileName = wxString::Format(_("Forecast") + "_%d-%02d-%02d_%02dh%02dm%02ds.txt", dateTime.GetYear(), dateTime.GetMonth(), dateTime.GetDay(),
-			dateTime.GetHour(), dateTime.GetMinute(), dateTime.GetSecond());
-	wxFileDialog saveFileDialog(this, _("Save weather report"), "", defaultFileName,
+	wxFileDialog saveFileDialog(this, _("Save weather report"), "", GetReportBaseName() + ".txt",
 	_("Text File") + " (*.txt)|*.txt|" + _("Column Text File") + " (*.txt)|*.txt", wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
-
-	uint32_t nbReports = spotForecast.GetNumberOfForecast();
-	wxString *reportArray = new wxString[nbReports];
 
 	if (saveFileDialog.ShowModal() == wxID_OK)
 	{
 		wxFile file(saveFileDialog.GetPath(), wxFile::write);
 		if (file.IsOpened())
 		{
-			spotForecast.Lock();
-			for (uint32_t i = 0; i < nbReports; i++)
-			{
-				reportArray[i] = PublishWeatherReport(i);
-			}
-			spotForecast.Unlock();
-
 			if (saveFileDialog.GetFilterIndex() == 1)
 			{
-				bool continueLoop;
-				do
-				{
-					continueLoop = false;
-					for (uint32_t i = 0; i < nbReports; i++)
-					{
-						file.Write(wxString::Format("%-55s", reportArray[i].BeforeFirst('\n')));
-						reportArray[i] = reportArray[i].AfterFirst('\n');
-						if (reportArray[i].length() > 0)
-						{
-							continueLoop = true;
-						}
-					}
-					file.Write('\n');
-				} while (continueLoop);
+				file.Write(PrintWeatherColumnReports());
 			} else
 			{
-				for (uint32_t i = 0; i < nbReports; i++)
-				{
-					file.Write(reportArray[i]);
-				}
+				file.Write(PrintWeatherReports());
 			}
 
 			file.Close();
 		}
 	}
-
-	delete[] reportArray;
 }
 
+wxString MVReportFrame::GetReportBaseName()
+{
+	wxDateTime dateTime = wxDateTime::Now();
+	return (wxString::Format(_("Forecast") + "_%d-%02d-%02d_%02dh%02dm%02ds", dateTime.GetYear(), dateTime.GetMonth(), dateTime.GetDay(), dateTime.GetHour(),
+			dateTime.GetMinute(), dateTime.GetSecond()));
+}
