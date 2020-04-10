@@ -8,10 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-10 11:41+0200\n"
+"POT-Creation-Date: 2020-04-10 12:49+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -48,159 +49,158 @@ msgstr ""
 msgid "MeteoVache preferences"
 msgstr ""
 
-#: src/MVReportFrame.cpp:71 src/MVPrefDialog.cpp:59 src/MVPrefDialog.cpp:73
+#: src/MVReportFrame.cpp:70 src/MVPrefDialog.cpp:59 src/MVPrefDialog.cpp:73
 #: src/MVPrefDialog.cpp:175
 msgid "kt"
 msgstr ""
 
-#: src/MVReportFrame.cpp:83
+#: src/MVReportFrame.cpp:82
 msgid "Weather model :"
 msgstr ""
 
-#: src/MVReportFrame.cpp:87
+#: src/MVReportFrame.cpp:86
 msgid "No data"
 msgstr ""
 
-#: src/MVReportFrame.cpp:92
+#: src/MVReportFrame.cpp:91
 msgid "Weather report"
 msgstr ""
 
-#: src/MVReportFrame.cpp:99
+#: src/MVReportFrame.cpp:98
 msgid "Save As..."
 msgstr ""
 
-#: src/MVReportFrame.cpp:263
+#: src/MVReportFrame.cpp:242
 #, c-format
 msgid "Position :       %s %s\n"
 msgstr ""
 
-#: src/MVReportFrame.cpp:264
+#: src/MVReportFrame.cpp:243
 #, c-format
 msgid "Model :          %s (%s)\n"
 msgstr ""
 
-#: src/MVReportFrame.cpp:266
+#: src/MVReportFrame.cpp:245
 #, c-format
 msgid ""
 "Run date :       %02d/%02d/%d %dh%02d\n"
 "\n"
 msgstr ""
 
-#: src/MVReportFrame.cpp:268
+#: src/MVReportFrame.cpp:247
 msgid "Wind"
 msgstr ""
 
-#: src/MVReportFrame.cpp:268
+#: src/MVReportFrame.cpp:247
 msgid "Gust"
 msgstr ""
 
-#: src/MVReportFrame.cpp:268
+#: src/MVReportFrame.cpp:247
 msgid "Dir"
 msgstr ""
 
-#: src/MVReportFrame.cpp:268
+#: src/MVReportFrame.cpp:247
 msgid "Rain"
 msgstr ""
 
-#: src/MVReportFrame.cpp:268
+#: src/MVReportFrame.cpp:247
 msgid "Cloud"
 msgstr ""
 
-#: src/MVReportFrame.cpp:268
+#: src/MVReportFrame.cpp:247
 msgid "Temp"
 msgstr ""
 
-#: src/MVReportFrame.cpp:270
+#: src/MVReportFrame.cpp:249
 msgid "mm/h"
 msgstr ""
 
-#: src/MVReportFrame.cpp:366 src/MVReportFrame.cpp:391
+#: src/MVReportFrame.cpp:334 src/MVReportFrame.cpp:357
 msgid "S"
 msgstr ""
 
-#: src/MVReportFrame.cpp:366 src/MVReportFrame.cpp:407
-#: src/MVReportFrame.cpp:423
+#: src/MVReportFrame.cpp:334 src/MVReportFrame.cpp:373 src/MVReportFrame.cpp:389
 msgid "N"
 msgstr ""
 
-#: src/MVReportFrame.cpp:378 src/MVReportFrame.cpp:399
+#: src/MVReportFrame.cpp:345 src/MVReportFrame.cpp:365
 msgid "W"
 msgstr ""
 
-#: src/MVReportFrame.cpp:378 src/MVReportFrame.cpp:415
+#: src/MVReportFrame.cpp:345 src/MVReportFrame.cpp:381
 msgid "E"
 msgstr ""
 
-#: src/MVReportFrame.cpp:393
+#: src/MVReportFrame.cpp:359
 msgid "S-SW"
 msgstr ""
 
-#: src/MVReportFrame.cpp:395
+#: src/MVReportFrame.cpp:361
 msgid "SW"
 msgstr ""
 
-#: src/MVReportFrame.cpp:397
+#: src/MVReportFrame.cpp:363
 msgid "W-SW"
 msgstr ""
 
-#: src/MVReportFrame.cpp:401
+#: src/MVReportFrame.cpp:367
 msgid "W-NW"
 msgstr ""
 
-#: src/MVReportFrame.cpp:403
+#: src/MVReportFrame.cpp:369
 msgid "NW"
 msgstr ""
 
-#: src/MVReportFrame.cpp:405
+#: src/MVReportFrame.cpp:371
 msgid "N-NW"
 msgstr ""
 
-#: src/MVReportFrame.cpp:409
+#: src/MVReportFrame.cpp:375
 msgid "N-NE"
 msgstr ""
 
-#: src/MVReportFrame.cpp:411
+#: src/MVReportFrame.cpp:377
 msgid "NE"
 msgstr ""
 
-#: src/MVReportFrame.cpp:413
+#: src/MVReportFrame.cpp:379
 msgid "E-NE"
 msgstr ""
 
-#: src/MVReportFrame.cpp:417
+#: src/MVReportFrame.cpp:383
 msgid "E-SE"
 msgstr ""
 
-#: src/MVReportFrame.cpp:419
+#: src/MVReportFrame.cpp:385
 msgid "SE"
 msgstr ""
 
-#: src/MVReportFrame.cpp:421
+#: src/MVReportFrame.cpp:387
 msgid "S-SE"
 msgstr ""
 
-#: src/MVReportFrame.cpp:509
+#: src/MVReportFrame.cpp:465
 msgid "F"
 msgstr ""
 
-#: src/MVReportFrame.cpp:512
+#: src/MVReportFrame.cpp:468
 msgid "C"
 msgstr ""
 
-#: src/MVReportFrame.cpp:517
+#: src/MVReportFrame.cpp:472
 msgid "Save weather report"
 msgstr ""
 
-#: src/MVReportFrame.cpp:518
+#: src/MVReportFrame.cpp:473
 msgid "Text File"
 msgstr ""
 
-#: src/MVReportFrame.cpp:518
+#: src/MVReportFrame.cpp:473
 msgid "Column Text File"
 msgstr ""
 
-#: src/MVReportFrame.cpp:541
-msgid "Forecast"
+#: src/MVReportFrame.cpp:492
+msgid "WForecast"
 msgstr ""
 
 #: src/DateTime.cpp:276

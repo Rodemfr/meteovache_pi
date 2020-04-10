@@ -106,7 +106,7 @@ MeteoVachePlugin::MeteoVachePlugin(void *pluginManager) :
 	pluginConfig.tempUnitString = "C";
 
 	wxStandardPaths standardPaths = wxStandardPaths::Get();
-	pluginConfig.autosavePath = standardPaths.GetUserDir(wxStandardPaths::Dir_Downloads);
+	pluginConfig.autosavePath = standardPaths.GetDocumentsDir();
 }
 
 MeteoVachePlugin::~MeteoVachePlugin()
