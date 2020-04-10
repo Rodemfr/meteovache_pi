@@ -552,7 +552,7 @@ void MVReportFrame::OnSaveAs(wxCommandEvent&)
 			}
 
 			file.Close();
-			manualSavePath = saveFileDialog.GetPath();
+			manualSavePath = saveFileDialog.GetDirectory();
 			manualSaveFormat = saveFileDialog.GetFilterIndex();
 		}
 	}
