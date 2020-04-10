@@ -65,6 +65,8 @@ typedef struct {
 	bool autosaveEnable;           // Enable autosave
 	bool autosaveColumn;           // Enable column format for autosaved reports
 	bool autoSaveCompress;         // Enable compression for autosaved reports
+	wxString manualSavePath;       // Last used path for manual saving
+	int manualSaveFormat;          // Last used format for manual saving
 } configData_t;
 
 /***************************************************************************/

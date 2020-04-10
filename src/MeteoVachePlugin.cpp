@@ -155,6 +155,8 @@ int MeteoVachePlugin::Init(void)
 	weatherReportFrame->SetWindUnitString(pluginConfig.windUnitString);
 	weatherReportFrame->SetTempUnitString(pluginConfig.tempUnitString);
 	weatherReportFrame->SetAutosavePreferences(pluginConfig.autosavePath, pluginConfig.autosaveEnable, pluginConfig.autosaveColumn, pluginConfig.autoSaveCompress);
+	weatherReportFrame->SetManualSavePath(pluginConfig.manualSavePath);
+	weatherReportFrame->SetManualSaveFormat(pluginConfig.manualSaveFormat);
 
 	return plugInFlags;
 }
@@ -264,8 +266,10 @@ bool MeteoVachePlugin::LoadConfig(void)
 		pConf->Read("AutoSaveEnable", &(pluginConfig.autosaveEnable), false);
 		pConf->Read("AutoSaveColumn", &(pluginConfig.autosaveColumn), false);
 		pConf->Read("AutoSaveCompress", &(pluginConfig.autoSaveCompress), true);
+		pConf->Read("ManualSavePath", &(pluginConfig.manualSavePath), "");
+		pConf->Read("ManualSaveFormat", &(pluginConfig.manualSaveFormat), 0);
 
-		return true;
+		return true;;
 	} else
 		return false;
 }
@@ -288,6 +292,8 @@ bool MeteoVachePlugin::SaveConfig(void)
 		pConf->Write("AutoSaveEnable", pluginConfig.autosaveEnable);
 		pConf->Write("AutoSaveColumn", pluginConfig.autosaveColumn);
 		pConf->Write("AutoSaveCompress", pluginConfig.autoSaveCompress);
+		pConf->Write("ManualSavePath", weatherReportFrame->GetManualSavePath());
+		pConf->Write("ManualSaveFormat", weatherReportFrame->GetManualSaveFormat());
 		return true;
 	} else
 		return false;

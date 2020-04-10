@@ -62,10 +62,10 @@
 class MVReportFrame: public wxDialog
 {
 private:
-	wxStaticText *MVReportModelLabel;
-	wxComboBox *MVReportModelSelector;
-	wxTextCtrl *MVReportTextArea;
-	wxButton *MVReportSaveButton;
+	wxStaticText *modelLabel;
+	wxComboBox *modelSelector;
+	wxTextCtrl *reportTextArea;
+	wxButton *saveButton;
 	MeteoVacheThread *workerThread;
 	SpotForecasts spotForecast;
 	JobQueue *jobQueue;
@@ -76,16 +76,18 @@ private:
 	bool autosaveEnable;
 	bool autosaveColumn;
 	bool autosaveCompress;
+	wxString manualSavePath;
+	int manualSaveFormat;
 
-	virtual void MVReportFrameOnClose(wxCloseEvent &event);
-	virtual void MVModelOnSelect(wxCommandEvent &event);
-	wxString getLatitudeString(float latitude);
-	wxString getLongitudeString(float longitude);
-	wxString getTextDirection(float windDirectionDeg);
+	virtual void OnClose(wxCloseEvent &event);
+	virtual void OnModelSelect(wxCommandEvent &event);
+	wxString GetLatitudeString(float latitude);
+	wxString GetLongitudeString(float longitude);
+	wxString GetTextDirection(float windDirectionDeg);
 	wxString GetReportBaseName();
 
-	void startThread();
-	void stopThread();
+	void StartThread();
+	void StopThread();
 
 public:
 	friend class MeteoVacheThread;
@@ -95,6 +97,10 @@ public:
 			long style = wxMINIMIZE_BOX | wxMAXIMIZE_BOX | wxRESIZE_BORDER | wxCAPTION | wxCLOSE_BOX | wxCLIP_CHILDREN | wxSTAY_ON_TOP | wxTAB_TRAVERSAL);
 	~MVReportFrame();
 
+	void SetManualSavePath(wxString path);
+	void SetManualSaveFormat(int format);
+	wxString GetManualSavePath();
+	int GetManualSaveFormat();
 	void SetAutosavePreferences(wxString path, bool enable, bool column, bool compress);
 	void SetReportText(const wxString &text);
 	void OnThreadEvent(wxCommandEvent&);

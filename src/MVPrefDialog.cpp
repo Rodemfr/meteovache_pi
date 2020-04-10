@@ -102,7 +102,7 @@ MVPrefDialog::MVPrefDialog(wxWindow *parent, wxWindowID id, const wxString &titl
 	autosaveCheckboxSizer->Add(autosaveEnableCheckbox, 0, wxALL, 5);
 	autosaveColumnCheckbox = new wxCheckBox(autosaveSizer->GetStaticBox(), wxID_ANY, wxT("Column format"), wxDefaultPosition, wxDefaultSize, 0);
 	autosaveCheckboxSizer->Add(autosaveColumnCheckbox, 0, wxALL, 5);
-	autosaveCompressCheckbox = new wxCheckBox(autosaveSizer->GetStaticBox(), wxID_ANY, wxT("Compress with GZIP"), wxDefaultPosition, wxDefaultSize, 0);
+	autosaveCompressCheckbox = new wxCheckBox(autosaveSizer->GetStaticBox(), wxID_ANY, wxT("Compress"), wxDefaultPosition, wxDefaultSize, 0);
 	autosaveCheckboxSizer->Add(autosaveCompressCheckbox, 0, wxALL, 5);
 	autosaveSizer->Add(autosaveCheckboxSizer, 1, wxEXPAND, 5);
 	globalSizer->Add(autosaveSizer, 0, wxBOTTOM | wxEXPAND | wxLEFT | wxRIGHT, 5);
