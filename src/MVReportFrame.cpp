@@ -42,6 +42,10 @@
 /*                              Constants                                  */
 /***************************************************************************/
 
+wxBEGIN_EVENT_TABLE(MVReportFrame, wxDialog)
+EVT_COMMAND(wxID_ANY, wxEVT_THREAD_JOB_COMPLETED, MVReportFrame::OnThreadEvent)
+wxEND_EVENT_TABLE()
+
 /***************************************************************************/
 /*                             Local types                                 */
 /***************************************************************************/
@@ -57,9 +61,6 @@
 /***************************************************************************/
 /*                              Functions                                  */
 /***************************************************************************/
-wxBEGIN_EVENT_TABLE(MVReportFrame, wxDialog) EVT_COMMAND(wxID_ANY, wxEVT_THREAD_JOB_COMPLETED, MVReportFrame::OnThreadEvent)
-EVT_BUTTON ( BUTTON_SaveAs, MVReportFrame::OnSaveAs )
-wxEND_EVENT_TABLE()
 
 MVReportFrame::MVReportFrame(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &pos, const wxSize &size, long style) :
 		wxDialog(parent, id, title, pos, size, style)
@@ -93,7 +94,7 @@ MVReportFrame::MVReportFrame(wxWindow *parent, wxWindowID id, const wxString &ti
 	MVReportGlobalSizer->Add(MVReportTextArea, 1, wxLEFT | wxRIGHT | wxTOP | wxEXPAND, 5);
 
 	wxBoxSizer *MVButtonSizer = new wxBoxSizer(wxHORIZONTAL);
-	wxButton *MVReportSaveButton = new wxButton(this, BUTTON_SaveAs, _("Save As..."));
+	MVReportSaveButton = new wxButton(this, wxID_ANY, _("Save As..."));
 	MVButtonSizer->Add(MVReportSaveButton, 0, wxLEFT | wxRIGHT | wxTOP | wxBOTTOM, 5);
 	MVReportGlobalSizer->Add(MVButtonSizer, 0, wxEXPAND, 5);
 
@@ -105,6 +106,7 @@ MVReportFrame::MVReportFrame(wxWindow *parent, wxWindowID id, const wxString &ti
 	// Connect Events
 	this->Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(MVReportFrame::MVReportFrameOnClose));
 	MVReportModelSelector->Connect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(MVReportFrame::MVModelOnSelect), NULL, this);
+	MVReportSaveButton->Connect(wxEVT_BUTTON, wxCommandEventHandler(MVReportFrame::OnSaveAs), NULL, this);
 
 	startThread();
 }
@@ -115,7 +117,7 @@ MVReportFrame::~MVReportFrame()
 	// Disconnect Events
 	this->Disconnect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(MVReportFrame::MVReportFrameOnClose));
 	MVReportModelSelector->Disconnect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(MVReportFrame::MVModelOnSelect), NULL, this);
-	// FIXME : delete all objects created in constructor
+	MVReportSaveButton->Disconnect(wxEVT_BUTTON, wxCommandEventHandler(MVReportFrame::OnSaveAs), NULL, this);
 	delete jobQueue;
 }
 
@@ -436,7 +438,6 @@ void MVReportFrame::OnSaveAs(wxCommandEvent&)
 			if (saveFileDialog.GetFilterIndex() == 1)
 			{
 				bool continueLoop;
-				int crPos;
 				do
 				{
 					continueLoop = false;
@@ -464,6 +465,5 @@ void MVReportFrame::OnSaveAs(wxCommandEvent&)
 	}
 
 	delete[] reportArray;
-
 }
 

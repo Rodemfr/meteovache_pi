@@ -1,159 +1,192 @@
+/***************************************************************************
+ *                                                                         *
+ * Project:  meteovache_pi                                                 *
+ * Purpose:  Weather forecast plugin for OpenCPN                           *
+ * Author:   Ronan Demoment                                                *
+ *                                                                         *
+ ***************************************************************************
+ *   Copyright (C) 2020 by Ronan Demoment                                  *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************
+ */
+
+/***************************************************************************/
+/*                              Includes                                   */
+/***************************************************************************/
+
+#include <stdint.h>
 #include <MVPrefDialog.h>
+#include <wx/dirdlg.h>
+
+/***************************************************************************/
+/*                              Constants                                  */
+/***************************************************************************/
+
+/***************************************************************************/
+/*                             Local types                                 */
+/***************************************************************************/
+
+/***************************************************************************/
+/*                               Globals                                   */
+/***************************************************************************/
+
+/***************************************************************************/
+/*                           Local prototypes                              */
+/***************************************************************************/
+
+/***************************************************************************/
+/*                              Functions                                  */
+/***************************************************************************/
 
 MVPrefDialog::MVPrefDialog(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &pos, const wxSize &size, long style) :
 		wxDialog(parent, id, title, pos, size, style)
 {
-	wxString windUnits[] = { _("kt"), _("bft"), _("m/s"), _("kph"), _("mph") };
-	wxString tempUnits[] = { _("Celsius"), _("Farenheit") };
+	wxString windUnits[] =
+	{ _("kt"), _("bft"), _("m/s"), _("kph"), _("mph") };
+	wxString tempUnits[] =
+	{ _("Celsius"), _("Farenheit") };
 
 	this->SetSizeHints(wxDefaultSize, wxDefaultSize);
 
-	wxBoxSizer *MVPrefGlobalSizer = new wxBoxSizer(wxVERTICAL);
+	wxBoxSizer *globalSizer = new wxBoxSizer(wxVERTICAL);
 
-	wxStaticBoxSizer *MVPrefUnitSizer = new wxStaticBoxSizer(wxVERTICAL, this, _("Units"));
+	// Unit configuration
+	wxStaticBoxSizer *unitSizer = new wxStaticBoxSizer(wxVERTICAL, this, _("Units"));
+	wxBoxSizer *windUnitSizer = new wxBoxSizer(wxHORIZONTAL);
+	windUnitLabel = new wxStaticText(unitSizer->GetStaticBox(), wxID_ANY, _("Wind unit"), wxDefaultPosition, wxDefaultSize, 0);
+	windUnitLabel->Wrap(-1);
+	windUnitSizer->Add(windUnitLabel, 1, wxALIGN_CENTER_VERTICAL | wxALL, 5);
+	windUnitSelection = new wxComboBox(unitSizer->GetStaticBox(), wxID_ANY, _("kt"), wxDefaultPosition, wxDefaultSize, 5, windUnits, 0);
+	windUnitSizer->Add(windUnitSelection, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
+	unitSizer->Add(windUnitSizer, 0, wxEXPAND, 5);
 
-	wxBoxSizer *MVPrefWindUnitSizer = new wxBoxSizer(wxHORIZONTAL);
-	MVPrefWindUnitLabel = new wxStaticText(MVPrefUnitSizer->GetStaticBox(), wxID_ANY, _("Wind unit"), wxDefaultPosition, wxDefaultSize, 0);
-	MVPrefWindUnitLabel->Wrap(-1);
-	MVPrefWindUnitSizer->Add(MVPrefWindUnitLabel, 1, wxALIGN_CENTER_VERTICAL | wxALL, 5);
-	WMPrefWindUnitBox = new wxComboBox(MVPrefUnitSizer->GetStaticBox(), wxID_ANY, _("kt"), wxDefaultPosition, wxDefaultSize, 5, windUnits, 0);
-	MVPrefWindUnitSizer->Add(WMPrefWindUnitBox, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
-	MVPrefUnitSizer->Add(MVPrefWindUnitSizer, 0, wxEXPAND, 5);
+	wxBoxSizer *tempUnitSizer = new wxBoxSizer(wxHORIZONTAL);
+	tempUnitLabel = new wxStaticText(unitSizer->GetStaticBox(), wxID_ANY, _("Temperature unit"), wxDefaultPosition, wxDefaultSize, 0);
+	tempUnitLabel->Wrap(-1);
+	tempUnitSizer->Add(tempUnitLabel, 1, wxALIGN_CENTER_VERTICAL | wxALL, 5);
+	tempUnitSelection = new wxComboBox(unitSizer->GetStaticBox(), wxID_ANY, _("Celsius"), wxDefaultPosition, wxDefaultSize, 2, tempUnits, 0);
+	tempUnitSizer->Add(tempUnitSelection, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
+	unitSizer->Add(tempUnitSizer, 0, wxEXPAND, 5);
+	unitSizer->Add(0, 1, wxEXPAND, 5);
+	globalSizer->Add(unitSizer, 0, wxALL | wxEXPAND, 5);
 
-	wxBoxSizer *MVPrefTempUnitSizer = new wxBoxSizer(wxHORIZONTAL);
-	MVPrefTempUnitLabel = new wxStaticText(MVPrefUnitSizer->GetStaticBox(), wxID_ANY, _("Temperature unit"), wxDefaultPosition, wxDefaultSize, 0);
-	MVPrefTempUnitLabel->Wrap(-1);
-	MVPrefTempUnitSizer->Add(MVPrefTempUnitLabel, 1, wxALIGN_CENTER_VERTICAL | wxALL, 5);
-	WMPrefTempUnitBox = new wxComboBox(MVPrefUnitSizer->GetStaticBox(), wxID_ANY, _("Celsius"), wxDefaultPosition, wxDefaultSize, 2, tempUnits, 0);
-	MVPrefTempUnitSizer->Add(WMPrefTempUnitBox, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
-	MVPrefUnitSizer->Add(MVPrefTempUnitSizer, 0, wxEXPAND, 5);
+	// Auto save configuration
+	wxStaticBoxSizer *autosaveSizer = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, wxT("Auto save")), wxVERTICAL);
+	wxBoxSizer *autosavePathSizer = new wxBoxSizer(wxHORIZONTAL);
+	autosavePathLabel = new wxStaticText(autosaveSizer->GetStaticBox(), wxID_ANY, wxT("Save directory"), wxDefaultPosition, wxDefaultSize, 0);
+	autosavePathLabel->Wrap(-1);
+	autosavePathSizer->Add(autosavePathLabel, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
+	autosavePathEdit = new wxTextCtrl(autosaveSizer->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
+	autosavePathSizer->Add(autosavePathEdit, 1, wxALIGN_CENTER_VERTICAL | wxALL, 5);
+	autosavePathEditButton = new wxButton(autosaveSizer->GetStaticBox(), wxID_ANY, wxT("..."), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT);
+	autosavePathSizer->Add(autosavePathEditButton, 0, wxALIGN_CENTER_VERTICAL, 5);
+	autosaveSizer->Add(autosavePathSizer, 0, wxEXPAND, 5);
 
-	wxBoxSizer *spacePadder1 = new wxBoxSizer(wxVERTICAL);
-	MVPrefUnitSizer->Add(spacePadder1, 1, wxEXPAND, 5);
+	wxBoxSizer *autosaveCheckboxSizer = new wxBoxSizer(wxHORIZONTAL);
+	autosaveCheckboxSizer->Add(0, 0, 1, wxEXPAND, 5);
+	autosaveEnableCheckbox = new wxCheckBox(autosaveSizer->GetStaticBox(), wxID_ANY, wxT("Enable"), wxDefaultPosition, wxDefaultSize, 0);
+	autosaveCheckboxSizer->Add(autosaveEnableCheckbox, 0, wxALL, 5);
+	autosaveColumnCheckbox = new wxCheckBox(autosaveSizer->GetStaticBox(), wxID_ANY, wxT("Column format"), wxDefaultPosition, wxDefaultSize, 0);
+	autosaveCheckboxSizer->Add(autosaveColumnCheckbox, 0, wxALL, 5);
+	autosaveCompressCheckbox = new wxCheckBox(autosaveSizer->GetStaticBox(), wxID_ANY, wxT("Compress with GZIP"), wxDefaultPosition, wxDefaultSize, 0);
+	autosaveCheckboxSizer->Add(autosaveCompressCheckbox, 0, wxALL, 5);
+	autosaveSizer->Add(autosaveCheckboxSizer, 1, wxEXPAND, 5);
+	globalSizer->Add(autosaveSizer, 0, wxBOTTOM | wxEXPAND | wxLEFT | wxRIGHT, 5);
 
-	MVPrefGlobalSizer->Add(MVPrefUnitSizer, 0, wxALL | wxEXPAND, 5);
+	// Server preferences
+	wxStaticBoxSizer *serverSizer = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, wxT("Server")), wxVERTICAL);
+	wxBoxSizer *serverPrefSizer = new wxBoxSizer(wxHORIZONTAL);
+	wxBoxSizer *serverLabelSizer = new wxBoxSizer(wxVERTICAL);
+	serverNameLabel = new wxStaticText(serverSizer->GetStaticBox(), wxID_ANY, wxT("Server name"), wxDefaultPosition, wxDefaultSize, 0);
+	serverNameLabel->Wrap(-1);
+	serverLabelSizer->Add(serverNameLabel, 1, wxALIGN_CENTER_VERTICAL | wxALL, 5);
+	serverPortLabel = new wxStaticText(serverSizer->GetStaticBox(), wxID_ANY, wxT("Server port"), wxDefaultPosition, wxDefaultSize, 0);
+	serverPortLabel->Wrap(-1);
+	serverLabelSizer->Add(serverPortLabel, 1, wxALIGN_CENTER_VERTICAL | wxALL, 5);
+	serverPrefSizer->Add(serverLabelSizer, 1, wxEXPAND, 5);
+	wxBoxSizer *serverPortSizer = new wxBoxSizer(wxVERTICAL);
+	serverNameEdit = new wxTextCtrl(serverSizer->GetStaticBox(), wxID_ANY, "meteovache.dyndns.org", wxDefaultPosition, wxDefaultSize, wxTE_RIGHT);
+	serverPortSizer->Add(serverNameEdit, 1, wxALIGN_CENTER_VERTICAL | wxALL | wxEXPAND, 5);
+	serverPortEdit = new wxTextCtrl(serverSizer->GetStaticBox(), wxID_ANY, "31837", wxDefaultPosition, wxDefaultSize, wxTE_RIGHT);
+	serverPortSizer->Add(serverPortEdit, 1, wxALIGN_CENTER_VERTICAL | wxALL | wxEXPAND, 5);
+	serverPrefSizer->Add(serverPortSizer, 3, wxEXPAND, 5);
+	serverSizer->Add(serverPrefSizer, 0, wxEXPAND, 5);
+	serverSizer->Add(0, 1, wxEXPAND, 5);
+	globalSizer->Add(serverSizer, 0, wxALL | wxEXPAND, 5);
+	globalSizer->Add(0, 1, wxEXPAND, 5);
 
-	wxStaticBoxSizer* sbSizer3;
-	sbSizer3 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, wxT("Auto save") ), wxVERTICAL );
+	serverNameEdit->Disable();
+	serverPortEdit->Disable();
 
-	wxBoxSizer* bSizer7;
-	bSizer7 = new wxBoxSizer( wxHORIZONTAL );
+	// Standard buttons
+	wxStdDialogButtonSizer *stdButtonsSizer = new wxStdDialogButtonSizer();
+	wxButton *prefOkButton = new wxButton(this, wxID_OK);
+	stdButtonsSizer->AddButton(prefOkButton);
+	wxButton *prefCancelButton = new wxButton(this, wxID_CANCEL, _("Cancel"));
+	stdButtonsSizer->AddButton(prefCancelButton);
+	stdButtonsSizer->Realize();
+	globalSizer->Add(stdButtonsSizer, 0, wxBOTTOM, 5);
 
-	m_staticText5 = new wxStaticText( sbSizer3->GetStaticBox(), wxID_ANY, wxT("Save directory"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText5->Wrap( -1 );
-	bSizer7->Add( m_staticText5, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
-
-	m_textCtrl3 = new wxTextCtrl( sbSizer3->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer7->Add( m_textCtrl3, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
-
-	m_button1 = new wxButton( sbSizer3->GetStaticBox(), wxID_ANY, wxT("..."), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT );
-	bSizer7->Add( m_button1, 0, wxALIGN_CENTER_VERTICAL, 5 );
-
-
-	sbSizer3->Add( bSizer7, 0, wxEXPAND, 5 );
-
-	wxBoxSizer* bSizer8;
-	bSizer8 = new wxBoxSizer( wxHORIZONTAL );
-
-
-	bSizer8->Add( 0, 0, 1, wxEXPAND, 5 );
-
-	m_checkBox1 = new wxCheckBox( sbSizer3->GetStaticBox(), wxID_ANY, wxT("Column format"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_checkBox1->SetValue(true);
-	bSizer8->Add( m_checkBox1, 0, wxALL, 5 );
-
-	m_checkBox3 = new wxCheckBox( sbSizer3->GetStaticBox(), wxID_ANY, wxT("Compress with GZIP"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer8->Add( m_checkBox3, 0, wxALL, 5 );
-
-
-	sbSizer3->Add( bSizer8, 1, wxEXPAND, 5 );
-
-	MVPrefGlobalSizer->Add( sbSizer3, 0, wxBOTTOM|wxEXPAND|wxLEFT|wxRIGHT, 5 );
-
-	wxStaticBoxSizer *MVPrefServerSizer = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, wxT("Server")), wxVERTICAL);
-	wxBoxSizer *MVPrefServerPrefSizer = new wxBoxSizer(wxHORIZONTAL);
-
-	wxBoxSizer *MVPrefServerLabelSizer = new wxBoxSizer(wxVERTICAL);
-	MVPrefServerNameLabel = new wxStaticText(MVPrefServerSizer->GetStaticBox(), wxID_ANY, wxT("Server name"), wxDefaultPosition, wxDefaultSize, 0);
-	MVPrefServerNameLabel->Wrap(-1);
-	MVPrefServerLabelSizer->Add(MVPrefServerNameLabel, 1, wxALIGN_CENTER_VERTICAL | wxALL, 5);
-	MVPrefServerPortLabel = new wxStaticText(MVPrefServerSizer->GetStaticBox(), wxID_ANY, wxT("Server port"), wxDefaultPosition, wxDefaultSize, 0);
-	MVPrefServerPortLabel->Wrap(-1);
-	MVPrefServerLabelSizer->Add(MVPrefServerPortLabel, 1, wxALIGN_CENTER_VERTICAL | wxALL, 5);
-
-	MVPrefServerPrefSizer->Add(MVPrefServerLabelSizer, 1, wxEXPAND, 5);
-
-	wxBoxSizer *MVPrefServerPortSizer;
-	MVPrefServerPortSizer = new wxBoxSizer(wxVERTICAL);
-
-	MVPrefServerNameEdit = new wxTextCtrl(MVPrefServerSizer->GetStaticBox(), wxID_ANY, "meteovache.dyndns.org", wxDefaultPosition, wxDefaultSize,
-	wxTE_RIGHT);
-	MVPrefServerPortSizer->Add(MVPrefServerNameEdit, 1, wxALIGN_CENTER_VERTICAL | wxALL | wxEXPAND, 5);
-
-	MVPrefServerPortEdit = new wxTextCtrl(MVPrefServerSizer->GetStaticBox(), wxID_ANY, "31837", wxDefaultPosition, wxDefaultSize,
-	wxTE_RIGHT);
-	MVPrefServerPortSizer->Add(MVPrefServerPortEdit, 1, wxALIGN_CENTER_VERTICAL | wxALL | wxEXPAND, 5);
-
-	MVPrefServerPrefSizer->Add(MVPrefServerPortSizer, 3, wxEXPAND, 5);
-
-	MVPrefServerSizer->Add(MVPrefServerPrefSizer, 0, wxEXPAND, 5);
-
-	wxBoxSizer *spacePadder2 = new wxBoxSizer(wxVERTICAL);
-
-	MVPrefServerSizer->Add(spacePadder2, 1, wxEXPAND, 5);
-
-	MVPrefGlobalSizer->Add(MVPrefServerSizer, 0, wxALL | wxEXPAND, 5);
-
-	wxBoxSizer *spacePadder3 = new wxBoxSizer(wxVERTICAL);
-	MVPrefGlobalSizer->Add(spacePadder3, 1, wxEXPAND, 5);
-
-	wxStdDialogButtonSizer *MVPrefStdButtonsSizer = new wxStdDialogButtonSizer();
-	wxButton *MVPrefOkButton = new wxButton(this, wxID_OK);
-	MVPrefStdButtonsSizer->AddButton(MVPrefOkButton);
-	wxButton *MVPrefCancelButton = new wxButton(this, wxID_CANCEL, _("Cancel"));
-	MVPrefStdButtonsSizer->AddButton(MVPrefCancelButton);
-	MVPrefStdButtonsSizer->Realize();
-	MVPrefGlobalSizer->Add(MVPrefStdButtonsSizer, 0, wxBOTTOM, 5);
-
-	this->SetSizer(MVPrefGlobalSizer);
+	this->SetSizer(globalSizer);
 	this->Layout();
-	MVPrefGlobalSizer->Fit(this);
-
-	MVPrefServerNameEdit->Disable();
-	MVPrefServerPortEdit->Disable();
+	globalSizer->Fit(this);
 
 	this->Centre(wxBOTH);
+
+	autosavePathEditButton->Connect(wxEVT_BUTTON, wxCommandEventHandler(MVPrefDialog::onAutosavePathBrowse), NULL, this);
 }
 
 MVPrefDialog::~MVPrefDialog()
 {
 }
 
-void MVPrefDialog::SetPreferences(wxString windUnitString, wxString tempUnitString)
+void MVPrefDialog::SetUnitPreferences(wxString windUnitString, wxString tempUnitString)
 {
-	WMPrefWindUnitBox->SetStringSelection(_(windUnitString));
-	WMPrefTempUnitBox->SetStringSelection(_(tempUnitString));
+	windUnitSelection->SetStringSelection(_(windUnitString));
+	tempUnitSelection->SetStringSelection(_(tempUnitString));
+}
+
+void MVPrefDialog::SetAutosavePreferences(wxString path, bool enable, bool column, bool compress)
+{
+	autosavePathEdit->SetValue(path);
+	autosaveEnableCheckbox->SetValue(enable);
+	autosaveColumnCheckbox->SetValue(column);
+	autosaveCompressCheckbox->SetValue(compress);
 }
 
 wxString MVPrefDialog::GetWindUnitString()
 {
-	wxString translatedUnit = WMPrefWindUnitBox->GetStringSelection();
+	wxString translatedUnit = windUnitSelection->GetStringSelection();
 
 	if (translatedUnit.IsSameAs(_("kt")))
 	{
-		return("kt");
+		return ("kt");
 	} else if (translatedUnit.IsSameAs(_("bft")))
 	{
-		return("bft");
+		return ("bft");
 	} else if (translatedUnit.IsSameAs(_("m/s")))
 	{
-		return("m/s");
+		return ("m/s");
 	} else if (translatedUnit.IsSameAs(_("kph")))
 	{
-		return("kph");
+		return ("kph");
 	} else if (translatedUnit.IsSameAs(_("mph")))
 	{
-		return("mph");
+		return ("mph");
 	}
 
 	return ("kt");
@@ -161,15 +194,45 @@ wxString MVPrefDialog::GetWindUnitString()
 
 wxString MVPrefDialog::GetTempUnitString()
 {
-	wxString translatedUnit = WMPrefTempUnitBox->GetStringSelection();
+	wxString translatedUnit = tempUnitSelection->GetStringSelection();
 
 	if (translatedUnit.IsSameAs(_("Celsius")))
 	{
-		return("Celsius");
+		return ("Celsius");
 	} else if (translatedUnit.IsSameAs(_("Farenheit")))
 	{
-		return("Farenheit");
+		return ("Farenheit");
 	}
 
 	return ("Celsius");
+}
+
+wxString MVPrefDialog::GetAutosavePath()
+{
+	return (autosavePathEdit->GetValue());
+}
+
+bool MVPrefDialog::GetAutosaveEnable()
+{
+	return (autosaveEnableCheckbox->GetValue());
+}
+
+bool MVPrefDialog::GetAutosaveColumn()
+{
+	return (autosaveColumnCheckbox->GetValue());
+}
+
+bool MVPrefDialog::GetAutosaveCompress()
+{
+	return (autosaveCompressCheckbox->GetValue());
+}
+
+void MVPrefDialog::onAutosavePathBrowse(wxCommandEvent&)
+{
+	wxDirDialog selectDirDialog(NULL, _("Select automatic save directory"), autosavePathEdit->GetValue(), wxDD_DEFAULT_STYLE | wxDD_DIR_MUST_EXIST);
+
+	if (selectDirDialog.ShowModal() == wxID_OK)
+	{
+		autosavePathEdit->SetValue(selectDirDialog.GetPath());
+	}
 }

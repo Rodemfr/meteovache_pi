@@ -51,11 +51,6 @@
 /*                              Constants                                  */
 /***************************************************************************/
 
- enum
- {
-   BUTTON_SaveAs = wxID_HIGHEST + 1
- };
-
 /***************************************************************************/
 /*                                Types                                    */
 /***************************************************************************/
@@ -70,6 +65,7 @@ private:
 	wxStaticText *MVReportModelLabel;
 	wxComboBox *MVReportModelSelector;
 	wxTextCtrl *MVReportTextArea;
+	wxButton *MVReportSaveButton;
 	MeteoVacheThread *workerThread;
 	SpotForecasts spotForecast;
 	JobQueue *jobQueue;

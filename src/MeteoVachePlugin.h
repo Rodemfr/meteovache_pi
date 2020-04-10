@@ -55,6 +55,18 @@
 /*                                Types                                    */
 /***************************************************************************/
 
+typedef struct {
+	int windowWidth, windowHeight; // Current report window size
+	int windowXPos, windowYPos;    // Current report window position
+	wxString selectedModelName;    // Currently selected weather model
+	wxString windUnitString;       // String of the wind unit to use
+	wxString tempUnitString;       // String of the temperature unit to use
+	wxString autosavePath;         // Path where to automatically save weather reports
+	bool autosaveEnable;           // Enable autosave
+	bool autosaveColumn;           // Enable column format for autosaved reports
+	bool autoSaveCompress;         // Enable compression for autosaved reports
+} configData_t;
+
 /***************************************************************************/
 /*                               Classes                                   */
 /***************************************************************************/
@@ -96,11 +108,7 @@ private:
 	wxMenuItem *contextMenu;       // Pointer to plug-in context menu item object
 	float cursorLat, cursorLon;    // Latest known position of the mouse cursor
 	wxFileConfig *ocpnConfig;      // Pointer to the OpenCPN configuration object
-	int windowWidth, windowHeight; // Current report window size
-	int windowXPos, windowYPos;    // Current report window position
-	wxString selectedModelName;    // Currently selected weather model
-	wxString windUnitString;       // String of the wind unit to use
-	wxString tempUnitString;       // String of the temperature unit to use
+	configData_t pluginConfig;     // Configuration of the plug-in
 
 	bool LoadConfig(void);
 	bool SaveConfig(void);

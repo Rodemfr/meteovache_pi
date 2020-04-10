@@ -21,27 +21,34 @@
 class MVPrefDialog: public wxDialog
 {
 protected:
-	wxStaticText *MVPrefWindUnitLabel;
-	wxComboBox *WMPrefWindUnitBox;
-	wxStaticText *MVPrefTempUnitLabel;
-	wxComboBox *WMPrefTempUnitBox;
-	wxStaticText *MVPrefServerNameLabel;
-	wxStaticText *MVPrefServerPortLabel;
-	wxTextCtrl *MVPrefServerNameEdit;
-	wxTextCtrl *MVPrefServerPortEdit;
-	wxStaticText* m_staticText5;
-	wxTextCtrl* m_textCtrl3;
-	wxButton* m_button1;
-	wxCheckBox* m_checkBox1;
-	wxCheckBox* m_checkBox3;
+	wxStaticText *windUnitLabel;
+	wxComboBox *windUnitSelection;
+	wxStaticText *tempUnitLabel;
+	wxComboBox *tempUnitSelection;
+	wxStaticText *serverNameLabel;
+	wxStaticText *serverPortLabel;
+	wxTextCtrl *serverNameEdit;
+	wxTextCtrl *serverPortEdit;
+	wxStaticText *autosavePathLabel;
+	wxTextCtrl *autosavePathEdit;
+	wxButton *autosavePathEditButton;
+	wxCheckBox *autosaveEnableCheckbox;
+	wxCheckBox *autosaveColumnCheckbox;
+	wxCheckBox *autosaveCompressCheckbox;
 
 public:
 	MVPrefDialog(wxWindow *parent, wxWindowID id = wxID_ANY, const wxString &title = wxEmptyString, const wxPoint &pos = wxDefaultPosition, const wxSize &size =
 			wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE);
 	~MVPrefDialog();
-	void SetPreferences(wxString windUnitString, wxString tempUnitString);
+	void SetUnitPreferences(wxString windUnitString, wxString tempUnitString);
+	void SetAutosavePreferences(wxString path, bool enable, bool column, bool compress);
 	wxString GetWindUnitString();
 	wxString GetTempUnitString();
+	wxString GetAutosavePath();
+	bool GetAutosaveEnable();
+	bool GetAutosaveColumn();
+	bool GetAutosaveCompress();
+	void onAutosavePathBrowse(wxCommandEvent&);
 };
 
 #endif //_MVPREFDIALOG_H_
