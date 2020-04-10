@@ -8,10 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-10 18:01+0200\n"
+"POT-Creation-Date: 2020-04-10 19:49+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -118,8 +119,7 @@ msgstr ""
 msgid "S"
 msgstr ""
 
-#: src/MVReportFrame.cpp:386 src/MVReportFrame.cpp:427
-#: src/MVReportFrame.cpp:443
+#: src/MVReportFrame.cpp:386 src/MVReportFrame.cpp:427 src/MVReportFrame.cpp:443
 msgid "N"
 msgstr ""
 

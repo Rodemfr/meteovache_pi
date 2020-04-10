@@ -25,15 +25,24 @@ This program is distributed under the terms of the GPL v2. - see the [gpl.txt](c
 
 ## Download
 
-Latest release is v0.3
+Latest release is v0.4
 
 Pre-compiled binaries and source code are available here :
 
-https://github.com/Rodemfr/meteovache_pi/releases/tag/v0.3
+https://github.com/Rodemfr/meteovache_pi/releases/tag/v0.4
 
 Installer is only available for Windows OS. On Linux, you have to uncompress archives manually and to copy the various files in OpenCPN install directory. Archives have been made so that the folder structure inside OpenCPN install directory is preserved.
 
+## Acknowledgments
+
+* Thanks to @OpenCPN team for providing a comprehensive set of templates and examples to develop plug-ins and to maintain this wonderful Open Source application.
+
 ## Release history
+
+**v0.4**
+* Added a button to manually save weather forecast in a test file (normal or column format)
+* Added options in the preference panel to enable automatic save of requested forecast (normal, column, with or without ZIP compression)
+* Plug-in now compiles standalone
 
 **v0.3**
 * Added a preference panel with the possibility to change display units
@@ -44,8 +53,4 @@ Installer is only available for Windows OS. On Linux, you have to uncompress arc
 
 **v0.2.1**
 * First binary release for Windows x86 and Linux x64
-
-## Acknowledgments
-
-* Thanks to @OpenCPN team for providing a comprehensive set of templates and examples to develop plug-ins and to maintain this wonderful Open Source application.
 
