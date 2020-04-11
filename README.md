@@ -8,10 +8,10 @@ meteovache_pi is a small weather plug-in for OpenCPN. It provides weather foreca
 
 meteovache_pi provides weather forecasts based on the following meteorological models :
 
-- "AROME" : high resolution model (0.05°) from [Météo France](http://www.meteofrance.com) (Coverage : France)
-- "ARPEGE HD" : regional model (0.1°) from [Météo France](http://www.meteofrance.com) (Coverage : Europe)
-- "ICON EU" : regional model (0.125°) from [Deutscher Wetterdienst](https://www.dwd.de/EN) (Coverage Europe)
-- "ARPEGE" : global model (0.5°) from [Météo France](http://www.meteofrance.com) (Coverage : World)
+- "Arome" : high resolution model (0.05°) from [Météo France](http://www.meteofrance.com) (Coverage : France)
+- "Arpege HD" : regional model (0.1°) from [Météo France](http://www.meteofrance.com) (Coverage : Europe)
+- "Icon Eu" : regional model (0.125°) from [Deutscher Wetterdienst](https://www.dwd.de/EN) (Coverage Europe)
+- "Arpege" : global model (0.5°) from [Météo France](http://www.meteofrance.com) (Coverage : World)
 
 meteovache_pi needs an Internet connection to retrieve weather data from MeteoVache server. It has been specifically designed to minimize the amount of data required to get a forecast at a given location. A typical request weights between 1 and 1.5kb, making it suitable for very low bandwidth Internet connections like Edge GSM.
 
@@ -42,7 +42,7 @@ Installer is only available for Windows OS. On Linux, you have to uncompress arc
 **v0.4**
 * Added a button to manually save weather forecast in a test file (normal or column format)
 * Added options in the preference panel to enable automatic save of requested forecast (normal, column, with or without ZIP compression)
-* Plug-in now compiles standalone
+* Added experimental ARMHF build for Raspberry PI (untested, may not work at all)
 
 **v0.3**
 * Added a preference panel with the possibility to change display units
