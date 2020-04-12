@@ -91,22 +91,11 @@ MeteoVachePlugin::MeteoVachePlugin(void *pluginManager) :
 	contextMenu = nullptr;
 	cursorLat = 0.0f;
 	cursorLon = 0.0f;
-	ocpnConfig = nullptr;
-	pluginConfig.windowWidth = 500;
-	pluginConfig.windowHeight = 500;
-	pluginConfig.windowXPos = 500;
-	pluginConfig.windowYPos = 500;
 
 	// Create bitmap of the plug-in icon
 	initialize_images();
 	mvPluginIcon = _img_meteovache_pi;
 	mvToolbarIcon = _img_meteovache_tb;
-
-	pluginConfig.windUnitString = "kt";
-	pluginConfig.tempUnitString = "C";
-
-	wxStandardPaths standardPaths = wxStandardPaths::Get();
-	pluginConfig.autosavePath = standardPaths.GetDocumentsDir();
 }
 
 MeteoVachePlugin::~MeteoVachePlugin()
@@ -126,8 +115,8 @@ int MeteoVachePlugin::Init(void)
 	WANTS_PREFERENCES);
 
 	// Load configuration from OpenCPN configuration interface
-	ocpnConfig = GetOCPNConfigObject();
-	LoadConfig();
+	config.setConfigObject(GetOCPNConfigObject());
+	config.LoadConfig();
 
 	// plug-in icon for the plug-in manager
 	toolBarIconId = InsertPlugInTool(_("MeteoVache"), mvPluginIcon, mvPluginIcon, wxITEM_NORMAL, _("MeteoVache"), _("MeteoVache plug-in"),
@@ -146,18 +135,11 @@ int MeteoVachePlugin::Init(void)
 
 	// Create the weather report window
 	ocpnParentWindow = GetOCPNCanvasWindow();
-	weatherReportFrame = new MVReportFrame(ocpnParentWindow, wxID_ANY, wxString(_("MeteoVache")), wxPoint(pluginConfig.windowXPos, pluginConfig.windowYPos),
-			wxSize(pluginConfig.windowWidth, pluginConfig.windowHeight),
+	weatherReportFrame = new MVReportFrame(ocpnParentWindow, &config, wxID_ANY, wxString(_("MeteoVache")), wxPoint(config.windowXPos, config.windowYPos),
+			wxSize(config.windowWidth, config.windowHeight),
 			wxDEFAULT_FRAME_STYLE);
-	weatherReportFrame->SetPosition(wxPoint(pluginConfig.windowXPos, pluginConfig.windowYPos));
+	weatherReportFrame->SetPosition(wxPoint(config.windowXPos, config.windowYPos));
 	weatherReportFrame->SetReportText(wxString(_("Right click on the map and select \"Weather forecast\" to get forecast at this point.")));
-	weatherReportFrame->SetSelectedModelName(pluginConfig.selectedModelName);
-	weatherReportFrame->SetWindUnitString(pluginConfig.windUnitString);
-	weatherReportFrame->SetTempUnitString(pluginConfig.tempUnitString);
-	weatherReportFrame->SetTimeZoneString(pluginConfig.timeZoneString);
-	weatherReportFrame->SetAutosavePreferences(pluginConfig.autosavePath, pluginConfig.autosaveEnable, pluginConfig.autosaveColumn, pluginConfig.autoSaveCompress);
-	weatherReportFrame->SetManualSavePath(pluginConfig.manualSavePath);
-	weatherReportFrame->SetManualSaveFormat(pluginConfig.manualSaveFormat);
 
 	return plugInFlags;
 }
@@ -165,7 +147,8 @@ int MeteoVachePlugin::Init(void)
 bool MeteoVachePlugin::DeInit(void)
 {
 	// Save configuration to OpenCPN configuration interface
-	SaveConfig();
+	weatherReportFrame->UpdateConfig();
+	config.SaveConfig();
 
 	// Delete every allocated object
 	delete weatherReportFrame;
@@ -249,83 +232,17 @@ void MeteoVachePlugin::SetCursorLatLon(double lat, double lon)
 	cursorLon = (float) lon;
 }
 
-bool MeteoVachePlugin::LoadConfig(void)
-{
-	wxFileConfig *pConf = (wxFileConfig*) ocpnConfig;
-
-	if (pConf)
-	{
-		pConf->SetPath("/Settings/MeteoVache");
-		pConf->Read("WindowWidth", &(pluginConfig.windowWidth), 500);
-		pConf->Read("WindowHeight", &(pluginConfig.windowHeight), 500);
-		pConf->Read("WindowXPos", &(pluginConfig.windowXPos), 250);
-		pConf->Read("WindowYPos", &(pluginConfig.windowYPos), 250);
-		pConf->Read("ModelName", &(pluginConfig.selectedModelName), "");
-		pConf->Read("WindUnitString", &(pluginConfig.windUnitString), "kt");
-		pConf->Read("TempUnitString", &(pluginConfig.tempUnitString), "C");
-		pConf->Read("TimeZoneString", &(pluginConfig.timeZoneString), "Local / system");
-		pConf->Read("AutoSavePath", &(pluginConfig.autosavePath), pluginConfig.autosavePath);
-		pConf->Read("AutoSaveEnable", &(pluginConfig.autosaveEnable), false);
-		pConf->Read("AutoSaveColumn", &(pluginConfig.autosaveColumn), false);
-		pConf->Read("AutoSaveCompress", &(pluginConfig.autoSaveCompress), true);
-		pConf->Read("ManualSavePath", &(pluginConfig.manualSavePath), "");
-		pConf->Read("ManualSaveFormat", &(pluginConfig.manualSaveFormat), 0);
-
-		return true;;
-	} else
-		return false;
-}
-
-bool MeteoVachePlugin::SaveConfig(void)
-{
-	wxFileConfig *pConf = (wxFileConfig*) ocpnConfig;
-
-	if (pConf)
-	{
-		pConf->SetPath("/Settings/MeteoVache");
-		pConf->Write("WindowWidth", weatherReportFrame->GetSize().x);
-		pConf->Write("WindowHeight", weatherReportFrame->GetSize().y);
-		pConf->Write("WindowXPos", weatherReportFrame->GetPosition().x);
-		pConf->Write("WindowYPos", weatherReportFrame->GetPosition().y);
-		pConf->Write("ModelName", weatherReportFrame->GetSelectedModelName());
-		pConf->Write("WindUnitString", pluginConfig.windUnitString);
-		pConf->Write("TempUnitString", pluginConfig.tempUnitString);
-		pConf->Write("TimeZoneString", pluginConfig.timeZoneString);
-		pConf->Write("AutoSavePath", pluginConfig.autosavePath);
-		pConf->Write("AutoSaveEnable", pluginConfig.autosaveEnable);
-		pConf->Write("AutoSaveColumn", pluginConfig.autosaveColumn);
-		pConf->Write("AutoSaveCompress", pluginConfig.autoSaveCompress);
-		pConf->Write("ManualSavePath", weatherReportFrame->GetManualSavePath());
-		pConf->Write("ManualSaveFormat", weatherReportFrame->GetManualSaveFormat());
-		return true;
-	} else
-		return false;
-}
-
 void MeteoVachePlugin::ShowPreferencesDialog(wxWindow *parent)
 {
-	MVPrefDialog *prefDialog = new MVPrefDialog(parent, wxID_ANY, _("MeteoVache preferences"), wxDefaultPosition, wxDefaultSize,
+	MVPrefDialog *prefDialog = new MVPrefDialog(parent, &config, wxID_ANY, _("MeteoVache preferences"), wxDefaultPosition, wxDefaultSize,
 	wxDEFAULT_DIALOG_STYLE);
 
-	prefDialog->SetUnitPreferences(pluginConfig.windUnitString, pluginConfig.tempUnitString);
-	prefDialog->SetDisplayPreferences(pluginConfig.timeZoneString);
-	prefDialog->SetAutosavePreferences(pluginConfig.autosavePath, pluginConfig.autosaveEnable, pluginConfig.autosaveColumn, pluginConfig.autoSaveCompress);
 	prefDialog->Fit();
 	prefDialog->Layout();
 
 	if (prefDialog->ShowModal() == wxID_OK)
 	{
-		pluginConfig.windUnitString = prefDialog->GetWindUnitString();
-		pluginConfig.tempUnitString = prefDialog->GetTempUnitString();
-		pluginConfig.timeZoneString = prefDialog->GetTimeZoneString();
-		weatherReportFrame->SetWindUnitString(pluginConfig.windUnitString);
-		weatherReportFrame->SetTempUnitString(pluginConfig.tempUnitString);
-		weatherReportFrame->SetTimeZoneString(pluginConfig.timeZoneString);
-		pluginConfig.autosavePath = prefDialog->GetAutosavePath();
-		pluginConfig.autosaveEnable = prefDialog->GetAutosaveEnable();
-		pluginConfig.autosaveColumn = prefDialog->GetAutosaveColumn();
-		pluginConfig.autoSaveCompress = prefDialog->GetAutosaveCompress();
-		weatherReportFrame->SetAutosavePreferences(pluginConfig.autosavePath, pluginConfig.autosaveEnable, pluginConfig.autosaveColumn, pluginConfig.autoSaveCompress);
+		prefDialog->UpdateConfig();
 	}
 
 	delete prefDialog;

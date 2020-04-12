@@ -24,32 +24,19 @@
  ***************************************************************************
  */
 
-#ifndef _METEOVACHEPLUGIN_H_
-#define _METEOVACHEPLUGIN_H_
+#ifndef _CONFIGCONTAINER_H_
+#define _CONFIGCONTAINER_H_
 
 /***************************************************************************/
 /*                              Includes                                   */
 /***************************************************************************/
 
-#include <wx/wxprec.h>
-#ifndef  WX_PRECOMP
 #include <wx/wx.h>
-#endif
-
-#include <version.h>
-#include <wxWTranslateCatalog.h>
-#include <ocpn_plugin.h>
-
-#include <MVReportFrame.h>
-#include <ConfigContainer.h>
+#include <wx/fileconf.h>
 
 /***************************************************************************/
 /*                              Constants                                  */
 /***************************************************************************/
-
-// This plug-in uses OpenCPN Plug-in API v1.8
-#define PI_API_VERSION_MAJOR 1
-#define PI_API_VERSION_MINOR 8
 
 /***************************************************************************/
 /*                                Types                                    */
@@ -59,43 +46,31 @@
 /*                               Classes                                   */
 /***************************************************************************/
 
-class MeteoVachePlugin: public opencpn_plugin_18
+class ConfigContainer
 {
-public:
-	MeteoVachePlugin(void *ppimgr);
-	~MeteoVachePlugin();
-
-	// The required PlugIn Methods
-	int Init(void);
-	bool DeInit(void);
-	void ShowPreferencesDialog(wxWindow *parent);
-
-	int GetAPIVersionMajor();
-	int GetAPIVersionMinor();
-	int GetPlugInVersionMajor();
-	int GetPlugInVersionMinor();
-	wxBitmap* GetPlugInBitmap();
-	wxString GetCommonName();
-	wxString GetShortDescription();
-	wxString GetLongDescription();
-
-	void OnToolbarToolCallback(int id);
-	int GetToolbarToolCount(void);
-	void OnContextMenuItemCallback(int id);
-	void SetCursorLatLon(double lat, double lon);
-
-	wxString m_shareLocn;
-	MVReportFrame *weatherReportFrame;
-
 private:
-	wxBitmap *mvPluginIcon;        // Plug-in icon for the plug-in manager (bright background)
-	wxBitmap *mvToolbarIcon;       // plug-in icon for the tool-bar (dark background)
-	int toolBarIconId;             // Id of the plug-in icon in the tool-bar
-	int contextMenuId;             // Id of the plug-in item in context menu
-	wxWindow *ocpnParentWindow;    // Pointer to the OpenCPN parent window
-	wxMenuItem *contextMenu;       // Pointer to plug-in context menu item object
-	float cursorLat, cursorLon;    // Latest known position of the mouse cursor
-	ConfigContainer config;     // Configuration of the plug-in
+	wxFileConfig *configObject;    // Pointer to the OpenCPN configuration object
+
+public:
+	int windowWidth, windowHeight; // Current report window size
+	int windowXPos, windowYPos;    // Current report window position
+	wxString selectedModelName;    // Currently selected weather model
+	wxString windUnitString;       // String of the wind unit to use
+	wxString tempUnitString;       // String of the temperature unit to use
+	wxString timeZoneString;       // Selected time zone for display
+	wxString autosavePath;         // Path where to automatically save weather reports
+	bool autoSaveEnable;           // Enable autosave
+	bool autoSaveColumn;           // Enable column format for autosaved reports
+	bool autoSaveCompress;         // Enable compression for autosaved reports
+	wxString manualSavePath;       // Last used path for manual saving
+	int manualSaveFormat;          // Last used format for manual saving
+
+	ConfigContainer();
+	virtual ~ConfigContainer();
+
+	void setConfigObject(wxFileConfig *configObject);
+	bool LoadConfig(void);
+	bool SaveConfig(void);
 };
 
-#endif
+#endif /* _CONFIGCONTAINER_H_ */

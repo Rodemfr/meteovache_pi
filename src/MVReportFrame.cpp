@@ -66,12 +66,13 @@ wxEND_EVENT_TABLE()
 /*                              Functions                                  */
 /***************************************************************************/
 
-MVReportFrame::MVReportFrame(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &pos, const wxSize &size, long style) :
+MVReportFrame::MVReportFrame(wxWindow *parent, ConfigContainer *config, wxWindowID id, const wxString &title, const wxPoint &pos, const wxSize &size,
+		long style) :
 		wxDialog(parent, id, title, pos, size, style)
 {
+	this->config = config;
 	progressCount = 0;
 	workerThread = nullptr;
-	windUnitString = _("kt");
 
 	jobQueue = new JobQueue(GetEventHandler());
 
@@ -135,44 +136,19 @@ void MVReportFrame::OnClose(wxCloseEvent &event)
 
 void MVReportFrame::OnModelSelect(wxCommandEvent &event)
 {
-	selectedString = modelSelector->GetStringSelection();
+	config->selectedModelName = modelSelector->GetStringSelection();
 	SetReportText(PrintWeatherReport(modelSelector->GetSelection()));
 	Show();
 	Layout();
 	event.WasProcessed();
 }
 
-void MVReportFrame::SetManualSavePath(wxString path)
+void MVReportFrame::UpdateConfig()
 {
-	manualSavePath = path;
-}
-
-void MVReportFrame::SetManualSaveFormat(int format)
-{
-	manualSaveFormat = format;
-}
-
-void MVReportFrame::SetTimeZoneString(wxString timeZoneString)
-{
-	this->timeZoneString = timeZoneString;
-}
-
-wxString MVReportFrame::GetManualSavePath()
-{
-	return (manualSavePath);
-}
-
-int MVReportFrame::GetManualSaveFormat()
-{
-	return (manualSaveFormat);
-}
-
-void MVReportFrame::SetAutosavePreferences(wxString path, bool enable, bool column, bool compress)
-{
-	autosavePath = path;
-	autosaveEnable = enable;
-	autosaveColumn = column;
-	autosaveCompress = compress;
+	config->windowXPos = this->GetPosition().x;
+	config->windowYPos = this->GetPosition().y;
+	config->windowWidth = this->GetSize().x;
+	config->windowHeight = this->GetSize().y;
 }
 
 void MVReportFrame::SetReportText(const wxString &text)
@@ -226,12 +202,12 @@ void MVReportFrame::OnThreadEvent(wxCommandEvent &evt)
 			if (i == 0)
 			{
 				modelSelector->SetSelection(0);
-			} else if (newString.IsSameAs(selectedString))
+			} else if (newString.IsSameAs(config->selectedModelName))
 			{
 				modelSelector->SetSelection(i);
 			}
 		}
-		selectedString = modelSelector->GetStringSelection();
+		config->selectedModelName = modelSelector->GetStringSelection();
 		SetReportText(PrintWeatherReport(modelSelector->GetSelection()));
 		AutoSaveReport();
 		Show();
@@ -253,19 +229,19 @@ void MVReportFrame::OnThreadEvent(wxCommandEvent &evt)
 
 void MVReportFrame::AutoSaveReport()
 {
-	if (autosaveEnable)
+	if (config->autoSaveEnable)
 	{
 		wxString fileReport;
-		if (autosaveColumn)
+		if (config->autoSaveColumn)
 		{
 			fileReport = PrintWeatherColumnReports();
 		} else
 		{
 			fileReport = PrintWeatherReports();
 		}
-		if (autosaveCompress)
+		if (config->autoSaveCompress)
 		{
-			wxFileOutputStream outputStream(autosavePath + wxFileName::GetPathSeparator() + GetReportBaseName() + ".zip");
+			wxFileOutputStream outputStream(config->autosavePath + wxFileName::GetPathSeparator() + GetReportBaseName() + ".zip");
 			if (outputStream.IsOk())
 			{
 				wxZipOutputStream zipStream(outputStream);
@@ -277,7 +253,7 @@ void MVReportFrame::AutoSaveReport()
 			}
 		} else
 		{
-			wxFileOutputStream outputStream(autosavePath + wxFileName::GetPathSeparator() + GetReportBaseName() + ".txt");
+			wxFileOutputStream outputStream(config->autosavePath + wxFileName::GetPathSeparator() + GetReportBaseName() + ".txt");
 			if (outputStream.IsOk())
 			{
 				outputStream.Write(fileReport.ToUTF8(), fileReport.length());
@@ -306,7 +282,7 @@ wxString MVReportFrame::PrintWeatherReport(int modelIndex)
 	modelInfo = modelInfo.Append(wxString::Format("%-20s%s\n", _("Model") + " : ", forecast->getModelName()));
 	modelInfo = modelInfo.Append(wxString::Format("%-20s%s\n", _("Provider") + " : ", forecast->getProviderName()));
 
-	if (timeZoneString.IsSameAs("UTC"))
+	if (config->timeZoneString.IsSameAs("UTC"))
 	{
 		modelInfo = modelInfo.Append(
 				wxString::Format("%-20s%02d/%02d/%d %dh%02d\n", _("Run date") + " : ", runDate.GetGmtDay(), runDate.GetGmtMonth(), runDate.GetGmtYear(),
@@ -317,11 +293,12 @@ wxString MVReportFrame::PrintWeatherReport(int modelIndex)
 				wxString::Format("%-20s%02d/%02d/%d %dh%02d\n", _("Run date") + " : ", runDate.GetLocalDay(), runDate.GetLocalMonth(), runDate.GetLocalYear(),
 						runDate.GetLocalHour(), runDate.GetLocalMinute()));
 	}
-	modelInfo = modelInfo.Append(wxString::Format("%-20s%s\n\n", _("Time zone") + " : ", _(timeZoneString)));
+	modelInfo = modelInfo.Append(wxString::Format("%-20s%s\n\n", _("Time zone") + " : ", _(config->timeZoneString)));
 
 	modelInfo = modelInfo.Append(wxString::Format("           %4s %4s %5s %5s %5s %4s\n", _("Wind"), _("Gust"), _("Dir"), _("Rain"), _("Cloud"), _("Temp")));
 	modelInfo = modelInfo.Append(
-			wxString::Format("           %4s %4s %5s %5s %5s %4s\n", _(windUnitString), _(windUnitString), " ", _("mm/h"), "%", GetConvertedTempId()));
+			wxString::Format("           %4s %4s %5s %5s %5s %4s\n", _(config->windUnitString), _(config->windUnitString), " ", _("mm/h"), "%",
+					GetConvertedTempId()));
 
 	DateTime stepTime = runDate;
 	std::string dayName;
@@ -481,32 +458,12 @@ wxString MVReportFrame::GetTextDirection(float windDirectionDeg)
 		return (_("N"));
 }
 
-const wxString& MVReportFrame::GetSelectedModelName()
-{
-	return (selectedString);
-}
-
-void MVReportFrame::SetSelectedModelName(wxString modelName)
-{
-	selectedString = modelName;
-}
-
-void MVReportFrame::SetWindUnitString(wxString windUnitString)
-{
-	this->windUnitString = windUnitString;
-}
-
-void MVReportFrame::SetTempUnitString(wxString tempUnitString)
-{
-	this->tempUnitString = tempUnitString;
-}
-
 wxString MVReportFrame::GetConvertedWind(float windSpeedKt)
 {
-	if (this->windUnitString.IsSameAs("kt"))
+	if (config->windUnitString.IsSameAs("kt"))
 	{
 		return (wxString::Format("%d", (int) roundf(windSpeedKt)));
-	} else if (this->windUnitString.IsSameAs("bft"))
+	} else if (config->windUnitString.IsSameAs("bft"))
 	{
 		if (windSpeedKt < 1.0f)
 			return ("0");
@@ -534,35 +491,35 @@ wxString MVReportFrame::GetConvertedWind(float windSpeedKt)
 			return ("11");
 		else
 			return ("12");
-	} else if (this->windUnitString.IsSameAs("m/s"))
+	} else if (config->windUnitString.IsSameAs("m/s"))
 	{
 		return (wxString::Format("%d", (int) roundf(windSpeedKt / 1.94384f)));
-	} else if (this->windUnitString.IsSameAs("kph"))
+	} else if (config->windUnitString.IsSameAs("kph"))
 	{
 		return (wxString::Format("%d", (int) roundf(windSpeedKt * 1.852f)));
-	} else if (this->windUnitString.IsSameAs("mph"))
+	} else if (config->windUnitString.IsSameAs("mph"))
 	{
 		return (wxString::Format("%d", (int) roundf(windSpeedKt * 1.15078f)));
 	}
 
-	this->windUnitString = "kt";
+	config->windUnitString = "kt";
 	return (wxString::Format("%d", (int) roundf(windSpeedKt)));
 }
 
 wxString MVReportFrame::GetConvertedTemp(float tempC)
 {
-	if (this->tempUnitString.IsSameAs("Farenheit"))
+	if (config->tempUnitString.IsSameAs("Farenheit"))
 	{
 		return (wxString::Format("%d", (int) roundf(tempC * (9.0f / 5.0f) + 32)));
 	}
 
-	this->tempUnitString = "Celsius";
+	config->tempUnitString = "Celsius";
 	return (wxString::Format("%d", (int) roundf(tempC)));
 }
 
 wxString MVReportFrame::GetConvertedTempId()
 {
-	if (this->tempUnitString.IsSameAs("Farenheit"))
+	if (config->tempUnitString.IsSameAs("Farenheit"))
 	{
 		return (_("F"));
 	}
@@ -572,9 +529,9 @@ wxString MVReportFrame::GetConvertedTempId()
 
 void MVReportFrame::OnSaveAs(wxCommandEvent&)
 {
-	wxFileDialog saveFileDialog(this, _("Save weather report"), manualSavePath, GetReportBaseName() + ".txt",
+	wxFileDialog saveFileDialog(this, _("Save weather report"), config->manualSavePath, GetReportBaseName() + ".txt",
 	_("Text File") + " (*.txt)|*.txt|" + _("Column Text File") + " (*.txt)|*.txt", wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
-	saveFileDialog.SetFilterIndex(manualSaveFormat);
+	saveFileDialog.SetFilterIndex(config->manualSaveFormat);
 
 	if (saveFileDialog.ShowModal() == wxID_OK)
 	{
@@ -590,8 +547,8 @@ void MVReportFrame::OnSaveAs(wxCommandEvent&)
 			}
 
 			file.Close();
-			manualSavePath = saveFileDialog.GetDirectory();
-			manualSaveFormat = saveFileDialog.GetFilterIndex();
+			config->manualSavePath = saveFileDialog.GetDirectory();
+			config->manualSaveFormat = saveFileDialog.GetFilterIndex();
 		}
 	}
 }

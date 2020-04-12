@@ -34,6 +34,7 @@
 #include <MeteoVacheThread.h>
 #include <JobQueue.h>
 #include <SpotForecasts.h>
+#include <ConfigContainer.h>
 
 #include <wx/string.h>
 #include <wx/stattext.h>
@@ -62,6 +63,8 @@
 class MVReportFrame: public wxDialog
 {
 private:
+	ConfigContainer *config;
+
 	wxStaticText *modelLabel;
 	wxComboBox *modelSelector;
 	wxStaticText *statusLabel;
@@ -70,16 +73,6 @@ private:
 	MeteoVacheThread *workerThread;
 	SpotForecasts spotForecast;
 	JobQueue *jobQueue;
-	wxString selectedString;
-	wxString windUnitString;
-	wxString tempUnitString;
-	wxString timeZoneString;
-	wxString autosavePath;
-	bool autosaveEnable;
-	bool autosaveColumn;
-	bool autosaveCompress;
-	wxString manualSavePath;
-	int manualSaveFormat;
 	int progressCount;
 
 	virtual void OnClose(wxCloseEvent &event);
@@ -95,17 +88,12 @@ private:
 public:
 	friend class MeteoVacheThread;
 
-	MVReportFrame(wxWindow *parent, wxWindowID id = wxID_ANY, const wxString &title = _("MeteoVache"), const wxPoint &pos = wxDefaultPosition,
+	MVReportFrame(wxWindow *parent, ConfigContainer *config, wxWindowID id = wxID_ANY, const wxString &title = _("MeteoVache"), const wxPoint &pos = wxDefaultPosition,
 			const wxSize &size = wxSize(497, 445),
 			long style = wxMINIMIZE_BOX | wxMAXIMIZE_BOX | wxRESIZE_BORDER | wxCAPTION | wxCLOSE_BOX | wxCLIP_CHILDREN | wxSTAY_ON_TOP | wxTAB_TRAVERSAL);
 	~MVReportFrame();
 
-	void SetManualSavePath(wxString path);
-	void SetManualSaveFormat(int format);
-	void SetTimeZoneString(wxString timeZoneString);
-	wxString GetManualSavePath();
-	int GetManualSaveFormat();
-	void SetAutosavePreferences(wxString path, bool enable, bool column, bool compress);
+	void UpdateConfig();
 	void SetReportText(const wxString &text);
 	void OnThreadEvent(wxCommandEvent&);
 	void AutoSaveReport();
@@ -114,9 +102,6 @@ public:
 	wxString PrintWeatherColumnReports();
 	void RequestForecast(float latitude, float longitude);
 	const wxString& GetSelectedModelName();
-	void SetSelectedModelName(wxString modelName);
-	void SetWindUnitString(wxString windUnitString);
-	void SetTempUnitString(wxString windUnitString);
 	void OnSaveAs(wxCommandEvent &event);
 
 DECLARE_EVENT_TABLE()

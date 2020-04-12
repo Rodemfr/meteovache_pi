@@ -1,6 +1,7 @@
 #ifndef _MVPREFDIALOG_H_
 #define _MVPREFDIALOG_H_
 
+#include <ConfigContainer.h>
 #include <wx/artprov.h>
 #include <wx/xrc/xmlres.h>
 #include <wx/string.h>
@@ -38,20 +39,13 @@ protected:
 	wxCheckBox *autosaveColumnCheckbox;
 	wxCheckBox *autosaveCompressCheckbox;
 
+	ConfigContainer *config;
+
 public:
-	MVPrefDialog(wxWindow *parent, wxWindowID id = wxID_ANY, const wxString &title = wxEmptyString, const wxPoint &pos = wxDefaultPosition, const wxSize &size =
+	MVPrefDialog(wxWindow *parent, ConfigContainer *config, wxWindowID id = wxID_ANY, const wxString &title = wxEmptyString, const wxPoint &pos = wxDefaultPosition, const wxSize &size =
 			wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE);
 	~MVPrefDialog();
-	void SetUnitPreferences(wxString windUnitString, wxString tempUnitString);
-	void SetDisplayPreferences(wxString timeZoneString);
-	void SetAutosavePreferences(wxString path, bool enable, bool column, bool compress);
-	wxString GetWindUnitString();
-	wxString GetTempUnitString();
-	wxString GetTimeZoneString();
-	wxString GetAutosavePath();
-	bool GetAutosaveEnable();
-	bool GetAutosaveColumn();
-	bool GetAutosaveCompress();
+	void UpdateConfig();
 	void onAutosavePathBrowse(wxCommandEvent&);
 };
 

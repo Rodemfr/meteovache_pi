@@ -52,7 +52,7 @@
 /*                              Functions                                  */
 /***************************************************************************/
 
-MVPrefDialog::MVPrefDialog(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &pos, const wxSize &size, long style) :
+MVPrefDialog::MVPrefDialog(wxWindow *parent, ConfigContainer *config, wxWindowID id, const wxString &title, const wxPoint &pos, const wxSize &size, long style) :
 		wxDialog(parent, id, title, pos, size, style)
 {
 	wxString windUnits[] =
@@ -60,6 +60,7 @@ MVPrefDialog::MVPrefDialog(wxWindow *parent, wxWindowID id, const wxString &titl
 	wxString tempUnits[] =
 	{ _("Celsius"), _("Farenheit") };
 
+	this->config = config;
 	this->SetSizeHints(wxDefaultSize, wxDefaultSize);
 
 	wxBoxSizer *globalSizer = new wxBoxSizer(wxVERTICAL);
@@ -85,15 +86,15 @@ MVPrefDialog::MVPrefDialog(wxWindow *parent, wxWindowID id, const wxString &titl
 	globalSizer->Add(unitSizer, 0, wxALL | wxEXPAND, 5);
 
 	// Display
-	wxStaticBoxSizer* displaySizer = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("Display") ), wxHORIZONTAL );
-	timeZoneLabel = new wxStaticText( displaySizer->GetStaticBox(), wxID_ANY, _("Time zone"), wxDefaultPosition, wxDefaultSize, 0 );
-	timeZoneLabel->Wrap( -1 );
-	displaySizer->Add( timeZoneLabel, 1, wxALIGN_CENTER_VERTICAL | wxALL, 5 );
-	timeZoneSelection = new wxComboBox( displaySizer->GetStaticBox(), wxID_ANY, _("Local / system"), wxDefaultPosition, wxDefaultSize, 0, NULL, 0 );
-	timeZoneSelection->Append( _("Local / system") );
-	timeZoneSelection->Append( _("UTC") );
-	displaySizer->Add( timeZoneSelection, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5 );
-	globalSizer->Add( displaySizer, 0, wxBOTTOM|wxEXPAND|wxLEFT|wxRIGHT, 5 );
+	wxStaticBoxSizer *displaySizer = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Display")), wxHORIZONTAL);
+	timeZoneLabel = new wxStaticText(displaySizer->GetStaticBox(), wxID_ANY, _("Time zone"), wxDefaultPosition, wxDefaultSize, 0);
+	timeZoneLabel->Wrap(-1);
+	displaySizer->Add(timeZoneLabel, 1, wxALIGN_CENTER_VERTICAL | wxALL, 5);
+	timeZoneSelection = new wxComboBox(displaySizer->GetStaticBox(), wxID_ANY, _("Local / system"), wxDefaultPosition, wxDefaultSize, 0, NULL, 0);
+	timeZoneSelection->Append(_("Local / system"));
+	timeZoneSelection->Append(_("UTC"));
+	displaySizer->Add(timeZoneSelection, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
+	globalSizer->Add(displaySizer, 0, wxBOTTOM | wxEXPAND | wxLEFT | wxRIGHT, 5);
 
 	// Auto save configuration
 	wxStaticBoxSizer *autosaveSizer = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Auto save")), wxVERTICAL);
@@ -153,6 +154,15 @@ MVPrefDialog::MVPrefDialog(wxWindow *parent, wxWindowID id, const wxString &titl
 	globalSizer->Add(stdButtonsSizer, 0, wxBOTTOM, 5);
 
 	this->SetSizer(globalSizer);
+
+	windUnitSelection->SetStringSelection(_(config->windUnitString));
+	tempUnitSelection->SetStringSelection(_(config->tempUnitString));
+	timeZoneSelection->SetStringSelection(_(config->timeZoneString));
+	autosavePathEdit->SetValue(config->autosavePath);
+	autosaveEnableCheckbox->SetValue(config->autoSaveEnable);
+	autosaveColumnCheckbox->SetValue(config->autoSaveColumn);
+	autosaveCompressCheckbox->SetValue(config->autoSaveCompress);
+
 	this->Layout();
 	globalSizer->Fit(this);
 
@@ -165,97 +175,58 @@ MVPrefDialog::~MVPrefDialog()
 {
 }
 
-void MVPrefDialog::SetUnitPreferences(wxString windUnitString, wxString tempUnitString)
+void MVPrefDialog::UpdateConfig()
 {
-	windUnitSelection->SetStringSelection(_(windUnitString));
-	tempUnitSelection->SetStringSelection(_(tempUnitString));
-}
-
-void MVPrefDialog::SetDisplayPreferences(wxString timeZoneString)
-{
-	timeZoneSelection->SetStringSelection(_(timeZoneString));
-}
-
-void MVPrefDialog::SetAutosavePreferences(wxString path, bool enable, bool column, bool compress)
-{
-	autosavePathEdit->SetValue(path);
-	autosaveEnableCheckbox->SetValue(enable);
-	autosaveColumnCheckbox->SetValue(column);
-	autosaveCompressCheckbox->SetValue(compress);
-}
-
-wxString MVPrefDialog::GetWindUnitString()
-{
-	wxString translatedUnit = windUnitSelection->GetStringSelection();
-
-	if (translatedUnit.IsSameAs(_("kt")))
+	// wind unit
+	wxString translatedString = windUnitSelection->GetStringSelection();
+	if (translatedString.IsSameAs(_("kt")))
 	{
-		return ("kt");
-	} else if (translatedUnit.IsSameAs(_("bft")))
+		config->windUnitString = "kt";
+	} else if (translatedString.IsSameAs(_("bft")))
 	{
-		return ("bft");
-	} else if (translatedUnit.IsSameAs(_("m/s")))
+		config->windUnitString = "bft";
+	} else if (translatedString.IsSameAs(_("m/s")))
 	{
-		return ("m/s");
-	} else if (translatedUnit.IsSameAs(_("kph")))
+		config->windUnitString = "m/s";
+	} else if (translatedString.IsSameAs(_("kph")))
 	{
-		return ("kph");
-	} else if (translatedUnit.IsSameAs(_("mph")))
+		config->windUnitString = "kph";
+	} else if (translatedString.IsSameAs(_("mph")))
 	{
-		return ("mph");
+		config->windUnitString = "mph";
+	} else
+	{
+		config->windUnitString = "kt";
 	}
-
-	return ("kt");
-}
-
-wxString MVPrefDialog::GetTempUnitString()
-{
-	wxString translatedUnit = tempUnitSelection->GetStringSelection();
-
-	if (translatedUnit.IsSameAs(_("Celsius")))
+	// Temperature unit
+	translatedString = tempUnitSelection->GetStringSelection();
+	if (translatedString.IsSameAs(_("Celsius")))
 	{
-		return ("Celsius");
-	} else if (translatedUnit.IsSameAs(_("Farenheit")))
+		config->tempUnitString = "Celsius";
+	} else if (translatedString.IsSameAs(_("Farenheit")))
 	{
-		return ("Farenheit");
+		config->tempUnitString = "Farenheit";
+	} else
+	{
+		config->tempUnitString = "Celsius";
 	}
-
-	return ("Celsius");
-}
-
-wxString MVPrefDialog::GetTimeZoneString()
-{
-	wxString translatedUnit = timeZoneSelection->GetStringSelection();
-
-	if (translatedUnit.IsSameAs(_("Local / system")))
+	// Time zone selection
+	translatedString = timeZoneSelection->GetStringSelection();
+	if (translatedString.IsSameAs(_("Local / system")))
 	{
-		return ("Local / system");
-	} else if (translatedUnit.IsSameAs(_("UTC")))
+		config->timeZoneString = "Local / system";
+	} else if (translatedString.IsSameAs(_("UTC")))
 	{
-		return ("UTC");
+		config->timeZoneString = "UTC";
+	} else
+	{
+		config->timeZoneString = "Local / system";
 	}
-
-	return ("Local / system");
-}
-
-wxString MVPrefDialog::GetAutosavePath()
-{
-	return (autosavePathEdit->GetValue());
-}
-
-bool MVPrefDialog::GetAutosaveEnable()
-{
-	return (autosaveEnableCheckbox->GetValue());
-}
-
-bool MVPrefDialog::GetAutosaveColumn()
-{
-	return (autosaveColumnCheckbox->GetValue());
-}
-
-bool MVPrefDialog::GetAutosaveCompress()
-{
-	return (autosaveCompressCheckbox->GetValue());
+	// Autosave options
+	config->autosavePath = autosavePathEdit->GetValue();
+	config->autoSaveEnable = autosaveEnableCheckbox->GetValue();
+	config->autoSaveColumn = autosaveColumnCheckbox->GetValue();
+	config->autoSaveCompress = autosaveCompressCheckbox->GetValue();
 }
 
 void MVPrefDialog::onAutosavePathBrowse(wxCommandEvent&)

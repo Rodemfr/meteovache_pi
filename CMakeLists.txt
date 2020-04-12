@@ -9,7 +9,7 @@ SET(CPACK_PACKAGE_CONTACT "Ronan Demoment")
 
 SET(VERSION_MAJOR "0")
 SET(VERSION_MINOR "4")
-SET(VERSION_PATCH "3")
+SET(VERSION_PATCH "4")
 SET(VERSION_DATE "12/04/2020")
 
 IF(COMMAND cmake_policy)
@@ -52,6 +52,8 @@ SET(SRC_MV
     src/MVPrefDialog.cpp
     src/SpotForecasts.h
     src/SpotForecasts.cpp
+    src/ConfigContainer.h
+    src/ConfigContainer.cpp
 	)
 
 ADD_LIBRARY(${PACKAGE_NAME} SHARED ${SRC_MV})
