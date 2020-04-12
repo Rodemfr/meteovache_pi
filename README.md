@@ -40,7 +40,7 @@ Installer is only available for Windows OS. On Linux, you have to uncompress arc
 ## Release history
 
 **v0.4**
-* Added a button to manually save weather forecast in a test file (normal or column format)
+* Added a button to manually save weather forecast in a text file (normal or column format)
 * Added options in the preference panel to enable automatic save of requested forecast (normal, column, with or without ZIP compression)
 * Added experimental ARMHF build for Raspberry PI (untested, may not work at all)
 

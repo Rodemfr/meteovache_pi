@@ -76,7 +76,6 @@ MVReportFrame::MVReportFrame(wxWindow *parent, wxWindowID id, const wxString &ti
 	jobQueue = new JobQueue(GetEventHandler());
 
 	this->SetSizeHints(wxDefaultSize, wxDefaultSize);
-	this->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BTNHIGHLIGHT));
 
 	wxBoxSizer *MVReportGlobalSizer = new wxBoxSizer(wxVERTICAL);
 
@@ -84,11 +83,10 @@ MVReportFrame::MVReportFrame(wxWindow *parent, wxWindowID id, const wxString &ti
 	modelLabel = new wxStaticText(this, wxID_ANY, _("Weather model :"), wxDefaultPosition, wxDefaultSize, 0);
 	modelLabel->Wrap(-1);
 	MVReportTopSizer->Add(modelLabel, 0, wxALIGN_CENTER | wxALL, 5);
-	modelSelector = new wxComboBox(this, wxID_ANY, _("No data"), wxDefaultPosition, wxDefaultSize, 0, NULL, 0);
+	modelSelector = new wxComboBox(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0, NULL, 0);
 	MVReportTopSizer->Add(modelSelector, 0, wxLEFT | wxRIGHT | wxTOP, 5);
 	MVReportGlobalSizer->Add(MVReportTopSizer, 0, wxEXPAND, 5);
 
-	wxBoxSizer *StatusSizer = new wxBoxSizer(wxHORIZONTAL);
 	statusLabel = new wxStaticText(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0);
 	statusLabel->Wrap(-1);
 	MVReportGlobalSizer->Add(statusLabel, 0, wxALIGN_CENTER_VERTICAL | wxALIGN_LEFT | wxALL, 5);
@@ -97,6 +95,8 @@ MVReportFrame::MVReportFrame(wxWindow *parent, wxWindowID id, const wxString &ti
 	wxFont reportFont = reportTextArea->GetFont();
 	reportFont.SetFamily(wxFONTFAMILY_TELETYPE);
 	reportTextArea->SetFont(reportFont);
+	reportTextArea->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWFRAME));
+	reportTextArea->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
 	MVReportGlobalSizer->Add(reportTextArea, 1, wxLEFT | wxRIGHT | wxTOP | wxEXPAND, 5);
 
 	wxBoxSizer *MVButtonSizer = new wxBoxSizer(wxHORIZONTAL);
