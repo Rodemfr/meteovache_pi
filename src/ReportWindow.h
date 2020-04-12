@@ -31,7 +31,7 @@
 /*                              Includes                                   */
 /***************************************************************************/
 
-#include <MeteoVacheThread.h>
+#include <NetWorkThread.h>
 #include <JobQueue.h>
 #include <SpotForecasts.h>
 #include <ConfigContainer.h>
@@ -60,17 +60,19 @@
 /*                               Classes                                   */
 /***************************************************************************/
 
-class MVReportFrame: public wxDialog
+class ReportWindow: public wxDialog
 {
 private:
-	ConfigContainer *config;
+	DECLARE_EVENT_TABLE()
 
 	wxStaticText *modelLabel;
 	wxComboBox *modelSelector;
 	wxStaticText *statusLabel;
 	wxTextCtrl *reportTextArea;
 	wxButton *saveButton;
-	MeteoVacheThread *workerThread;
+
+	ConfigContainer *config;
+	NetworkThread *workerThread;
 	SpotForecasts spotForecast;
 	JobQueue *jobQueue;
 	int progressCount;
@@ -81,36 +83,31 @@ private:
 	wxString GetLongitudeString(float longitude);
 	wxString GetTextDirection(float windDirectionDeg);
 	wxString GetReportBaseName();
-
-	void StartThread();
-	void StopThread();
-
-public:
-	friend class MeteoVacheThread;
-
-	MVReportFrame(wxWindow *parent, ConfigContainer *config, wxWindowID id = wxID_ANY, const wxString &title = _("MeteoVache"), const wxPoint &pos = wxDefaultPosition,
-			const wxSize &size = wxSize(497, 445),
-			long style = wxMINIMIZE_BOX | wxMAXIMIZE_BOX | wxRESIZE_BORDER | wxCAPTION | wxCLOSE_BOX | wxCLIP_CHILDREN | wxSTAY_ON_TOP | wxTAB_TRAVERSAL);
-	~MVReportFrame();
-
-	void UpdateConfig();
-	void SetReportText(const wxString &text);
 	void OnThreadEvent(wxCommandEvent&);
 	void AutoSaveReport();
 	wxString PrintWeatherReport(int model);
 	wxString PrintWeatherReports();
 	wxString PrintWeatherColumnReports();
-	void RequestForecast(float latitude, float longitude);
-	const wxString& GetSelectedModelName();
 	void OnSaveAs(wxCommandEvent &event);
-
-DECLARE_EVENT_TABLE()
-
-private:
 	wxString GetConvertedWind(float windSpeedKt);
 	wxString GetConvertedTemp(float tempC);
 	wxString GetConvertedTempId();
 	char GetNextWaitingChar();
+	void StartThread();
+	void StopThread();
+
+public:
+	friend class NetworkThread;
+
+	ReportWindow(wxWindow *parent, ConfigContainer *config, wxWindowID id = wxID_ANY, const wxString &title = _("MeteoVache"), const wxPoint &pos =
+			wxDefaultPosition, const wxSize &size = wxSize(497, 445),
+			long style = wxMINIMIZE_BOX | wxMAXIMIZE_BOX | wxRESIZE_BORDER | wxCAPTION | wxCLOSE_BOX | wxCLIP_CHILDREN | wxSTAY_ON_TOP | wxTAB_TRAVERSAL);
+	~ReportWindow();
+
+	void UpdateConfig();
+	void SetReportText(const wxString &text);
+	void RequestForecast(float latitude, float longitude);
+
 };
 
 #endif //_MVREPORTFRAME_H__

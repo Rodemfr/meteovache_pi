@@ -74,7 +74,7 @@ MeteoVacheClient::~MeteoVacheClient()
 	delete localSocket;
 }
 
-bool MeteoVacheClient::downloadAllForecasts(float latitude, float longitude, SpotForecasts &spotForecast)
+bool MeteoVacheClient::DownloadAllForecasts(float latitude, float longitude, SpotForecasts &spotForecast)
 {
 	char requestBuffer[9];
 	int nbForecasts;
@@ -97,7 +97,7 @@ bool MeteoVacheClient::downloadAllForecasts(float latitude, float longitude, Spo
 	{
 		return (false);
 	}
-	uncompressBuffer(gzippedResponse, responseLength, serverResponse, sizeof(serverResponse));
+	UncompressBuffer(gzippedResponse, responseLength, serverResponse, sizeof(serverResponse));
 
 	nbForecasts = serverResponse[0];
 	spotForecast.Lock();
@@ -107,7 +107,7 @@ bool MeteoVacheClient::downloadAllForecasts(float latitude, float longitude, Spo
 	int dataOffset = 1;
 	for (int i = 0; i < nbForecasts; i++)
 	{
-		dataOffset += forecast.readBinary(serverResponse + dataOffset);
+		dataOffset += forecast.ReadBinary(serverResponse + dataOffset);
 		spotForecast.Add(forecast);
 	}
 
@@ -116,8 +116,9 @@ bool MeteoVacheClient::downloadAllForecasts(float latitude, float longitude, Spo
 	return (true);
 }
 
-unsigned int MeteoVacheClient::uncompressBuffer(void *inputBuffer, unsigned int inputLength, void *outputBuffer, unsigned int outputLength)
+unsigned int MeteoVacheClient::UncompressBuffer(void *inputBuffer, unsigned int inputLength, void *outputBuffer, unsigned int outputLength)
 {
+	// TODO : Use wxWidgets GZIP stream instead of our own instance of zlib
 	int err;
 	z_stream zStream;
 

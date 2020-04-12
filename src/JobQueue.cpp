@@ -60,18 +60,14 @@ JobRequest::JobRequest() :
 {
 }
 
-JobRequest::JobRequest(
-		JobCommand cmd)
+JobRequest::JobRequest(JobCommand cmd)
 {
 	this->cmd = cmd;
 	this->latitude = 0.0f;
 	this->longitude = 0.0f;
 }
 
-JobRequest::JobRequest(
-		JobCommand cmd,
-		float latitude,
-		float longitude)
+JobRequest::JobRequest(JobCommand cmd, float latitude, float longitude)
 {
 	this->cmd = cmd;
 	this->latitude = latitude;
@@ -82,22 +78,19 @@ JobRequest::~JobRequest()
 {
 }
 
-JobQueue::JobQueue(
-		wxEvtHandler *pParent) :
+JobQueue::JobQueue(wxEvtHandler *pParent) :
 		parentEvtHandler(pParent)
 {
 }
 
-void JobQueue::addJob(
-		const JobRequest &job)
+void JobQueue::AddJobRequest(const JobRequest &job)
 {
 	wxMutexLocker lock(mapMutex);
 	jobMap.insert(std::make_pair(0, job));
 	queueCount.Post();
 }
 
-void JobQueue::getNextJob(
-		JobRequest *jobRequest)
+void JobQueue::GetNextJob(JobRequest *jobRequest)
 {
 	JobRequest element;
 
@@ -110,9 +103,7 @@ void JobQueue::getNextJob(
 	*jobRequest = element;
 }
 
-bool JobQueue::getNextJobTimeout(
-		JobRequest *jobRequest,
-		unsigned long timeOut)
+bool JobQueue::GetNextJobTimeout(JobRequest *jobRequest, unsigned long timeOut)
 {
 	JobRequest element;
 
@@ -131,9 +122,7 @@ bool JobQueue::getNextJobTimeout(
 	}
 }
 
-void JobQueue::reportResult(
-		const JobRequest::JobCommand &cmd,
-		JobResult result)
+void JobQueue::ReportResult(const JobRequest::JobCommand &cmd, JobResult result)
 {
 	if (result == JOB_SUCCESSFUL)
 	{

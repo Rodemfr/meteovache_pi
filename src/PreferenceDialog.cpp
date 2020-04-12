@@ -1,4 +1,5 @@
 /***************************************************************************
+ #include <PreferenceDialog.h>
  *                                                                         *
  * Project:  meteovache_pi                                                 *
  * Purpose:  Weather forecast plugin for OpenCPN                           *
@@ -28,8 +29,8 @@
 /*                              Includes                                   */
 /***************************************************************************/
 
+#include <PreferenceDialog.h>
 #include <stdint.h>
-#include <MVPrefDialog.h>
 #include <wx/dirdlg.h>
 
 /***************************************************************************/
@@ -52,7 +53,8 @@
 /*                              Functions                                  */
 /***************************************************************************/
 
-MVPrefDialog::MVPrefDialog(wxWindow *parent, ConfigContainer *config, wxWindowID id, const wxString &title, const wxPoint &pos, const wxSize &size, long style) :
+PreferenceDialog::PreferenceDialog(wxWindow *parent, ConfigContainer *config, wxWindowID id, const wxString &title, const wxPoint &pos, const wxSize &size,
+		long style) :
 		wxDialog(parent, id, title, pos, size, style)
 {
 	wxString windUnits[] =
@@ -99,23 +101,23 @@ MVPrefDialog::MVPrefDialog(wxWindow *parent, ConfigContainer *config, wxWindowID
 	// Auto save configuration
 	wxStaticBoxSizer *autosaveSizer = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Auto save")), wxVERTICAL);
 	wxBoxSizer *autosavePathSizer = new wxBoxSizer(wxHORIZONTAL);
-	autosavePathLabel = new wxStaticText(autosaveSizer->GetStaticBox(), wxID_ANY, _("Save directory"), wxDefaultPosition, wxDefaultSize, 0);
-	autosavePathLabel->Wrap(-1);
-	autosavePathSizer->Add(autosavePathLabel, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
-	autosavePathEdit = new wxTextCtrl(autosaveSizer->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
-	autosavePathSizer->Add(autosavePathEdit, 1, wxALIGN_CENTER_VERTICAL | wxALL, 5);
-	autosavePathEditButton = new wxButton(autosaveSizer->GetStaticBox(), wxID_ANY, _("..."), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT);
-	autosavePathSizer->Add(autosavePathEditButton, 0, wxALIGN_CENTER_VERTICAL, 5);
+	autoSavePathLabel = new wxStaticText(autosaveSizer->GetStaticBox(), wxID_ANY, _("Save directory"), wxDefaultPosition, wxDefaultSize, 0);
+	autoSavePathLabel->Wrap(-1);
+	autosavePathSizer->Add(autoSavePathLabel, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
+	autoSavePathEdit = new wxTextCtrl(autosaveSizer->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
+	autosavePathSizer->Add(autoSavePathEdit, 1, wxALIGN_CENTER_VERTICAL | wxALL, 5);
+	autoSavePathEditButton = new wxButton(autosaveSizer->GetStaticBox(), wxID_ANY, _("..."), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT);
+	autosavePathSizer->Add(autoSavePathEditButton, 0, wxALIGN_CENTER_VERTICAL, 5);
 	autosaveSizer->Add(autosavePathSizer, 0, wxEXPAND, 5);
 
 	wxBoxSizer *autosaveCheckboxSizer = new wxBoxSizer(wxHORIZONTAL);
 	autosaveCheckboxSizer->Add(0, 0, 1, wxEXPAND, 5);
-	autosaveEnableCheckbox = new wxCheckBox(autosaveSizer->GetStaticBox(), wxID_ANY, _("Enable"), wxDefaultPosition, wxDefaultSize, 0);
-	autosaveCheckboxSizer->Add(autosaveEnableCheckbox, 0, wxALL, 5);
-	autosaveColumnCheckbox = new wxCheckBox(autosaveSizer->GetStaticBox(), wxID_ANY, _("Column format"), wxDefaultPosition, wxDefaultSize, 0);
-	autosaveCheckboxSizer->Add(autosaveColumnCheckbox, 0, wxALL, 5);
-	autosaveCompressCheckbox = new wxCheckBox(autosaveSizer->GetStaticBox(), wxID_ANY, _("Compress"), wxDefaultPosition, wxDefaultSize, 0);
-	autosaveCheckboxSizer->Add(autosaveCompressCheckbox, 0, wxALL, 5);
+	autoSaveEnableCheckbox = new wxCheckBox(autosaveSizer->GetStaticBox(), wxID_ANY, _("Enable"), wxDefaultPosition, wxDefaultSize, 0);
+	autosaveCheckboxSizer->Add(autoSaveEnableCheckbox, 0, wxALL, 5);
+	autoSaveColumnCheckbox = new wxCheckBox(autosaveSizer->GetStaticBox(), wxID_ANY, _("Column format"), wxDefaultPosition, wxDefaultSize, 0);
+	autosaveCheckboxSizer->Add(autoSaveColumnCheckbox, 0, wxALL, 5);
+	autoSaveCompressCheckbox = new wxCheckBox(autosaveSizer->GetStaticBox(), wxID_ANY, _("Compress"), wxDefaultPosition, wxDefaultSize, 0);
+	autosaveCheckboxSizer->Add(autoSaveCompressCheckbox, 0, wxALL, 5);
 	autosaveSizer->Add(autosaveCheckboxSizer, 1, wxEXPAND, 5);
 	globalSizer->Add(autosaveSizer, 0, wxBOTTOM | wxEXPAND | wxLEFT | wxRIGHT, 5);
 
@@ -158,24 +160,24 @@ MVPrefDialog::MVPrefDialog(wxWindow *parent, ConfigContainer *config, wxWindowID
 	windUnitSelection->SetStringSelection(_(config->windUnitString));
 	tempUnitSelection->SetStringSelection(_(config->tempUnitString));
 	timeZoneSelection->SetStringSelection(_(config->timeZoneString));
-	autosavePathEdit->SetValue(config->autosavePath);
-	autosaveEnableCheckbox->SetValue(config->autoSaveEnable);
-	autosaveColumnCheckbox->SetValue(config->autoSaveColumn);
-	autosaveCompressCheckbox->SetValue(config->autoSaveCompress);
+	autoSavePathEdit->SetValue(config->autoSavePath);
+	autoSaveEnableCheckbox->SetValue(config->autoSaveEnable);
+	autoSaveColumnCheckbox->SetValue(config->autoSaveColumn);
+	autoSaveCompressCheckbox->SetValue(config->autoSaveCompress);
 
 	this->Layout();
 	globalSizer->Fit(this);
 
 	this->Centre(wxBOTH);
 
-	autosavePathEditButton->Connect(wxEVT_BUTTON, wxCommandEventHandler(MVPrefDialog::onAutosavePathBrowse), NULL, this);
+	autoSavePathEditButton->Connect(wxEVT_BUTTON, wxCommandEventHandler(PreferenceDialog::OnAutoSavePathBrowse), NULL, this);
 }
 
-MVPrefDialog::~MVPrefDialog()
+PreferenceDialog::~PreferenceDialog()
 {
 }
 
-void MVPrefDialog::UpdateConfig()
+void PreferenceDialog::UpdateConfig()
 {
 	// wind unit
 	wxString translatedString = windUnitSelection->GetStringSelection();
@@ -223,18 +225,18 @@ void MVPrefDialog::UpdateConfig()
 		config->timeZoneString = "Local / system";
 	}
 	// Autosave options
-	config->autosavePath = autosavePathEdit->GetValue();
-	config->autoSaveEnable = autosaveEnableCheckbox->GetValue();
-	config->autoSaveColumn = autosaveColumnCheckbox->GetValue();
-	config->autoSaveCompress = autosaveCompressCheckbox->GetValue();
+	config->autoSavePath = autoSavePathEdit->GetValue();
+	config->autoSaveEnable = autoSaveEnableCheckbox->GetValue();
+	config->autoSaveColumn = autoSaveColumnCheckbox->GetValue();
+	config->autoSaveCompress = autoSaveCompressCheckbox->GetValue();
 }
 
-void MVPrefDialog::onAutosavePathBrowse(wxCommandEvent&)
+void PreferenceDialog::OnAutoSavePathBrowse(wxCommandEvent&)
 {
-	wxDirDialog selectDirDialog(NULL, _("Select automatic save directory"), autosavePathEdit->GetValue(), wxDD_DEFAULT_STYLE | wxDD_DIR_MUST_EXIST);
+	wxDirDialog selectDirDialog(NULL, _("Select automatic save directory"), autoSavePathEdit->GetValue(), wxDD_DEFAULT_STYLE | wxDD_DIR_MUST_EXIST);
 
 	if (selectDirDialog.ShowModal() == wxID_OK)
 	{
-		autosavePathEdit->SetValue(selectDirDialog.GetPath());
+		autoSavePathEdit->SetValue(selectDirDialog.GetPath());
 	}
 }

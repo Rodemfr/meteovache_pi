@@ -31,17 +31,12 @@
 /*                              Includes                                   */
 /***************************************************************************/
 
-#include <wx/wxprec.h>
-#ifndef  WX_PRECOMP
+#include <ReportWindow.h>
+#include <ConfigContainer.h>
 #include <wx/wx.h>
-#endif
-
 #include <version.h>
 #include <wxWTranslateCatalog.h>
 #include <ocpn_plugin.h>
-
-#include <MVReportFrame.h>
-#include <ConfigContainer.h>
 
 /***************************************************************************/
 /*                              Constants                                  */
@@ -65,11 +60,10 @@ public:
 	MeteoVachePlugin(void *ppimgr);
 	~MeteoVachePlugin();
 
-	// The required PlugIn Methods
+	// Plug-in methods for OpenCPN main program
 	int Init(void);
 	bool DeInit(void);
 	void ShowPreferencesDialog(wxWindow *parent);
-
 	int GetAPIVersionMajor();
 	int GetAPIVersionMinor();
 	int GetPlugInVersionMajor();
@@ -84,18 +78,16 @@ public:
 	void OnContextMenuItemCallback(int id);
 	void SetCursorLatLon(double lat, double lon);
 
-	wxString m_shareLocn;
-	MVReportFrame *weatherReportFrame;
-
 private:
-	wxBitmap *mvPluginIcon;        // Plug-in icon for the plug-in manager (bright background)
-	wxBitmap *mvToolbarIcon;       // plug-in icon for the tool-bar (dark background)
-	int toolBarIconId;             // Id of the plug-in icon in the tool-bar
-	int contextMenuId;             // Id of the plug-in item in context menu
-	wxWindow *ocpnParentWindow;    // Pointer to the OpenCPN parent window
-	wxMenuItem *contextMenu;       // Pointer to plug-in context menu item object
-	float cursorLat, cursorLon;    // Latest known position of the mouse cursor
-	ConfigContainer config;     // Configuration of the plug-in
+	ReportWindow *weatherWindow; // Dialog display weather report
+	ConfigContainer config;      // Configuration of the plug-in
+	wxBitmap *pluginIcon;        // Plug-in icon for the plug-in manager (bright background)
+	wxBitmap *toolbarIcon;       // plug-in icon for the tool-bar (dark background)
+	int toolBarIconId;           // Id of the plug-in icon in the tool-bar
+	int contextMenuId;           // Id of the plug-in item in context menu
+	wxWindow *ocpnParentWindow;  // Pointer to the OpenCPN parent window
+	wxMenuItem *contextMenu;     // Pointer to plug-in context menu item object
+	float cursorLat, cursorLon;  // Latest known position of the mouse cursor
 };
 
 #endif

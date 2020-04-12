@@ -58,7 +58,7 @@ public:
 	wxString windUnitString;       // String of the wind unit to use
 	wxString tempUnitString;       // String of the temperature unit to use
 	wxString timeZoneString;       // Selected time zone for display
-	wxString autosavePath;         // Path where to automatically save weather reports
+	wxString autoSavePath;         // Path where to automatically save weather reports
 	bool autoSaveEnable;           // Enable autosave
 	bool autoSaveColumn;           // Enable column format for autosaved reports
 	bool autoSaveCompress;         // Enable compression for autosaved reports
@@ -68,7 +68,7 @@ public:
 	ConfigContainer();
 	virtual ~ConfigContainer();
 
-	void setConfigObject(wxFileConfig *configObject);
+	void SetConfigObject(wxFileConfig *configObject);
 	bool LoadConfig(void);
 	bool SaveConfig(void);
 };

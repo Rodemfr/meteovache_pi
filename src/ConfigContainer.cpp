@@ -67,7 +67,7 @@ ConfigContainer::ConfigContainer()
 	timeZoneString = "Local / system";
 
 	wxStandardPaths standardPaths = wxStandardPaths::Get();
-	autosavePath = standardPaths.GetDocumentsDir();
+	autoSavePath = standardPaths.GetDocumentsDir();
 
 	autoSaveEnable = false;
 	autoSaveColumn = false;
@@ -78,14 +78,13 @@ ConfigContainer::ConfigContainer()
 	configObject = nullptr;
 }
 
-void ConfigContainer::setConfigObject(wxFileConfig *configObject)
+void ConfigContainer::SetConfigObject(wxFileConfig *configObject)
 {
 	this->configObject = configObject;
 }
 
 ConfigContainer::~ConfigContainer()
 {
-	// TODO Auto-generated destructor stub
 }
 
 bool ConfigContainer::LoadConfig(void)
@@ -103,7 +102,7 @@ bool ConfigContainer::LoadConfig(void)
 		pConf->Read("WindUnitString", &windUnitString, "kt");
 		pConf->Read("TempUnitString", &tempUnitString, "C");
 		pConf->Read("TimeZoneString", &timeZoneString, "Local / system");
-		pConf->Read("AutoSavePath", &autosavePath, autosavePath);
+		pConf->Read("AutoSavePath", &autoSavePath, autoSavePath);
 		pConf->Read("AutoSaveEnable", &autoSaveEnable, false);
 		pConf->Read("AutoSaveColumn", &autoSaveColumn, false);
 		pConf->Read("AutoSaveCompress", &autoSaveCompress, true);
@@ -130,7 +129,7 @@ bool ConfigContainer::SaveConfig(void)
 		pConf->Write("WindUnitString", windUnitString);
 		pConf->Write("TempUnitString", tempUnitString);
 		pConf->Write("TimeZoneString", timeZoneString);
-		pConf->Write("AutoSavePath", autosavePath);
+		pConf->Write("AutoSavePath", autoSavePath);
 		pConf->Write("AutoSaveEnable", autoSaveEnable);
 		pConf->Write("AutoSaveColumn", autoSaveColumn);
 		pConf->Write("AutoSaveCompress", autoSaveCompress);

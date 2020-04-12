@@ -28,8 +28,6 @@
 /*                              Includes                                   */
 /***************************************************************************/
 
-#include <MVReportFrame.h>
-#include <MeteoVacheThread.h>
 #include <JobQueue.h>
 #include <DateTime.h>
 #include <stdint.h>
@@ -40,14 +38,16 @@
 #include <wx/wfstream.h>
 #include <wx/zipstrm.h>
 #include <math.h>
+#include <NetWorkThread.h>
+#include <ReportWindow.h>
 
 /***************************************************************************/
 /*                              Constants                                  */
 /***************************************************************************/
 
-wxBEGIN_EVENT_TABLE(MVReportFrame, wxDialog) EVT_COMMAND(wxID_ANY, wxEVT_THREAD_JOB_COMPLETED, MVReportFrame::OnThreadEvent)
-EVT_COMMAND(wxID_ANY, wxEVT_THREAD_JOB_ONGOING, MVReportFrame::OnThreadEvent)
-EVT_COMMAND(wxID_ANY, wxEVT_THREAD_JOB_FAILED, MVReportFrame::OnThreadEvent)
+wxBEGIN_EVENT_TABLE(ReportWindow, wxDialog) EVT_COMMAND(wxID_ANY, wxEVT_THREAD_JOB_COMPLETED, ReportWindow::OnThreadEvent)
+EVT_COMMAND(wxID_ANY, wxEVT_THREAD_JOB_ONGOING, ReportWindow::OnThreadEvent)
+EVT_COMMAND(wxID_ANY, wxEVT_THREAD_JOB_FAILED, ReportWindow::OnThreadEvent)
 wxEND_EVENT_TABLE()
 
 /***************************************************************************/
@@ -66,8 +66,7 @@ wxEND_EVENT_TABLE()
 /*                              Functions                                  */
 /***************************************************************************/
 
-MVReportFrame::MVReportFrame(wxWindow *parent, ConfigContainer *config, wxWindowID id, const wxString &title, const wxPoint &pos, const wxSize &size,
-		long style) :
+ReportWindow::ReportWindow(wxWindow *parent, ConfigContainer *config, wxWindowID id, const wxString &title, const wxPoint &pos, const wxSize &size, long style) :
 		wxDialog(parent, id, title, pos, size, style)
 {
 	this->config = config;
@@ -78,19 +77,19 @@ MVReportFrame::MVReportFrame(wxWindow *parent, ConfigContainer *config, wxWindow
 
 	this->SetSizeHints(wxDefaultSize, wxDefaultSize);
 
-	wxBoxSizer *MVReportGlobalSizer = new wxBoxSizer(wxVERTICAL);
+	wxBoxSizer *reportGlobalSizer = new wxBoxSizer(wxVERTICAL);
 
-	wxBoxSizer *MVReportTopSizer = new wxBoxSizer(wxHORIZONTAL);
+	wxBoxSizer *reportTopSizer = new wxBoxSizer(wxHORIZONTAL);
 	modelLabel = new wxStaticText(this, wxID_ANY, _("Weather model :"), wxDefaultPosition, wxDefaultSize, 0);
 	modelLabel->Wrap(-1);
-	MVReportTopSizer->Add(modelLabel, 0, wxALIGN_CENTER | wxALL, 5);
+	reportTopSizer->Add(modelLabel, 0, wxALIGN_CENTER | wxALL, 5);
 	modelSelector = new wxComboBox(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0, NULL, 0);
-	MVReportTopSizer->Add(modelSelector, 0, wxLEFT | wxRIGHT | wxTOP, 5);
-	MVReportGlobalSizer->Add(MVReportTopSizer, 0, wxEXPAND, 5);
+	reportTopSizer->Add(modelSelector, 0, wxLEFT | wxRIGHT | wxTOP, 5);
+	reportGlobalSizer->Add(reportTopSizer, 0, wxEXPAND, 5);
 
 	statusLabel = new wxStaticText(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0);
 	statusLabel->Wrap(-1);
-	MVReportGlobalSizer->Add(statusLabel, 0, wxALIGN_CENTER_VERTICAL | wxALIGN_LEFT | wxALL, 5);
+	reportGlobalSizer->Add(statusLabel, 0, wxALIGN_CENTER_VERTICAL | wxALIGN_LEFT | wxALL, 5);
 
 	reportTextArea = new wxTextCtrl(this, wxID_ANY, _("Weather report"), wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE | wxTE_READONLY);
 	wxFont reportFont = reportTextArea->GetFont();
@@ -98,43 +97,43 @@ MVReportFrame::MVReportFrame(wxWindow *parent, ConfigContainer *config, wxWindow
 	reportTextArea->SetFont(reportFont);
 	reportTextArea->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_LISTBOX));
 	reportTextArea->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
-	MVReportGlobalSizer->Add(reportTextArea, 1, wxLEFT | wxRIGHT | wxTOP | wxEXPAND, 5);
+	reportGlobalSizer->Add(reportTextArea, 1, wxLEFT | wxRIGHT | wxTOP | wxEXPAND, 5);
 
-	wxBoxSizer *MVButtonSizer = new wxBoxSizer(wxHORIZONTAL);
+	wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
 	saveButton = new wxButton(this, wxID_ANY, _("Save As..."));
-	MVButtonSizer->Add(saveButton, 0, wxLEFT | wxRIGHT | wxTOP | wxBOTTOM, 5);
-	MVReportGlobalSizer->Add(MVButtonSizer, 0, wxEXPAND, 5);
+	buttonSizer->Add(saveButton, 0, wxLEFT | wxRIGHT | wxTOP | wxBOTTOM, 5);
+	reportGlobalSizer->Add(buttonSizer, 0, wxEXPAND, 5);
 
-	this->SetSizer(MVReportGlobalSizer);
+	this->SetSizer(reportGlobalSizer);
 	this->Layout();
 
 	this->Centre(wxBOTH);
 
 	// Connect Events
-	this->Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(MVReportFrame::OnClose));
-	modelSelector->Connect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(MVReportFrame::OnModelSelect), NULL, this);
-	saveButton->Connect(wxEVT_BUTTON, wxCommandEventHandler(MVReportFrame::OnSaveAs), NULL, this);
+	this->Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(ReportWindow::OnClose));
+	modelSelector->Connect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(ReportWindow::OnModelSelect), NULL, this);
+	saveButton->Connect(wxEVT_BUTTON, wxCommandEventHandler(ReportWindow::OnSaveAs), NULL, this);
 
 	StartThread();
 }
 
-MVReportFrame::~MVReportFrame()
+ReportWindow::~ReportWindow()
 {
 	StopThread();
 	// Disconnect Events
-	this->Disconnect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(MVReportFrame::OnClose));
-	modelSelector->Disconnect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(MVReportFrame::OnModelSelect), NULL, this);
-	saveButton->Disconnect(wxEVT_BUTTON, wxCommandEventHandler(MVReportFrame::OnSaveAs), NULL, this);
+	this->Disconnect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(ReportWindow::OnClose));
+	modelSelector->Disconnect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(ReportWindow::OnModelSelect), NULL, this);
+	saveButton->Disconnect(wxEVT_BUTTON, wxCommandEventHandler(ReportWindow::OnSaveAs), NULL, this);
 	delete jobQueue;
 }
 
-void MVReportFrame::OnClose(wxCloseEvent &event)
+void ReportWindow::OnClose(wxCloseEvent &event)
 {
 	this->Show(false);
 	event.WasProcessed();
 }
 
-void MVReportFrame::OnModelSelect(wxCommandEvent &event)
+void ReportWindow::OnModelSelect(wxCommandEvent &event)
 {
 	config->selectedModelName = modelSelector->GetStringSelection();
 	SetReportText(PrintWeatherReport(modelSelector->GetSelection()));
@@ -143,7 +142,7 @@ void MVReportFrame::OnModelSelect(wxCommandEvent &event)
 	event.WasProcessed();
 }
 
-void MVReportFrame::UpdateConfig()
+void ReportWindow::UpdateConfig()
 {
 	config->windowXPos = this->GetPosition().x;
 	config->windowYPos = this->GetPosition().y;
@@ -151,17 +150,17 @@ void MVReportFrame::UpdateConfig()
 	config->windowHeight = this->GetSize().y;
 }
 
-void MVReportFrame::SetReportText(const wxString &text)
+void ReportWindow::SetReportText(const wxString &text)
 {
 	reportTextArea->Remove(0, -1);
 	reportTextArea->WriteText(text);
 	reportTextArea->SetInsertionPoint(0);
 }
 
-void MVReportFrame::StartThread()
+void ReportWindow::StartThread()
 {
 	StopThread();
-	workerThread = new MeteoVacheThread(this, jobQueue);
+	workerThread = new NetworkThread(this, jobQueue);
 	if (workerThread->Run() != wxTHREAD_NO_ERROR)
 	{
 		delete workerThread;
@@ -171,7 +170,7 @@ void MVReportFrame::StartThread()
 	}
 }
 
-void MVReportFrame::StopThread()
+void ReportWindow::StopThread()
 {
 	if (workerThread != nullptr)
 	{
@@ -186,7 +185,7 @@ void MVReportFrame::StopThread()
 	}
 }
 
-void MVReportFrame::OnThreadEvent(wxCommandEvent &evt)
+void ReportWindow::OnThreadEvent(wxCommandEvent &evt)
 {
 	if (evt.GetEventType() == wxEVT_THREAD_JOB_COMPLETED)
 	{
@@ -197,7 +196,7 @@ void MVReportFrame::OnThreadEvent(wxCommandEvent &evt)
 		modelSelector->Clear();
 		for (uint32_t i = 0; i < spotForecast.GetNumberOfForecast(); i++)
 		{
-			newString = wxString(spotForecast.Get(i).getModelName());
+			newString = wxString(spotForecast.Get(i).GetModelName());
 			modelSelector->Append(newString);
 			if (i == 0)
 			{
@@ -227,7 +226,7 @@ void MVReportFrame::OnThreadEvent(wxCommandEvent &evt)
 	}
 }
 
-void MVReportFrame::AutoSaveReport()
+void ReportWindow::AutoSaveReport()
 {
 	if (config->autoSaveEnable)
 	{
@@ -241,7 +240,7 @@ void MVReportFrame::AutoSaveReport()
 		}
 		if (config->autoSaveCompress)
 		{
-			wxFileOutputStream outputStream(config->autosavePath + wxFileName::GetPathSeparator() + GetReportBaseName() + ".zip");
+			wxFileOutputStream outputStream(config->autoSavePath + wxFileName::GetPathSeparator() + GetReportBaseName() + ".zip");
 			if (outputStream.IsOk())
 			{
 				wxZipOutputStream zipStream(outputStream);
@@ -253,7 +252,7 @@ void MVReportFrame::AutoSaveReport()
 			}
 		} else
 		{
-			wxFileOutputStream outputStream(config->autosavePath + wxFileName::GetPathSeparator() + GetReportBaseName() + ".txt");
+			wxFileOutputStream outputStream(config->autoSavePath + wxFileName::GetPathSeparator() + GetReportBaseName() + ".txt");
 			if (outputStream.IsOk())
 			{
 				outputStream.Write(fileReport.ToUTF8(), fileReport.length());
@@ -263,7 +262,7 @@ void MVReportFrame::AutoSaveReport()
 	}
 }
 
-wxString MVReportFrame::PrintWeatherReport(int modelIndex)
+wxString ReportWindow::PrintWeatherReport(int modelIndex)
 {
 	wxString modelInfo;
 	Forecast *forecast;
@@ -275,12 +274,12 @@ wxString MVReportFrame::PrintWeatherReport(int modelIndex)
 	forecast = &spotForecast.Get(modelIndex);
 
 	DateTime runDate;
-	runDate.SetTimeCode(forecast->getRunTimeCode());
+	runDate.SetTimeCode(forecast->GetRunTimeCode());
 	modelInfo = modelInfo.Append(
 			wxString::Format("%-20s%s %s\n", _("Position") + " : ", GetLatitudeString(spotForecast.GetLatitude()),
 					GetLongitudeString(spotForecast.GetLongitude())));
-	modelInfo = modelInfo.Append(wxString::Format("%-20s%s\n", _("Model") + " : ", forecast->getModelName()));
-	modelInfo = modelInfo.Append(wxString::Format("%-20s%s\n", _("Provider") + " : ", forecast->getProviderName()));
+	modelInfo = modelInfo.Append(wxString::Format("%-20s%s\n", _("Model") + " : ", forecast->GetModelName()));
+	modelInfo = modelInfo.Append(wxString::Format("%-20s%s\n", _("Provider") + " : ", forecast->GetProviderName()));
 
 	if (config->timeZoneString.IsSameAs("UTC"))
 	{
@@ -302,13 +301,13 @@ wxString MVReportFrame::PrintWeatherReport(int modelIndex)
 
 	DateTime stepTime = runDate;
 	std::string dayName;
-	for (int step = 0; step < forecast->getNumberOfSteps(); step += 1)
+	for (int step = 0; step < forecast->GetNumberOfSteps(); step += 1)
 	{
-		stepTime.AddHours(forecast->getTimeStepInHours());
+		stepTime.AddHours(forecast->GetTimeStepInHours());
 		dayName = stepTime.GetLocalDayName();
 
 		modelInfo = modelInfo.Append(wxString::Format("%c%c.%02d  %2dh ", dayName[0], dayName[1], stepTime.GetLocalDay(), stepTime.GetLocalHour()));
-		data = forecast->getForecastData(step);
+		data = forecast->GetForecastData(step);
 		cloudCover = data.lowCloudCoverPer;
 		if (data.midCloudCoverPer * 0.66f > cloudCover)
 			cloudCover = data.midCloudCoverPer * 0.66f;
@@ -329,7 +328,7 @@ wxString MVReportFrame::PrintWeatherReport(int modelIndex)
 	return (modelInfo);
 }
 
-wxString MVReportFrame::PrintWeatherReports()
+wxString ReportWindow::PrintWeatherReports()
 {
 	wxString report;
 
@@ -346,7 +345,7 @@ wxString MVReportFrame::PrintWeatherReports()
 	return (report);
 }
 
-wxString MVReportFrame::PrintWeatherColumnReports()
+wxString ReportWindow::PrintWeatherColumnReports()
 {
 	wxString *reportArray = nullptr;
 	uint32_t nbReports;
@@ -382,17 +381,17 @@ wxString MVReportFrame::PrintWeatherColumnReports()
 	return (columnReport);
 }
 
-void MVReportFrame::RequestForecast(float latitude, float longitude)
+void ReportWindow::RequestForecast(float latitude, float longitude)
 {
 	modelSelector->Clear();
 	modelSelector->SetStringSelection(_("No data"));
 	SetReportText("");
 	statusLabel->SetLabelText(_("Contacting server ...") + " " + GetNextWaitingChar());
 	JobRequest job(JobRequest::CMD_GET_ALL_FORECASTS_AT_LOCATION, latitude, longitude);
-	jobQueue->addJob(job);
+	jobQueue->AddJobRequest(job);
 }
 
-wxString MVReportFrame::GetLatitudeString(float latitude)
+wxString ReportWindow::GetLatitudeString(float latitude)
 {
 	wxString latitudeString;
 
@@ -404,7 +403,7 @@ wxString MVReportFrame::GetLatitudeString(float latitude)
 
 }
 
-wxString MVReportFrame::GetLongitudeString(float longitude)
+wxString ReportWindow::GetLongitudeString(float longitude)
 {
 	wxString latitudeString;
 	int degs = (int) roundf(floorf(fabsf(longitude)));
@@ -415,7 +414,7 @@ wxString MVReportFrame::GetLongitudeString(float longitude)
 	return (latitudeString);
 }
 
-wxString MVReportFrame::GetTextDirection(float windDirectionDeg)
+wxString ReportWindow::GetTextDirection(float windDirectionDeg)
 {
 	const float angleStep = 22.5f;
 	float angle = angleStep / 2;
@@ -458,7 +457,7 @@ wxString MVReportFrame::GetTextDirection(float windDirectionDeg)
 		return (_("N"));
 }
 
-wxString MVReportFrame::GetConvertedWind(float windSpeedKt)
+wxString ReportWindow::GetConvertedWind(float windSpeedKt)
 {
 	if (config->windUnitString.IsSameAs("kt"))
 	{
@@ -506,7 +505,7 @@ wxString MVReportFrame::GetConvertedWind(float windSpeedKt)
 	return (wxString::Format("%d", (int) roundf(windSpeedKt)));
 }
 
-wxString MVReportFrame::GetConvertedTemp(float tempC)
+wxString ReportWindow::GetConvertedTemp(float tempC)
 {
 	if (config->tempUnitString.IsSameAs("Farenheit"))
 	{
@@ -517,7 +516,7 @@ wxString MVReportFrame::GetConvertedTemp(float tempC)
 	return (wxString::Format("%d", (int) roundf(tempC)));
 }
 
-wxString MVReportFrame::GetConvertedTempId()
+wxString ReportWindow::GetConvertedTempId()
 {
 	if (config->tempUnitString.IsSameAs("Farenheit"))
 	{
@@ -527,7 +526,7 @@ wxString MVReportFrame::GetConvertedTempId()
 	return (_("C"));
 }
 
-void MVReportFrame::OnSaveAs(wxCommandEvent&)
+void ReportWindow::OnSaveAs(wxCommandEvent&)
 {
 	wxFileDialog saveFileDialog(this, _("Save weather report"), config->manualSavePath, GetReportBaseName() + ".txt",
 	_("Text File") + " (*.txt)|*.txt|" + _("Column Text File") + " (*.txt)|*.txt", wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
@@ -553,14 +552,14 @@ void MVReportFrame::OnSaveAs(wxCommandEvent&)
 	}
 }
 
-wxString MVReportFrame::GetReportBaseName()
+wxString ReportWindow::GetReportBaseName()
 {
 	wxDateTime dateTime = wxDateTime::Now();
 	return (wxString::Format(_("WForecast") + "_%d-%02d-%02d_%02dh%02dm%02ds", dateTime.GetYear(), dateTime.GetMonth(), dateTime.GetDay(), dateTime.GetHour(),
 			dateTime.GetMinute(), dateTime.GetSecond()));
 }
 
-char MVReportFrame::GetNextWaitingChar()
+char ReportWindow::GetNextWaitingChar()
 {
 	static char progressChar[] =
 	{ '/', '-', '\\', '|' };

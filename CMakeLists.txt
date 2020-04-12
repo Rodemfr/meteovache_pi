@@ -42,14 +42,14 @@ SET(SRC_MV
     src/MeteoVacheClient.cpp
     src/MeteoVachePlugin.h
     src/MeteoVachePlugin.cpp
-    src/MeteoVacheThread.h
-    src/MeteoVacheThread.cpp
-    src/icons.h
-    src/icons.cpp
-    src/MVReportFrame.h
-    src/MVReportFrame.cpp
-    src/MVPrefDialog.h
-    src/MVPrefDialog.cpp
+    src/NetworkThread.h
+    src/NetworkThread.cpp
+    src/Icons.h
+    src/Icons.cpp
+    src/ReportWindow.h
+    src/ReportWindow.cpp
+    src/PreferenceDialog.h
+    src/PreferenceDialog.cpp
     src/SpotForecasts.h
     src/SpotForecasts.cpp
     src/ConfigContainer.h

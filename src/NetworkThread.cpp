@@ -28,9 +28,9 @@
 /*                              Includes                                   */
 /***************************************************************************/
 
-#include <MeteoVacheThread.h>
-#include <MVReportFrame.h>
 #include <JobQueue.h>
+#include <NetWorkThread.h>
+#include <ReportWindow.h>
 
 /***************************************************************************/
 /*                              Constants                                  */
@@ -54,7 +54,7 @@
 /*                              Functions                                  */
 /***************************************************************************/
 
-MeteoVacheThread::MeteoVacheThread(MVReportFrame *handler, JobQueue *jobQueue) :
+NetworkThread::NetworkThread(ReportWindow *handler, JobQueue *jobQueue) :
 		wxThread(wxTHREAD_DETACHED)
 {
 	pHandler = handler;
@@ -62,37 +62,37 @@ MeteoVacheThread::MeteoVacheThread(MVReportFrame *handler, JobQueue *jobQueue) :
 	meteoVacheClient = new MeteoVacheClient();
 }
 
-MeteoVacheThread::~MeteoVacheThread()
+NetworkThread::~NetworkThread()
 {
 	delete meteoVacheClient;
 }
 
-wxThread::ExitCode MeteoVacheThread::Entry()
+wxThread::ExitCode NetworkThread::Entry()
 {
 	JobRequest job;
 	int retries;
 
 	while (TestDestroy() == false)
 	{
-		if (pHandler->jobQueue->getNextJobTimeout(&job, 500) == true)
+		if (pHandler->jobQueue->GetNextJobTimeout(&job, 500) == true)
 		{
 			if (job.cmd == JobRequest::CMD_GET_ALL_FORECASTS_AT_LOCATION)
 			{
 				retries = 0;
-				while ((retries < MAX_NETWORK_RETRIES) && (meteoVacheClient->downloadAllForecasts(job.latitude, job.longitude, pHandler->spotForecast) == false))
+				while ((retries < MAX_NETWORK_RETRIES) && (meteoVacheClient->DownloadAllForecasts(job.latitude, job.longitude, pHandler->spotForecast) == false))
 				{
 					retries++;
-					jobQueue->reportResult(job.cmd, JobQueue::JOB_ONGOING);
+					jobQueue->ReportResult(job.cmd, JobQueue::JOB_ONGOING);
 					if (TestDestroy()) {
 						return (wxThread::ExitCode) 0;
 					}
 				}
 				if (retries < MAX_NETWORK_RETRIES)
 				{
-					jobQueue->reportResult(job.cmd, JobQueue::JOB_SUCCESSFUL);
+					jobQueue->ReportResult(job.cmd, JobQueue::JOB_SUCCESSFUL);
 				} else
 				{
-					jobQueue->reportResult(job.cmd, JobQueue::JOB_FAILED);
+					jobQueue->ReportResult(job.cmd, JobQueue::JOB_FAILED);
 				}
 			}
 		}

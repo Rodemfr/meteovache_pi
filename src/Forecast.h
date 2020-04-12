@@ -79,41 +79,41 @@ public:
 	void Create(int numberOfSteps);
 	void Clear();
 
-	WeatherData getForecastData(uint32_t index);
+	WeatherData GetForecastData(uint32_t index);
 
-	uint32_t getBinarySize();
-	uint16_t getNumberOfSteps();
+	uint32_t GetBinarySize();
+	uint16_t GetNumberOfSteps();
 
-	uint32_t writeBinary(void *buffer);
-	uint32_t readBinary(void *buffer);
+	uint32_t WriteBinary(void *buffer);
+	uint32_t ReadBinary(void *buffer);
 
-	void setProviderName(std::string &providerName);
-	void setModelName(std::string &modelName);
-	void setRunTimeCode(uint32_t runTimeCode);
-	void setTimeStepInHours(uint32_t timeStepInHours);
+	void SetProviderName(std::string &providerName);
+	void SetModelName(std::string &modelName);
+	void SetRunTimeCode(uint32_t runTimeCode);
+	void SetTimeStepInHours(uint32_t timeStepInHours);
 
-	std::string getModelName();
-	std::string getProviderName();
-	uint32_t getRunTimeCode();
-	uint32_t getTimeStepInHours();
+	std::string GetModelName();
+	std::string GetProviderName();
+	uint32_t GetRunTimeCode();
+	uint32_t GetTimeStepInHours();
 
 private:
-	float getMinWindDirectionDeg();
-	float getMaxWindDirectionDeg();
-	float getMinWindSpeedKt();
-	float getMaxWindSpeedKt();
-	float getMinGustSpeedKt();
-	float getMaxGustSpeedKt();
-	float getMinLowCloudCoverPer();
-	float getMaxLowCloudCoverPer();
-	float getMinMidCloudCoverPer();
-	float getMaxMidCloudCoverPer();
-	float getMinHighCloudCoverPer();
-	float getMaxHighCloudCoverPer();
-	float getMinPrecipitationMmH();
-	float getMaxPrecipitationMmH();
-	float getMinTemperatureC();
-	float getMaxTemperatureC();
+	float GetMinWindDirectionDeg();
+	float GetMaxWindDirectionDeg();
+	float GetMinWindSpeedKt();
+	float GetMaxWindSpeedKt();
+	float GetMinGustSpeedKt();
+	float GetMaxGustSpeedKt();
+	float GetMinLowCloudCoverPer();
+	float GetMaxLowCloudCoverPer();
+	float GetMinMidCloudCoverPer();
+	float GetMaxMidCloudCoverPer();
+	float GetMinHighCloudCoverPer();
+	float GetMaxHighCloudCoverPer();
+	float GetMinPrecipitationMmH();
+	float GetMaxPrecipitationMmH();
+	float GetMinTemperatureC();
+	float GetMaxTemperatureC();
 };
 
 #endif /* _FORECAST_H_ */

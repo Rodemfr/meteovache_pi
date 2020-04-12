@@ -51,45 +51,56 @@
 /***************************************************************************/
 
 SpotForecasts::SpotForecasts() :
-		latitudeDeg(0), longitudeDeg(0), forecastList() {
+		latitudeDeg(0), longitudeDeg(0), forecastList()
+{
 }
 
-SpotForecasts::~SpotForecasts() {
+SpotForecasts::~SpotForecasts()
+{
 }
 
-void SpotForecasts::Lock() {
+void SpotForecasts::Lock()
+{
 	locker.Enter();
 }
 
-void SpotForecasts::Unlock() {
+void SpotForecasts::Unlock()
+{
 	locker.Leave();
 }
 
-void SpotForecasts::Reset() {
+void SpotForecasts::Reset()
+{
 	forecastList.clear();
 }
 
-Forecast& SpotForecasts::Get(uint32_t i) {
+Forecast& SpotForecasts::Get(uint32_t i)
+{
 	return (forecastList.at(i));
 }
 
-void SpotForecasts::Add(Forecast &forecast) {
+void SpotForecasts::Add(Forecast &forecast)
+{
 	forecastList.push_back(forecast);
 }
 
-void SpotForecasts::SetPosition(float latitudeDeg, float longitudeDeg) {
+void SpotForecasts::SetPosition(float latitudeDeg, float longitudeDeg)
+{
 	this->latitudeDeg = latitudeDeg;
 	this->longitudeDeg = longitudeDeg;
 }
 
-float SpotForecasts::GetLatitude() {
+float SpotForecasts::GetLatitude()
+{
 	return (latitudeDeg);
 }
 
-float SpotForecasts::GetLongitude() {
+float SpotForecasts::GetLongitude()
+{
 	return (longitudeDeg);
 }
 
-uint32_t SpotForecasts::GetNumberOfForecast() {
+uint32_t SpotForecasts::GetNumberOfForecast()
+{
 	return (forecastList.size());
 }

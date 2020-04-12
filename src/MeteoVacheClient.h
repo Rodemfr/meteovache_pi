@@ -58,7 +58,7 @@ public:
 	virtual ~MeteoVacheClient();
 
 	// Download all available forecasts at a given location
-	bool downloadAllForecasts(float latitude, float longitude, SpotForecasts &spotHandler);
+	bool DownloadAllForecasts(float latitudeDeg, float longitudeDeg, SpotForecasts &spotHandler);
 
 private:
 	wxIPV4address localIpAddr, serverIpAddr;       // Addresses of the local and distant sockets
@@ -67,7 +67,7 @@ private:
 	char serverResponse[MVC_MAX_RESPONSE_LENGTH];  // Buffer storing uncompressed response from server
 
 	// Uncompress a gzipped response from the server
-	unsigned int uncompressBuffer(void *inputBuffer, unsigned int inputLength, void *outputBuffer, unsigned int outputLength);
+	unsigned int UncompressBuffer(void *inputBuffer, unsigned int inputLength, void *outputBuffer, unsigned int outputLength);
 };
 
 #endif /* _METEOVACHECLIENT_H_ */

@@ -19,7 +19,7 @@
 #include <wx/checkbox.h>
 #include <wx/button.h>
 
-class MVPrefDialog: public wxDialog
+class PreferenceDialog: public wxDialog
 {
 protected:
 	wxStaticText *windUnitLabel;
@@ -32,21 +32,21 @@ protected:
 	wxStaticText *serverPortLabel;
 	wxTextCtrl *serverNameEdit;
 	wxTextCtrl *serverPortEdit;
-	wxStaticText *autosavePathLabel;
-	wxTextCtrl *autosavePathEdit;
-	wxButton *autosavePathEditButton;
-	wxCheckBox *autosaveEnableCheckbox;
-	wxCheckBox *autosaveColumnCheckbox;
-	wxCheckBox *autosaveCompressCheckbox;
+	wxStaticText *autoSavePathLabel;
+	wxTextCtrl *autoSavePathEdit;
+	wxButton *autoSavePathEditButton;
+	wxCheckBox *autoSaveEnableCheckbox;
+	wxCheckBox *autoSaveColumnCheckbox;
+	wxCheckBox *autoSaveCompressCheckbox;
 
 	ConfigContainer *config;
 
 public:
-	MVPrefDialog(wxWindow *parent, ConfigContainer *config, wxWindowID id = wxID_ANY, const wxString &title = wxEmptyString, const wxPoint &pos = wxDefaultPosition, const wxSize &size =
+	PreferenceDialog(wxWindow *parent, ConfigContainer *config, wxWindowID id = wxID_ANY, const wxString &title = wxEmptyString, const wxPoint &pos = wxDefaultPosition, const wxSize &size =
 			wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE);
-	~MVPrefDialog();
+	~PreferenceDialog();
 	void UpdateConfig();
-	void onAutosavePathBrowse(wxCommandEvent&);
+	void OnAutoSavePathBrowse(wxCommandEvent &evt);
 };
 
 #endif //_MVPREFDIALOG_H_

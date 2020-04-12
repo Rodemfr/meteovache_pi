@@ -82,10 +82,10 @@ public:
 
 	JobQueue(wxEvtHandler *pParent);
 
-	void addJob(const JobRequest &job);
-	void getNextJob(JobRequest *jobRequest);
-	bool getNextJobTimeout(JobRequest *jobRequest, unsigned long timeOut);
-	void reportResult(const JobRequest::JobCommand &cmd, JobResult result);
+	void AddJobRequest(const JobRequest &job);
+	void GetNextJob(JobRequest *jobRequest);
+	bool GetNextJobTimeout(JobRequest *jobRequest, unsigned long timeOut);
+	void ReportResult(const JobRequest::JobCommand &cmd, JobResult result);
 
 private:
 	wxEvtHandler *parentEvtHandler;

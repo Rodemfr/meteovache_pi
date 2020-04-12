@@ -48,16 +48,16 @@
 /*                               Classes                                   */
 /***************************************************************************/
 
-class MVReportFrame;
+class ReportWindow;
 
-class MeteoVacheThread: public wxThread {
+class NetworkThread: public wxThread {
 public:
-	MeteoVacheThread(MVReportFrame *handler, JobQueue *jobQueue);
-	virtual ~MeteoVacheThread();
+	NetworkThread(ReportWindow *handler, JobQueue *jobQueue);
+	virtual ~NetworkThread();
 
 private:
 	virtual ExitCode Entry();
-	MVReportFrame *pHandler;
+	ReportWindow *pHandler;
 	JobQueue *jobQueue;
 	MeteoVacheClient *meteoVacheClient;
 };

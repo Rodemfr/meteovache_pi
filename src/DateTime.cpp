@@ -55,13 +55,16 @@
 /***************************************************************************/
 
 DateTime::DateTime() :
-		timeValue(0) {
+		timeValue(0)
+{
 }
 
-DateTime::~DateTime() {
+DateTime::~DateTime()
+{
 }
 
-bool DateTime::ParseGmtIso8601(std::string timeString) {
+bool DateTime::ParseGmtIso8601(std::string timeString)
+{
 	struct tm timeData;
 	char *returnCode;
 
@@ -71,38 +74,38 @@ bool DateTime::ParseGmtIso8601(std::string timeString) {
 	timeData.tm_isdst = 1;
 	timeValue = timegm(&timeData);
 #else
-    sscanf(timeString.c_str(), "%d-%d-%dT%d%*c%d", &timeData.tm_year,
-           &timeData.tm_mon, &timeData.tm_mday, &timeData.tm_hour,
-           &timeData.tm_min);
-    timeData.tm_year -= 1900;
-    timeData.tm_mon -= 1;
-    timeData.tm_isdst = 0;
-    timeValue = _mkgmtime(&timeData);
-    returnCode = (char *)1;
+	sscanf(timeString.c_str(), "%d-%d-%dT%d%*c%d", &timeData.tm_year, &timeData.tm_mon, &timeData.tm_mday, &timeData.tm_hour, &timeData.tm_min);
+	timeData.tm_year -= 1900;
+	timeData.tm_mon -= 1;
+	timeData.tm_isdst = 0;
+	timeValue = _mkgmtime(&timeData);
+	returnCode = (char*) 1;
 #endif
 	return (returnCode != NULL);
 }
 
-std::string DateTime::FormatGmtIso8601() {
+std::string DateTime::FormatGmtIso8601()
+{
 	struct tm *timeData;
 	time_t tv = timeValue;
 	char timeString[64];
 
 	timeData = gmtime(&tv);
-
 	strftime(timeString, sizeof(timeString), "%FT%TZ", timeData);
 
 	return (std::string(timeString));
 }
 
-void DateTime::SetToCurrentTime() {
+void DateTime::SetToCurrentTime()
+{
 	time_t tv;
 
 	time(&tv);
 	timeValue = tv;
 }
 
-uint32_t DateTime::GetLocalYear() {
+uint32_t DateTime::GetLocalYear()
+{
 	struct tm *timeData;
 	time_t tv = timeValue;
 
@@ -111,7 +114,8 @@ uint32_t DateTime::GetLocalYear() {
 	return (timeData->tm_year + 1900);
 }
 
-uint32_t DateTime::GetGmtYear() {
+uint32_t DateTime::GetGmtYear()
+{
 	struct tm *timeData;
 	time_t tv = timeValue;
 
@@ -120,7 +124,8 @@ uint32_t DateTime::GetGmtYear() {
 	return (timeData->tm_year + 1900);
 }
 
-uint32_t DateTime::GetLocalMonth() {
+uint32_t DateTime::GetLocalMonth()
+{
 	struct tm *timeData;
 	time_t tv = timeValue;
 
@@ -129,7 +134,8 @@ uint32_t DateTime::GetLocalMonth() {
 	return (timeData->tm_mon + 1);
 }
 
-uint32_t DateTime::GetGmtMonth() {
+uint32_t DateTime::GetGmtMonth()
+{
 	struct tm *timeData;
 	time_t tv = timeValue;
 
@@ -138,7 +144,8 @@ uint32_t DateTime::GetGmtMonth() {
 	return (timeData->tm_mon + 1);
 }
 
-std::string DateTime::GetLocalMonthName() {
+std::string DateTime::GetLocalMonthName()
+{
 	struct tm *timeData;
 	time_t tv = timeValue;
 	std::string monthName;
@@ -148,7 +155,8 @@ std::string DateTime::GetLocalMonthName() {
 	return GetMonthName(timeData->tm_mon);
 }
 
-std::string DateTime::GetGmtMonthName() {
+std::string DateTime::GetGmtMonthName()
+{
 	struct tm *timeData;
 	time_t tv = timeValue;
 
@@ -157,7 +165,8 @@ std::string DateTime::GetGmtMonthName() {
 	return GetMonthName(timeData->tm_mon);
 }
 
-uint32_t DateTime::GetLocalDay() {
+uint32_t DateTime::GetLocalDay()
+{
 	struct tm *timeData;
 	time_t tv = timeValue;
 
@@ -166,7 +175,8 @@ uint32_t DateTime::GetLocalDay() {
 	return (timeData->tm_mday);
 }
 
-uint32_t DateTime::GetGmtDay() {
+uint32_t DateTime::GetGmtDay()
+{
 	struct tm *timeData;
 	time_t tv = timeValue;
 
@@ -175,7 +185,8 @@ uint32_t DateTime::GetGmtDay() {
 	return (timeData->tm_mday);
 }
 
-std::string DateTime::GetLocalDayName() {
+std::string DateTime::GetLocalDayName()
+{
 	struct tm *timeData;
 	time_t tv = timeValue;
 
@@ -184,7 +195,8 @@ std::string DateTime::GetLocalDayName() {
 	return GetDayName(timeData->tm_wday);
 }
 
-std::string DateTime::GetGmtDayName() {
+std::string DateTime::GetGmtDayName()
+{
 	struct tm *timeData;
 	time_t tv = timeValue;
 
@@ -193,7 +205,8 @@ std::string DateTime::GetGmtDayName() {
 	return GetDayName(timeData->tm_wday);
 }
 
-uint32_t DateTime::GetLocalHour() {
+uint32_t DateTime::GetLocalHour()
+{
 	struct tm *timeData;
 	time_t tv = timeValue;
 
@@ -202,7 +215,8 @@ uint32_t DateTime::GetLocalHour() {
 	return (timeData->tm_hour);
 }
 
-uint32_t DateTime::GetGmtHour() {
+uint32_t DateTime::GetGmtHour()
+{
 	struct tm *timeData;
 	time_t tv = timeValue;
 
@@ -211,7 +225,8 @@ uint32_t DateTime::GetGmtHour() {
 	return (timeData->tm_hour);
 }
 
-uint32_t DateTime::GetLocalMinute() {
+uint32_t DateTime::GetLocalMinute()
+{
 	struct tm *timeData;
 	time_t tv = timeValue;
 
@@ -220,7 +235,8 @@ uint32_t DateTime::GetLocalMinute() {
 	return (timeData->tm_min);
 }
 
-uint32_t DateTime::GetGmtMinute() {
+uint32_t DateTime::GetGmtMinute()
+{
 	struct tm *timeData;
 	time_t tv = timeValue;
 
@@ -229,15 +245,18 @@ uint32_t DateTime::GetGmtMinute() {
 	return (timeData->tm_min);
 }
 
-void DateTime::AddHours(int hours) {
+void DateTime::AddHours(int hours)
+{
 	timeValue += (3600 * hours);
 }
 
-bool DateTime::IsLaterThan(DateTime &dateTime) {
+bool DateTime::IsLaterThan(DateTime &dateTime)
+{
 	return (timeValue > dateTime.timeValue);
 }
 
-uint32_t DateTime::GetTimeCode() {
+uint32_t DateTime::GetTimeCode()
+{
 	uint32_t timeCode;
 	struct tm *timeData;
 	time_t tv = timeValue;
@@ -253,7 +272,8 @@ uint32_t DateTime::GetTimeCode() {
 	return (timeCode);
 }
 
-void DateTime::SetTimeCode(uint32_t code) {
+void DateTime::SetTimeCode(uint32_t code)
+{
 	struct tm timeData;
 
 	memset(&timeData, 0, sizeof(timeData));
@@ -270,8 +290,10 @@ void DateTime::SetTimeCode(uint32_t code) {
 #endif
 }
 
-std::string DateTime::GetMonthName(uint32_t month) {
-	switch (month) {
+std::string DateTime::GetMonthName(uint32_t month)
+{
+	switch (month)
+	{
 	case 0:
 		return _("January").ToStdString();
 		break;
@@ -313,8 +335,10 @@ std::string DateTime::GetMonthName(uint32_t month) {
 	return (std::string(""));
 }
 
-std::string DateTime::GetDayName(uint32_t day) {
-	switch (day) {
+std::string DateTime::GetDayName(uint32_t day)
+{
+	switch (day)
+	{
 	case 0:
 		return _("Sunday").ToStdString();
 		break;
