@@ -25,11 +25,11 @@ This program is distributed under the terms of the GPL v2. - see the [gpl.txt](c
 
 ## Download
 
-Latest release is v0.4
+Latest release is v0.5
 
 Pre-compiled binaries and source code are available here :
 
-https://github.com/Rodemfr/meteovache_pi/releases/tag/v0.4
+https://github.com/Rodemfr/meteovache_pi/releases/tag/v0.5
 
 Installer is only available for Windows OS. On Linux, you have to uncompress archives manually and to copy the various files in OpenCPN install directory. Archives have been made so that the folder structure inside OpenCPN install directory is preserved.
 
@@ -38,6 +38,13 @@ Installer is only available for Windows OS. On Linux, you have to uncompress arc
 * Thanks to @OpenCPN team for providing a comprehensive set of templates and examples to develop plug-ins and to maintain this wonderful Open Source application.
 
 ## Release history
+
+**v0.5**
+* Fixed issues in networking thread in case of long server response
+* Added a status test in report window to inform on the status of the last forecast request (success, on-going, failed)
+* Fixed bad color in case of dark theme under Debian
+* Added possibility to display time in locale/system time zone or UTC in preference dialog
+* Added uses time zone in weather report
 
 **v0.4**
 * Added a button to manually save weather forecast in a text file (normal or column format)

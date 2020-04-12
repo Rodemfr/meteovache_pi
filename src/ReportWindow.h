@@ -31,7 +31,7 @@
 /*                              Includes                                   */
 /***************************************************************************/
 
-#include <NetWorkThread.h>
+#include <NetworkThread.h>
 #include <JobQueue.h>
 #include <SpotForecasts.h>
 #include <ConfigContainer.h>

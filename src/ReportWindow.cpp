@@ -38,7 +38,7 @@
 #include <wx/wfstream.h>
 #include <wx/zipstrm.h>
 #include <math.h>
-#include <NetWorkThread.h>
+#include <NetworkThread.h>
 #include <ReportWindow.h>
 
 /***************************************************************************/

@@ -1,4 +1,4 @@
 src/MeteoVachePlugin.cpp
-src/MVReportFrame.cpp
+src/ReportWindow.cpp
 src/DateTime.cpp
-src/MVPrefDialog.cpp
+src/PreferenceDialog.cpp
