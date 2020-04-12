@@ -84,7 +84,7 @@ MVReportFrame::MVReportFrame(wxWindow *parent, ConfigContainer *config, wxWindow
 	modelLabel = new wxStaticText(this, wxID_ANY, _("Weather model :"), wxDefaultPosition, wxDefaultSize, 0);
 	modelLabel->Wrap(-1);
 	MVReportTopSizer->Add(modelLabel, 0, wxALIGN_CENTER | wxALL, 5);
-	modelSelector = new wxComboBox(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0, NULL, 0);
+	modelSelector = new wxComboBox(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
 	MVReportTopSizer->Add(modelSelector, 0, wxLEFT | wxRIGHT | wxTOP, 5);
 	MVReportGlobalSizer->Add(MVReportTopSizer, 0, wxEXPAND, 5);
 
