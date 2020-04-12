@@ -152,6 +152,11 @@ void MVReportFrame::SetManualSaveFormat(int format)
 	manualSaveFormat = format;
 }
 
+void MVReportFrame::SetTimeZoneString(wxString timeZoneString)
+{
+	this->timeZoneString = timeZoneString;
+}
+
 wxString MVReportFrame::GetManualSavePath()
 {
 	return (manualSavePath);
@@ -300,11 +305,19 @@ wxString MVReportFrame::PrintWeatherReport(int modelIndex)
 					GetLongitudeString(spotForecast.GetLongitude())));
 	modelInfo = modelInfo.Append(wxString::Format("%-20s%s\n", _("Model") + " : ", forecast->getModelName()));
 	modelInfo = modelInfo.Append(wxString::Format("%-20s%s\n", _("Provider") + " : ", forecast->getProviderName()));
-	modelInfo = modelInfo.Append(
-			wxString::Format("%-20s%02d/%02d/%d %dh%02d\n", _("Run date") + " : ", runDate.GetLocalDay(), runDate.GetLocalMonth(), runDate.GetLocalYear(),
-					runDate.GetLocalHour(), runDate.GetLocalMinute()));
-	modelInfo = modelInfo.Append(wxString::Format("%-20s%s\n\n", _("Time zone") + " : ", _("Local / system")));
 
+	if (timeZoneString.IsSameAs("UTC"))
+	{
+		modelInfo = modelInfo.Append(
+				wxString::Format("%-20s%02d/%02d/%d %dh%02d\n", _("Run date") + " : ", runDate.GetGmtDay(), runDate.GetGmtMonth(), runDate.GetGmtYear(),
+						runDate.GetGmtHour(), runDate.GetGmtMinute()));
+	} else
+	{
+		modelInfo = modelInfo.Append(
+				wxString::Format("%-20s%02d/%02d/%d %dh%02d\n", _("Run date") + " : ", runDate.GetLocalDay(), runDate.GetLocalMonth(), runDate.GetLocalYear(),
+						runDate.GetLocalHour(), runDate.GetLocalMinute()));
+	}
+	modelInfo = modelInfo.Append(wxString::Format("%-20s%s\n\n", _("Time zone") + " : ", _(timeZoneString)));
 
 	modelInfo = modelInfo.Append(wxString::Format("           %4s %4s %5s %5s %5s %4s\n", _("Wind"), _("Gust"), _("Dir"), _("Rain"), _("Cloud"), _("Temp")));
 	modelInfo = modelInfo.Append(

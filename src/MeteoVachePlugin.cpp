@@ -154,6 +154,7 @@ int MeteoVachePlugin::Init(void)
 	weatherReportFrame->SetSelectedModelName(pluginConfig.selectedModelName);
 	weatherReportFrame->SetWindUnitString(pluginConfig.windUnitString);
 	weatherReportFrame->SetTempUnitString(pluginConfig.tempUnitString);
+	weatherReportFrame->SetTimeZoneString(pluginConfig.timeZoneString);
 	weatherReportFrame->SetAutosavePreferences(pluginConfig.autosavePath, pluginConfig.autosaveEnable, pluginConfig.autosaveColumn, pluginConfig.autoSaveCompress);
 	weatherReportFrame->SetManualSavePath(pluginConfig.manualSavePath);
 	weatherReportFrame->SetManualSaveFormat(pluginConfig.manualSaveFormat);
@@ -262,6 +263,7 @@ bool MeteoVachePlugin::LoadConfig(void)
 		pConf->Read("ModelName", &(pluginConfig.selectedModelName), "");
 		pConf->Read("WindUnitString", &(pluginConfig.windUnitString), "kt");
 		pConf->Read("TempUnitString", &(pluginConfig.tempUnitString), "C");
+		pConf->Read("TimeZoneString", &(pluginConfig.timeZoneString), "Local / system");
 		pConf->Read("AutoSavePath", &(pluginConfig.autosavePath), pluginConfig.autosavePath);
 		pConf->Read("AutoSaveEnable", &(pluginConfig.autosaveEnable), false);
 		pConf->Read("AutoSaveColumn", &(pluginConfig.autosaveColumn), false);
@@ -288,6 +290,7 @@ bool MeteoVachePlugin::SaveConfig(void)
 		pConf->Write("ModelName", weatherReportFrame->GetSelectedModelName());
 		pConf->Write("WindUnitString", pluginConfig.windUnitString);
 		pConf->Write("TempUnitString", pluginConfig.tempUnitString);
+		pConf->Write("TimeZoneString", pluginConfig.timeZoneString);
 		pConf->Write("AutoSavePath", pluginConfig.autosavePath);
 		pConf->Write("AutoSaveEnable", pluginConfig.autosaveEnable);
 		pConf->Write("AutoSaveColumn", pluginConfig.autosaveColumn);
@@ -305,6 +308,7 @@ void MeteoVachePlugin::ShowPreferencesDialog(wxWindow *parent)
 	wxDEFAULT_DIALOG_STYLE);
 
 	prefDialog->SetUnitPreferences(pluginConfig.windUnitString, pluginConfig.tempUnitString);
+	prefDialog->SetDisplayPreferences(pluginConfig.timeZoneString);
 	prefDialog->SetAutosavePreferences(pluginConfig.autosavePath, pluginConfig.autosaveEnable, pluginConfig.autosaveColumn, pluginConfig.autoSaveCompress);
 	prefDialog->Fit();
 	prefDialog->Layout();
@@ -313,8 +317,10 @@ void MeteoVachePlugin::ShowPreferencesDialog(wxWindow *parent)
 	{
 		pluginConfig.windUnitString = prefDialog->GetWindUnitString();
 		pluginConfig.tempUnitString = prefDialog->GetTempUnitString();
+		pluginConfig.timeZoneString = prefDialog->GetTimeZoneString();
 		weatherReportFrame->SetWindUnitString(pluginConfig.windUnitString);
 		weatherReportFrame->SetTempUnitString(pluginConfig.tempUnitString);
+		weatherReportFrame->SetTimeZoneString(pluginConfig.timeZoneString);
 		pluginConfig.autosavePath = prefDialog->GetAutosavePath();
 		pluginConfig.autosaveEnable = prefDialog->GetAutosaveEnable();
 		pluginConfig.autosaveColumn = prefDialog->GetAutosaveColumn();

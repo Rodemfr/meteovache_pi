@@ -25,6 +25,8 @@ protected:
 	wxComboBox *windUnitSelection;
 	wxStaticText *tempUnitLabel;
 	wxComboBox *tempUnitSelection;
+	wxStaticText* timeZoneLabel;
+	wxComboBox* timeZoneSelection;
 	wxStaticText *serverNameLabel;
 	wxStaticText *serverPortLabel;
 	wxTextCtrl *serverNameEdit;
@@ -41,9 +43,11 @@ public:
 			wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE);
 	~MVPrefDialog();
 	void SetUnitPreferences(wxString windUnitString, wxString tempUnitString);
+	void SetDisplayPreferences(wxString timeZoneString);
 	void SetAutosavePreferences(wxString path, bool enable, bool column, bool compress);
 	wxString GetWindUnitString();
 	wxString GetTempUnitString();
+	wxString GetTimeZoneString();
 	wxString GetAutosavePath();
 	bool GetAutosaveEnable();
 	bool GetAutosaveColumn();

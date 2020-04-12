@@ -61,6 +61,7 @@ typedef struct {
 	wxString selectedModelName;    // Currently selected weather model
 	wxString windUnitString;       // String of the wind unit to use
 	wxString tempUnitString;       // String of the temperature unit to use
+	wxString timeZoneString;       // Selected time zone for display
 	wxString autosavePath;         // Path where to automatically save weather reports
 	bool autosaveEnable;           // Enable autosave
 	bool autosaveColumn;           // Enable column format for autosaved reports

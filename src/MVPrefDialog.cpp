@@ -84,37 +84,48 @@ MVPrefDialog::MVPrefDialog(wxWindow *parent, wxWindowID id, const wxString &titl
 	unitSizer->Add(0, 1, wxEXPAND, 5);
 	globalSizer->Add(unitSizer, 0, wxALL | wxEXPAND, 5);
 
+	// Display
+	wxStaticBoxSizer* displaySizer = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("Display") ), wxHORIZONTAL );
+	timeZoneLabel = new wxStaticText( displaySizer->GetStaticBox(), wxID_ANY, _("Time zone"), wxDefaultPosition, wxDefaultSize, 0 );
+	timeZoneLabel->Wrap( -1 );
+	displaySizer->Add( timeZoneLabel, 1, wxALIGN_CENTER_VERTICAL | wxALL, 5 );
+	timeZoneSelection = new wxComboBox( displaySizer->GetStaticBox(), wxID_ANY, _("Local / system"), wxDefaultPosition, wxDefaultSize, 0, NULL, 0 );
+	timeZoneSelection->Append( _("Local / system") );
+	timeZoneSelection->Append( _("UTC") );
+	displaySizer->Add( timeZoneSelection, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5 );
+	globalSizer->Add( displaySizer, 0, wxBOTTOM|wxEXPAND|wxLEFT|wxRIGHT, 5 );
+
 	// Auto save configuration
-	wxStaticBoxSizer *autosaveSizer = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, wxT("Auto save")), wxVERTICAL);
+	wxStaticBoxSizer *autosaveSizer = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Auto save")), wxVERTICAL);
 	wxBoxSizer *autosavePathSizer = new wxBoxSizer(wxHORIZONTAL);
-	autosavePathLabel = new wxStaticText(autosaveSizer->GetStaticBox(), wxID_ANY, wxT("Save directory"), wxDefaultPosition, wxDefaultSize, 0);
+	autosavePathLabel = new wxStaticText(autosaveSizer->GetStaticBox(), wxID_ANY, _("Save directory"), wxDefaultPosition, wxDefaultSize, 0);
 	autosavePathLabel->Wrap(-1);
 	autosavePathSizer->Add(autosavePathLabel, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
 	autosavePathEdit = new wxTextCtrl(autosaveSizer->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
 	autosavePathSizer->Add(autosavePathEdit, 1, wxALIGN_CENTER_VERTICAL | wxALL, 5);
-	autosavePathEditButton = new wxButton(autosaveSizer->GetStaticBox(), wxID_ANY, wxT("..."), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT);
+	autosavePathEditButton = new wxButton(autosaveSizer->GetStaticBox(), wxID_ANY, _("..."), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT);
 	autosavePathSizer->Add(autosavePathEditButton, 0, wxALIGN_CENTER_VERTICAL, 5);
 	autosaveSizer->Add(autosavePathSizer, 0, wxEXPAND, 5);
 
 	wxBoxSizer *autosaveCheckboxSizer = new wxBoxSizer(wxHORIZONTAL);
 	autosaveCheckboxSizer->Add(0, 0, 1, wxEXPAND, 5);
-	autosaveEnableCheckbox = new wxCheckBox(autosaveSizer->GetStaticBox(), wxID_ANY, wxT("Enable"), wxDefaultPosition, wxDefaultSize, 0);
+	autosaveEnableCheckbox = new wxCheckBox(autosaveSizer->GetStaticBox(), wxID_ANY, _("Enable"), wxDefaultPosition, wxDefaultSize, 0);
 	autosaveCheckboxSizer->Add(autosaveEnableCheckbox, 0, wxALL, 5);
-	autosaveColumnCheckbox = new wxCheckBox(autosaveSizer->GetStaticBox(), wxID_ANY, wxT("Column format"), wxDefaultPosition, wxDefaultSize, 0);
+	autosaveColumnCheckbox = new wxCheckBox(autosaveSizer->GetStaticBox(), wxID_ANY, _("Column format"), wxDefaultPosition, wxDefaultSize, 0);
 	autosaveCheckboxSizer->Add(autosaveColumnCheckbox, 0, wxALL, 5);
-	autosaveCompressCheckbox = new wxCheckBox(autosaveSizer->GetStaticBox(), wxID_ANY, wxT("Compress"), wxDefaultPosition, wxDefaultSize, 0);
+	autosaveCompressCheckbox = new wxCheckBox(autosaveSizer->GetStaticBox(), wxID_ANY, _("Compress"), wxDefaultPosition, wxDefaultSize, 0);
 	autosaveCheckboxSizer->Add(autosaveCompressCheckbox, 0, wxALL, 5);
 	autosaveSizer->Add(autosaveCheckboxSizer, 1, wxEXPAND, 5);
 	globalSizer->Add(autosaveSizer, 0, wxBOTTOM | wxEXPAND | wxLEFT | wxRIGHT, 5);
 
 	// Server preferences
-	wxStaticBoxSizer *serverSizer = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, wxT("Server")), wxVERTICAL);
+	wxStaticBoxSizer *serverSizer = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Server")), wxVERTICAL);
 	wxBoxSizer *serverPrefSizer = new wxBoxSizer(wxHORIZONTAL);
 	wxBoxSizer *serverLabelSizer = new wxBoxSizer(wxVERTICAL);
-	serverNameLabel = new wxStaticText(serverSizer->GetStaticBox(), wxID_ANY, wxT("Server name"), wxDefaultPosition, wxDefaultSize, 0);
+	serverNameLabel = new wxStaticText(serverSizer->GetStaticBox(), wxID_ANY, _("Server name"), wxDefaultPosition, wxDefaultSize, 0);
 	serverNameLabel->Wrap(-1);
 	serverLabelSizer->Add(serverNameLabel, 1, wxALIGN_CENTER_VERTICAL | wxALL, 5);
-	serverPortLabel = new wxStaticText(serverSizer->GetStaticBox(), wxID_ANY, wxT("Server port"), wxDefaultPosition, wxDefaultSize, 0);
+	serverPortLabel = new wxStaticText(serverSizer->GetStaticBox(), wxID_ANY, _("Server port"), wxDefaultPosition, wxDefaultSize, 0);
 	serverPortLabel->Wrap(-1);
 	serverLabelSizer->Add(serverPortLabel, 1, wxALIGN_CENTER_VERTICAL | wxALL, 5);
 	serverPrefSizer->Add(serverLabelSizer, 1, wxEXPAND, 5);
@@ -158,6 +169,11 @@ void MVPrefDialog::SetUnitPreferences(wxString windUnitString, wxString tempUnit
 {
 	windUnitSelection->SetStringSelection(_(windUnitString));
 	tempUnitSelection->SetStringSelection(_(tempUnitString));
+}
+
+void MVPrefDialog::SetDisplayPreferences(wxString timeZoneString)
+{
+	timeZoneSelection->SetStringSelection(_(timeZoneString));
 }
 
 void MVPrefDialog::SetAutosavePreferences(wxString path, bool enable, bool column, bool compress)
@@ -205,6 +221,21 @@ wxString MVPrefDialog::GetTempUnitString()
 	}
 
 	return ("Celsius");
+}
+
+wxString MVPrefDialog::GetTimeZoneString()
+{
+	wxString translatedUnit = timeZoneSelection->GetStringSelection();
+
+	if (translatedUnit.IsSameAs(_("Local / system")))
+	{
+		return ("Local / system");
+	} else if (translatedUnit.IsSameAs(_("UTC")))
+	{
+		return ("UTC");
+	}
+
+	return ("Local / system");
 }
 
 wxString MVPrefDialog::GetAutosavePath()

@@ -73,6 +73,7 @@ private:
 	wxString selectedString;
 	wxString windUnitString;
 	wxString tempUnitString;
+	wxString timeZoneString;
 	wxString autosavePath;
 	bool autosaveEnable;
 	bool autosaveColumn;
@@ -101,6 +102,7 @@ public:
 
 	void SetManualSavePath(wxString path);
 	void SetManualSaveFormat(int format);
+	void SetTimeZoneString(wxString timeZoneString);
 	wxString GetManualSavePath();
 	int GetManualSaveFormat();
 	void SetAutosavePreferences(wxString path, bool enable, bool column, bool compress);
