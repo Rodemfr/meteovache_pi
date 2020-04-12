@@ -95,7 +95,7 @@ MVReportFrame::MVReportFrame(wxWindow *parent, wxWindowID id, const wxString &ti
 	wxFont reportFont = reportTextArea->GetFont();
 	reportFont.SetFamily(wxFONTFAMILY_TELETYPE);
 	reportTextArea->SetFont(reportFont);
-	reportTextArea->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWFRAME));
+	reportTextArea->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_LISTBOX));
 	reportTextArea->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
 	MVReportGlobalSizer->Add(reportTextArea, 1, wxLEFT | wxRIGHT | wxTOP | wxEXPAND, 5);
 
