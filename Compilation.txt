@@ -3,7 +3,7 @@ Compiling under Windows
 
 Only Microsoft Visual Studio 2017 has been tested so far.
 
-You have to compile OpenCPN before trying to compile meteovache_pi.
+You must compile OpenCPN before trying to compile meteovache_pi.
 If you don't know how to do, refer to OpenCPN's developers manual (https://opencpn.org/wiki/dokuwiki/doku.php?id=opencpn:developer_manual).
 
 * Clone MeteoVache repository : git clone git://github.com/Rodemfr/meteovache_pi.git
@@ -22,7 +22,7 @@ Do the same with "zlib1.lib" by copying it form OpenCPN/buildwin to meteovache_p
 Compiling under Linux
 =====================
 
-You have to compile OpenCPN before trying to compile meteovache_pi.
+You must compile OpenCPN before trying to compile meteovache_pi.
 If you don't know how to do, refer to OpenCPN's developers manual (https://opencpn.org/wiki/dokuwiki/doku.php?id=opencpn:developer_manual).
 
 * Clone MeteoVache repository : git clone git://github.com/Rodemfr/meteovache_pi.git

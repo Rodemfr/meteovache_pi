@@ -29,11 +29,13 @@
 /***************************************************************************/
 
 #include <JobQueue.h>
+#include "wx/wx.h"
 
 /***************************************************************************/
 /*                              Constants                                  */
 /***************************************************************************/
 
+DEFINE_EVENT_TYPE(wxEVT_THREAD_JOB_ONGOING)
 DEFINE_EVENT_TYPE(wxEVT_THREAD_JOB_COMPLETED)
 DEFINE_EVENT_TYPE(wxEVT_THREAD_JOB_FAILED)
 
@@ -141,6 +143,11 @@ void JobQueue::reportResult(
 	} else if (result == JOB_FAILED)
 	{
 		wxCommandEvent evt(wxEVT_THREAD_JOB_FAILED);
+		evt.SetInt(cmd);
+		parentEvtHandler->AddPendingEvent(evt);
+	} else if (result == JOB_ONGOING)
+	{
+		wxCommandEvent evt(wxEVT_THREAD_JOB_ONGOING);
 		evt.SetInt(cmd);
 		parentEvtHandler->AddPendingEvent(evt);
 	}

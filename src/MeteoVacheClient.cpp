@@ -37,7 +37,7 @@
 /*                              Constants                                  */
 /***************************************************************************/
 
-#define MV_CMD_REQUEST_ALL_FORECATS_AT_LOCATION 1
+#define MV_CMD_REQUEST_ALL_FORECAST_AT_LOCATION 1
 
 /***************************************************************************/
 /*                             Local types                                 */
@@ -55,7 +55,8 @@
 /*                              Functions                                  */
 /***************************************************************************/
 
-MeteoVacheClient::MeteoVacheClient() {
+MeteoVacheClient::MeteoVacheClient()
+{
 	// Setup IP address of distant server
 	serverIpAddr.Hostname(DEFAULT_METEOVACHE_SERVER_NAME);
 	serverIpAddr.Service(DEFAULT_METEOVACHE_SERVER_PORT);
@@ -63,33 +64,40 @@ MeteoVacheClient::MeteoVacheClient() {
 	// Create the local UDP socket
 	localIpAddr.AnyAddress();
 	localIpAddr.Service(0x8000);
-	localSocket = new wxDatagramSocket(localIpAddr, wxSOCKET_BLOCK);
-	// Set timeout to second
+	localSocket = new wxDatagramSocket(localIpAddr, wxSOCKET_NONE);
+	// Set 1 second timeout
 	localSocket->SetTimeout(1);
 }
 
-MeteoVacheClient::~MeteoVacheClient() {
+MeteoVacheClient::~MeteoVacheClient()
+{
 	delete localSocket;
 }
 
-bool MeteoVacheClient::downloadAllForecasts(float latitude, float longitude, SpotForecasts &spotForecast) {
+bool MeteoVacheClient::downloadAllForecasts(float latitude, float longitude, SpotForecasts &spotForecast)
+{
 	char requestBuffer[9];
 	int nbForecasts;
 	Forecast forecast;
+	wxUint32 responseLength;
 
 	// Prepare REQUEST_ALL_FORECATS_AT_LOCATION :
 	// 1 byte = command
 	// 1 float = latitude (little endian)
 	// 1 float = longitude (little endian)
-	requestBuffer[0] = MV_CMD_REQUEST_ALL_FORECATS_AT_LOCATION;
+	requestBuffer[0] = MV_CMD_REQUEST_ALL_FORECAST_AT_LOCATION;
 	// TODO : Handle endianess
 	*((float*) (requestBuffer + 1)) = latitude;
 	*((float*) (requestBuffer + 5)) = longitude;
 
 	localSocket->SendTo(serverIpAddr, requestBuffer, sizeof(requestBuffer));
 	localSocket->Read(gzippedResponse, sizeof(gzippedResponse));
-	localSocket->LastReadCount();
-	uncompressBuffer(gzippedResponse, sizeof(gzippedResponse), serverResponse, sizeof(serverResponse));
+	responseLength = localSocket->LastReadCount();
+	if (localSocket->Error() || (responseLength == 0))
+	{
+		return (false);
+	}
+	uncompressBuffer(gzippedResponse, responseLength, serverResponse, sizeof(serverResponse));
 
 	nbForecasts = serverResponse[0];
 	spotForecast.Lock();
@@ -97,7 +105,8 @@ bool MeteoVacheClient::downloadAllForecasts(float latitude, float longitude, Spo
 	spotForecast.SetPosition(latitude, longitude);
 
 	int dataOffset = 1;
-	for (int i = 0; i < nbForecasts; i++) {
+	for (int i = 0; i < nbForecasts; i++)
+	{
 		dataOffset += forecast.readBinary(serverResponse + dataOffset);
 		spotForecast.Add(forecast);
 	}
@@ -107,7 +116,8 @@ bool MeteoVacheClient::downloadAllForecasts(float latitude, float longitude, Spo
 	return (true);
 }
 
-unsigned int MeteoVacheClient::uncompressBuffer(void *inputBuffer, unsigned int inputLength, void *outputBuffer, unsigned int outputLength) {
+unsigned int MeteoVacheClient::uncompressBuffer(void *inputBuffer, unsigned int inputLength, void *outputBuffer, unsigned int outputLength)
+{
 	int err;
 	z_stream zStream;
 
@@ -124,7 +134,8 @@ unsigned int MeteoVacheClient::uncompressBuffer(void *inputBuffer, unsigned int 
 	zStream.avail_out = outputLength;
 	zStream.next_out = (unsigned char*) outputBuffer;
 
-	while (1) {
+	while (1)
+	{
 		err = inflate(&zStream, Z_NO_FLUSH);
 
 		if (err == Z_STREAM_END)

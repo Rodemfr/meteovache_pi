@@ -150,7 +150,7 @@ int MeteoVachePlugin::Init(void)
 			wxSize(pluginConfig.windowWidth, pluginConfig.windowHeight),
 			wxDEFAULT_FRAME_STYLE);
 	weatherReportFrame->SetPosition(wxPoint(pluginConfig.windowXPos, pluginConfig.windowYPos));
-	weatherReportFrame->SetReportText(wxString(""));
+	weatherReportFrame->SetReportText(wxString(_("Right click on the map and select \"Weather forecast\" to get forecast at this point.")));
 	weatherReportFrame->SetSelectedModelName(pluginConfig.selectedModelName);
 	weatherReportFrame->SetWindUnitString(pluginConfig.windUnitString);
 	weatherReportFrame->SetTempUnitString(pluginConfig.tempUnitString);

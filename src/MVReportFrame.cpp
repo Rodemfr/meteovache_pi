@@ -46,6 +46,8 @@
 /***************************************************************************/
 
 wxBEGIN_EVENT_TABLE(MVReportFrame, wxDialog) EVT_COMMAND(wxID_ANY, wxEVT_THREAD_JOB_COMPLETED, MVReportFrame::OnThreadEvent)
+EVT_COMMAND(wxID_ANY, wxEVT_THREAD_JOB_ONGOING, MVReportFrame::OnThreadEvent)
+EVT_COMMAND(wxID_ANY, wxEVT_THREAD_JOB_FAILED, MVReportFrame::OnThreadEvent)
 wxEND_EVENT_TABLE()
 
 /***************************************************************************/
@@ -67,6 +69,7 @@ wxEND_EVENT_TABLE()
 MVReportFrame::MVReportFrame(wxWindow *parent, wxWindowID id, const wxString &title, const wxPoint &pos, const wxSize &size, long style) :
 		wxDialog(parent, id, title, pos, size, style)
 {
+	progressCount = 0;
 	workerThread = nullptr;
 	windUnitString = _("kt");
 
@@ -75,19 +78,20 @@ MVReportFrame::MVReportFrame(wxWindow *parent, wxWindowID id, const wxString &ti
 	this->SetSizeHints(wxDefaultSize, wxDefaultSize);
 	this->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BTNHIGHLIGHT));
 
-	wxBoxSizer *MVReportGlobalSizer;
-	MVReportGlobalSizer = new wxBoxSizer(wxVERTICAL);
+	wxBoxSizer *MVReportGlobalSizer = new wxBoxSizer(wxVERTICAL);
 
 	wxBoxSizer *MVReportTopSizer = new wxBoxSizer(wxHORIZONTAL);
-
 	modelLabel = new wxStaticText(this, wxID_ANY, _("Weather model :"), wxDefaultPosition, wxDefaultSize, 0);
 	modelLabel->Wrap(-1);
 	MVReportTopSizer->Add(modelLabel, 0, wxALIGN_CENTER | wxALL, 5);
-
 	modelSelector = new wxComboBox(this, wxID_ANY, _("No data"), wxDefaultPosition, wxDefaultSize, 0, NULL, 0);
 	MVReportTopSizer->Add(modelSelector, 0, wxLEFT | wxRIGHT | wxTOP, 5);
-
 	MVReportGlobalSizer->Add(MVReportTopSizer, 0, wxEXPAND, 5);
+
+	wxBoxSizer *StatusSizer = new wxBoxSizer(wxHORIZONTAL);
+	statusLabel = new wxStaticText(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0);
+	statusLabel->Wrap(-1);
+	MVReportGlobalSizer->Add(statusLabel, 0, wxALIGN_CENTER_VERTICAL | wxALIGN_LEFT | wxALL, 5);
 
 	reportTextArea = new wxTextCtrl(this, wxID_ANY, _("Weather report"), wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE | wxTE_READONLY);
 	wxFont reportFont = reportTextArea->GetFont();
@@ -150,12 +154,12 @@ void MVReportFrame::SetManualSaveFormat(int format)
 
 wxString MVReportFrame::GetManualSavePath()
 {
-	return(manualSavePath);
+	return (manualSavePath);
 }
 
 int MVReportFrame::GetManualSaveFormat()
 {
-	return(manualSaveFormat);
+	return (manualSaveFormat);
 }
 
 void MVReportFrame::SetAutosavePreferences(wxString path, bool enable, bool column, bool compress)
@@ -201,31 +205,45 @@ void MVReportFrame::StopThread()
 	}
 }
 
-void MVReportFrame::OnThreadEvent(wxCommandEvent&)
+void MVReportFrame::OnThreadEvent(wxCommandEvent &evt)
 {
-	spotForecast.Lock();
-	wxString newString;
-
-	modelSelector->Clear();
-	for (uint32_t i = 0; i < spotForecast.GetNumberOfForecast(); i++)
+	if (evt.GetEventType() == wxEVT_THREAD_JOB_COMPLETED)
 	{
-		newString = wxString(spotForecast.Get(i).getModelName());
-		modelSelector->Append(newString);
-		if (i == 0)
-		{
-			modelSelector->SetSelection(0);
-		} else if (newString.IsSameAs(selectedString))
-		{
-			modelSelector->SetSelection(i);
-		}
-	}
-	selectedString = modelSelector->GetStringSelection();
-	SetReportText(PrintWeatherReport(modelSelector->GetSelection()));
-	AutoSaveReport();
-	Show();
-	Layout();
+		statusLabel->SetLabelText(_("Data successfully downloaded from server"));
+		spotForecast.Lock();
+		wxString newString;
 
-	spotForecast.Unlock();
+		modelSelector->Clear();
+		for (uint32_t i = 0; i < spotForecast.GetNumberOfForecast(); i++)
+		{
+			newString = wxString(spotForecast.Get(i).getModelName());
+			modelSelector->Append(newString);
+			if (i == 0)
+			{
+				modelSelector->SetSelection(0);
+			} else if (newString.IsSameAs(selectedString))
+			{
+				modelSelector->SetSelection(i);
+			}
+		}
+		selectedString = modelSelector->GetStringSelection();
+		SetReportText(PrintWeatherReport(modelSelector->GetSelection()));
+		AutoSaveReport();
+		Show();
+		Layout();
+
+		spotForecast.Unlock();
+	} else if (evt.GetEventType() == wxEVT_THREAD_JOB_ONGOING)
+	{
+		statusLabel->SetLabelText(_("Contacting server ...") + " " + GetNextWaitingChar());
+		Show();
+		Layout();
+	} else if (evt.GetEventType() == wxEVT_THREAD_JOB_FAILED)
+	{
+		statusLabel->SetLabelText(wxString::Format("Download failed : server not responding"));
+		Show();
+		Layout();
+	}
 }
 
 void MVReportFrame::AutoSaveReport()
@@ -271,20 +289,23 @@ wxString MVReportFrame::PrintWeatherReport(int modelIndex)
 	WeatherData data;
 	float cloudCover;
 
-	// FIXME : Use a local copy of forecasts instead
 	spotForecast.Lock();
 
 	forecast = &spotForecast.Get(modelIndex);
 
 	DateTime runDate;
 	runDate.SetTimeCode(forecast->getRunTimeCode());
-
 	modelInfo = modelInfo.Append(
-			wxString::Format(_("Position :       %s %s\n"), GetLatitudeString(spotForecast.GetLatitude()), GetLongitudeString(spotForecast.GetLongitude())));
-	modelInfo = modelInfo.Append(wxString::Format(_("Model :          %s (%s)\n"), forecast->getModelName(), forecast->getProviderName()));
+			wxString::Format("%-20s%s %s\n", _("Position") + " : ", GetLatitudeString(spotForecast.GetLatitude()),
+					GetLongitudeString(spotForecast.GetLongitude())));
+	modelInfo = modelInfo.Append(wxString::Format("%-20s%s\n", _("Model") + " : ", forecast->getModelName()));
+	modelInfo = modelInfo.Append(wxString::Format("%-20s%s\n", _("Provider") + " : ", forecast->getProviderName()));
 	modelInfo = modelInfo.Append(
-			wxString::Format(_("Run date :       %02d/%02d/%d %dh%02d\n\n"), runDate.GetLocalDay(), runDate.GetLocalMonth(), runDate.GetLocalYear(),
+			wxString::Format("%-20s%02d/%02d/%d %dh%02d\n", _("Run date") + " : ", runDate.GetLocalDay(), runDate.GetLocalMonth(), runDate.GetLocalYear(),
 					runDate.GetLocalHour(), runDate.GetLocalMinute()));
+	modelInfo = modelInfo.Append(wxString::Format("%-20s%s\n\n", _("Time zone") + " : ", _("Local / system")));
+
+
 	modelInfo = modelInfo.Append(wxString::Format("           %4s %4s %5s %5s %5s %4s\n", _("Wind"), _("Gust"), _("Dir"), _("Rain"), _("Cloud"), _("Temp")));
 	modelInfo = modelInfo.Append(
 			wxString::Format("           %4s %4s %5s %5s %5s %4s\n", _(windUnitString), _(windUnitString), " ", _("mm/h"), "%", GetConvertedTempId()));
@@ -356,7 +377,7 @@ wxString MVReportFrame::PrintWeatherColumnReports()
 		continueLoop = false;
 		for (uint32_t i = 0; i < nbReports; i++)
 		{
-			columnReport += wxString::Format("%-55s", reportArray[i].BeforeFirst('\n'));
+			columnReport += wxString::Format("%-50s", reportArray[i].BeforeFirst('\n'));
 			reportArray[i] = reportArray[i].AfterFirst('\n');
 			if (reportArray[i].length() > 0)
 			{
@@ -373,6 +394,10 @@ wxString MVReportFrame::PrintWeatherColumnReports()
 
 void MVReportFrame::RequestForecast(float latitude, float longitude)
 {
+	modelSelector->Clear();
+	modelSelector->SetStringSelection(_("No data"));
+	SetReportText("");
+	statusLabel->SetLabelText(_("Contacting server ...") + " " + GetNextWaitingChar());
 	JobRequest job(JobRequest::CMD_GET_ALL_FORECASTS_AT_LOCATION, latitude, longitude);
 	jobQueue->addJob(job);
 }
@@ -563,4 +588,12 @@ wxString MVReportFrame::GetReportBaseName()
 	wxDateTime dateTime = wxDateTime::Now();
 	return (wxString::Format(_("WForecast") + "_%d-%02d-%02d_%02dh%02dm%02ds", dateTime.GetYear(), dateTime.GetMonth(), dateTime.GetDay(), dateTime.GetHour(),
 			dateTime.GetMinute(), dateTime.GetSecond()));
+}
+
+char MVReportFrame::GetNextWaitingChar()
+{
+	static char progressChar[] =
+	{ '/', '-', '\\', '|' };
+
+	return (progressChar[(progressCount++) % sizeof(progressChar)]);
 }

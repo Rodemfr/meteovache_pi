@@ -64,6 +64,7 @@ class MVReportFrame: public wxDialog
 private:
 	wxStaticText *modelLabel;
 	wxComboBox *modelSelector;
+	wxStaticText *statusLabel;
 	wxTextCtrl *reportTextArea;
 	wxButton *saveButton;
 	MeteoVacheThread *workerThread;
@@ -78,6 +79,7 @@ private:
 	bool autosaveCompress;
 	wxString manualSavePath;
 	int manualSaveFormat;
+	int progressCount;
 
 	virtual void OnClose(wxCloseEvent &event);
 	virtual void OnModelSelect(wxCommandEvent &event);
@@ -121,6 +123,7 @@ private:
 	wxString GetConvertedWind(float windSpeedKt);
 	wxString GetConvertedTemp(float tempC);
 	wxString GetConvertedTempId();
+	char GetNextWaitingChar();
 };
 
 #endif //_MVREPORTFRAME_H__

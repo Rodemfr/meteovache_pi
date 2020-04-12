@@ -36,6 +36,8 @@
 /*                              Constants                                  */
 /***************************************************************************/
 
+#define MAX_NETWORK_RETRIES 10
+
 /***************************************************************************/
 /*                             Local types                                 */
 /***************************************************************************/
@@ -52,9 +54,7 @@
 /*                              Functions                                  */
 /***************************************************************************/
 
-MeteoVacheThread::MeteoVacheThread(
-		MVReportFrame *handler,
-		JobQueue *jobQueue) :
+MeteoVacheThread::MeteoVacheThread(MVReportFrame *handler, JobQueue *jobQueue) :
 		wxThread(wxTHREAD_DETACHED)
 {
 	pHandler = handler;
@@ -70,6 +70,7 @@ MeteoVacheThread::~MeteoVacheThread()
 wxThread::ExitCode MeteoVacheThread::Entry()
 {
 	JobRequest job;
+	int retries;
 
 	while (TestDestroy() == false)
 	{
@@ -77,8 +78,22 @@ wxThread::ExitCode MeteoVacheThread::Entry()
 		{
 			if (job.cmd == JobRequest::CMD_GET_ALL_FORECASTS_AT_LOCATION)
 			{
-				meteoVacheClient->downloadAllForecasts(job.latitude, job.longitude, pHandler->spotForecast);
-				jobQueue->reportResult(job.cmd, JobQueue::JOB_SUCCESSFUL);
+				retries = 0;
+				while ((retries < MAX_NETWORK_RETRIES) && (meteoVacheClient->downloadAllForecasts(job.latitude, job.longitude, pHandler->spotForecast) == false))
+				{
+					retries++;
+					jobQueue->reportResult(job.cmd, JobQueue::JOB_ONGOING);
+					if (TestDestroy()) {
+						return (wxThread::ExitCode) 0;
+					}
+				}
+				if (retries < MAX_NETWORK_RETRIES)
+				{
+					jobQueue->reportResult(job.cmd, JobQueue::JOB_SUCCESSFUL);
+				} else
+				{
+					jobQueue->reportResult(job.cmd, JobQueue::JOB_FAILED);
+				}
 			}
 		}
 	}

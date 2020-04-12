@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-10 19:49+0200\n"
-"PO-Revision-Date: 2020-04-10 19:49+0200\n"
+"POT-Creation-Date: 2020-04-12 09:09+0200\n"
+"PO-Revision-Date: 2020-04-12 09:09+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Poedit 2.3\n"
 
 #: src/MeteoVachePlugin.cpp:133 src/MeteoVachePlugin.cpp:149
 #: src/MeteoVachePlugin.cpp:203
@@ -28,13 +28,21 @@ msgstr "Extension MétéoVache"
 
 #: src/MeteoVachePlugin.cpp:141
 msgid "Weather forecast"
-msgstr "Prédictions météo"
+msgstr "Prévisions météo"
 
 #: src/MeteoVachePlugin.cpp:142
 msgid "Request weather forecast from MeteoVache server at cursor location"
 msgstr ""
 "Télécharge les prédictions météo pour la position du curseur depuis le "
 "serveur MétéoVache"
+
+#: src/MeteoVachePlugin.cpp:153
+msgid ""
+"Right click on the map and select \"Weather forecast\" to get forecast at "
+"this point."
+msgstr ""
+"Cliquez avec le bouton droit sur la carte et sélectionnez \"Prévisions météo"
+"\" pour obtenir les prévisions à ce point."
 
 #: src/MeteoVachePlugin.cpp:208
 msgid "MeteoVache weather plug-in for OpenCPN"
@@ -54,160 +62,173 @@ msgstr ""
 msgid "MeteoVache preferences"
 msgstr "Préférences MétéoVache"
 
-#: src/MVReportFrame.cpp:71 src/MVPrefDialog.cpp:59 src/MVPrefDialog.cpp:73
+#: src/MVReportFrame.cpp:74 src/MVPrefDialog.cpp:59 src/MVPrefDialog.cpp:73
 #: src/MVPrefDialog.cpp:175
 msgid "kt"
 msgstr "nd"
 
-#: src/MVReportFrame.cpp:83
+#: src/MVReportFrame.cpp:84
 msgid "Weather model :"
 msgstr "Modèle météo :"
 
-#: src/MVReportFrame.cpp:87
+#: src/MVReportFrame.cpp:87 src/MVReportFrame.cpp:399
 msgid "No data"
 msgstr "Pas de données"
 
-#: src/MVReportFrame.cpp:92
+#: src/MVReportFrame.cpp:96
 msgid "Weather report"
 msgstr "Rapport de prévisions"
 
-#: src/MVReportFrame.cpp:99
+#: src/MVReportFrame.cpp:103
 msgid "Save As..."
 msgstr "Enregistrer sous..."
 
-#: src/MVReportFrame.cpp:283
-#, c-format
-msgid "Position :       %s %s\n"
-msgstr "Position :       %s %s\n"
+#: src/MVReportFrame.cpp:212
+msgid "Data successfully downloaded from server"
+msgstr "Données téléchargées avec succès"
 
-#: src/MVReportFrame.cpp:284
-#, c-format
-msgid "Model :          %s (%s)\n"
-msgstr "Modèle :         %s (%s)\n"
+#: src/MVReportFrame.cpp:238 src/MVReportFrame.cpp:401
+msgid "Contacting server ..."
+msgstr "Interrogation du serveur ..."
 
-#: src/MVReportFrame.cpp:286
-#, c-format
-msgid ""
-"Run date :       %02d/%02d/%d %dh%02d\n"
-"\n"
-msgstr ""
-"Date de calcul : %02d/%02d/%d %dh%02d\n"
-"\n"
+#: src/MVReportFrame.cpp:300
+msgid "Position"
+msgstr "Position"
 
-#: src/MVReportFrame.cpp:288
+#: src/MVReportFrame.cpp:302
+msgid "Model"
+msgstr "Modèle"
+
+#: src/MVReportFrame.cpp:303
+msgid "Provider"
+msgstr "Fournisseur"
+
+#: src/MVReportFrame.cpp:305
+msgid "Run date"
+msgstr "Date de calcul"
+
+#: src/MVReportFrame.cpp:307
+msgid "Time zone"
+msgstr "Fuseau horaire"
+
+#: src/MVReportFrame.cpp:307
+msgid "Local / system"
+msgstr "Local / système"
+
+#: src/MVReportFrame.cpp:310
 msgid "Wind"
 msgstr "Vent"
 
-#: src/MVReportFrame.cpp:288
+#: src/MVReportFrame.cpp:310
 msgid "Gust"
 msgstr "Rafl"
 
-#: src/MVReportFrame.cpp:288
+#: src/MVReportFrame.cpp:310
 msgid "Dir"
 msgstr "Dir"
 
-#: src/MVReportFrame.cpp:288
+#: src/MVReportFrame.cpp:310
 msgid "Rain"
 msgstr "Précp"
 
-#: src/MVReportFrame.cpp:288
+#: src/MVReportFrame.cpp:310
 msgid "Cloud"
 msgstr "CouvN"
 
-#: src/MVReportFrame.cpp:288
+#: src/MVReportFrame.cpp:310
 msgid "Temp"
 msgstr "Temp"
 
-#: src/MVReportFrame.cpp:290
+#: src/MVReportFrame.cpp:312
 msgid "mm/h"
 msgstr "mm/h"
 
-#: src/MVReportFrame.cpp:386 src/MVReportFrame.cpp:411
+#: src/MVReportFrame.cpp:412 src/MVReportFrame.cpp:437
 msgid "S"
 msgstr "S"
 
-#: src/MVReportFrame.cpp:386 src/MVReportFrame.cpp:427
-#: src/MVReportFrame.cpp:443
+#: src/MVReportFrame.cpp:412 src/MVReportFrame.cpp:453
+#: src/MVReportFrame.cpp:469
 msgid "N"
 msgstr "N"
 
-#: src/MVReportFrame.cpp:398 src/MVReportFrame.cpp:419
+#: src/MVReportFrame.cpp:424 src/MVReportFrame.cpp:445
 msgid "W"
 msgstr "O"
 
-#: src/MVReportFrame.cpp:398 src/MVReportFrame.cpp:435
+#: src/MVReportFrame.cpp:424 src/MVReportFrame.cpp:461
 msgid "E"
 msgstr "E"
 
-#: src/MVReportFrame.cpp:413
+#: src/MVReportFrame.cpp:439
 msgid "S-SW"
 msgstr "S-SO"
 
-#: src/MVReportFrame.cpp:415
+#: src/MVReportFrame.cpp:441
 msgid "SW"
 msgstr "SO"
 
-#: src/MVReportFrame.cpp:417
+#: src/MVReportFrame.cpp:443
 msgid "W-SW"
 msgstr "O-SO"
 
-#: src/MVReportFrame.cpp:421
+#: src/MVReportFrame.cpp:447
 msgid "W-NW"
 msgstr "O-NO"
 
-#: src/MVReportFrame.cpp:423
+#: src/MVReportFrame.cpp:449
 msgid "NW"
 msgstr "NO"
 
-#: src/MVReportFrame.cpp:425
+#: src/MVReportFrame.cpp:451
 msgid "N-NW"
 msgstr "N-NO"
 
-#: src/MVReportFrame.cpp:429
+#: src/MVReportFrame.cpp:455
 msgid "N-NE"
 msgstr "N-NE"
 
-#: src/MVReportFrame.cpp:431
+#: src/MVReportFrame.cpp:457
 msgid "NE"
 msgstr "NE"
 
-#: src/MVReportFrame.cpp:433
+#: src/MVReportFrame.cpp:459
 msgid "E-NE"
 msgstr "E-NE"
 
-#: src/MVReportFrame.cpp:437
+#: src/MVReportFrame.cpp:463
 msgid "E-SE"
 msgstr "E-SE"
 
-#: src/MVReportFrame.cpp:439
+#: src/MVReportFrame.cpp:465
 msgid "SE"
 msgstr "SE"
 
-#: src/MVReportFrame.cpp:441
+#: src/MVReportFrame.cpp:467
 msgid "S-SE"
 msgstr "S-SE"
 
-#: src/MVReportFrame.cpp:529
+#: src/MVReportFrame.cpp:555
 msgid "F"
 msgstr "F"
 
-#: src/MVReportFrame.cpp:532
+#: src/MVReportFrame.cpp:558
 msgid "C"
 msgstr "C"
 
-#: src/MVReportFrame.cpp:537
+#: src/MVReportFrame.cpp:563
 msgid "Save weather report"
 msgstr "Sauvegarder les prévisions"
 
-#: src/MVReportFrame.cpp:538
+#: src/MVReportFrame.cpp:564
 msgid "Text File"
 msgstr "Fichier texte"
 
-#: src/MVReportFrame.cpp:538
+#: src/MVReportFrame.cpp:564
 msgid "Column Text File"
 msgstr "Fichier texte en colonnes"
 
-#: src/MVReportFrame.cpp:564
+#: src/MVReportFrame.cpp:590
 msgid "WForecast"
 msgstr "Prev"
 
@@ -330,6 +351,22 @@ msgstr "Abandon"
 #: src/MVPrefDialog.cpp:232
 msgid "Select automatic save directory"
 msgstr "Sélectionnez le répertoire de sauvegarde automatique"
+
+#, c-format
+#~ msgid "Position :       %s %s\n"
+#~ msgstr "Position :       %s %s\n"
+
+#, c-format
+#~ msgid "Model :          %s (%s)\n"
+#~ msgstr "Modèle :         %s (%s)\n"
+
+#, c-format
+#~ msgid ""
+#~ "Run date :       %02d/%02d/%d %dh%02d\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Date de calcul : %02d/%02d/%d %dh%02d\n"
+#~ "\n"
 
 #~ msgid "Report"
 #~ msgstr "Rapport"

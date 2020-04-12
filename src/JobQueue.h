@@ -38,6 +38,7 @@
 /*                              Constants                                  */
 /***************************************************************************/
 
+DECLARE_EVENT_TYPE(wxEVT_THREAD_JOB_ONGOING, -1)
 DECLARE_EVENT_TYPE(wxEVT_THREAD_JOB_COMPLETED, -1)
 DECLARE_EVENT_TYPE(wxEVT_THREAD_JOB_FAILED, -1)
 
@@ -54,7 +55,8 @@ class JobRequest
 public:
 	enum JobCommand
 	{
-		CMD_GET_ALL_FORECASTS_AT_LOCATION = 0, CMD_UNDEFINED
+		CMD_GET_ALL_FORECASTS_AT_LOCATION = 0,
+		CMD_UNDEFINED
 	};
 
 	JobCommand cmd;
@@ -62,12 +64,8 @@ public:
 	float longitude;
 
 	JobRequest();
-	JobRequest(
-			JobCommand cmd);
-	JobRequest(
-			JobCommand cmd,
-			float latitude,
-			float longitude);
+	JobRequest(JobCommand cmd);
+	JobRequest(JobCommand cmd, float latitude, float longitude);
 	virtual ~JobRequest();
 };
 
@@ -77,22 +75,17 @@ class JobQueue
 public:
 	enum JobResult
 	{
-		JOB_SUCCESSFUL = 0, JOB_FAILED
+		JOB_SUCCESSFUL = 0,
+		JOB_FAILED,
+		JOB_ONGOING
 	};
 
-	JobQueue(
-			wxEvtHandler *pParent);
+	JobQueue(wxEvtHandler *pParent);
 
-	void addJob(
-			const JobRequest &job);
-	void getNextJob(
-			JobRequest *jobRequest);
-	bool getNextJobTimeout(
-			JobRequest *jobRequest,
-			unsigned long timeOut);
-	void reportResult(
-			const JobRequest::JobCommand &cmd,
-			JobResult result);
+	void addJob(const JobRequest &job);
+	void getNextJob(JobRequest *jobRequest);
+	bool getNextJobTimeout(JobRequest *jobRequest, unsigned long timeOut);
+	void reportResult(const JobRequest::JobCommand &cmd, JobResult result);
 
 private:
 	wxEvtHandler *parentEvtHandler;
