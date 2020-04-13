@@ -31,7 +31,8 @@
 #include <MeteoVacheClient.h>
 #include <SpotForecasts.h>
 #include <Forecast.h>
-#include <zlib.h>
+#include <wx/mstream.h>
+#include <wx/zstream.h>
 
 /***************************************************************************/
 /*                              Constants                                  */
@@ -118,32 +119,10 @@ bool MeteoVacheClient::DownloadAllForecasts(float latitude, float longitude, Spo
 
 unsigned int MeteoVacheClient::UncompressBuffer(void *inputBuffer, unsigned int inputLength, void *outputBuffer, unsigned int outputLength)
 {
-	// TODO : Use wxWidgets GZIP stream instead of our own instance of zlib
-	int err;
-	z_stream zStream;
+	wxMemoryInputStream inputStream(inputBuffer, inputLength);
+	wxZlibInputStream zlibStream(inputStream);
 
-	zStream.zalloc = Z_NULL;
-	zStream.zfree = Z_NULL;
-	zStream.opaque = Z_NULL;
-	zStream.avail_in = 0;
-	zStream.next_in = Z_NULL;
-	err = inflateInit(&zStream);
+	zlibStream.Read(outputBuffer, outputLength);
 
-	zStream.avail_in = inputLength;
-	zStream.next_in = (unsigned char*) inputBuffer;
-
-	zStream.avail_out = outputLength;
-	zStream.next_out = (unsigned char*) outputBuffer;
-
-	while (1)
-	{
-		err = inflate(&zStream, Z_NO_FLUSH);
-
-		if (err == Z_STREAM_END)
-			break;
-	}
-
-	err = inflateEnd(&zStream);
-
-	return (outputLength - zStream.avail_out);
+	return (zlibStream.LastRead());
 }
