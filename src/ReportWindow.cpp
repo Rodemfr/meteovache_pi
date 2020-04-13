@@ -69,18 +69,19 @@ wxEND_EVENT_TABLE()
 ReportWindow::ReportWindow(wxWindow *parent, ConfigContainer *config, wxWindowID id, const wxString &title, const wxPoint &pos, const wxSize &size, long style) :
 		wxDialog(parent, id, title, pos, size, style)
 {
+	// Initialize all useful fields
 	this->config = config;
 	progressCount = 0;
 	workerThread = nullptr;
-
 	jobQueue = new JobQueue(GetEventHandler());
 
+	// Create the UI
 	this->SetSizeHints(wxDefaultSize, wxDefaultSize);
 
 	wxBoxSizer *reportGlobalSizer = new wxBoxSizer(wxVERTICAL);
 
 	wxBoxSizer *reportTopSizer = new wxBoxSizer(wxHORIZONTAL);
-	modelLabel = new wxStaticText(this, wxID_ANY, _("Weather model :"), wxDefaultPosition, wxDefaultSize, 0);
+	wxStaticText *modelLabel = new wxStaticText(this, wxID_ANY, _("Weather model :"), wxDefaultPosition, wxDefaultSize, 0);
 	modelLabel->Wrap(-1);
 	reportTopSizer->Add(modelLabel, 0, wxALIGN_CENTER | wxALL, 5);
 	modelSelector = new wxComboBox(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
@@ -114,27 +115,34 @@ ReportWindow::ReportWindow(wxWindow *parent, ConfigContainer *config, wxWindowID
 	modelSelector->Connect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(ReportWindow::OnModelSelect), NULL, this);
 	saveButton->Connect(wxEVT_BUTTON, wxCommandEventHandler(ReportWindow::OnSaveAs), NULL, this);
 
+	// Start the network thread
 	StartThread();
 }
 
 ReportWindow::~ReportWindow()
 {
+	// Stop the network thread. this is a blocking call which will wait for the actual thread end
+	// This might take up to one second if the deletion is requested during a network request
 	StopThread();
 	// Disconnect Events
 	this->Disconnect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(ReportWindow::OnClose));
 	modelSelector->Disconnect( wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(ReportWindow::OnModelSelect), NULL, this);
 	saveButton->Disconnect(wxEVT_BUTTON, wxCommandEventHandler(ReportWindow::OnSaveAs), NULL, this);
+
 	delete jobQueue;
 }
 
 void ReportWindow::OnClose(wxCloseEvent &event)
 {
+	// If the close button is pressed, we just hide the window We don't delete it because the network
+	// thread needs it the window is only deleted when the plug-in is stopped or when OpenCPN is exiting
 	this->Show(false);
 	event.WasProcessed();
 }
 
 void ReportWindow::OnModelSelect(wxCommandEvent &event)
 {
+	// When the selected model is changed by the user, we update the report window with the corresponding forecast
 	config->selectedModelName = modelSelector->GetStringSelection();
 	SetReportText(PrintWeatherReport(modelSelector->GetSelection()));
 	Show();
@@ -144,6 +152,9 @@ void ReportWindow::OnModelSelect(wxCommandEvent &event)
 
 void ReportWindow::UpdateConfig()
 {
+	// We update the configuration object with the parameters which may have changed without notification
+	// This function is called before exiting the plug-in to ensure we will save the updated values to
+	// the configuration file
 	config->windowXPos = this->GetPosition().x;
 	config->windowYPos = this->GetPosition().y;
 	config->windowWidth = this->GetSize().x;
@@ -152,6 +163,7 @@ void ReportWindow::UpdateConfig()
 
 void ReportWindow::SetReportText(const wxString &text)
 {
+	// Update the report text
 	reportTextArea->Remove(0, -1);
 	reportTextArea->WriteText(text);
 	reportTextArea->SetInsertionPoint(0);
@@ -159,19 +171,23 @@ void ReportWindow::SetReportText(const wxString &text)
 
 void ReportWindow::StartThread()
 {
+	// We first stop any already existing thread. It is not suppoed to happen anyway...
 	StopThread();
-	workerThread = new NetworkThread(this, jobQueue);
+	// And we start the new one
+	workerThread = new NetworkThread(&spotForecast, jobQueue);
 	if (workerThread->Run() != wxTHREAD_NO_ERROR)
 	{
 		delete workerThread;
 		workerThread = NULL;
-		wxLogError
-		( "MeteoVache: Can't create the working thread!");
+		// Not beeing able to create the network thread is really a bad situation never supposed to happen
+		// So we trigger a fatal error in this case
+		wxLogFatalError( "MeteoVache: Can't create the network thread !");
 	}
 }
 
 void ReportWindow::StopThread()
 {
+	// Stop the network thread
 	if (workerThread != nullptr)
 	{
 		if (workerThread->Delete(NULL, wxTHREAD_WAIT_BLOCK) != wxTHREAD_NO_ERROR)
@@ -297,7 +313,7 @@ wxString ReportWindow::PrintWeatherReport(int modelIndex)
 	modelInfo = modelInfo.Append(wxString::Format("           %4s %4s %5s %5s %5s %4s\n", _("Wind"), _("Gust"), _("Dir"), _("Rain"), _("Cloud"), _("Temp")));
 	modelInfo = modelInfo.Append(
 			wxString::Format("           %4s %4s %5s %5s %5s %4s\n", _(config->windUnitString), _(config->windUnitString), " ", _("mm/h"), "%",
-					GetConvertedTempId()));
+					GetConvertedTempUnit()));
 
 	DateTime stepTime = runDate;
 	std::string dayName;
@@ -516,7 +532,7 @@ wxString ReportWindow::GetConvertedTemp(float tempC)
 	return (wxString::Format("%d", (int) roundf(tempC)));
 }
 
-wxString ReportWindow::GetConvertedTempId()
+wxString ReportWindow::GetConvertedTempUnit()
 {
 	if (config->tempUnitString.IsSameAs("Farenheit"))
 	{

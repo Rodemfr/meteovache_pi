@@ -48,16 +48,17 @@
 /*                               Classes                                   */
 /***************************************************************************/
 
+// Prototyped here to avoid including ReportWindow.h and having a circular dependency between header files
 class ReportWindow;
 
 class NetworkThread: public wxThread {
 public:
-	NetworkThread(ReportWindow *handler, JobQueue *jobQueue);
+	NetworkThread(SpotForecasts *spotForecast, JobQueue *jobQueue);
 	virtual ~NetworkThread();
 
 private:
 	virtual ExitCode Entry();
-	ReportWindow *pHandler;
+	SpotForecasts *spotForecast;
 	JobQueue *jobQueue;
 	MeteoVacheClient *meteoVacheClient;
 };

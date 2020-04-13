@@ -35,7 +35,6 @@
 #include <JobQueue.h>
 #include <SpotForecasts.h>
 #include <ConfigContainer.h>
-
 #include <wx/string.h>
 #include <wx/stattext.h>
 #include <wx/gdicmn.h>
@@ -65,48 +64,49 @@ class ReportWindow: public wxDialog
 private:
 	DECLARE_EVENT_TABLE()
 
-	wxStaticText *modelLabel;
-	wxComboBox *modelSelector;
+	// Widgets
 	wxStaticText *statusLabel;
+	wxComboBox *modelSelector;
 	wxTextCtrl *reportTextArea;
 	wxButton *saveButton;
 
-	ConfigContainer *config;
-	NetworkThread *workerThread;
-	SpotForecasts spotForecast;
-	JobQueue *jobQueue;
-	int progressCount;
+	ConfigContainer *config;	  // Configuration parameters
+	NetworkThread *workerThread;  // Thread making the network job
+	SpotForecasts spotForecast;   // Forecast data retrieved by the network thread
+	JobQueue *jobQueue;           // JobQueue used to dialog safely with the network thread
+	int progressCount;            // A simple counter to animate the status message in case of delayed server response
 
-	virtual void OnClose(wxCloseEvent &event);
-	virtual void OnModelSelect(wxCommandEvent &event);
-	wxString GetLatitudeString(float latitude);
-	wxString GetLongitudeString(float longitude);
-	wxString GetTextDirection(float windDirectionDeg);
-	wxString GetReportBaseName();
-	void OnThreadEvent(wxCommandEvent&);
-	void AutoSaveReport();
-	wxString PrintWeatherReport(int model);
-	wxString PrintWeatherReports();
-	wxString PrintWeatherColumnReports();
-	void OnSaveAs(wxCommandEvent &event);
-	wxString GetConvertedWind(float windSpeedKt);
-	wxString GetConvertedTemp(float tempC);
-	wxString GetConvertedTempId();
-	char GetNextWaitingChar();
-	void StartThread();
-	void StopThread();
+	wxString GetLatitudeString(float latitude);        // Change a float latitude in a display-able string
+	wxString GetLongitudeString(float longitude);      // Change a float longitude in a display-able string
+	wxString GetTextDirection(float windDirectionDeg); // Returns a display-able string of direction from a float angle
+	wxString GetReportBaseName();                      // Generate a report filename from the current date and time
+	void AutoSaveReport();                             // Save the current report with the appropriate options
+	wxString PrintWeatherReport(int model);            // Print a single forecast model in a string
+	wxString PrintWeatherReports();                    // Print all forecast models in a serialized string
+	wxString PrintWeatherColumnReports();              // Print all forecast models in column formatted string
+	wxString GetConvertedWind(float windSpeedKt);      // Get wind speed string converted in the appropriate unit
+	wxString GetConvertedTemp(float tempC);            // Get temperature string converted in the appropriate unit
+	wxString GetConvertedTempUnit();                   // Get the temperature unit symbol
+	char GetNextWaitingChar();                         // Get the next animated char for out low-cost progress indicator
+
+	void StartThread(); // Start the network thread
+	void StopThread();  // Stop the network thread
+
+	// Callback
+	void OnThreadEvent(wxCommandEvent&);               // Called each time network thread has something to tell to the report window
+	virtual void OnClose(wxCloseEvent &event);         // Called when the close button of the report window is clicked
+	virtual void OnModelSelect(wxCommandEvent &event); // Called when the model is changed in the combo box
+	void OnSaveAs(wxCommandEvent &event);              // Called when the "Save As" buton is clicked
 
 public:
-	friend class NetworkThread;
-
 	ReportWindow(wxWindow *parent, ConfigContainer *config, wxWindowID id = wxID_ANY, const wxString &title = _("MeteoVache"), const wxPoint &pos =
 			wxDefaultPosition, const wxSize &size = wxSize(497, 445),
 			long style = wxMINIMIZE_BOX | wxMAXIMIZE_BOX | wxRESIZE_BORDER | wxCAPTION | wxCLOSE_BOX | wxCLIP_CHILDREN | wxSTAY_ON_TOP | wxTAB_TRAVERSAL);
 	~ReportWindow();
 
-	void UpdateConfig();
-	void SetReportText(const wxString &text);
-	void RequestForecast(float latitude, float longitude);
+	void UpdateConfig();                                    // Save all parameters related to the report window into the configuration object
+	void SetReportText(const wxString &text);               // Change the text displayed by the report window
+	void RequestForecast(float latitude, float longitude);  // Start a new forecast query
 
 };
 

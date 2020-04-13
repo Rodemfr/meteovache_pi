@@ -54,10 +54,10 @@
 /*                              Functions                                  */
 /***************************************************************************/
 
-NetworkThread::NetworkThread(ReportWindow *handler, JobQueue *jobQueue) :
+NetworkThread::NetworkThread(SpotForecasts *spotForecast, JobQueue *jobQueue) :
 		wxThread(wxTHREAD_DETACHED)
 {
-	pHandler = handler;
+	this->spotForecast = spotForecast;
 	this->jobQueue = jobQueue;
 	meteoVacheClient = new MeteoVacheClient();
 }
@@ -72,21 +72,32 @@ wxThread::ExitCode NetworkThread::Entry()
 	JobRequest job;
 	int retries;
 
+	// We check at each loop if the thread has been requested to be deleted
 	while (TestDestroy() == false)
 	{
-		if (pHandler->jobQueue->GetNextJobTimeout(&job, 500) == true)
+		// GetNextJobTimeout is a blocking function but we limit the blocking time to 500ms to avoid
+		// blocking OpenCPN for too long when exiting the application (OpenCPN will indirectly wait
+		// for the end of this thread when stopping the plug-in
+		if (jobQueue->GetNextJobTimeout(&job, 500) == true)
 		{
 			if (job.cmd == JobRequest::CMD_GET_ALL_FORECASTS_AT_LOCATION)
 			{
+				// Network retries are handled at this level, once again to allow checking for thread
+				// deletion. This avoids blocking OpenCPN exit but also allows to send a status event
+				// to the ReportWindow which will display the corresponding message to the user
 				retries = 0;
-				while ((retries < MAX_NETWORK_RETRIES) && (meteoVacheClient->DownloadAllForecasts(job.latitude, job.longitude, pHandler->spotForecast) == false))
+				while ((retries < MAX_NETWORK_RETRIES) && (meteoVacheClient->DownloadAllForecasts(job.latitude, job.longitude, *spotForecast) == false))
 				{
+					// If we are here, then the server did not respond in one second to the first request
 					retries++;
+					// Send an "on going" event to the ReportWindow
 					jobQueue->ReportResult(job.cmd, JobQueue::JOB_ONGOING);
+					// Check if thread deletion was requested meanwhile
 					if (TestDestroy()) {
 						return (wxThread::ExitCode) 0;
 					}
 				}
+				// Check if request succeeded or if we reach retry limit
 				if (retries < MAX_NETWORK_RETRIES)
 				{
 					jobQueue->ReportResult(job.cmd, JobQueue::JOB_SUCCESSFUL);
