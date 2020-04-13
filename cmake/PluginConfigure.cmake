@@ -1,5 +1,5 @@
 ##---------------------------------------------------------------------------
-## Author:      Pavel Kalian (Based on the work of Sean D'Epagnier)
+## Author:      Ronan Demoment based on the work of Pavel Kalian and Sean D'Epagnier
 ## Copyright:   2014
 ## License:     GPLv3+
 ##---------------------------------------------------------------------------
@@ -25,24 +25,17 @@ IF(NOT SKIP_VERSION_CONFIG)
     INCLUDE_DIRECTORIES(${BUILD_INCLUDE_PATH}/include)
 ENDIF(NOT SKIP_VERSION_CONFIG)
 
-SET(PACKAGE_VERSION "${VERSION_MAJOR}.${VERSION_MINOR}" )
-
-#SET(CMAKE_BUILD_TYPE Debug)
-#SET(CMAKE_VERBOSE_MAKEFILE ON)
+SET(PACKAGE_VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}" )
 
 INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src)
 
-# SET(PROFILING 1)
-
-#  IF NOT DEBUGGING CFLAGS="-O2 -march=native"
 IF(NOT MSVC)
  ADD_DEFINITIONS( "-fvisibility=hidden" )
  IF(PROFILING)
-  ADD_DEFINITIONS( "-Wall -g -fprofile-arcs -ftest-coverage -fexceptions" )
+  ADD_DEFINITIONS( "-Wall -Wextra -g -fprofile-arcs -ftest-coverage -fexceptions" )
  ELSE(PROFILING)
-#  ADD_DEFINITIONS( "-Wall -g -fexceptions" )
- ADD_DEFINITIONS( "-Wall -Wno-unused-result -g -O2 -fexceptions" )
- ENDIF(PROFILING)
+ ADD_DEFINITIONS( "-Wall -Wextra -Wno-unused-result -O3 -fexceptions" )
+ENDIF(PROFILING)
 
  IF(CMAKE_SYSTEM_NAME MATCHES ".*Linux")
   SET(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-Bsymbolic")
@@ -50,7 +43,6 @@ IF(NOT MSVC)
  IF(APPLE)
   SET(CMAKE_SHARED_LINKER_FLAGS "-Wl -undefined dynamic_lookup")
  ENDIF(APPLE)
-
 ENDIF(NOT MSVC)
 
 # Add some definitions to satisfy MS
@@ -58,7 +50,6 @@ IF(MSVC)
     ADD_DEFINITIONS(-D__MSVC__)
     ADD_DEFINITIONS(-D_CRT_NONSTDC_NO_DEPRECATE -D_CRT_SECURE_NO_DEPRECATE)
 ENDIF(MSVC)
-
 
 SET_PROPERTY(GLOBAL PROPERTY TARGET_SUPPORTS_SHARED_LIBS TRUE)
 SET(BUILD_SHARED_LIBS "ON")
@@ -79,58 +70,6 @@ IF(MSYS)
 # this is just a hack. I think the bug is in FindwxWidgets.cmake
 STRING( REGEX REPLACE "/usr/local" "\\\\;C:/MinGW/msys/1.0/usr/local" wxWidgets_INCLUDE_DIRS ${wxWidgets_INCLUDE_DIRS} )
 ENDIF(MSYS)
-
-#  QT_ANDROID is a cross-build, so the native FIND_PACKAGE(OpenGL) is not useful.
-#
-IF (NOT QT_ANDROID )
-FIND_PACKAGE(OpenGL)
-IF(OPENGL_GLU_FOUND)
-
-    SET(wxWidgets_USE_LIBS ${wxWidgets_USE_LIBS} gl)
-    INCLUDE_DIRECTORIES(${OPENGL_INCLUDE_DIR})
-
-    MESSAGE (STATUS "Found OpenGL..." )
-    MESSAGE (STATUS "    Lib: " ${OPENGL_LIBRARIES})
-    MESSAGE (STATUS "    Include: " ${OPENGL_INCLUDE_DIR})
-    ADD_DEFINITIONS(-DocpnUSE_GL)
-ELSE(OPENGL_GLU_FOUND)
-    MESSAGE (STATUS "OpenGL not found..." )
-ENDIF(OPENGL_GLU_FOUND)
-ENDIF(NOT QT_ANDROID)
-
-#  Building for QT_ANDROID involves a cross-building environment,
-#  So the OpenGL include directories, flags, etc must be stated explicitly
-#  without trying to locate them on the host build system.
-IF(QT_ANDROID)
-    MESSAGE (STATUS "Using GLESv1 for Android")
-    ADD_DEFINITIONS(-DocpnUSE_GLES)
-    ADD_DEFINITIONS(-DocpnUSE_GL)
-    ADD_DEFINITIONS(-DUSE_GLU_TESS)
-   
-    SET(OPENGLES_FOUND "YES")
-    SET(OPENGL_FOUND "YES")
-
-#    SET(wxWidgets_USE_LIBS ${wxWidgets_USE_LIBS} gl )
-#    add_subdirectory(src/glshim)
-
-#    add_subdirectory(src/glu)
-
-ELSE(QT_ANDROID)
-    FIND_PACKAGE(OpenGL)
-    IF(OPENGL_GLU_FOUND)
-
-        SET(wxWidgets_USE_LIBS ${wxWidgets_USE_LIBS} gl)
-        INCLUDE_DIRECTORIES(${OPENGL_INCLUDE_DIR})
-
-        MESSAGE (STATUS "Found OpenGL..." )
-        MESSAGE (STATUS "    Lib: " ${OPENGL_LIBRARIES})
-        MESSAGE (STATUS "    Include: " ${OPENGL_INCLUDE_DIR})
-        ADD_DEFINITIONS(-DocpnUSE_GL)
-    ELSE(OPENGL_GLU_FOUND)
-        MESSAGE (STATUS "OpenGL not found..." )
-    ENDIF(OPENGL_GLU_FOUND)
-
-ENDIF(QT_ANDROID)
 
 # On Android, PlugIns need a specific linkage set....
 IF (QT_ANDROID )
