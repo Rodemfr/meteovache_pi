@@ -10,7 +10,6 @@ If you don't know how to do, refer to OpenCPN's developers manual (https://openc
 
 copy the file "opencpn.lib" which is generated in OpenCPN/build after compiling OpenCPN.
 This file must be copied to meteovache_pi/buildwin
-Do the same with "zlib1.lib" by copying it form OpenCPN/buildwin to meteovache_pi/buildwin
 
 * open "X86 Native Tools Command Prompt for VS2017"
 * go in meteovache_pi directory : cd [...]\meteovache_pi
