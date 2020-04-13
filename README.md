@@ -42,9 +42,9 @@ Installer is only available for Windows OS. On Linux, you have to uncompress arc
 **v0.5**
 * Fixed issues in networking thread in case of long server response
 * Added a status test in report window to inform on the status of the last forecast request (success, on-going, failed)
-* Fixed bad color in case of dark theme under Debian
-* Added possibility to display time in locale/system time zone or UTC in preference dialog
-* Added uses time zone in weather report
+* Fixed bad backgorund color in case of dark theme under Debian
+* Added display of time zone in weather report
+* Added possibility to select select locale/system time zone or UTC in preference dialog
 
 **v0.4**
 * Added a button to manually save weather forecast in a text file (normal or column format)
