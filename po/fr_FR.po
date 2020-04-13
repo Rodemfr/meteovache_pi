@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-04-12 22:32+0200\n"
-"PO-Revision-Date: 2020-04-12 22:33+0200\n"
+"PO-Revision-Date: 2020-04-13 17:23+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -33,7 +33,7 @@ msgstr "Prévisions météo"
 #: src/MeteoVachePlugin.cpp:116
 msgid "Request weather forecast from MeteoVache server at cursor location"
 msgstr ""
-"Télécharge les prédictions météo pour la position du curseur depuis le "
+"Télécharge les prévisions météo pour la position du curseur depuis le "
 "serveur MétéoVache"
 
 #: src/MeteoVachePlugin.cpp:127
@@ -55,7 +55,7 @@ msgid ""
 "a low bandwidth Internet connection."
 msgstr ""
 "MétéoVache est une extension météo pour OpenCPN\n"
-"Elle fournit des prédictions météorologiques partout dans le monde,\n"
+"Elle fournit des prévisions météorologiques partout dans le monde,\n"
 "même avec une connexion Internet à très faible débit."
 
 #: src/MeteoVachePlugin.cpp:222
@@ -371,7 +371,7 @@ msgstr "Activer"
 
 #: src/PreferenceDialog.cpp:117
 msgid "Column format"
-msgstr "format en colones"
+msgstr "format en colonnes"
 
 #: src/PreferenceDialog.cpp:119
 msgid "Compress"
