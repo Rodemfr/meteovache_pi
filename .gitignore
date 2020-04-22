@@ -1,7 +1,3 @@
-tools/*
-.settings/*
-.project
-.cproject
 build/*
 po/*.mo
 buildwin/*
