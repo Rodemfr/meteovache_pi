@@ -88,14 +88,21 @@ PreferenceDialog::PreferenceDialog(wxWindow *parent, ConfigContainer *config, wx
 	globalSizer->Add(unitSizer, 0, wxALL | wxEXPAND, 5);
 
 	// Display
-	wxStaticBoxSizer *displaySizer = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Display")), wxHORIZONTAL);
+	wxStaticBoxSizer *displaySizer = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Display")), wxVERTICAL);
+	wxBoxSizer *displaySubSizer = new wxBoxSizer(wxHORIZONTAL);
 	timeZoneLabel = new wxStaticText(displaySizer->GetStaticBox(), wxID_ANY, _("Time zone"), wxDefaultPosition, wxDefaultSize, 0);
 	timeZoneLabel->Wrap(-1);
-	displaySizer->Add(timeZoneLabel, 1, wxALIGN_CENTER_VERTICAL | wxALL, 5);
+	displaySubSizer->Add(timeZoneLabel, 1, wxALIGN_CENTER_VERTICAL | wxALL, 5);
 	timeZoneSelection = new wxComboBox(displaySizer->GetStaticBox(), wxID_ANY, _("Local / system"), wxDefaultPosition, wxDefaultSize, 0, NULL, 0);
 	timeZoneSelection->Append(_("Local / system"));
 	timeZoneSelection->Append(_("UTC"));
-	displaySizer->Add(timeZoneSelection, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
+	displaySubSizer->Add(timeZoneSelection, 0, wxALIGN_CENTER_VERTICAL | wxTOP | wxLEFT | wxRIGHT, 5);
+	displaySizer->Add(displaySubSizer, 1, wxEXPAND, 0);
+	wxBoxSizer *disableToolbarIconSizer = new wxBoxSizer(wxHORIZONTAL);
+	disableToolbarIconSizer->Add(0, 0, 1, wxEXPAND, 5);
+	disableToolbarIconCheckBox = new wxCheckBox(displaySizer->GetStaticBox(), wxID_ANY, _("Disable toolbar icon"), wxDefaultPosition, wxDefaultSize, 0);
+	disableToolbarIconSizer->Add(disableToolbarIconCheckBox, 0, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, 5);
+	displaySizer->Add(disableToolbarIconSizer, 1, wxEXPAND , 5);
 	globalSizer->Add(displaySizer, 0, wxBOTTOM | wxEXPAND | wxLEFT | wxRIGHT, 5);
 
 	// Auto save configuration
@@ -160,6 +167,7 @@ PreferenceDialog::PreferenceDialog(wxWindow *parent, ConfigContainer *config, wx
 	windUnitSelection->SetStringSelection(_(config->windUnitString));
 	tempUnitSelection->SetStringSelection(_(config->tempUnitString));
 	timeZoneSelection->SetStringSelection(_(config->timeZoneString));
+	disableToolbarIconCheckBox->SetValue(config->disableToolbarIcon);
 	autoSavePathEdit->SetValue(config->autoSavePath);
 	autoSaveEnableCheckbox->SetValue(config->autoSaveEnable);
 	autoSaveColumnCheckbox->SetValue(config->autoSaveColumn);
@@ -224,6 +232,8 @@ void PreferenceDialog::UpdateConfig()
 	{
 		config->timeZoneString = "Local / system";
 	}
+	// Toolbar icon display
+	config->disableToolbarIcon = disableToolbarIconCheckBox->GetValue();
 	// Autosave options
 	config->autoSavePath = autoSavePathEdit->GetValue();
 	config->autoSaveEnable = autoSaveEnableCheckbox->GetValue();

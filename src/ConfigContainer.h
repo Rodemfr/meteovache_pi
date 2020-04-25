@@ -58,6 +58,7 @@ public:
 	wxString windUnitString;       // String of the wind unit to use
 	wxString tempUnitString;       // String of the temperature unit to use
 	wxString timeZoneString;       // Selected time zone for display
+	bool disableToolbarIcon;       // Don't display icon in toolbar
 	wxString autoSavePath;         // Path where to automatically save weather reports
 	bool autoSaveEnable;           // Enable autosave
 	bool autoSaveColumn;           // Enable column format for autosaved reports

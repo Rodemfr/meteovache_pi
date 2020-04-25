@@ -107,6 +107,8 @@ int MeteoVachePlugin::Init(void)
 	toolBarIconId = InsertPlugInTool(_("MeteoVache"), pluginIcon, pluginIcon, wxITEM_NORMAL, _("MeteoVache"), _("MeteoVache plug-in"),
 	NULL, -1, 0, this);
 
+	SetToolbarToolViz(toolBarIconId, !config.disableToolbarIcon);
+
 	// Tool-bar icon
 	SetToolbarToolBitmaps(toolBarIconId, toolbarIcon, toolbarIcon);
 	plugInFlags |= INSTALLS_TOOLBAR_TOOL;
@@ -228,6 +230,7 @@ void MeteoVachePlugin::ShowPreferencesDialog(wxWindow *parent)
 	if (prefDialog->ShowModal() == wxID_OK)
 	{
 		prefDialog->UpdateConfig();
+		SetToolbarToolViz(toolBarIconId, config.disableToolbarIcon == false);
 	}
 
 	delete prefDialog;

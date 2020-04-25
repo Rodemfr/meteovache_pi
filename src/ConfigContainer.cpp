@@ -65,6 +65,7 @@ ConfigContainer::ConfigContainer()
 	windUnitString = "nd";
 	tempUnitString = "Celsius";
 	timeZoneString = "Local / system";
+	disableToolbarIcon = 0;
 
 	wxStandardPaths standardPaths = wxStandardPaths::Get();
 	autoSavePath = standardPaths.GetDocumentsDir();
@@ -102,6 +103,7 @@ bool ConfigContainer::LoadConfig(void)
 		pConf->Read("WindUnitString", &windUnitString, "kt");
 		pConf->Read("TempUnitString", &tempUnitString, "C");
 		pConf->Read("TimeZoneString", &timeZoneString, "Local / system");
+		pConf->Read("DisableToolbarIcon", &disableToolbarIcon, false);
 		pConf->Read("AutoSavePath", &autoSavePath, autoSavePath);
 		pConf->Read("AutoSaveEnable", &autoSaveEnable, false);
 		pConf->Read("AutoSaveColumn", &autoSaveColumn, false);
@@ -129,6 +131,7 @@ bool ConfigContainer::SaveConfig(void)
 		pConf->Write("WindUnitString", windUnitString);
 		pConf->Write("TempUnitString", tempUnitString);
 		pConf->Write("TimeZoneString", timeZoneString);
+		pConf->Write("DisableToolbarIcon", disableToolbarIcon);
 		pConf->Write("AutoSavePath", autoSavePath);
 		pConf->Write("AutoSaveEnable", autoSaveEnable);
 		pConf->Write("AutoSaveColumn", autoSaveColumn);
