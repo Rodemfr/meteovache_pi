@@ -5,7 +5,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: meteovache_pi 0.5.1\n"
+"Project-Id-Version: meteovache_pi 0.5.2\n"
 "POT-Creation-Date: 2020-04-12 22:32+0200\n"
 "PO-Revision-Date: 2020-04-13 17:23+0200\n"
 "Last-Translator: Ronan Demoment\n"

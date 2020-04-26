@@ -25,19 +25,23 @@ This program is distributed under the terms of the GPL v2. - see the [gpl.txt](c
 
 ## Download
 
-Latest release is v0.5
+Latest release is v0.5.2
 
 Pre-compiled binaries and source code are available here :
 
-https://github.com/Rodemfr/meteovache_pi/releases/tag/v0.5
+https://github.com/Rodemfr/meteovache_pi/releases/tag/v0.5.2
 
-Installer is only available for Windows OS. On Linux, you have to uncompress archives manually and to copy the various files in OpenCPN install directory. Archives have been made so that the folder structure inside OpenCPN install directory is preserved.
+Windows and Linux x64 are supported. Raspberry Pi version will come later.
 
 ## Acknowledgments
 
 * Thanks to @OpenCPN team for providing a comprehensive set of templates and examples to develop plug-ins and to maintain this wonderful Open Source application.
 
 ## Release history
+
+**v0.5.2**
+* Added an option to remove plug-in icon from tool-bar
+* Minor translation fixes
 
 **v0.5**
 * Fixed issues in networking thread in case of long server response
