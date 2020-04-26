@@ -28,6 +28,7 @@ protected:
 	wxComboBox *tempUnitSelection;
 	wxStaticText* timeZoneLabel;
 	wxComboBox* timeZoneSelection;
+	wxCheckBox* disableToolbarIconCheckBox;
 	wxStaticText *serverNameLabel;
 	wxStaticText *serverPortLabel;
 	wxTextCtrl *serverNameEdit;
