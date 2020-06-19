@@ -91,6 +91,7 @@ bool MeteoVacheClient::DownloadAllForecasts(float latitude, float longitude, Spo
 	*((float*) (requestBuffer + 1)) = latitude;
 	*((float*) (requestBuffer + 5)) = longitude;
 
+	localSocket->Discard();
 	localSocket->SendTo(serverIpAddr, requestBuffer, sizeof(requestBuffer));
 	localSocket->Read(gzippedResponse, sizeof(gzippedResponse));
 	responseLength = localSocket->LastReadCount();

@@ -45,7 +45,8 @@
 /*                              Constants                                  */
 /***************************************************************************/
 
-wxBEGIN_EVENT_TABLE(ReportWindow, wxDialog) EVT_COMMAND(wxID_ANY, wxEVT_THREAD_JOB_COMPLETED, ReportWindow::OnThreadEvent)
+wxBEGIN_EVENT_TABLE(ReportWindow, wxDialog)
+EVT_COMMAND(wxID_ANY, wxEVT_THREAD_JOB_COMPLETED, ReportWindow::OnThreadEvent)
 EVT_COMMAND(wxID_ANY, wxEVT_THREAD_JOB_ONGOING, ReportWindow::OnThreadEvent)
 EVT_COMMAND(wxID_ANY, wxEVT_THREAD_JOB_FAILED, ReportWindow::OnThreadEvent)
 wxEND_EVENT_TABLE()
@@ -206,10 +207,10 @@ void ReportWindow::OnThreadEvent(wxCommandEvent &evt)
 	if (evt.GetEventType() == wxEVT_THREAD_JOB_COMPLETED)
 	{
 		statusLabel->SetLabelText(_("Data successfully downloaded from server"));
-		spotForecast.Lock();
 		wxString newString;
 
 		modelSelector->Clear();
+		spotForecast.Lock();
 		for (uint32_t i = 0; i < spotForecast.GetNumberOfForecast(); i++)
 		{
 			newString = wxString(spotForecast.Get(i).GetModelName());
@@ -222,13 +223,14 @@ void ReportWindow::OnThreadEvent(wxCommandEvent &evt)
 				modelSelector->SetSelection(i);
 			}
 		}
+		spotForecast.Unlock();
+
 		config->selectedModelName = modelSelector->GetStringSelection();
 		SetReportText(PrintWeatherReport(modelSelector->GetSelection()));
 		AutoSaveReport();
 		Show();
 		Layout();
 
-		spotForecast.Unlock();
 	} else if (evt.GetEventType() == wxEVT_THREAD_JOB_ONGOING)
 	{
 		statusLabel->SetLabelText(_("Contacting server ...") + " " + GetNextWaitingChar());
