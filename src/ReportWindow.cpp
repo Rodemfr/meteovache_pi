@@ -135,18 +135,18 @@ ReportWindow::~ReportWindow()
 
 void ReportWindow::OnClose(wxCloseEvent &event)
 {
+	(void) event;
 	// If the close button is pressed, we just hide the window We don't delete it because the network
 	// thread needs it the window is only deleted when the plug-in is stopped or when OpenCPN is exiting
 	this->Show(false);
-	event.WasProcessed();
 }
 
 void ReportWindow::OnModelSelect(wxCommandEvent &event)
 {
+	(void) event;
 	// When the selected model is changed by the user, we update the report window with the corresponding forecast
 	config->selectedModelName = modelSelector->GetStringSelection();
 	SetReportText(PrintWeatherReport(modelSelector->GetSelection()));
-	event.WasProcessed();
 }
 
 void ReportWindow::UpdateConfig()
@@ -163,9 +163,7 @@ void ReportWindow::UpdateConfig()
 void ReportWindow::SetReportText(const wxString &text)
 {
 	// Update the report text
-	reportTextArea->Remove(0, -1);
-	reportTextArea->WriteText(text);
-	reportTextArea->SetInsertionPoint(0);
+	reportTextArea->SetValue(text);
 }
 
 void ReportWindow::StartThread()
@@ -212,7 +210,6 @@ void ReportWindow::OnThreadEvent(wxCommandEvent &evt)
 		localForecasts = spotForecast;
 		spotForecast.Unlock();
 
-		modelSelector->Disable();
 		modelSelector->Clear();
 
 		for (uint32_t i = 0; i < localForecasts.GetNumberOfForecast(); i++)
@@ -228,10 +225,11 @@ void ReportWindow::OnThreadEvent(wxCommandEvent &evt)
 			}
 		}
 
+		Layout();
+
 		config->selectedModelName = modelSelector->GetStringSelection();
 		SetReportText(PrintWeatherReport(modelSelector->GetSelection()));
 		AutoSaveReport();
-		modelSelector->Enable();
 	} else if (evt.GetEventType() == wxEVT_THREAD_JOB_ONGOING)
 	{
 		statusLabel->SetLabelText(_("Contacting server ...") + " " + GetNextWaitingChar());
@@ -239,6 +237,7 @@ void ReportWindow::OnThreadEvent(wxCommandEvent &evt)
 	{
 		statusLabel->SetLabelText(wxString::Format("Download failed : server not responding"));
 	}
+    wxWakeUpIdle();
 }
 
 void ReportWindow::AutoSaveReport()
