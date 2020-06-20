@@ -48,10 +48,14 @@
 #include <vector>
 #include <wx/thread.h>
 
+using namespace std;
+
 class SpotForecasts {
 public:
 	SpotForecasts();
 	virtual ~SpotForecasts();
+	SpotForecasts(const SpotForecasts &layer);
+	SpotForecasts& operator=(const SpotForecasts &layer);
 
 	void Lock();
 	void Unlock();
@@ -66,7 +70,7 @@ public:
 private:
 	float latitudeDeg;
 	float longitudeDeg;
-	std::vector<Forecast> forecastList;
+	vector<Forecast> forecastList;
 	wxCriticalSection locker;
 };
 

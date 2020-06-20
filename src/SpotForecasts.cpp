@@ -59,6 +59,28 @@ SpotForecasts::~SpotForecasts()
 {
 }
 
+SpotForecasts::SpotForecasts(const SpotForecasts &forecasts) {
+	latitudeDeg = forecasts.latitudeDeg;
+	longitudeDeg = forecasts.longitudeDeg;
+
+	for (unsigned int i = 0; i < forecasts.forecastList.size(); i++) {
+		forecastList.push_back(forecasts.forecastList[i]);
+	}
+}
+
+SpotForecasts& SpotForecasts::operator=(const SpotForecasts &forecasts) {
+	if (this != &forecasts) {
+		latitudeDeg = forecasts.latitudeDeg;
+		longitudeDeg = forecasts.longitudeDeg;
+
+		for (unsigned int i = 0; i < forecasts.forecastList.size(); i++) {
+			forecastList.push_back(forecasts.forecastList[i]);
+		}
+	}
+
+	return (*this);
+}
+
 void SpotForecasts::Lock()
 {
 	locker.Enter();

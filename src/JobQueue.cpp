@@ -56,42 +56,36 @@ DEFINE_EVENT_TYPE(wxEVT_THREAD_JOB_FAILED)
 /***************************************************************************/
 
 JobRequest::JobRequest() :
-		cmd(CMD_UNDEFINED), latitude(0.0f), longitude(0.0f)
-{
+		cmd(CMD_UNDEFINED), latitude(0.0f), longitude(0.0f) {
 }
 
-JobRequest::JobRequest(JobCommand cmd)
-{
+JobRequest::JobRequest(JobCommand cmd) {
 	this->cmd = cmd;
 	this->latitude = 0.0f;
 	this->longitude = 0.0f;
 }
 
-JobRequest::JobRequest(JobCommand cmd, float latitude, float longitude)
-{
+JobRequest::JobRequest(JobCommand cmd, float latitude, float longitude) {
 	this->cmd = cmd;
 	this->latitude = latitude;
 	this->longitude = longitude;
 }
 
-JobRequest::~JobRequest()
-{
+JobRequest::~JobRequest() {
 }
 
 JobQueue::JobQueue(wxEvtHandler *pParent) :
-		parentEvtHandler(pParent)
-{
+		parentEvtHandler(pParent) {
 }
 
-void JobQueue::AddJobRequest(const JobRequest &job)
-{
-	wxMutexLocker lock(mapMutex);
+void JobQueue::AddJobRequest(const JobRequest &job) {
+	mapMutex.Lock();
 	jobMap.insert(std::make_pair(0, job));
+	mapMutex.Unlock();
 	queueCount.Post();
 }
 
-void JobQueue::GetNextJob(JobRequest *jobRequest)
-{
+void JobQueue::GetNextJob(JobRequest *jobRequest) {
 	JobRequest element;
 
 	queueCount.Wait();
@@ -103,12 +97,10 @@ void JobQueue::GetNextJob(JobRequest *jobRequest)
 	*jobRequest = element;
 }
 
-bool JobQueue::GetNextJobTimeout(JobRequest *jobRequest, unsigned long timeOut)
-{
+bool JobQueue::GetNextJobTimeout(JobRequest *jobRequest, unsigned long timeOut) {
 	JobRequest element;
 
-	if (queueCount.WaitTimeout(timeOut) == wxSEMA_NO_ERROR)
-	{
+	if (queueCount.WaitTimeout(timeOut) == wxSEMA_NO_ERROR) {
 		mapMutex.Lock();
 		element = (jobMap.begin())->second;
 		jobMap.erase(jobMap.begin());
@@ -116,28 +108,27 @@ bool JobQueue::GetNextJobTimeout(JobRequest *jobRequest, unsigned long timeOut)
 
 		*jobRequest = element;
 		return true;
-	} else
-	{
+	}
+	else {
 		return false;
 	}
 }
 
-void JobQueue::ReportResult(const JobRequest::JobCommand &cmd, JobResult result)
-{
-	if (result == JOB_SUCCESSFUL)
-	{
+void JobQueue::ReportResult(const JobRequest::JobCommand &cmd, JobResult result) {
+
+	if (result == JOB_SUCCESSFUL) {
 		wxCommandEvent evt(wxEVT_THREAD_JOB_COMPLETED);
 		evt.SetInt(cmd);
-		parentEvtHandler->AddPendingEvent(evt);
-	} else if (result == JOB_FAILED)
-	{
+		wxQueueEvent(parentEvtHandler, evt.Clone());
+	}
+	else if (result == JOB_FAILED) {
 		wxCommandEvent evt(wxEVT_THREAD_JOB_FAILED);
 		evt.SetInt(cmd);
-		parentEvtHandler->AddPendingEvent(evt);
-	} else if (result == JOB_ONGOING)
-	{
+		wxQueueEvent(parentEvtHandler, evt.Clone());
+	}
+	else if (result == JOB_ONGOING) {
 		wxCommandEvent evt(wxEVT_THREAD_JOB_ONGOING);
 		evt.SetInt(cmd);
-		parentEvtHandler->AddPendingEvent(evt);
+		wxQueueEvent(parentEvtHandler, evt.Clone());
 	}
 }

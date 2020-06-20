@@ -208,6 +208,7 @@ void MeteoVachePlugin::OnContextMenuItemCallback(int id)
 	// If MeteoVache context menu item has been clicked, we request a new forecast for the last recorded cursor position
 	if (id == contextMenuId)
 	{
+		weatherWindow->Show(true);
 		weatherWindow->RequestForecast(cursorLat, cursorLon);
 	}
 }

@@ -146,8 +146,6 @@ void ReportWindow::OnModelSelect(wxCommandEvent &event)
 	// When the selected model is changed by the user, we update the report window with the corresponding forecast
 	config->selectedModelName = modelSelector->GetStringSelection();
 	SetReportText(PrintWeatherReport(modelSelector->GetSelection()));
-	Show();
-	Layout();
 	event.WasProcessed();
 }
 
@@ -208,12 +206,18 @@ void ReportWindow::OnThreadEvent(wxCommandEvent &evt)
 	{
 		statusLabel->SetLabelText(_("Data successfully downloaded from server"));
 		wxString newString;
+		SpotForecasts localForecasts;
 
-		modelSelector->Clear();
 		spotForecast.Lock();
-		for (uint32_t i = 0; i < spotForecast.GetNumberOfForecast(); i++)
+		localForecasts = spotForecast;
+		spotForecast.Unlock();
+
+		modelSelector->Disable();
+		modelSelector->Clear();
+
+		for (uint32_t i = 0; i < localForecasts.GetNumberOfForecast(); i++)
 		{
-			newString = wxString(spotForecast.Get(i).GetModelName());
+			newString = wxString(localForecasts.Get(i).GetModelName());
 			modelSelector->Append(newString);
 			if (i == 0)
 			{
@@ -223,24 +227,17 @@ void ReportWindow::OnThreadEvent(wxCommandEvent &evt)
 				modelSelector->SetSelection(i);
 			}
 		}
-		spotForecast.Unlock();
 
 		config->selectedModelName = modelSelector->GetStringSelection();
 		SetReportText(PrintWeatherReport(modelSelector->GetSelection()));
 		AutoSaveReport();
-		Show();
-		Layout();
-
+		modelSelector->Enable();
 	} else if (evt.GetEventType() == wxEVT_THREAD_JOB_ONGOING)
 	{
 		statusLabel->SetLabelText(_("Contacting server ...") + " " + GetNextWaitingChar());
-		Show();
-		Layout();
 	} else if (evt.GetEventType() == wxEVT_THREAD_JOB_FAILED)
 	{
 		statusLabel->SetLabelText(wxString::Format("Download failed : server not responding"));
-		Show();
-		Layout();
 	}
 }
 
@@ -286,16 +283,19 @@ wxString ReportWindow::PrintWeatherReport(int modelIndex)
 	Forecast *forecast;
 	WeatherData data;
 	float cloudCover;
+	SpotForecasts localForecasts;
 
 	spotForecast.Lock();
+	localForecasts = spotForecast;
+	spotForecast.Unlock();
 
-	forecast = &spotForecast.Get(modelIndex);
+	forecast = &localForecasts.Get(modelIndex);
 
 	DateTime runDate;
 	runDate.SetTimeCode(forecast->GetRunTimeCode());
 	modelInfo = modelInfo.Append(
-			wxString::Format("%-20s%s %s\n", _("Position") + " : ", GetLatitudeString(spotForecast.GetLatitude()),
-					GetLongitudeString(spotForecast.GetLongitude())));
+			wxString::Format("%-20s%s %s\n", _("Position") + " : ", GetLatitudeString(localForecasts.GetLatitude()),
+					GetLongitudeString(localForecasts.GetLongitude())));
 	modelInfo = modelInfo.Append(wxString::Format("%-20s%s\n", _("Model") + " : ", forecast->GetModelName()));
 	modelInfo = modelInfo.Append(wxString::Format("%-20s%s\n", _("Provider") + " : ", forecast->GetProviderName()));
 
@@ -341,7 +341,6 @@ wxString ReportWindow::PrintWeatherReport(int modelIndex)
 						GetTextDirection(data.windDirectionDeg), precipitationString, cloudCover, GetConvertedTemp(data.TemperatureC).c_str()));
 	}
 	modelInfo = modelInfo.Append("\n");
-	spotForecast.Unlock();
 
 	return (modelInfo);
 }
@@ -349,16 +348,17 @@ wxString ReportWindow::PrintWeatherReport(int modelIndex)
 wxString ReportWindow::PrintWeatherReports()
 {
 	wxString report;
+	SpotForecasts localForecasts;
 
 	spotForecast.Lock();
+	localForecasts = spotForecast;
+	spotForecast.Unlock();
 
-	uint32_t nbReports = spotForecast.GetNumberOfForecast();
+	uint32_t nbReports = localForecasts.GetNumberOfForecast();
 	for (uint32_t i = 0; i < nbReports; i++)
 	{
 		report += PrintWeatherReport(i);
 	}
-
-	spotForecast.Unlock();
 
 	return (report);
 }
@@ -368,15 +368,18 @@ wxString ReportWindow::PrintWeatherColumnReports()
 	wxString *reportArray = nullptr;
 	uint32_t nbReports;
 	wxString columnReport;
+	SpotForecasts localForecasts;
 
 	spotForecast.Lock();
-	nbReports = spotForecast.GetNumberOfForecast();
+	localForecasts = spotForecast;
+	spotForecast.Unlock();
+
+	nbReports = localForecasts.GetNumberOfForecast();
 	reportArray = new wxString[nbReports];
 	for (uint32_t i = 0; i < nbReports; i++)
 	{
 		reportArray[i] = PrintWeatherReport(i);
 	}
-	spotForecast.Unlock();
 
 	bool continueLoop;
 	do
