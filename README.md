@@ -13,7 +13,7 @@ meteovache_pi provides weather forecasts based on the following meteorological m
 - "Icon Eu" : regional model (0.125°) from [Deutscher Wetterdienst](https://www.dwd.de/EN) (Coverage Europe)
 - "Arpege" : global model (0.5°) from [Météo France](http://www.meteofrance.com) (Coverage : World)
 
-meteovache_pi needs an Internet connection to retrieve weather data from MeteoVache server. It has been specifically designed to minimize the amount of data required to get a forecast at a given location. A typical request weights between 1 and 1.5kb, making it suitable for very low bandwidth Internet connections like Edge GSM.
+meteovache_pi needs an Internet connection to retrieve weather data from MeteoVache server. It has been specifically designed to minimize the amount of data required to get a forecast at a given location. A typical request weights between 500 and 1500 bytes, making it suitable for very low bandwidth Internet connections like Edge GSM.
 
 ## Author
 
@@ -25,19 +25,24 @@ This program is distributed under the terms of the GPL v2. - see the [gpl.txt](c
 
 ## Download
 
-Latest release is v0.5.2
+Latest release is v0.6
 
 Pre-compiled binaries and source code are available here :
 
-https://github.com/Rodemfr/meteovache_pi/releases/tag/v0.5.2
+https://github.com/Rodemfr/meteovache_pi/releases/tag/v0.6
 
-Windows and Linux x64 are supported. Raspberry Pi version will come later.
+Windows and Linux x64 binaries are provided for download. meteovache_pi should also run on other platforms like Raspberry Pi but you will have to compile the plug-in by yourself.
 
 ## Acknowledgments
 
 * Thanks to @OpenCPN team for providing a comprehensive set of templates and examples to develop plug-ins and to maintain this wonderful Open Source application.
 
 ## Release history
+
+**v0.6**
+* Weather report is now using colors for better readability
+* Cmake files are now arm64 compatible
+* Minor bug fixes
 
 **v0.5.2**
 * Added an option to remove plug-in icon from tool-bar
@@ -46,7 +51,7 @@ Windows and Linux x64 are supported. Raspberry Pi version will come later.
 **v0.5**
 * Fixed issues in networking thread in case of long server response
 * Added a status test in report window to inform on the status of the last forecast request (success, on-going, failed)
-* Fixed bad backgorund color in case of dark theme under Debian
+* Fixed bad background color in case of dark theme under Debian
 * Added display of time zone in weather report
 * Added possibility to select select locale/system time zone or UTC in preference dialog
 
