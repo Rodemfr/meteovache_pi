@@ -131,4 +131,5 @@ void JobQueue::ReportResult(const JobRequest::JobCommand &cmd, JobResult result)
 		evt.SetInt(cmd);
 		wxQueueEvent(parentEvtHandler, evt.Clone());
 	}
+    wxWakeUpIdle();
 }

@@ -93,7 +93,7 @@ unsigned int ColorGradient::InterpolateColor(float value)
 {
     int current_index;
     float color_ratio;
-    float red, green, blue, alpha;
+    float red, green, blue;
 
     if (number_of_colors == 0)
         return (0);
