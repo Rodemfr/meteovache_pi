@@ -45,8 +45,7 @@
 /*                              Constants                                  */
 /***************************************************************************/
 
-wxBEGIN_EVENT_TABLE(ReportWindow, wxDialog)
-EVT_COMMAND(wxID_ANY, wxEVT_THREAD_JOB_COMPLETED, ReportWindow::OnThreadEvent)
+wxBEGIN_EVENT_TABLE(ReportWindow, wxDialog) EVT_COMMAND(wxID_ANY, wxEVT_THREAD_JOB_COMPLETED, ReportWindow::OnThreadEvent)
 EVT_COMMAND(wxID_ANY, wxEVT_THREAD_JOB_ONGOING, ReportWindow::OnThreadEvent)
 EVT_COMMAND(wxID_ANY, wxEVT_THREAD_JOB_FAILED, ReportWindow::OnThreadEvent)
 wxEND_EVENT_TABLE()
@@ -93,7 +92,7 @@ ReportWindow::ReportWindow(wxWindow *parent, ConfigContainer *config, wxWindowID
 	statusLabel->Wrap(-1);
 	reportGlobalSizer->Add(statusLabel, 0, wxALIGN_CENTER_VERTICAL | wxALIGN_LEFT | wxALL, 5);
 
-	reportTextArea = new wxTextCtrl(this, wxID_ANY, _("Weather report"), wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE | wxTE_READONLY);
+	reportTextArea = new ForecastDisplay(this, config, wxID_ANY, _("Weather report"), wxDefaultPosition, wxDefaultSize, 0);
 	wxFont reportFont = reportTextArea->GetFont();
 	reportFont.SetFamily(wxFONTFAMILY_TELETYPE);
 	reportTextArea->SetFont(reportFont);
@@ -146,7 +145,7 @@ void ReportWindow::OnModelSelect(wxCommandEvent &event)
 	(void) event;
 	// When the selected model is changed by the user, we update the report window with the corresponding forecast
 	config->selectedModelName = modelSelector->GetStringSelection();
-	SetReportText(PrintWeatherReport(modelSelector->GetSelection()));
+	SetReportForecast(modelSelector->GetSelection());
 }
 
 void ReportWindow::UpdateConfig()
@@ -160,10 +159,12 @@ void ReportWindow::UpdateConfig()
 	config->windowHeight = this->GetSize().y;
 }
 
-void ReportWindow::SetReportText(const wxString &text)
+void ReportWindow::SetReportForecast(int modelSelection)
 {
 	// Update the report text
-	reportTextArea->SetValue(text);
+	spotForecast.Lock();
+	reportTextArea->SetForecast(spotForecast, modelSelection);
+	spotForecast.Unlock();
 }
 
 void ReportWindow::StartThread()
@@ -228,7 +229,7 @@ void ReportWindow::OnThreadEvent(wxCommandEvent &evt)
 		Layout();
 
 		config->selectedModelName = modelSelector->GetStringSelection();
-		SetReportText(PrintWeatherReport(modelSelector->GetSelection()));
+		SetReportForecast(modelSelector->GetSelection());
 		AutoSaveReport();
 	} else if (evt.GetEventType() == wxEVT_THREAD_JOB_ONGOING)
 	{
@@ -237,7 +238,7 @@ void ReportWindow::OnThreadEvent(wxCommandEvent &evt)
 	{
 		statusLabel->SetLabelText(wxString::Format("Download failed : server not responding"));
 	}
-    wxWakeUpIdle();
+	wxWakeUpIdle();
 }
 
 void ReportWindow::AutoSaveReport()
@@ -405,7 +406,10 @@ void ReportWindow::RequestForecast(float latitude, float longitude)
 {
 	modelSelector->Clear();
 	modelSelector->SetStringSelection(_("No data"));
-	SetReportText("");
+	spotForecast.Lock();
+	spotForecast.Reset();
+	spotForecast.Unlock();
+	SetReportForecast(0);
 	statusLabel->SetLabelText(_("Contacting server ...") + " " + GetNextWaitingChar());
 	JobRequest job(JobRequest::CMD_GET_ALL_FORECASTS_AT_LOCATION, latitude, longitude);
 	jobQueue->AddJobRequest(job);

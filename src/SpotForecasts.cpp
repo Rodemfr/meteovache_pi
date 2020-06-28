@@ -62,6 +62,7 @@ SpotForecasts::~SpotForecasts()
 SpotForecasts::SpotForecasts(const SpotForecasts &forecasts) {
 	latitudeDeg = forecasts.latitudeDeg;
 	longitudeDeg = forecasts.longitudeDeg;
+	forecastList.clear();
 
 	for (unsigned int i = 0; i < forecasts.forecastList.size(); i++) {
 		forecastList.push_back(forecasts.forecastList[i]);
@@ -72,6 +73,7 @@ SpotForecasts& SpotForecasts::operator=(const SpotForecasts &forecasts) {
 	if (this != &forecasts) {
 		latitudeDeg = forecasts.latitudeDeg;
 		longitudeDeg = forecasts.longitudeDeg;
+		forecastList.clear();
 
 		for (unsigned int i = 0; i < forecasts.forecastList.size(); i++) {
 			forecastList.push_back(forecasts.forecastList[i]);

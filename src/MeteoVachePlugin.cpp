@@ -126,7 +126,7 @@ int MeteoVachePlugin::Init(void)
 			wxSize(config.windowWidth, config.windowHeight),
 			wxDEFAULT_FRAME_STYLE);
 	weatherWindow->SetPosition(wxPoint(config.windowXPos, config.windowYPos));
-	weatherWindow->SetReportText(wxString(_("Right click on the map and select \"Weather forecast\" to get forecast at this point.")));
+	weatherWindow->SetReportForecast(-1);
 
 	return plugInFlags;
 }

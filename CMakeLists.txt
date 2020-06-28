@@ -48,6 +48,10 @@ SET(SRC_MV
     src/SpotForecasts.cpp
     src/ConfigContainer.h
     src/ConfigContainer.cpp
+    src/ForecastDisplay.h
+    src/ForecastDisplay.cpp
+    src/ColorGradient.h
+    src/ColorGradient.cpp
 	)
 
 ADD_LIBRARY(${PACKAGE_NAME} SHARED ${SRC_MV})

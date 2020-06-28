@@ -35,6 +35,7 @@
 #include <JobQueue.h>
 #include <SpotForecasts.h>
 #include <ConfigContainer.h>
+#include <ForecastDisplay.h>
 #include <wx/string.h>
 #include <wx/stattext.h>
 #include <wx/gdicmn.h>
@@ -67,7 +68,7 @@ private:
 	// Widgets
 	wxStaticText *statusLabel;
 	wxComboBox *modelSelector;
-	wxTextCtrl *reportTextArea;
+	ForecastDisplay *reportTextArea;
 	wxButton *saveButton;
 
 	ConfigContainer *config;	  // Configuration parameters
@@ -105,7 +106,7 @@ public:
 	~ReportWindow();
 
 	void UpdateConfig();                                    // Save all parameters related to the report window into the configuration object
-	void SetReportText(const wxString &text);               // Change the text displayed by the report window
+	void SetReportForecast(int modelSelection);             // Change the text displayed by the report window
 	void RequestForecast(float latitude, float longitude);  // Start a new forecast query
 
 };
