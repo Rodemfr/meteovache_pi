@@ -6,8 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: meteovache_pi 0.5.2\n"
-"POT-Creation-Date: 2020-04-12 22:32+0200\n"
-"PO-Revision-Date: 2020-04-25 14:01+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-06-28 10:25+0200\n"
+"PO-Revision-Date: 2020-06-28 10:48+0200\n"
 "Last-Translator: Ronan Demoment\n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -16,8 +17,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 2.3\n"
 
-#: src/MeteoVachePlugin.cpp:107 src/MeteoVachePlugin.cpp:123
-#: src/MeteoVachePlugin.cpp:172
+#: src/MeteoVachePlugin.cpp:107 src/MeteoVachePlugin.cpp:125
+#: src/MeteoVachePlugin.cpp:174
 msgid "MeteoVache"
 msgstr "MétéoVache"
 
@@ -25,29 +26,21 @@ msgstr "MétéoVache"
 msgid "MeteoVache plug-in"
 msgstr "Extension MétéoVache"
 
-#: src/MeteoVachePlugin.cpp:115
+#: src/MeteoVachePlugin.cpp:117
 msgid "Weather forecast"
 msgstr "Prévisions météo"
 
-#: src/MeteoVachePlugin.cpp:116
+#: src/MeteoVachePlugin.cpp:118
 msgid "Request weather forecast from MeteoVache server at cursor location"
 msgstr ""
 "Télécharge les prévisions météo pour la position du curseur depuis le "
 "serveur MétéoVache"
 
-#: src/MeteoVachePlugin.cpp:127
-msgid ""
-"Right click on the map and select \"Weather forecast\" to get forecast at "
-"this point."
-msgstr ""
-"Cliquez avec le bouton droit sur la carte et sélectionnez \"Prévisions météo"
-"\" pour obtenir les prévisions à ce point."
-
-#: src/MeteoVachePlugin.cpp:177
+#: src/MeteoVachePlugin.cpp:179
 msgid "MeteoVache weather plug-in for OpenCPN"
 msgstr "Extension MétéoVache pour OpenCPN"
 
-#: src/MeteoVachePlugin.cpp:183
+#: src/MeteoVachePlugin.cpp:185
 msgid ""
 "MeteoVache is a weather plug-in for OpenCPN.\n"
 "It provides weather forecasts everywhere in the world with only\n"
@@ -57,167 +50,174 @@ msgstr ""
 "Elle fournit des prévisions météorologiques partout dans le monde,\n"
 "même avec une connexion Internet à très faible débit."
 
-#: src/MeteoVachePlugin.cpp:222
+#: src/MeteoVachePlugin.cpp:225
 msgid "MeteoVache preferences"
 msgstr "Préférences MétéoVache"
 
-#: src/ReportWindow.cpp:83
+#: src/ReportWindow.cpp:84
 msgid "Weather model :"
 msgstr "Modèle météo :"
 
-#: src/ReportWindow.cpp:94
+#: src/ReportWindow.cpp:95
 msgid "Weather report"
 msgstr "Rapport de prévisions"
 
-#: src/ReportWindow.cpp:103
+#: src/ReportWindow.cpp:104
 msgid "Save As..."
 msgstr "Enregistrer sous..."
 
-#: src/ReportWindow.cpp:192
+#: src/ReportWindow.cpp:206
 msgid "Data successfully downloaded from server"
 msgstr "Données téléchargées avec succès"
 
-#: src/ReportWindow.cpp:218 src/ReportWindow.cpp:389
+#: src/ReportWindow.cpp:236 src/ReportWindow.cpp:413
 msgid "Contacting server ..."
 msgstr "Interrogation du serveur ..."
 
-#: src/ReportWindow.cpp:279
+#: src/ReportWindow.cpp:297 src/ForecastDisplay.cpp:104
 msgid "Position"
 msgstr "Position"
 
-#: src/ReportWindow.cpp:281
+#: src/ReportWindow.cpp:299 src/ForecastDisplay.cpp:109
 msgid "Model"
 msgstr "Modèle"
 
-#: src/ReportWindow.cpp:282
+#: src/ReportWindow.cpp:300 src/ForecastDisplay.cpp:113
 msgid "Provider"
 msgstr "Fournisseur"
 
-#: src/ReportWindow.cpp:287 src/ReportWindow.cpp:292
+#: src/ReportWindow.cpp:305 src/ReportWindow.cpp:310
+#: src/ForecastDisplay.cpp:120 src/ForecastDisplay.cpp:124
 msgid "Run date"
 msgstr "Date de calcul"
 
-#: src/ReportWindow.cpp:295 src/PreferenceDialog.cpp:92
+#: src/ReportWindow.cpp:313 src/PreferenceDialog.cpp:93
+#: src/ForecastDisplay.cpp:130
 msgid "Time zone"
 msgstr "Fuseau horaire"
 
-#: src/ReportWindow.cpp:297
+#: src/ReportWindow.cpp:315 src/ForecastDisplay.cpp:134
 msgid "Wind"
 msgstr "Vent"
 
-#: src/ReportWindow.cpp:297
+#: src/ReportWindow.cpp:315 src/ForecastDisplay.cpp:134
 msgid "Gust"
 msgstr "Rafl"
 
-#: src/ReportWindow.cpp:297
+#: src/ReportWindow.cpp:315 src/ForecastDisplay.cpp:134
 msgid "Dir"
 msgstr "Dir"
 
-#: src/ReportWindow.cpp:297
+#: src/ReportWindow.cpp:315 src/ForecastDisplay.cpp:134
 msgid "Rain"
 msgstr "Précp"
 
-#: src/ReportWindow.cpp:297
+#: src/ReportWindow.cpp:315 src/ForecastDisplay.cpp:134
 msgid "Cloud"
 msgstr "CouvN"
 
-#: src/ReportWindow.cpp:297
+#: src/ReportWindow.cpp:315 src/ForecastDisplay.cpp:134
 msgid "Temp"
 msgstr "Temp"
 
-#: src/ReportWindow.cpp:299
+#: src/ReportWindow.cpp:317 src/ForecastDisplay.cpp:142
 msgid "mm/h"
 msgstr "mm/h"
 
-#: src/ReportWindow.cpp:387
+#: src/ReportWindow.cpp:408
 msgid "No data"
 msgstr "Pas de données"
 
-#: src/ReportWindow.cpp:400 src/ReportWindow.cpp:425
+#: src/ReportWindow.cpp:424 src/ReportWindow.cpp:449
+#: src/ForecastDisplay.cpp:249 src/ForecastDisplay.cpp:310
 msgid "S"
 msgstr "S"
 
-#: src/ReportWindow.cpp:400 src/ReportWindow.cpp:441 src/ReportWindow.cpp:457
+#: src/ReportWindow.cpp:424 src/ReportWindow.cpp:465 src/ReportWindow.cpp:481
+#: src/ForecastDisplay.cpp:249 src/ForecastDisplay.cpp:326
+#: src/ForecastDisplay.cpp:342
 msgid "N"
 msgstr "N"
 
-#: src/ReportWindow.cpp:412 src/ReportWindow.cpp:433
+#: src/ReportWindow.cpp:436 src/ReportWindow.cpp:457
+#: src/ForecastDisplay.cpp:298 src/ForecastDisplay.cpp:318
 msgid "W"
 msgstr "O"
 
-#: src/ReportWindow.cpp:412 src/ReportWindow.cpp:449
+#: src/ReportWindow.cpp:436 src/ReportWindow.cpp:473
+#: src/ForecastDisplay.cpp:298 src/ForecastDisplay.cpp:334
 msgid "E"
 msgstr "E"
 
-#: src/ReportWindow.cpp:427
+#: src/ReportWindow.cpp:451 src/ForecastDisplay.cpp:312
 msgid "S-SW"
 msgstr "S-SO"
 
-#: src/ReportWindow.cpp:429
+#: src/ReportWindow.cpp:453 src/ForecastDisplay.cpp:314
 msgid "SW"
 msgstr "SO"
 
-#: src/ReportWindow.cpp:431
+#: src/ReportWindow.cpp:455 src/ForecastDisplay.cpp:316
 msgid "W-SW"
 msgstr "O-SO"
 
-#: src/ReportWindow.cpp:435
+#: src/ReportWindow.cpp:459 src/ForecastDisplay.cpp:320
 msgid "W-NW"
 msgstr "O-NO"
 
-#: src/ReportWindow.cpp:437
+#: src/ReportWindow.cpp:461 src/ForecastDisplay.cpp:322
 msgid "NW"
 msgstr "NO"
 
-#: src/ReportWindow.cpp:439
+#: src/ReportWindow.cpp:463 src/ForecastDisplay.cpp:324
 msgid "N-NW"
 msgstr "N-NO"
 
-#: src/ReportWindow.cpp:443
+#: src/ReportWindow.cpp:467 src/ForecastDisplay.cpp:328
 msgid "N-NE"
 msgstr "N-NE"
 
-#: src/ReportWindow.cpp:445
+#: src/ReportWindow.cpp:469 src/ForecastDisplay.cpp:330
 msgid "NE"
 msgstr "NE"
 
-#: src/ReportWindow.cpp:447
+#: src/ReportWindow.cpp:471 src/ForecastDisplay.cpp:332
 msgid "E-NE"
 msgstr "E-NE"
 
-#: src/ReportWindow.cpp:451
+#: src/ReportWindow.cpp:475 src/ForecastDisplay.cpp:336
 msgid "E-SE"
 msgstr "E-SE"
 
-#: src/ReportWindow.cpp:453
+#: src/ReportWindow.cpp:477 src/ForecastDisplay.cpp:338
 msgid "SE"
 msgstr "SE"
 
-#: src/ReportWindow.cpp:455
+#: src/ReportWindow.cpp:479 src/ForecastDisplay.cpp:340
 msgid "S-SE"
 msgstr "S-SE"
 
-#: src/ReportWindow.cpp:523
+#: src/ReportWindow.cpp:547 src/ForecastDisplay.cpp:402
 msgid "F"
 msgstr "F"
 
-#: src/ReportWindow.cpp:526
+#: src/ReportWindow.cpp:550 src/ForecastDisplay.cpp:405
 msgid "C"
 msgstr "C"
 
-#: src/ReportWindow.cpp:531
+#: src/ReportWindow.cpp:555
 msgid "Save weather report"
 msgstr "Sauvegarder les prévisions"
 
-#: src/ReportWindow.cpp:532
+#: src/ReportWindow.cpp:556
 msgid "Text File"
 msgstr "Fichier texte"
 
-#: src/ReportWindow.cpp:532
+#: src/ReportWindow.cpp:556
 msgid "Column Text File"
 msgstr "Fichier texte en colonnes"
 
-#: src/ReportWindow.cpp:558
+#: src/ReportWindow.cpp:582
 msgid "WForecast"
 msgstr "Prev"
 
@@ -298,32 +298,32 @@ msgid "Saturday"
 msgstr "Samedi"
 
 #: src/PreferenceDialog.cpp:61 src/PreferenceDialog.cpp:76
-#: src/PreferenceDialog.cpp:184
+#: src/PreferenceDialog.cpp:192
 msgid "kt"
 msgstr "nd"
 
-#: src/PreferenceDialog.cpp:61 src/PreferenceDialog.cpp:187
+#: src/PreferenceDialog.cpp:61 src/PreferenceDialog.cpp:195
 msgid "bft"
 msgstr "bft"
 
-#: src/PreferenceDialog.cpp:61 src/PreferenceDialog.cpp:190
+#: src/PreferenceDialog.cpp:61 src/PreferenceDialog.cpp:198
 msgid "m/s"
 msgstr "m/s"
 
-#: src/PreferenceDialog.cpp:61 src/PreferenceDialog.cpp:193
+#: src/PreferenceDialog.cpp:61 src/PreferenceDialog.cpp:201
 msgid "kph"
 msgstr "km/h"
 
-#: src/PreferenceDialog.cpp:61 src/PreferenceDialog.cpp:196
+#: src/PreferenceDialog.cpp:61 src/PreferenceDialog.cpp:204
 msgid "mph"
 msgstr "mi/h"
 
 #: src/PreferenceDialog.cpp:63 src/PreferenceDialog.cpp:84
-#: src/PreferenceDialog.cpp:205
+#: src/PreferenceDialog.cpp:213
 msgid "Celsius"
 msgstr "Celsius"
 
-#: src/PreferenceDialog.cpp:63 src/PreferenceDialog.cpp:208
+#: src/PreferenceDialog.cpp:63 src/PreferenceDialog.cpp:216
 msgid "Farenheit"
 msgstr "Farenheit"
 
@@ -343,58 +343,74 @@ msgstr "Unités de température"
 msgid "Display"
 msgstr "Affichage"
 
-#: src/PreferenceDialog.cpp:95 src/PreferenceDialog.cpp:96
-#: src/PreferenceDialog.cpp:217
+#: src/PreferenceDialog.cpp:96 src/PreferenceDialog.cpp:97
+#: src/PreferenceDialog.cpp:225
 msgid "Local / system"
 msgstr "Local / système"
 
-#: src/PreferenceDialog.cpp:97 src/PreferenceDialog.cpp:220
+#: src/PreferenceDialog.cpp:98 src/PreferenceDialog.cpp:228
 msgid "UTC"
 msgstr "UTC"
 
-#: src/PreferenceDialog.cpp:102
+#: src/PreferenceDialog.cpp:103
+msgid "Disable toolbar icon"
+msgstr "Désactiver l’icône"
+
+#: src/PreferenceDialog.cpp:109
 msgid "Auto save"
 msgstr "Sauvegarde automatique"
 
-#: src/PreferenceDialog.cpp:104
+#: src/PreferenceDialog.cpp:111
 msgid "Save directory"
 msgstr "Répertoire de sauvegarde"
 
-#: src/PreferenceDialog.cpp:109
+#: src/PreferenceDialog.cpp:116
 msgid "..."
 msgstr "..."
 
-#: src/PreferenceDialog.cpp:115
+#: src/PreferenceDialog.cpp:122
 msgid "Enable"
 msgstr "Activer"
 
-#: src/PreferenceDialog.cpp:117
+#: src/PreferenceDialog.cpp:124
 msgid "Column format"
 msgstr "format en colonnes"
 
-#: src/PreferenceDialog.cpp:119
+#: src/PreferenceDialog.cpp:126
 msgid "Compress"
 msgstr "Compression"
 
-#: src/PreferenceDialog.cpp:125
+#: src/PreferenceDialog.cpp:132
 msgid "Server"
 msgstr "Serveur"
 
-#: src/PreferenceDialog.cpp:128
+#: src/PreferenceDialog.cpp:135
 msgid "Server name"
 msgstr "Nom du serveur"
 
-#: src/PreferenceDialog.cpp:131
+#: src/PreferenceDialog.cpp:138
 msgid "Server port"
 msgstr "Port"
 
-#: src/PreferenceDialog.cpp:153
+#: src/PreferenceDialog.cpp:160
 msgid "Cancel"
 msgstr "Abandon"
 
-#: src/PreferenceDialog.cpp:236
+#: src/PreferenceDialog.cpp:246
 msgid "Select automatic save directory"
 msgstr "Sélectionnez le répertoire de sauvegarde automatique"
+
+#: src/ForecastDisplay.cpp:143
+msgid "%"
+msgstr ""
+
+#: src/ForecastDisplay.cpp:218
+msgid ""
+"Right click on the map and select \"Weather forecast\" to get forecast at "
+"this point."
+msgstr ""
+"Cliquez avec le bouton droit sur la carte et sélectionnez \"Prévisions météo"
+"\" pour obtenir les prévisions à ce point."
 
 #~ msgid "Position :       %s %s\n"
 #~ msgstr "Position :       %s %s\n"
