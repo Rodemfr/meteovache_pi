@@ -25,11 +25,11 @@ This program is distributed under the terms of the GPL v2. - see the [gpl.txt](c
 
 ## Download
 
-Latest release is v0.6
+Latest release is v0.7
 
 Pre-compiled binaries and source code are available here :
 
-https://github.com/Rodemfr/meteovache_pi/releases/tag/v0.6
+https://github.com/Rodemfr/meteovache_pi/releases/tag/v0.7
 
 Windows and Linux x64 binaries are provided for download. meteovache_pi should also run on other platforms like Raspberry Pi but you will have to compile the plug-in by yourself.
 
@@ -39,7 +39,7 @@ Windows and Linux x64 binaries are provided for download. meteovache_pi should a
 
 ## Release history
 
-**v0.6**
+**v0.7**
 * Weather report is now using colors for better readability
 * Cmake files are now arm64 compatible
 * Minor bug fixes
@@ -63,7 +63,7 @@ Windows and Linux x64 binaries are provided for download. meteovache_pi should a
 **v0.3**
 * Added a preference panel with the possibility to change display units
 * Fixed negative temperature bug
-* Plug-in now compiles standalone
+* Plug-in now compiles stand-alone
 * Windows installer is now generated
 * On server side : added Arpege model with world wide coverage
 
