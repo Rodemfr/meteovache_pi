@@ -87,6 +87,12 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event) {
 	dc.SetFont(reportFont);
 	DoPrepareDC(dc);
 
+	wxSize size = GetVirtualSize();
+	wxColour bgColor(255, 255, 255);
+	dc.SetPen(wxPen(bgColor));
+	dc.SetBrush(wxBrush(bgColor));
+	dc.DrawRectangle(0, 0, size.x, size.y);
+
 	verticalFontSize = dc.GetFontMetrics().height + 1;
 	horizontalFontSize = dc.GetFontMetrics().averageWidth;
 
@@ -142,7 +148,6 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event) {
 		string dayName;
 		WeatherData data;
 		float cloudCover;
-		wxColour bgColor;
 
 		for (int step = 0; step < forecast.GetNumberOfSteps(); step += 1) {
 			stepTime.AddHours(forecast.GetTimeStepInHours());
