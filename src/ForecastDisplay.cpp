@@ -195,6 +195,8 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event)
 			dc.SetTextForeground(GetContrastedColor(bgColor));
 			DrawCenteredText(dc, precipitationString, horizontalFontSize * 27, verticalPos, horizontalFontSize * 5);
 
+			cloudCover /= 100;
+			cloudCover = powf(cloudCover, 1.5) * 100.0f;
 			bgColor.Set(cloudGradient.GetUintColor(cloudCover));
 			dc.SetPen(wxPen(bgColor));
 			dc.SetBrush(wxBrush(bgColor));
