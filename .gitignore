@@ -1,3 +1,7 @@
 build/*
 po/*.mo
 buildwin/*
+/Debug/
+.cproject
+.project
+.settings
