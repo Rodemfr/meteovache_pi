@@ -1,5 +1,5 @@
-Compiling under Windows
-=======================
+Compiling for Windows
+=====================
 
 Only Microsoft Visual Studio 2017 has been tested so far.
 
@@ -18,8 +18,8 @@ This file must be copied to meteovache_pi/buildwin
 * prepare makefiles : cmake ..
 * compile : cmake --build .
 
-Compiling under Linux
-=====================
+Compiling for Linux
+===================
 
 You must compile OpenCPN before trying to compile meteovache_pi.
 If you don't know how to do, refer to OpenCPN's developers manual (https://opencpn.org/wiki/dokuwiki/doku.php?id=opencpn:developer_manual).
@@ -32,3 +32,17 @@ If you don't know how to do, refer to OpenCPN's developers manual (https://openc
 * go in build directory : cd build 
 * prepare makefiles : cmake ..
 * compile : make
+
+Compiling for Raspberry
+=======================
+
+* Install required software : sudo apt install git build-essential cmake wx3.0-headers libwxgtk3.0-dev gettext
+* Clone MeteoVache repository : git clone git://github.com/Rodemfr/meteovache_pi.git
+* go in meteovache_pi directory : cd meteovache_pi
+* create a build directory : mkdir build
+* go in build directory : cd build 
+* prepare makefiles : cmake -DCMAKE_BUILD_TYPE=Release ..
+* compile pulgin and produce a Debian package : make package
+* To install the plugin : sudo dpkg --install meteovache_pi_0.7.0-1_armhf.deb
+
+Note that meteovache_pi Debian package can only be installed if OpenCPN as already been installed as aDebian package

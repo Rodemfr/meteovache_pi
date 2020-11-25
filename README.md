@@ -33,6 +33,14 @@ https://github.com/Rodemfr/meteovache_pi/releases/tag/v0.7
 
 Windows and Linux x64 binaries are provided for download. meteovache_pi should also run on other platforms like Raspberry Pi but you will have to compile the plug-in by yourself.
 
+## Compilation
+
+Compilation instructions for various platforms are provided in here :
+
+https://github.com/Rodemfr/meteovache_pi/Compilation.txt
+
+Windows and Linux x64 binaries are provided for download. meteovache_pi should also run on other platforms like Raspberry Pi but you will have to compile the plug-in by yourself.
+
 ## Acknowledgments
 
 * Thanks to @OpenCPN team for providing a comprehensive set of templates and examples to develop plug-ins and to maintain this wonderful Open Source application.
