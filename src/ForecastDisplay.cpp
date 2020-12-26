@@ -106,11 +106,11 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event) {
 		dc.DrawText(stringToDraw, 0, verticalPos);
 		verticalPos += verticalFontSize;
 
-		stringToDraw = wxString::Format("%-20s%s\n", _("Model") + " : ", wxString::FromUTF8(forecast.GetModelName()));
+		stringToDraw = wxString::Format("%-20s%s\n", _("Model") + " : ", wxString::FromUTF8(forecast.GetModelName().c_str()));
 		dc.DrawText(stringToDraw, 0, verticalPos);
 		verticalPos += verticalFontSize;
 
-		stringToDraw = wxString::Format("%-20s%s\n", _("Provider") + " : ", wxString::FromUTF8(forecast.GetProviderName()));
+		stringToDraw = wxString::Format("%-20s%s\n", _("Provider") + " : ", wxString::FromUTF8(forecast.GetProviderName().c_str()));
 		dc.DrawText(stringToDraw, 0, verticalPos);
 		verticalPos += verticalFontSize;
 

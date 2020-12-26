@@ -296,8 +296,8 @@ wxString ReportWindow::PrintWeatherReport(int modelIndex)
 	modelInfo = modelInfo.Append(
 			wxString::Format("%-20s%s %s\n", _("Position") + " : ", GetLatitudeString(localForecasts.GetLatitude()),
 					GetLongitudeString(localForecasts.GetLongitude())));
-	modelInfo = modelInfo.Append(wxString::Format("%-20s%s\n", _("Model") + " : ", wxString::FromUTF8(forecast->GetModelName())));
-	modelInfo = modelInfo.Append(wxString::Format("%-20s%s\n", _("Provider") + " : ", wxString::FromUTF8(forecast->GetProviderName())));
+	modelInfo = modelInfo.Append(wxString::Format("%-20s%s\n", _("Model") + " : ", wxString::FromUTF8(forecast->GetModelName().c_str())));
+	modelInfo = modelInfo.Append(wxString::Format("%-20s%s\n", _("Provider") + " : ", wxString::FromUTF8(forecast->GetProviderName().c_str())));
 
 	if (config->timeZoneString.IsSameAs("UTC"))
 	{
