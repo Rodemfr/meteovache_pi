@@ -39,8 +39,7 @@
 /*                              Constants                                  */
 /***************************************************************************/
 
-#define DEFAULT_METEOVACHE_SERVER_NAME "192.168.1.15"
-//#define DEFAULT_METEOVACHE_SERVER_NAME "meteovache.dyndns.org"
+#define DEFAULT_METEOVACHE_SERVER_NAME "meteovache.dyndns.org"
 #define DEFAULT_METEOVACHE_SERVER_PORT 31837
 // Maximum size of server's response to a forecast request
 #define MVC_MAX_RESPONSE_LENGTH 8192
