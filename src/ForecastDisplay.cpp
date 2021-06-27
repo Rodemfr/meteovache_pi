@@ -91,16 +91,15 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event)
 {
 	(void) event;
 
-	wxPaintDC pdc(this);
-
-#if wxUSE_GRAPHICS_CONTEXT
-    wxGCDC dc(pdc);
-#else
-	wxDC &dc = pdc;
-#endif
-
+	wxPaintDC dc(this);
 	dc.SetFont(reportFont);
 	DoPrepareDC(dc);
+
+#if wxUSE_GRAPHICS_CONTEXT
+    wxGCDC gdc(dc);
+#else
+	wxDC &gdc = dc;
+#endif
 
 	wxSize size = GetVirtualSize();
 	wxColour bgColor(255, 255, 255);
@@ -166,6 +165,7 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event)
 		string dayName;
 		WeatherData data;
 		float cloudCover;
+		int verticalPosBackup = verticalPos;
 
 		for (int step = 0; step < forecast.GetNumberOfSteps(); step += 1)
 		{
@@ -204,7 +204,7 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event)
 			dc.SetTextForeground(GetForegroundColour());
 			//DrawCenteredText(dc, GetTextDirection(data.windDirectionDeg), horizontalFontSize * 21, verticalPos, horizontalFontSize * 5);
 
-			DrawArrow(dc, horizontalFontSize * 22, verticalPos, data.windDirectionDeg);
+			//DrawArrow(gdc, horizontalFontSize * 22, verticalPos, data.windDirectionDeg);
 
 			bgColor.Set(precipitationGradient.GetUintColor(data.precipitationMmH));
 			dc.SetPen(wxPen(bgColor));
@@ -231,6 +231,13 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event)
 
 			dc.SetTextForeground(wxColor(0, 0, 0));
 			dc.DrawText(stringToDraw, 0, verticalPos);
+			verticalPos += verticalFontSize;
+		}
+		verticalPos = verticalPosBackup;
+		for (int step = 0; step < forecast.GetNumberOfSteps(); step += 1)
+		{
+			data = forecast.GetForecastData(step);
+			DrawArrow(gdc, horizontalFontSize * 22, verticalPos, data.windDirectionDeg);
 			verticalPos += verticalFontSize;
 		}
 	}
