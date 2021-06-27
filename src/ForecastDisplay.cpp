@@ -283,12 +283,12 @@ void ForecastDisplay::DrawArrow(wxPaintDC &dc, double x, double y, float angle)
 	dy = -MS_VALUE_SLOT_SIZE * cos(angle_rad) / 2.8f;
 	dx = MS_VALUE_SLOT_SIZE * sin(angle_rad) / 2.8f;
 
-	sdy = -MS_VALUE_SLOT_SIZE * cos(angle_rad - M_PI / 2) / 3.8f;
-	sdx = MS_VALUE_SLOT_SIZE * sin(angle_rad - M_PI / 2) / 3.8f;
+	sdy = -MS_VALUE_SLOT_SIZE * cos(angle_rad - M_PI / 2) / 5.0f;
+	sdx = MS_VALUE_SLOT_SIZE * sin(angle_rad - M_PI / 2) / 5.0f;
 
 	int count[1] = {4};
 	wxPoint points[4] = {{(int)dx, (int)dy}, {(int)(sdx - dx), (int)(sdy - dy)}, {(int)(-0.7f * dx), (int)(-0.7f * dy)}, {(int)(-sdx - dx), (int)(-sdy - dy)}};
-	dc.DrawPolyPolygon(1, count, points, (int)x + 8, (int)y + 8);
+	dc.DrawPolyPolygon(1, count, points, (int)(x + (MS_VALUE_SLOT_SIZE / 2)), (int)(y + (MS_VALUE_SLOT_SIZE / 2)));
 }
 
 int ForecastDisplay::GetRequestedVerticalSize()
