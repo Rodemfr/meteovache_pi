@@ -35,7 +35,7 @@ protected:
 	wxString GetConvertedTemp(float tempC);
 	wxColour GetContrastedColor(wxColour &color);
 	void DrawCenteredText(wxDC &dc, wxString text, int x, int y, int width);
-	void DrawArrow(wxGraphicsContext *gc, double x, double y, float angle);
+	void DrawArrow(wxDC &dc, double x, double y, float angle);
 	int GetRequestedVerticalSize();
 	int GetRequestedHorizontalSize();
 	void UpdateScrollBar();

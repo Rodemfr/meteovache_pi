@@ -13,6 +13,8 @@
 #include <wx/graphics.h>
 #include <wx/dcgraph.h>
 
+#define ARROW_SLOT_SIZE 16
+
 ForecastDisplay::ForecastDisplay(wxWindow *parent, ConfigContainer *config, wxWindowID winId, const wxString &label, const wxPoint &pos, const wxSize &size,
 		long style, const wxValidator &validator, const wxString &name) :
 		modelIndex(-1)
@@ -92,23 +94,21 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event)
 	(void) event;
 
 	wxPaintDC dc(this);
+	wxBitmap arrowBitmap(ARROW_SLOT_SIZE, ARROW_SLOT_SIZE);
 
-//#if wxUSE_GRAPHICS_CONTEXT
-//    wxGCDC dc(pdc);
-//#else
-//	wxDC &dc = pdc;
-//#endif
+#if wxUSE_GRAPHICS_CONTEXT
+	wxGCDC gdc(arrowBitmap);
+#else
+    wxMemoryDC gdc(arrowBitmap);
+#endif
 
 	DoPrepareDC(dc);
 	dc.SetFont(reportFont);
 
-	wxGraphicsContext *gc = wxGraphicsContext::Create(dc);
-
 	wxSize size = GetVirtualSize();
 	wxColour bgColor(255, 255, 255);
-	dc.SetPen(wxPen(bgColor));
-	dc.SetBrush(wxBrush(bgColor));
-	dc.DrawRectangle(0, 0, size.x, size.y);
+	dc.SetBackground(wxBrush(bgColor));
+	dc.Clear();
 
 	verticalFontSize = dc.GetFontMetrics().height + 1;
 	horizontalFontSize = dc.GetFontMetrics().averageWidth;
@@ -167,7 +167,6 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event)
 		string dayName;
 		WeatherData data;
 		float cloudCover;
-		int verticalPosBackup = verticalPos;
 
 		for (int step = 0; step < forecast.GetNumberOfSteps(); step += 1)
 		{
@@ -203,10 +202,11 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event)
 			dc.SetTextForeground(GetContrastedColor(bgColor));
 			DrawCenteredText(dc, GetConvertedWind(data.gustSpeedKt), horizontalFontSize * 16, verticalPos, horizontalFontSize * 4);
 
-			dc.SetTextForeground(GetForegroundColour());
+			//dc.SetTextForeground(GetForegroundColour());
 			//DrawCenteredText(dc, GetTextDirection(data.windDirectionDeg), horizontalFontSize * 21, verticalPos, horizontalFontSize * 5);
 
-			//DrawArrow(gc, horizontalFontSize * 22, verticalPos, data.windDirectionDeg);
+			DrawArrow(gdc, ARROW_SLOT_SIZE / 2, ARROW_SLOT_SIZE / 2, data.windDirectionDeg);
+			dc.DrawBitmap(arrowBitmap, horizontalFontSize * 22, verticalPos);
 
 			bgColor.Set(precipitationGradient.GetUintColor(data.precipitationMmH));
 			dc.SetPen(wxPen(bgColor));
@@ -233,12 +233,6 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event)
 
 			dc.SetTextForeground(wxColor(0, 0, 0));
 			dc.DrawText(stringToDraw, 0, verticalPos);
-			verticalPos += verticalFontSize;
-		}
-		verticalPos = verticalPosBackup;
-		for (int step = 0; step < forecast.GetNumberOfSteps(); step += 1)
-		{
-			DrawArrow(gc, horizontalFontSize * 22, verticalPos, forecast.GetForecastData(step).windDirectionDeg);
 			verticalPos += verticalFontSize;
 		}
 	} else
@@ -284,34 +278,32 @@ wxString ForecastDisplay::GetLatitudeString(float latitude)
 
 }
 
-void ForecastDisplay::DrawArrow(wxGraphicsContext *gc, double x, double y, float angle)
+void ForecastDisplay::DrawArrow(wxDC &dc, double x, double y, float angle)
 {
 	double dx, dy;
 	double sdx, sdy;
 	double angle_rad;
 
-#define MS_VALUE_SLOT_SIZE 16
+	dc.SetBackground(wxBrush(wxColor(255, 255, 255)));
+	dc.Clear();
 
-	gc->SetPen(wxPen(wxColor(0, 0, 0)));
-	gc->SetBrush(wxBrush(wxColor(0, 0, 0)));
+	dc.SetPen(wxPen(wxColor(0, 0, 0)));
+	dc.SetBrush(wxBrush(wxColor(0, 0, 0)));
 
 	angle_rad = angle * 3.1415f / 180.0f;
-	dy = -MS_VALUE_SLOT_SIZE * cos(angle_rad) / 2.8f;
-	dx = MS_VALUE_SLOT_SIZE * sin(angle_rad) / 2.8f;
+	dy = -ARROW_SLOT_SIZE * cos(angle_rad) / 2.8f;
+	dx = ARROW_SLOT_SIZE * sin(angle_rad) / 2.8f;
 
-	sdy = -MS_VALUE_SLOT_SIZE * cos(angle_rad - M_PI / 2) / 4.0f;
-	sdx = MS_VALUE_SLOT_SIZE * sin(angle_rad - M_PI / 2) / 4.0f;
+	sdy = -ARROW_SLOT_SIZE * cos(angle_rad - M_PI / 2) / 4.0f;
+	sdx = ARROW_SLOT_SIZE * sin(angle_rad - M_PI / 2) / 4.0f;
 
-	x += (MS_VALUE_SLOT_SIZE / 2);
-	y += (MS_VALUE_SLOT_SIZE / 2);
-
-	wxPoint2DDouble points[4] =
+	wxPoint points[4] =
 	{
-	{ x + dx, y + dy },
-	{ x + sdx - dx, y + sdy - dy },
-	{ x - 0.6f * dx, y - 0.6f * dy },
-	{ x - sdx - dx, y - sdy - dy } };
-	gc->DrawLines(4, points);
+	{ (int) dx, (int) dy },
+	{ (int) (sdx - dx), (int) (sdy - dy) },
+	{ (int) (-0.6f * dx), (int) (-0.6f * dy) },
+	{ (int) (-sdx - dx), (int) (-sdy - dy) } };
+	dc.DrawPolygon(4, points, x, y);
 }
 
 int ForecastDisplay::GetRequestedVerticalSize()
