@@ -105,7 +105,6 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event)
 	DoPrepareDC(dc);
 	dc.SetFont(reportFont);
 
-	wxSize size = GetVirtualSize();
 	wxColour bgColor(255, 255, 255);
 	dc.SetBackground(wxBrush(bgColor));
 	dc.Clear();
