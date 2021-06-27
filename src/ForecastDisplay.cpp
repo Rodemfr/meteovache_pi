@@ -92,14 +92,17 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event)
 	(void) event;
 
 	wxPaintDC dc(this);
-	dc.SetFont(reportFont);
-	DoPrepareDC(dc);
 
-#if wxUSE_GRAPHICS_CONTEXT
-    wxGCDC gdc(dc);
-#else
-	wxDC &gdc = dc;
-#endif
+//#if wxUSE_GRAPHICS_CONTEXT
+//    wxGCDC dc(pdc);
+//#else
+//	wxDC &dc = pdc;
+//#endif
+
+	DoPrepareDC(dc);
+	dc.SetFont(reportFont);
+
+	wxGraphicsContext *gc = wxGraphicsContext::Create(dc);
 
 	wxSize size = GetVirtualSize();
 	wxColour bgColor(255, 255, 255);
@@ -135,8 +138,7 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event)
 		{
 			stringToDraw = wxString::Format("%-20s%02d/%02d/%d %dh%02d\n", _("Run date") + " : ", runDate.GetGmtDay(), runDate.GetGmtMonth(),
 					runDate.GetGmtYear(), runDate.GetGmtHour(), runDate.GetGmtMinute());
-		}
-		else
+		} else
 		{
 			stringToDraw = wxString::Format("%-20s%02d/%02d/%d %dh%02d\n", _("Run date") + " : ", runDate.GetLocalDay(), runDate.GetLocalMonth(),
 					runDate.GetLocalYear(), runDate.GetLocalHour(), runDate.GetLocalMinute());
@@ -204,7 +206,7 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event)
 			dc.SetTextForeground(GetForegroundColour());
 			//DrawCenteredText(dc, GetTextDirection(data.windDirectionDeg), horizontalFontSize * 21, verticalPos, horizontalFontSize * 5);
 
-			//DrawArrow(gdc, horizontalFontSize * 22, verticalPos, data.windDirectionDeg);
+			//DrawArrow(gc, horizontalFontSize * 22, verticalPos, data.windDirectionDeg);
 
 			bgColor.Set(precipitationGradient.GetUintColor(data.precipitationMmH));
 			dc.SetPen(wxPen(bgColor));
@@ -236,12 +238,10 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event)
 		verticalPos = verticalPosBackup;
 		for (int step = 0; step < forecast.GetNumberOfSteps(); step += 1)
 		{
-			data = forecast.GetForecastData(step);
-			DrawArrow(gdc, horizontalFontSize * 22, verticalPos, data.windDirectionDeg);
+			DrawArrow(gc, horizontalFontSize * 22, verticalPos, forecast.GetForecastData(step).windDirectionDeg);
 			verticalPos += verticalFontSize;
 		}
-	}
-	else
+	} else
 	{
 		dc.DrawText(_("Right click on the map and select \"Weather forecast\" to get forecast at this point."), 0, 0);
 	}
@@ -259,8 +259,7 @@ wxColour ForecastDisplay::GetContrastedColor(wxColour &color)
 	if (luma < 140.0f)
 	{
 		return (wxColor(255, 255, 255));
-	}
-	else
+	} else
 	{
 		return (wxColor(0, 0, 0));
 	}
@@ -285,7 +284,7 @@ wxString ForecastDisplay::GetLatitudeString(float latitude)
 
 }
 
-void ForecastDisplay::DrawArrow(wxDC &dc, double x, double y, float angle)
+void ForecastDisplay::DrawArrow(wxGraphicsContext *gc, double x, double y, float angle)
 {
 	double dx, dy;
 	double sdx, sdy;
@@ -293,25 +292,26 @@ void ForecastDisplay::DrawArrow(wxDC &dc, double x, double y, float angle)
 
 #define MS_VALUE_SLOT_SIZE 16
 
-	dc.SetPen(wxPen(wxColor(0, 0, 0)));
-	dc.SetBrush(wxBrush(wxColor(0, 0, 0)));
+	gc->SetPen(wxPen(wxColor(0, 0, 0)));
+	gc->SetBrush(wxBrush(wxColor(0, 0, 0)));
 
 	angle_rad = angle * 3.1415f / 180.0f;
 	dy = -MS_VALUE_SLOT_SIZE * cos(angle_rad) / 2.8f;
 	dx = MS_VALUE_SLOT_SIZE * sin(angle_rad) / 2.8f;
 
-	sdy = -MS_VALUE_SLOT_SIZE * cos(angle_rad - M_PI / 2) / 5.0f;
-	sdx = MS_VALUE_SLOT_SIZE * sin(angle_rad - M_PI / 2) / 5.0f;
+	sdy = -MS_VALUE_SLOT_SIZE * cos(angle_rad - M_PI / 2) / 4.0f;
+	sdx = MS_VALUE_SLOT_SIZE * sin(angle_rad - M_PI / 2) / 4.0f;
 
-	int count[1] =
-	{ 4 };
-	wxPoint points[4] =
+	x += (MS_VALUE_SLOT_SIZE / 2);
+	y += (MS_VALUE_SLOT_SIZE / 2);
+
+	wxPoint2DDouble points[4] =
 	{
-	{ (int) dx, (int) dy },
-	{ (int) (sdx - dx), (int) (sdy - dy) },
-	{ (int) (-0.6f * dx), (int) (-0.6f * dy) },
-	{ (int) (-sdx - dx), (int) (-sdy - dy) } };
-	dc.DrawPolyPolygon(1, count, points, (int) (x + (MS_VALUE_SLOT_SIZE / 2)), (int) (y + (MS_VALUE_SLOT_SIZE / 2)));
+	{ x + dx, y + dy },
+	{ x + sdx - dx, y + sdy - dy },
+	{ x - 0.6f * dx, y - 0.6f * dy },
+	{ x - sdx - dx, y - sdy - dy } };
+	gc->DrawLines(4, points);
 }
 
 int ForecastDisplay::GetRequestedVerticalSize()
@@ -388,8 +388,7 @@ wxString ForecastDisplay::GetConvertedWind(float windSpeedKt)
 	if (config->windUnitString.IsSameAs("kt"))
 	{
 		return (wxString::Format("%d", (int) roundf(windSpeedKt)));
-	}
-	else if (config->windUnitString.IsSameAs("bft"))
+	} else if (config->windUnitString.IsSameAs("bft"))
 	{
 		if (windSpeedKt < 1.0f)
 			return ("0");
@@ -417,16 +416,13 @@ wxString ForecastDisplay::GetConvertedWind(float windSpeedKt)
 			return ("11");
 		else
 			return ("12");
-	}
-	else if (config->windUnitString.IsSameAs("m/s"))
+	} else if (config->windUnitString.IsSameAs("m/s"))
 	{
 		return (wxString::Format("%d", (int) roundf(windSpeedKt / 1.94384f)));
-	}
-	else if (config->windUnitString.IsSameAs("kph"))
+	} else if (config->windUnitString.IsSameAs("kph"))
 	{
 		return (wxString::Format("%d", (int) roundf(windSpeedKt * 1.852f)));
-	}
-	else if (config->windUnitString.IsSameAs("mph"))
+	} else if (config->windUnitString.IsSameAs("mph"))
 	{
 		return (wxString::Format("%d", (int) roundf(windSpeedKt * 1.15078f)));
 	}
