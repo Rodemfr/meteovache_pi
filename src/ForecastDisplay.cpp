@@ -11,6 +11,7 @@
 
 #include <wx/wx.h>
 #include <wx/graphics.h>
+#include <wx/dcgraph.h>
 
 ForecastDisplay::ForecastDisplay(wxWindow *parent, ConfigContainer *config, wxWindowID winId, const wxString &label, const wxPoint &pos, const wxSize &size,
 		long style, const wxValidator &validator, const wxString &name) :
@@ -90,7 +91,13 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event)
 {
 	(void) event;
 
-	wxPaintDC dc(this);
+	wxPaintDC pdc(this);
+
+#if wxUSE_GRAPHICS_CONTEXT
+    wxGCDC dc(pdc);
+#else
+	wxDC &dc = pdc;
+#endif
 
 	dc.SetFont(reportFont);
 	DoPrepareDC(dc);
@@ -129,7 +136,8 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event)
 		{
 			stringToDraw = wxString::Format("%-20s%02d/%02d/%d %dh%02d\n", _("Run date") + " : ", runDate.GetGmtDay(), runDate.GetGmtMonth(),
 					runDate.GetGmtYear(), runDate.GetGmtHour(), runDate.GetGmtMinute());
-		} else
+		}
+		else
 		{
 			stringToDraw = wxString::Format("%-20s%02d/%02d/%d %dh%02d\n", _("Run date") + " : ", runDate.GetLocalDay(), runDate.GetLocalMonth(),
 					runDate.GetLocalYear(), runDate.GetLocalHour(), runDate.GetLocalMinute());
@@ -225,7 +233,8 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event)
 			dc.DrawText(stringToDraw, 0, verticalPos);
 			verticalPos += verticalFontSize;
 		}
-	} else
+	}
+	else
 	{
 		dc.DrawText(_("Right click on the map and select \"Weather forecast\" to get forecast at this point."), 0, 0);
 	}
@@ -243,13 +252,14 @@ wxColour ForecastDisplay::GetContrastedColor(wxColour &color)
 	if (luma < 140.0f)
 	{
 		return (wxColor(255, 255, 255));
-	} else
+	}
+	else
 	{
 		return (wxColor(0, 0, 0));
 	}
 }
 
-void ForecastDisplay::DrawCenteredText(wxPaintDC &dc, wxString text, int x, int y, int width)
+void ForecastDisplay::DrawCenteredText(wxDC &dc, wxString text, int x, int y, int width)
 {
 	wxSize size = dc.GetTextExtent(text);
 	x = x + (width / 2) - (size.x / 2);
@@ -268,7 +278,7 @@ wxString ForecastDisplay::GetLatitudeString(float latitude)
 
 }
 
-void ForecastDisplay::DrawArrow(wxPaintDC &dc, double x, double y, float angle)
+void ForecastDisplay::DrawArrow(wxDC &dc, double x, double y, float angle)
 {
 	double dx, dy;
 	double sdx, sdy;
@@ -286,9 +296,15 @@ void ForecastDisplay::DrawArrow(wxPaintDC &dc, double x, double y, float angle)
 	sdy = -MS_VALUE_SLOT_SIZE * cos(angle_rad - M_PI / 2) / 5.0f;
 	sdx = MS_VALUE_SLOT_SIZE * sin(angle_rad - M_PI / 2) / 5.0f;
 
-	int count[1] = {4};
-	wxPoint points[4] = {{(int)dx, (int)dy}, {(int)(sdx - dx), (int)(sdy - dy)}, {(int)(-0.7f * dx), (int)(-0.7f * dy)}, {(int)(-sdx - dx), (int)(-sdy - dy)}};
-	dc.DrawPolyPolygon(1, count, points, (int)(x + (MS_VALUE_SLOT_SIZE / 2)), (int)(y + (MS_VALUE_SLOT_SIZE / 2)));
+	int count[1] =
+	{ 4 };
+	wxPoint points[4] =
+	{
+	{ (int) dx, (int) dy },
+	{ (int) (sdx - dx), (int) (sdy - dy) },
+	{ (int) (-0.6f * dx), (int) (-0.6f * dy) },
+	{ (int) (-sdx - dx), (int) (-sdy - dy) } };
+	dc.DrawPolyPolygon(1, count, points, (int) (x + (MS_VALUE_SLOT_SIZE / 2)), (int) (y + (MS_VALUE_SLOT_SIZE / 2)));
 }
 
 int ForecastDisplay::GetRequestedVerticalSize()
@@ -365,7 +381,8 @@ wxString ForecastDisplay::GetConvertedWind(float windSpeedKt)
 	if (config->windUnitString.IsSameAs("kt"))
 	{
 		return (wxString::Format("%d", (int) roundf(windSpeedKt)));
-	} else if (config->windUnitString.IsSameAs("bft"))
+	}
+	else if (config->windUnitString.IsSameAs("bft"))
 	{
 		if (windSpeedKt < 1.0f)
 			return ("0");
@@ -393,13 +410,16 @@ wxString ForecastDisplay::GetConvertedWind(float windSpeedKt)
 			return ("11");
 		else
 			return ("12");
-	} else if (config->windUnitString.IsSameAs("m/s"))
+	}
+	else if (config->windUnitString.IsSameAs("m/s"))
 	{
 		return (wxString::Format("%d", (int) roundf(windSpeedKt / 1.94384f)));
-	} else if (config->windUnitString.IsSameAs("kph"))
+	}
+	else if (config->windUnitString.IsSameAs("kph"))
 	{
 		return (wxString::Format("%d", (int) roundf(windSpeedKt * 1.852f)));
-	} else if (config->windUnitString.IsSameAs("mph"))
+	}
+	else if (config->windUnitString.IsSameAs("mph"))
 	{
 		return (wxString::Format("%d", (int) roundf(windSpeedKt * 1.15078f)));
 	}

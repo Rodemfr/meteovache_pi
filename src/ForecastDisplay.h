@@ -34,8 +34,8 @@ protected:
 	wxString GetConvertedWind(float windSpeedKt);
 	wxString GetConvertedTemp(float tempC);
 	wxColour GetContrastedColor(wxColour &color);
-	void DrawCenteredText(wxPaintDC &dc, wxString text, int x, int y, int width);
-	void DrawArrow(wxPaintDC &dc, double x, double y, float angle);
+	void DrawCenteredText(wxDC &dc, wxString text, int x, int y, int width);
+	void DrawArrow(wxDC &dc, double x, double y, float angle);
 	int GetRequestedVerticalSize();
 	int GetRequestedHorizontalSize();
 	void UpdateScrollBar();
