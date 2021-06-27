@@ -10,10 +10,12 @@
 #include "DateTime.h"
 
 #include <wx/wx.h>
+#include <wx/graphics.h>
 
 ForecastDisplay::ForecastDisplay(wxWindow *parent, ConfigContainer *config, wxWindowID winId, const wxString &label, const wxPoint &pos, const wxSize &size,
 		long style, const wxValidator &validator, const wxString &name) :
-		modelIndex(-1) {
+		modelIndex(-1)
+{
 	(void) validator;
 	(void) label;
 	this->config = config;
@@ -60,30 +62,36 @@ ForecastDisplay::ForecastDisplay(wxWindow *parent, ConfigContainer *config, wxWi
 	UpdateScrollBar();
 }
 
-void ForecastDisplay::UpdateScrollBar() {
+void ForecastDisplay::UpdateScrollBar()
+{
 	SetVirtualSize(wxSize(GetRequestedHorizontalSize(), GetRequestedVerticalSize()));
 	SetScrollbars(1, 1, GetRequestedHorizontalSize(), GetRequestedVerticalSize(), 0, 0, false);
 	SetScrollRate(0, verticalFontSize);
 }
 
-ForecastDisplay::~ForecastDisplay() {
+ForecastDisplay::~ForecastDisplay()
+{
 }
 
-void ForecastDisplay::SetForecast(SpotForecasts &spotForecasts, int modelIndex) {
+void ForecastDisplay::SetForecast(SpotForecasts &spotForecasts, int modelIndex)
+{
 	this->spotForecasts = spotForecasts;
 	this->modelIndex = modelIndex;
 	UpdateScrollBar();
 	Refresh();
 }
 
-void ForecastDisplay::OnSize(wxSizeEvent &event) {
+void ForecastDisplay::OnSize(wxSizeEvent &event)
+{
 	(void) event;
 }
 
-void ForecastDisplay::OnPaint(wxPaintEvent &event) {
+void ForecastDisplay::OnPaint(wxPaintEvent &event)
+{
 	(void) event;
 
 	wxPaintDC dc(this);
+
 	dc.SetFont(reportFont);
 	DoPrepareDC(dc);
 
@@ -96,7 +104,8 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event) {
 	verticalFontSize = dc.GetFontMetrics().height + 1;
 	horizontalFontSize = dc.GetFontMetrics().averageWidth;
 
-	if ((modelIndex >= 0) && ((int) spotForecasts.GetNumberOfForecast() > modelIndex)) {
+	if ((modelIndex >= 0) && ((int) spotForecasts.GetNumberOfForecast() > modelIndex))
+	{
 		Forecast forecast = spotForecasts.Get(modelIndex);
 		int verticalPos = 0;
 		wxString stringToDraw;
@@ -116,11 +125,12 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event) {
 
 		DateTime runDate;
 		runDate.SetTimeCode(forecast.GetRunTimeCode());
-		if (config->timeZoneString.IsSameAs("UTC")) {
+		if (config->timeZoneString.IsSameAs("UTC"))
+		{
 			stringToDraw = wxString::Format("%-20s%02d/%02d/%d %dh%02d\n", _("Run date") + " : ", runDate.GetGmtDay(), runDate.GetGmtMonth(),
 					runDate.GetGmtYear(), runDate.GetGmtHour(), runDate.GetGmtMinute());
-		}
-		else {
+		} else
+		{
 			stringToDraw = wxString::Format("%-20s%02d/%02d/%d %dh%02d\n", _("Run date") + " : ", runDate.GetLocalDay(), runDate.GetLocalMonth(),
 					runDate.GetLocalYear(), runDate.GetLocalHour(), runDate.GetLocalMinute());
 		}
@@ -149,7 +159,8 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event) {
 		WeatherData data;
 		float cloudCover;
 
-		for (int step = 0; step < forecast.GetNumberOfSteps(); step += 1) {
+		for (int step = 0; step < forecast.GetNumberOfSteps(); step += 1)
+		{
 			stepTime.AddHours(forecast.GetTimeStepInHours());
 			dayName = stepTime.GetLocalDayName();
 
@@ -162,7 +173,8 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event) {
 			if (data.highCloudCoverPer * 0.33f > cloudCover)
 				cloudCover = data.highCloudCoverPer * 0.33f;
 			wxString precipitationString = wxString::Format("%.1f", data.precipitationMmH);
-			if (data.precipitationMmH < 0.05) {
+			if (data.precipitationMmH < 0.05)
+			{
 				precipitationString = "";
 			}
 			stringToDraw += wxString::Format("%4s %4s %5s %5s       %4s\n", "", "", "", "", "");
@@ -182,9 +194,9 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event) {
 			DrawCenteredText(dc, GetConvertedWind(data.gustSpeedKt), horizontalFontSize * 16, verticalPos, horizontalFontSize * 4);
 
 			dc.SetTextForeground(GetForegroundColour());
-			DrawCenteredText(dc, GetTextDirection(data.windDirectionDeg), horizontalFontSize * 21, verticalPos, horizontalFontSize * 5);
+			//DrawCenteredText(dc, GetTextDirection(data.windDirectionDeg), horizontalFontSize * 21, verticalPos, horizontalFontSize * 5);
 
-			//DrawArrow(dc, horizontalFontSize * 23, verticalPos, 0.0f);
+			DrawArrow(dc, horizontalFontSize * 22, verticalPos, data.windDirectionDeg);
 
 			bgColor.Set(precipitationGradient.GetUintColor(data.precipitationMmH));
 			dc.SetPen(wxPen(bgColor));
@@ -213,13 +225,14 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event) {
 			dc.DrawText(stringToDraw, 0, verticalPos);
 			verticalPos += verticalFontSize;
 		}
-	}
-	else {
+	} else
+	{
 		dc.DrawText(_("Right click on the map and select \"Weather forecast\" to get forecast at this point."), 0, 0);
 	}
 }
 
-wxColour ForecastDisplay::GetContrastedColor(wxColour &color) {
+wxColour ForecastDisplay::GetContrastedColor(wxColour &color)
+{
 	float r, g, b, luma;
 
 	r = color.Red();
@@ -227,21 +240,24 @@ wxColour ForecastDisplay::GetContrastedColor(wxColour &color) {
 	b = color.Blue();
 	luma = 0.2126f * r + 0.7152f * g + 0.0722f * b;
 
-	if (luma < 140.0f) {
+	if (luma < 140.0f)
+	{
 		return (wxColor(255, 255, 255));
-	}
-	else {
+	} else
+	{
 		return (wxColor(0, 0, 0));
 	}
 }
 
-void ForecastDisplay::DrawCenteredText(wxPaintDC &dc, wxString text, int x, int y, int width) {
+void ForecastDisplay::DrawCenteredText(wxPaintDC &dc, wxString text, int x, int y, int width)
+{
 	wxSize size = dc.GetTextExtent(text);
 	x = x + (width / 2) - (size.x / 2);
 	dc.DrawText(text, x, y);
 }
 
-wxString ForecastDisplay::GetLatitudeString(float latitude) {
+wxString ForecastDisplay::GetLatitudeString(float latitude)
+{
 	wxString latitudeString;
 
 	int degs = (int) roundf(floorf(fabsf(latitude)));
@@ -252,7 +268,8 @@ wxString ForecastDisplay::GetLatitudeString(float latitude) {
 
 }
 
-void ForecastDisplay::DrawArrow(wxPaintDC &dc, double x, double y, float angle) {
+void ForecastDisplay::DrawArrow(wxPaintDC &dc, double x, double y, float angle)
+{
 	double dx, dy;
 	double sdx, sdy;
 	double angle_rad;
@@ -263,34 +280,34 @@ void ForecastDisplay::DrawArrow(wxPaintDC &dc, double x, double y, float angle) 
 	dc.SetBrush(wxBrush(wxColor(0, 0, 0)));
 
 	angle_rad = angle * 3.1415f / 180.0f;
-	dy = -5 * cos(angle_rad);
-	dx = 5.0 * sin(angle_rad);
+	dy = -MS_VALUE_SLOT_SIZE * cos(angle_rad) / 2.8f;
+	dx = MS_VALUE_SLOT_SIZE * sin(angle_rad) / 2.8f;
 
-	dc.DrawLine((int) (x + (MS_VALUE_SLOT_SIZE / 2.0) + dx), (int) (y + (MS_VALUE_SLOT_SIZE / 2.0) + dy), (int) (x + (MS_VALUE_SLOT_SIZE / 2.0) - dx),
-			(int) (y + (MS_VALUE_SLOT_SIZE / 2.0) - dy));
-	sdy = -4 * cos(angle_rad + 0.6);
-	sdx = 4 * sin(angle_rad + 0.6);
-	dc.DrawLine((int) (x + (MS_VALUE_SLOT_SIZE / 2.0) + dx), (int) (y + (MS_VALUE_SLOT_SIZE / 2.0) + dy), (int) (x + (MS_VALUE_SLOT_SIZE / 2.0) + dx - sdx),
-			(int) (y + (MS_VALUE_SLOT_SIZE / 2.0) + dy - sdy));
-	sdy = -4 * cos(angle_rad - 0.6);
-	sdx = 4 * sin(angle_rad - 0.6);
-	dc.DrawLine((int) (x + (MS_VALUE_SLOT_SIZE / 2.0) + dx), (int) (y + (MS_VALUE_SLOT_SIZE / 2.0) + dy), (int) (x + (MS_VALUE_SLOT_SIZE / 2.0) + dx - sdx),
-			(int) (y + (MS_VALUE_SLOT_SIZE / 2.0) + dy - sdy));
+	sdy = -MS_VALUE_SLOT_SIZE * cos(angle_rad - M_PI / 2) / 3.8f;
+	sdx = MS_VALUE_SLOT_SIZE * sin(angle_rad - M_PI / 2) / 3.8f;
+
+	int count[1] = {4};
+	wxPoint points[4] = {{(int)dx, (int)dy}, {(int)(sdx - dx), (int)(sdy - dy)}, {(int)(-0.7f * dx), (int)(-0.7f * dy)}, {(int)(-sdx - dx), (int)(-sdy - dy)}};
+	dc.DrawPolyPolygon(1, count, points, (int)x + 8, (int)y + 8);
 }
 
-int ForecastDisplay::GetRequestedVerticalSize() {
-	if ((modelIndex >= 0) && ((int) spotForecasts.GetNumberOfForecast() > modelIndex)) {
+int ForecastDisplay::GetRequestedVerticalSize()
+{
+	if ((modelIndex >= 0) && ((int) spotForecasts.GetNumberOfForecast() > modelIndex))
+	{
 		return (verticalFontSize * (8 + spotForecasts.Get(modelIndex).GetNumberOfSteps()));
 	}
 
 	return (1);
 }
 
-int ForecastDisplay::GetRequestedHorizontalSize() {
+int ForecastDisplay::GetRequestedHorizontalSize()
+{
 	return (horizontalFontSize * 45);
 }
 
-wxString ForecastDisplay::GetLongitudeString(float longitude) {
+wxString ForecastDisplay::GetLongitudeString(float longitude)
+{
 	wxString latitudeString;
 	int degs = (int) roundf(floorf(fabsf(longitude)));
 	float mins = (fabsf(longitude) - degs) * 60.0f;
@@ -300,7 +317,8 @@ wxString ForecastDisplay::GetLongitudeString(float longitude) {
 	return (latitudeString);
 }
 
-wxString ForecastDisplay::GetTextDirection(float windDirectionDeg) {
+wxString ForecastDisplay::GetTextDirection(float windDirectionDeg)
+{
 	const float angleStep = 22.5f;
 	float angle = angleStep / 2;
 
@@ -342,11 +360,13 @@ wxString ForecastDisplay::GetTextDirection(float windDirectionDeg) {
 		return (_("N"));
 }
 
-wxString ForecastDisplay::GetConvertedWind(float windSpeedKt) {
-	if (config->windUnitString.IsSameAs("kt")) {
+wxString ForecastDisplay::GetConvertedWind(float windSpeedKt)
+{
+	if (config->windUnitString.IsSameAs("kt"))
+	{
 		return (wxString::Format("%d", (int) roundf(windSpeedKt)));
-	}
-	else if (config->windUnitString.IsSameAs("bft")) {
+	} else if (config->windUnitString.IsSameAs("bft"))
+	{
 		if (windSpeedKt < 1.0f)
 			return ("0");
 		else if (windSpeedKt < 3.5f)
@@ -373,14 +393,14 @@ wxString ForecastDisplay::GetConvertedWind(float windSpeedKt) {
 			return ("11");
 		else
 			return ("12");
-	}
-	else if (config->windUnitString.IsSameAs("m/s")) {
+	} else if (config->windUnitString.IsSameAs("m/s"))
+	{
 		return (wxString::Format("%d", (int) roundf(windSpeedKt / 1.94384f)));
-	}
-	else if (config->windUnitString.IsSameAs("kph")) {
+	} else if (config->windUnitString.IsSameAs("kph"))
+	{
 		return (wxString::Format("%d", (int) roundf(windSpeedKt * 1.852f)));
-	}
-	else if (config->windUnitString.IsSameAs("mph")) {
+	} else if (config->windUnitString.IsSameAs("mph"))
+	{
 		return (wxString::Format("%d", (int) roundf(windSpeedKt * 1.15078f)));
 	}
 
@@ -388,8 +408,10 @@ wxString ForecastDisplay::GetConvertedWind(float windSpeedKt) {
 	return (wxString::Format("%d", (int) roundf(windSpeedKt)));
 }
 
-wxString ForecastDisplay::GetConvertedTemp(float tempC) {
-	if (config->tempUnitString.IsSameAs("Farenheit")) {
+wxString ForecastDisplay::GetConvertedTemp(float tempC)
+{
+	if (config->tempUnitString.IsSameAs("Farenheit"))
+	{
 		return (wxString::Format("%d", (int) roundf(tempC * (9.0f / 5.0f) + 32)));
 	}
 
@@ -397,8 +419,10 @@ wxString ForecastDisplay::GetConvertedTemp(float tempC) {
 	return (wxString::Format("%d", (int) roundf(tempC)));
 }
 
-wxString ForecastDisplay::GetConvertedTempUnit() {
-	if (config->tempUnitString.IsSameAs("Farenheit")) {
+wxString ForecastDisplay::GetConvertedTempUnit()
+{
+	if (config->tempUnitString.IsSameAs("Farenheit"))
+	{
 		return (_("F"));
 	}
 
