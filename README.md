@@ -9,7 +9,11 @@ meteovache_pi is a small weather plug-in for OpenCPN. It provides weather foreca
 meteovache_pi provides weather forecasts based on the following meteorological models :
 
 - "Arome" : high resolution model (0.05°) from [Météo France](http://www.meteofrance.com) (Coverage : France)
-- "Arome Antilles" : high resolution model (0.05°) from [Météo France](http://www.meteofrance.com) (Coverage : France)
+- "Arome Antilles" : high resolution model (0.05°) from [Météo France](http://www.meteofrance.com) (Coverage : Antilles)
+- "Arome Océan Indien" : high resolution model (0.05°) from [Météo France](http://www.meteofrance.com) (Coverage : Indian Océan)
+- "Arome Guyane" : high resolution model (0.05°) from [Météo France](http://www.meteofrance.com) (Coverage : Guyana)
+- "Arome Nouvelle Calédonie" : high resolution model (0.05°) from [Météo France](http://www.meteofrance.com) (Coverage : New Calédonia)
+- "Arome Polynésie" : high resolution model (0.05°) from [Météo France](http://www.meteofrance.com) (Coverage : French Polynésia)
 - "Icon D2" : high resolution model (0.02°) from [Deutscher Wetterdienst](https://www.dwd.de/EN) (Coverage : Germany)
 - "Arpege HD" : regional model (0.1°) from [Météo France](http://www.meteofrance.com) (Coverage : Europe)
 - "Icon Eu" : regional model (0.125°) from [Deutscher Wetterdienst](https://www.dwd.de/EN) (Coverage : Europe)
@@ -33,15 +37,13 @@ Pre-compiled binaries and source code are available here :
 
 https://github.com/Rodemfr/meteovache_pi/releases/tag/v0.8
 
-Windows and Linux x64 binaries are provided for download. meteovache_pi should also run on other platforms like Raspberry Pi but you will have to compile the plug-in by yourself.
+Windows 32bit, Debian amd64 and Raspberry Pi 32bit binaries are provided for download. Any other unix-like platform should also compile without much troubles.
 
 ## Compilation
 
 Compilation instructions for various platforms are provided in here :
 
 https://github.com/Rodemfr/meteovache_pi/Compilation.txt
-
-Windows and Linux x64 binaries are provided for download. meteovache_pi should also run on other platforms like Raspberry Pi but you will have to compile the plug-in by yourself.
 
 ## Acknowledgments
 
