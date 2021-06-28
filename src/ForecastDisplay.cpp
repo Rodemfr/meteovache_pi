@@ -1,5 +1,4 @@
 /*
- #include <ForecastDisplay.h>
  * wxColoredtext.cpp
  *
  *  Created on: 21 juin 2020

@@ -9,8 +9,10 @@ meteovache_pi is a small weather plug-in for OpenCPN. It provides weather foreca
 meteovache_pi provides weather forecasts based on the following meteorological models :
 
 - "Arome" : high resolution model (0.05°) from [Météo France](http://www.meteofrance.com) (Coverage : France)
+- "Arome Antilles" : high resolution model (0.05°) from [Météo France](http://www.meteofrance.com) (Coverage : France)
+- "Icon D2" : high resolution model (0.02°) from [Deutscher Wetterdienst](https://www.dwd.de/EN) (Coverage : Germany)
 - "Arpege HD" : regional model (0.1°) from [Météo France](http://www.meteofrance.com) (Coverage : Europe)
-- "Icon Eu" : regional model (0.125°) from [Deutscher Wetterdienst](https://www.dwd.de/EN) (Coverage Europe)
+- "Icon Eu" : regional model (0.125°) from [Deutscher Wetterdienst](https://www.dwd.de/EN) (Coverage : Europe)
 - "Arpege" : global model (0.5°) from [Météo France](http://www.meteofrance.com) (Coverage : World)
 
 meteovache_pi needs an Internet connection to retrieve weather data from MeteoVache server. It has been specifically designed to minimize the amount of data required to get a forecast at a given location. A typical request weights between 500 and 1500 bytes, making it suitable for very low bandwidth Internet connections like Edge GSM.
@@ -25,11 +27,11 @@ This program is distributed under the terms of the GPL v2. - see the [gpl.txt](c
 
 ## Download
 
-Latest release is v0.7
+Latest release is v0.8
 
 Pre-compiled binaries and source code are available here :
 
-https://github.com/Rodemfr/meteovache_pi/releases/tag/v0.7
+https://github.com/Rodemfr/meteovache_pi/releases/tag/v0.8
 
 Windows and Linux x64 binaries are provided for download. meteovache_pi should also run on other platforms like Raspberry Pi but you will have to compile the plug-in by yourself.
 
@@ -46,6 +48,10 @@ Windows and Linux x64 binaries are provided for download. meteovache_pi should a
 * Thanks to @OpenCPN team for providing a comprehensive set of templates and examples to develop plug-ins and to maintain this wonderful Open Source application.
 
 ## Release history
+
+**v0.8**
+* Wind direction is now display with nice graphical arrows
+* Recompiled against OpenCPN 5.2.4 to fix "small font issue" in contextual menu
 
 **v0.7**
 * Weather report is now using colors for better readability
