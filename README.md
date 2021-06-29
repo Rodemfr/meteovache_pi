@@ -43,7 +43,7 @@ Windows 32bit, Debian amd64 and Raspberry Pi 32bit binaries are provided for dow
 
 Compilation instructions for various platforms are provided in here :
 
-https://github.com/Rodemfr/meteovache_pi/Compilation.txt
+https://github.com/Rodemfr/meteovache_pi/blob/master/Compilation.txt
 
 ## Acknowledgments
 
