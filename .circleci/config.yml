@@ -8,6 +8,9 @@ jobs:
   build-ubuntu:
     docker:
       - image: cimg/base:stable
+        environment:
+           TZ: "France/Paris"
+    resource_class: medium
     steps:
       - checkout
       - run:
