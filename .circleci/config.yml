@@ -5,6 +5,17 @@ version: 2.1
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
+  build-debian:
+    docker:
+      - image: debian/bullseye
+        environment:
+           TZ: "France/Paris"
+    resource_class: medium
+    steps:
+      - checkout
+      - run:
+          name: "Compile"
+          command: "ci/build-debian.sh"
   build-ubuntu:
     docker:
       - image: cimg/base:stable
@@ -15,11 +26,12 @@ jobs:
       - checkout
       - run:
           name: "Compile"
-          command: "ci/build-ubuntu.sh"
+          command: "ci/build-debian.sh"
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
   build-all:
     jobs:
+      - build-debian
       - build-ubuntu
