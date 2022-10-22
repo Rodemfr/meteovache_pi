@@ -5,4 +5,4 @@ sudo sudo apt-get install build-essential cmake gettext git-core gpsd gpsd-clien
 
 rm -rf build && mkdir build && cd build
 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr ..
-make -s package
+make -sj2 package
