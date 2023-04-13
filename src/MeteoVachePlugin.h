@@ -34,8 +34,7 @@
 #include <ReportWindow.h>
 #include <ConfigContainer.h>
 #include <wx/wx.h>
-#include <version.h>
-#include <wxWTranslateCatalog.h>
+#include <config.h>
 #include <ocpn_plugin.h>
 
 /***************************************************************************/
@@ -44,7 +43,7 @@
 
 // This plug-in uses OpenCPN Plug-in API v1.8
 #define PI_API_VERSION_MAJOR 1
-#define PI_API_VERSION_MINOR 8
+#define PI_API_VERSION_MINOR 6
 
 /***************************************************************************/
 /*                                Types                                    */
@@ -54,7 +53,7 @@
 /*                               Classes                                   */
 /***************************************************************************/
 
-class MeteoVachePlugin: public opencpn_plugin_18
+class MeteoVachePlugin: public opencpn_plugin_116
 {
 public:
 	MeteoVachePlugin(void *ppimgr);

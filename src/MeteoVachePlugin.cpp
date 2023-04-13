@@ -67,7 +67,7 @@ extern "C" DECL_EXP void destroy_pi(opencpn_plugin *pluginInstance)
 }
 
 MeteoVachePlugin::MeteoVachePlugin(void *pluginManager) :
-		opencpn_plugin_18(pluginManager)
+		opencpn_plugin_116(pluginManager)
 {
 	toolBarIconId = 0;
 	contextMenuId = 0;
@@ -91,7 +91,9 @@ MeteoVachePlugin::~MeteoVachePlugin()
 
 int MeteoVachePlugin::Init(void)
 {
-	AddLocaleCatalog(PLUGIN_CATALOG_NAME);
+	AddLocaleCatalog(_T("opencpn-meteovache_pi"));
+
+	wxInitAllImageHandlers();
 
 	int plugInFlags = (WANTS_OVERLAY_CALLBACK |
 	WANTS_CURSOR_LATLON |
