@@ -1,6 +1,6 @@
 # MeteoVache plug-in for OpenCPN
 
-meteovache_pi is a small weather plug-in for OpenCPN. It provides weather forecasts anywhere the in the World as long as you have an Internet connection.
+meteovache_pi is a small weather plug-in for OpenCPN. It provides weather forecasts anywhere in the World as long as you have an Internet connection.
 
 ![Sample picture](files/meteovache_en_256.png)
 
