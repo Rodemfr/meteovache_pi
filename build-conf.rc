@@ -13,4 +13,4 @@ oldstable_git_push="false"
 # Same as for oldstable above.
 android_build_rate=1
 android_upload="true"
-android_git_push="true"
+android_git_push="false"

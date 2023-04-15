@@ -13,16 +13,16 @@
 # -------- Options ----------
 
 set(OCPN_TEST_REPO
-    "opencpn/meteovache-alpha"
+    "meteovache_pi/meteovache_pi-alpha"
     CACHE STRING "Default repository for untagged builds"
 )
 set(OCPN_BETA_REPO
-    "opencpn/meteovache-beta"
+    "meteovache_pi/meteovache_pi-beta"
     CACHE STRING
     "Default repository for tagged builds matching 'beta'"
 )
 set(OCPN_RELEASE_REPO
-    "opencpn/meteovache-prod"
+    "meteovache_pi/meteovache_pi"
     CACHE STRING
     "Default repository for tagged builds not matching 'beta'"
 )

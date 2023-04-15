@@ -29,11 +29,11 @@
 /*                              Includes                                   */
 /***************************************************************************/
 
+#include <Icons.h>
 #include <MeteoVachePlugin.h>
 #include <PreferenceDialog.h>
-#include <Icons.h>
-#include <wx/mstream.h>
 #include <wx/menuitem.h>
+#include <wx/mstream.h>
 #include <wx/stdpaths.h>
 
 /***************************************************************************/
@@ -56,186 +56,180 @@
 /*                              Functions                                  */
 /***************************************************************************/
 
-extern "C" DECL_EXP opencpn_plugin* create_pi(void *pluginManager)
+extern "C" DECL_EXP opencpn_plugin *create_pi(void *pluginManager)
 {
-	return new MeteoVachePlugin(pluginManager);
+    return new MeteoVachePlugin(pluginManager);
 }
 
 extern "C" DECL_EXP void destroy_pi(opencpn_plugin *pluginInstance)
 {
-	delete pluginInstance;
+    delete pluginInstance;
 }
 
-MeteoVachePlugin::MeteoVachePlugin(void *pluginManager) :
-		opencpn_plugin_116(pluginManager)
+MeteoVachePlugin::MeteoVachePlugin(void *pluginManager) : opencpn_plugin_16(pluginManager)
 {
-	toolBarIconId = 0;
-	contextMenuId = 0;
-	weatherWindow = nullptr;
-	ocpnParentWindow = nullptr;
-	contextMenu = nullptr;
-	cursorLat = 0.0f;
-	cursorLon = 0.0f;
+    toolBarIconId    = 0;
+    contextMenuId    = 0;
+    weatherWindow    = nullptr;
+    ocpnParentWindow = nullptr;
+    contextMenu      = nullptr;
+    cursorLat        = 0.0f;
+    cursorLon        = 0.0f;
 
-	// Create bitmap of the plug-in icon
-	initialize_images();
-	pluginIcon = _img_meteovache_pi;
-	toolbarIcon = _img_meteovache_tb;
+    // Create bitmap of the plug-in icon
+    initialize_images();
+    pluginIcon  = _img_meteovache_pi;
+    toolbarIcon = _img_meteovache_tb;
 }
 
 MeteoVachePlugin::~MeteoVachePlugin()
 {
-	delete _img_meteovache_tb;
-	delete _img_meteovache_pi;
+    delete _img_meteovache_tb;
+    delete _img_meteovache_pi;
 }
 
 int MeteoVachePlugin::Init(void)
 {
-	AddLocaleCatalog(_T("opencpn-meteovache_pi"));
+    AddLocaleCatalog(_T("opencpn-meteovache_pi"));
 
-	wxInitAllImageHandlers();
+    wxInitAllImageHandlers();
 
-	int plugInFlags = (WANTS_OVERLAY_CALLBACK |
-	WANTS_CURSOR_LATLON |
-	WANTS_TOOLBAR_CALLBACK |
-	WANTS_CONFIG |
-	WANTS_PREFERENCES);
+    int plugInFlags = (WANTS_OVERLAY_CALLBACK | WANTS_CURSOR_LATLON | WANTS_TOOLBAR_CALLBACK | WANTS_CONFIG | WANTS_PREFERENCES);
 
-	// Load configuration from OpenCPN configuration interface
-	config.SetConfigObject(GetOCPNConfigObject());
-	config.LoadConfig();
+    // Load configuration from OpenCPN configuration interface
+    config.SetConfigObject(GetOCPNConfigObject());
+    config.LoadConfig();
 
-	// plug-in icon for the plug-in manager
-	toolBarIconId = InsertPlugInTool(_("MeteoVache"), pluginIcon, pluginIcon, wxITEM_NORMAL, _("MeteoVache"), _("MeteoVache plug-in"),
-	NULL, -1, 0, this);
+    // plug-in icon for the plug-in manager
+    toolBarIconId =
+        InsertPlugInTool(_("MeteoVache"), pluginIcon, pluginIcon, wxITEM_NORMAL, _("MeteoVache"), _("MeteoVache plug-in"), NULL, -1, 0, this);
 
-	SetToolbarToolViz(toolBarIconId, !config.disableToolbarIcon);
+    SetToolbarToolViz(toolBarIconId, !config.disableToolbarIcon);
 
-	// Tool-bar icon
-	SetToolbarToolBitmaps(toolBarIconId, toolbarIcon, toolbarIcon);
-	plugInFlags |= INSTALLS_TOOLBAR_TOOL;
+    // Tool-bar icon
+    SetToolbarToolBitmaps(toolBarIconId, toolbarIcon, toolbarIcon);
+    plugInFlags |= INSTALLS_TOOLBAR_TOOL;
 
-	// Create the context menu item
-	contextMenu = new wxMenuItem(NULL, wxID_ANY, wxString(_("Weather forecast")),
-			wxString(_("Request weather forecast from MeteoVache server at cursor location")), wxITEM_NORMAL,
-			NULL);
-	contextMenuId = AddCanvasContextMenuItem(contextMenu, this);
-	plugInFlags |= INSTALLS_CONTEXTMENU_ITEMS;
+    // Create the context menu item
+    contextMenu   = new wxMenuItem(NULL, wxID_ANY, wxString(_("Weather forecast")),
+                                   wxString(_("Request weather forecast from MeteoVache server at "
+                                                "cursor location")),
+                                   wxITEM_NORMAL, NULL);
+    contextMenuId = AddCanvasContextMenuItem(contextMenu, this);
+    plugInFlags |= INSTALLS_CONTEXTMENU_ITEMS;
 
-	// Create the weather report window
-	ocpnParentWindow = GetOCPNCanvasWindow();
-	weatherWindow = new ReportWindow(ocpnParentWindow, &config, wxID_ANY, wxString(_("MeteoVache")), wxPoint(config.windowXPos, config.windowYPos),
-			wxSize(config.windowWidth, config.windowHeight),
-			wxDEFAULT_FRAME_STYLE);
-	weatherWindow->SetPosition(wxPoint(config.windowXPos, config.windowYPos));
-	weatherWindow->SetReportForecast(-1);
+    // Create the weather report window
+    ocpnParentWindow = GetOCPNCanvasWindow();
+    weatherWindow    = new ReportWindow(ocpnParentWindow, &config, wxID_ANY, wxString(_("MeteoVache")), wxPoint(config.windowXPos, config.windowYPos),
+                                        wxSize(config.windowWidth, config.windowHeight), wxDEFAULT_FRAME_STYLE);
+    weatherWindow->SetPosition(wxPoint(config.windowXPos, config.windowYPos));
+    weatherWindow->SetReportForecast(-1);
 
-	return plugInFlags;
+    return plugInFlags;
 }
 
 bool MeteoVachePlugin::DeInit(void)
 {
-	// Save configuration to OpenCPN configuration interface
-	weatherWindow->UpdateConfig();
-	config.SaveConfig();
+    // Save configuration to OpenCPN configuration interface
+    weatherWindow->UpdateConfig();
+    config.SaveConfig();
 
-	// Delete every allocated object
-	delete weatherWindow;
-	delete contextMenu;
+    // Delete every allocated object
+    delete weatherWindow;
+    delete contextMenu;
 
-	return true;
+    return true;
 }
 
 int MeteoVachePlugin::GetAPIVersionMajor()
 {
-	return PI_API_VERSION_MAJOR;
+    return PI_API_VERSION_MAJOR;
 }
 
 int MeteoVachePlugin::GetAPIVersionMinor()
 {
-	return PI_API_VERSION_MINOR;
+    return PI_API_VERSION_MINOR;
 }
 
 int MeteoVachePlugin::GetPlugInVersionMajor()
 {
-	return PLUGIN_VERSION_MAJOR;
+    return PLUGIN_VERSION_MAJOR;
 }
 
 int MeteoVachePlugin::GetPlugInVersionMinor()
 {
-	return PLUGIN_VERSION_MINOR;
+    return PLUGIN_VERSION_MINOR;
 }
 
-wxBitmap* MeteoVachePlugin::GetPlugInBitmap()
+wxBitmap *MeteoVachePlugin::GetPlugInBitmap()
 {
-	return pluginIcon;
+    return pluginIcon;
 }
 
 wxString MeteoVachePlugin::GetCommonName()
 {
-	return _("MeteoVache");
+    return _("MeteoVache");
 }
 
 wxString MeteoVachePlugin::GetShortDescription()
 {
-	return _("MeteoVache weather plug-in for OpenCPN");
+    return _("MeteoVache weather plug-in for OpenCPN");
 }
 
 wxString MeteoVachePlugin::GetLongDescription()
 {
-	return _(
-			"MeteoVache is a weather plug-in for OpenCPN.\n\
+    return _("MeteoVache is a weather plug-in for OpenCPN.\n\
 It provides weather forecasts everywhere in the world with only\n\
 a low bandwidth Internet connection.");
 }
 
 void MeteoVachePlugin::OnToolbarToolCallback(int id)
 {
-	(void) id;
-	// Clicking on the tool-bar icon switches report window visibility
-	weatherWindow->Show(!weatherWindow->IsShown());
-	weatherWindow->Layout();
+    (void)id;
+    // Clicking on the tool-bar icon switches report window visibility
+    weatherWindow->Show(!weatherWindow->IsShown());
+    weatherWindow->Layout();
 }
 
 int MeteoVachePlugin::GetToolbarToolCount(void)
 {
-	return 1;
+    return 1;
 }
 
 void MeteoVachePlugin::OnContextMenuItemCallback(int id)
 {
-	(void) id;
-	wxString text;
+    (void)id;
+    wxString text;
 
-	// If MeteoVache context menu item has been clicked, we request a new forecast for the last recorded cursor position
-	if (id == contextMenuId)
-	{
-		weatherWindow->Show(true);
-		weatherWindow->RequestForecast(cursorLat, cursorLon);
-	}
+    // If MeteoVache context menu item has been clicked, we request a new
+    // forecast for the last recorded cursor position
+    if (id == contextMenuId)
+    {
+        weatherWindow->Show(true);
+        weatherWindow->RequestForecast(cursorLat, cursorLon);
+    }
 }
 
 void MeteoVachePlugin::SetCursorLatLon(double lat, double lon)
 {
-	// Called each time mouse position changes. We store the latest value
-	cursorLat = (float) lat;
-	cursorLon = (float) lon;
+    // Called each time mouse position changes. We store the latest value
+    cursorLat = (float)lat;
+    cursorLon = (float)lon;
 }
 
 void MeteoVachePlugin::ShowPreferencesDialog(wxWindow *parent)
 {
-	PreferenceDialog *prefDialog = new PreferenceDialog(parent, &config, wxID_ANY, _("MeteoVache preferences"), wxDefaultPosition, wxDefaultSize,
-	wxDEFAULT_DIALOG_STYLE);
+    PreferenceDialog *prefDialog =
+        new PreferenceDialog(parent, &config, wxID_ANY, _("MeteoVache preferences"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE);
 
-	prefDialog->Fit();
-	prefDialog->Layout();
+    prefDialog->Fit();
+    prefDialog->Layout();
 
-	if (prefDialog->ShowModal() == wxID_OK)
-	{
-		prefDialog->UpdateConfig();
-		SetToolbarToolViz(toolBarIconId, config.disableToolbarIcon == false);
-	}
+    if (prefDialog->ShowModal() == wxID_OK)
+    {
+        prefDialog->UpdateConfig();
+        SetToolbarToolViz(toolBarIconId, config.disableToolbarIcon == false);
+    }
 
-	delete prefDialog;
+    delete prefDialog;
 }
-

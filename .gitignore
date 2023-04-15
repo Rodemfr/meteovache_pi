@@ -9,3 +9,5 @@ cache
 plugins
 *.bat
 *.bak
+.vscode
+
