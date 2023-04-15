@@ -66,7 +66,7 @@ extern "C" DECL_EXP void destroy_pi(opencpn_plugin *pluginInstance)
     delete pluginInstance;
 }
 
-MeteoVachePlugin::MeteoVachePlugin(void *pluginManager) : opencpn_plugin_16(pluginManager)
+MeteoVachePlugin::MeteoVachePlugin(void *pluginManager) : opencpn_plugin_116(pluginManager)
 {
     toolBarIconId    = 0;
     contextMenuId    = 0;
