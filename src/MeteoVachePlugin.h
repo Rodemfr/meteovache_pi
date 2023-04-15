@@ -43,7 +43,7 @@
 
 // This plug-in uses OpenCPN Plug-in API v1.8
 #define PI_API_VERSION_MAJOR 1
-#define PI_API_VERSION_MINOR 6
+#define PI_API_VERSION_MINOR 16
 
 /***************************************************************************/
 /*                                Types                                    */
