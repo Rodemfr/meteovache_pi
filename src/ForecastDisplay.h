@@ -51,6 +51,7 @@ private:
 	wxFont reportFont;
 	int verticalFontSize;
 	int horizontalFontSize;
+	int arrowSlotSize;
 };
 
 #endif /* SRC_FORECASTDISPLAY_H_ */

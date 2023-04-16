@@ -12,8 +12,6 @@
 #include <wx/graphics.h>
 #include <wx/dcgraph.h>
 
-#define ARROW_SLOT_SIZE 16
-
 ForecastDisplay::ForecastDisplay(wxWindow *parent, ConfigContainer *config, wxWindowID winId, const wxString &label, const wxPoint &pos, const wxSize &size,
 		long style, const wxValidator &validator, const wxString &name) :
 		modelIndex(-1)
@@ -52,9 +50,11 @@ ForecastDisplay::ForecastDisplay(wxWindow *parent, ConfigContainer *config, wxWi
 
 	Create(parent, winId, pos, size, style | wxVSCROLL, name);
 
-	reportFont = wxFont(9, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Courier 10 Pitch"));
-	verticalFontSize = 17;
-	horizontalFontSize = 8;
+	// reportFont = wxFont(9, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, "Courier 10 Pitch");
+	reportFont = wxFont(10, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, "Courier");
+	verticalFontSize = reportFont.GetPixelSize().GetHeight() * 1.2;
+	horizontalFontSize = reportFont.GetPixelSize().GetWidth();
+	arrowSlotSize = reportFont.GetPixelSize().GetHeight();
 
 	Connect(wxEVT_PAINT, wxPaintEventHandler(ForecastDisplay::OnPaint));
 	Connect(wxEVT_SIZE, wxSizeEventHandler(ForecastDisplay::OnSize));
@@ -93,7 +93,7 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event)
 	(void) event;
 
 	wxPaintDC dc(this);
-	wxBitmap arrowBitmap(ARROW_SLOT_SIZE, ARROW_SLOT_SIZE);
+	wxBitmap arrowBitmap(arrowSlotSize, arrowSlotSize);
 
 #if wxUSE_GRAPHICS_CONTEXT
 	wxGCDC gdc(arrowBitmap);
@@ -107,9 +107,6 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event)
 	wxColour bgColor(255, 255, 255);
 	dc.SetBackground(wxBrush(bgColor));
 	dc.Clear();
-
-	verticalFontSize = dc.GetFontMetrics().height + 1;
-	horizontalFontSize = dc.GetFontMetrics().averageWidth;
 
 	if ((modelIndex >= 0) && ((int) spotForecasts.GetNumberOfForecast() > modelIndex))
 	{
@@ -148,7 +145,7 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event)
 		dc.DrawText(stringToDraw, 0, verticalPos);
 		verticalPos += verticalFontSize * 2;
 
-		stringToDraw = wxString::Format("           %4s %4s %4s  %5s %5s %4s\n", _("Wind"), _("Gust"), _("Dir"), _("Rain"), _("Cloud"), _("Temp"));
+		stringToDraw = wxString::Format("           %4s %4s %4s   %5s %5s %4s\n", _("Wind"), _("Gust"), _("Dir"), _("Rain"), _("Cloud"), _("Temp"));
 		dc.DrawText(stringToDraw, 0, verticalPos);
 		verticalPos += verticalFontSize;
 
@@ -189,27 +186,27 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event)
 			bgColor.Set(windGradient.GetUintColor(data.windSpeedKt));
 			dc.SetPen(wxPen(bgColor));
 			dc.SetBrush(wxBrush(bgColor));
-			dc.DrawRectangle(horizontalFontSize * 11, verticalPos, horizontalFontSize * 4, verticalFontSize);
+			dc.DrawRectangle(horizontalFontSize * 11, verticalPos - 1, horizontalFontSize * 4, verticalFontSize);
 			dc.SetTextForeground(GetContrastedColor(bgColor));
 			DrawCenteredText(dc, GetConvertedWind(data.windSpeedKt), horizontalFontSize * 11, verticalPos, horizontalFontSize * 4);
 
 			bgColor.Set(windGradient.GetUintColor(data.gustSpeedKt));
 			dc.SetPen(wxPen(bgColor));
 			dc.SetBrush(wxBrush(bgColor));
-			dc.DrawRectangle(horizontalFontSize * 16, verticalPos, horizontalFontSize * 4, verticalFontSize);
+			dc.DrawRectangle(horizontalFontSize * 16, verticalPos - 1, horizontalFontSize * 4, verticalFontSize);
 			dc.SetTextForeground(GetContrastedColor(bgColor));
 			DrawCenteredText(dc, GetConvertedWind(data.gustSpeedKt), horizontalFontSize * 16, verticalPos, horizontalFontSize * 4);
 
 			//dc.SetTextForeground(GetForegroundColour());
 			//DrawCenteredText(dc, GetTextDirection(data.windDirectionDeg), horizontalFontSize * 21, verticalPos, horizontalFontSize * 5);
 
-			DrawArrow(gdc, ARROW_SLOT_SIZE / 2, ARROW_SLOT_SIZE / 2, data.windDirectionDeg);
+			DrawArrow(gdc, arrowSlotSize / 2, arrowSlotSize / 2, data.windDirectionDeg);
 			dc.DrawBitmap(arrowBitmap, horizontalFontSize * 22, verticalPos);
 
 			bgColor.Set(precipitationGradient.GetUintColor(data.precipitationMmH));
 			dc.SetPen(wxPen(bgColor));
 			dc.SetBrush(wxBrush(bgColor));
-			dc.DrawRectangle(horizontalFontSize * 27, verticalPos, horizontalFontSize * 5, verticalFontSize);
+			dc.DrawRectangle(horizontalFontSize * 27, verticalPos - 1, horizontalFontSize * 5, verticalFontSize);
 			dc.SetTextForeground(GetContrastedColor(bgColor));
 			DrawCenteredText(dc, precipitationString, horizontalFontSize * 27, verticalPos, horizontalFontSize * 5);
 
@@ -218,14 +215,14 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event)
 			bgColor.Set(cloudGradient.GetUintColor(cloudCover));
 			dc.SetPen(wxPen(bgColor));
 			dc.SetBrush(wxBrush(bgColor));
-			dc.DrawRectangle(horizontalFontSize * 33, verticalPos, horizontalFontSize * 5, verticalFontSize);
+			dc.DrawRectangle(horizontalFontSize * 33, verticalPos - 1, horizontalFontSize * 5, verticalFontSize);
 			dc.SetTextForeground(GetContrastedColor(bgColor));
 			DrawCenteredText(dc, wxString::Format("%.0f", cloudCover), horizontalFontSize * 33, verticalPos, horizontalFontSize * 5);
 
 			bgColor.Set(tempGradient.GetUintColor(data.TemperatureC));
 			dc.SetPen(wxPen(bgColor));
 			dc.SetBrush(wxBrush(bgColor));
-			dc.DrawRectangle(horizontalFontSize * 39, verticalPos, horizontalFontSize * 4, verticalFontSize);
+			dc.DrawRectangle(horizontalFontSize * 39, verticalPos - 1, horizontalFontSize * 4, verticalFontSize);
 			dc.SetTextForeground(GetContrastedColor(bgColor));
 			DrawCenteredText(dc, GetConvertedTemp(data.TemperatureC), horizontalFontSize * 39, verticalPos, horizontalFontSize * 4);
 
@@ -289,11 +286,11 @@ void ForecastDisplay::DrawArrow(wxDC &dc, double x, double y, float angle)
 	dc.SetBrush(wxBrush(wxColor(0, 0, 0)));
 
 	angle_rad = angle * 3.1415f / 180.0f;
-	dy = -ARROW_SLOT_SIZE * cos(angle_rad) / 2.8f;
-	dx = ARROW_SLOT_SIZE * sin(angle_rad) / 2.8f;
+	dy = -arrowSlotSize * cos(angle_rad) / 2.8f;
+	dx = arrowSlotSize * sin(angle_rad) / 2.8f;
 
-	sdy = -ARROW_SLOT_SIZE * cos(angle_rad - M_PI / 2) / 4.0f;
-	sdx = ARROW_SLOT_SIZE * sin(angle_rad - M_PI / 2) / 4.0f;
+	sdy = -arrowSlotSize * cos(angle_rad - M_PI / 2) / 4.0f;
+	sdx = arrowSlotSize * sin(angle_rad - M_PI / 2) / 4.0f;
 
 	wxPoint points[4] =
 	{
