@@ -21,7 +21,7 @@ ForecastDisplay::ForecastDisplay(wxWindow *parent, ConfigContainer *config, wxWi
     this->config = config;
 
     float    value           = 0;
-    wxColour backgroundColor = wxSystemSettings::GetColour(wxSYS_COLOUR_DESKTOP);
+    wxColour backgroundColor = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW);
     wxColour foregroundColor = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT);
     float    colorScale      = 255.0f;
 
