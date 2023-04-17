@@ -159,12 +159,14 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event)
         dc.DrawText(stringToDraw, 0, verticalPos);
         verticalPos += verticalFontSize * 2;
 
-        stringToDraw = wxString::Format("           %4s %4s %4s   %5s %5s %4s\n", _("Wind"), _("Gust"), _("Dir"), _("Rain"), _("Cloud"), _("Temp"));
-        dc.DrawText(stringToDraw, 0, verticalPos);
+        DrawCenteredText(dc, _("Wind"), horizontalFontSize * 11, verticalPos, horizontalFontSize * 4);
+        DrawCenteredText(dc, _("Gust"), horizontalFontSize * 16, verticalPos, horizontalFontSize * 4);
+        DrawCenteredText(dc, _("Dir"), horizontalFontSize * 21, verticalPos, horizontalFontSize * 4);
+        DrawCenteredText(dc, _("Rain"), horizontalFontSize * 27, verticalPos, horizontalFontSize * 5);
+        DrawCenteredText(dc, _("Cloud"), horizontalFontSize * 33, verticalPos, horizontalFontSize * 5);
+        DrawCenteredText(dc, _("Temp"), horizontalFontSize * 39, verticalPos, horizontalFontSize * 4);
         verticalPos += verticalFontSize;
 
-        stringToDraw = wxString::Format("           %4s %4s %5s %5s %5s %4s\n", "", "", " ", "", "", "");
-        dc.DrawText(stringToDraw, 0, verticalPos);
         DrawCenteredText(dc, _(config->windUnitString), horizontalFontSize * 11, verticalPos, horizontalFontSize * 4);
         DrawCenteredText(dc, _(config->windUnitString), horizontalFontSize * 16, verticalPos, horizontalFontSize * 4);
         DrawCenteredText(dc, _("mm/h"), horizontalFontSize * 27, verticalPos, horizontalFontSize * 5);
@@ -197,17 +199,18 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event)
             }
             stringToDraw += wxString::Format("%4s %4s %5s %5s       %4s\n", "", "", "", "", "");
 
+            int verticalShift = verticalFontSize * 0.2;
             bgColor.Set(windGradient.GetUintColor(data.windSpeedKt));
             dc.SetPen(wxPen(bgColor));
             dc.SetBrush(wxBrush(bgColor));
-            dc.DrawRectangle(horizontalFontSize * 11, verticalPos - 1, horizontalFontSize * 4, verticalFontSize);
+            dc.DrawRectangle(horizontalFontSize * 11, verticalPos - verticalShift, horizontalFontSize * 4, verticalFontSize);
             dc.SetTextForeground(GetContrastedColor(bgColor, windowFgColor, windowBgColor));
             DrawCenteredText(dc, GetConvertedWind(data.windSpeedKt), horizontalFontSize * 11, verticalPos, horizontalFontSize * 4);
 
             bgColor.Set(windGradient.GetUintColor(data.gustSpeedKt));
             dc.SetPen(wxPen(bgColor));
             dc.SetBrush(wxBrush(bgColor));
-            dc.DrawRectangle(horizontalFontSize * 16, verticalPos - 1, horizontalFontSize * 4, verticalFontSize);
+            dc.DrawRectangle(horizontalFontSize * 16, verticalPos - verticalShift, horizontalFontSize * 4, verticalFontSize);
             dc.SetTextForeground(GetContrastedColor(bgColor, windowFgColor, windowBgColor));
             DrawCenteredText(dc, GetConvertedWind(data.gustSpeedKt), horizontalFontSize * 16, verticalPos, horizontalFontSize * 4);
 
@@ -220,7 +223,7 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event)
             bgColor.Set(precipitationGradient.GetUintColor(data.precipitationMmH));
             dc.SetPen(wxPen(bgColor));
             dc.SetBrush(wxBrush(bgColor));
-            dc.DrawRectangle(horizontalFontSize * 27, verticalPos - 1, horizontalFontSize * 5, verticalFontSize);
+            dc.DrawRectangle(horizontalFontSize * 27, verticalPos - verticalShift, horizontalFontSize * 5, verticalFontSize);
             dc.SetTextForeground(GetContrastedColor(bgColor, windowFgColor, windowBgColor));
             DrawCenteredText(dc, precipitationString, horizontalFontSize * 27, verticalPos, horizontalFontSize * 5);
 
@@ -229,14 +232,14 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event)
             bgColor.Set(cloudGradient.GetUintColor(cloudCover));
             dc.SetPen(wxPen(bgColor));
             dc.SetBrush(wxBrush(bgColor));
-            dc.DrawRectangle(horizontalFontSize * 33, verticalPos - 1, horizontalFontSize * 5, verticalFontSize);
+            dc.DrawRectangle(horizontalFontSize * 33, verticalPos - verticalShift, horizontalFontSize * 5, verticalFontSize);
             dc.SetTextForeground(GetContrastedColor(bgColor, windowFgColor, windowBgColor));
             DrawCenteredText(dc, wxString::Format("%.0f", cloudCover), horizontalFontSize * 33, verticalPos, horizontalFontSize * 5);
 
             bgColor.Set(tempGradient.GetUintColor(data.TemperatureC));
             dc.SetPen(wxPen(bgColor));
             dc.SetBrush(wxBrush(bgColor));
-            dc.DrawRectangle(horizontalFontSize * 39, verticalPos - 1, horizontalFontSize * 4, verticalFontSize);
+            dc.DrawRectangle(horizontalFontSize * 39, verticalPos - verticalShift, horizontalFontSize * 4, verticalFontSize);
             dc.SetTextForeground(GetContrastedColor(bgColor, windowFgColor, windowBgColor));
             DrawCenteredText(dc, GetConvertedTemp(data.TemperatureC), horizontalFontSize * 39, verticalPos, horizontalFontSize * 4);
 
