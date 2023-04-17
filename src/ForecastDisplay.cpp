@@ -83,7 +83,7 @@ void ForecastDisplay::CalculateReportFontSize()
     const wxSize sizeM         = GetTextExtent("M");
     int          fontPixelSize = sizeM.x * 10 / 8;
 
-    reportFont         = wxFont(fontPixelSize, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, "Courier");
+    reportFont         = wxFont(fontPixelSize, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, "");
     verticalFontSize   = reportFont.GetPixelSize().GetHeight();
     horizontalFontSize = reportFont.GetPixelSize().GetWidth();
     arrowSlotSize      = reportFont.GetPixelSize().GetHeight();
