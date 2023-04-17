@@ -80,13 +80,16 @@ void ForecastDisplay::CalculateReportFontSize()
 {
     wxPaintDC dc(this);
     dc.SetFont(wxFont());
-    const wxSize sizeM         = GetTextExtent("M");
-    int          fontPixelSize = sizeM.x * 10 / 8;
+    wxSize sizeM         = GetTextExtent("M");
+    int    fontPixelSize = sizeM.x * 11 / 8;
 
-    reportFont         = wxFont(fontPixelSize, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, "");
-    verticalFontSize   = reportFont.GetPixelSize().GetHeight();
-    horizontalFontSize = reportFont.GetPixelSize().GetWidth();
-    arrowSlotSize      = reportFont.GetPixelSize().GetHeight();
+    reportFont = wxFont(fontPixelSize, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, "");
+
+    dc.SetFont(reportFont);
+    sizeM              = GetTextExtent("M");
+    horizontalFontSize = sizeM.x + 1;
+    verticalFontSize   = sizeM.y;
+    arrowSlotSize      = verticalFontSize;
 }
 
 ForecastDisplay::~ForecastDisplay()
@@ -209,7 +212,7 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event)
                 precipitationString = "";
             }
 
-            int verticalShift = verticalFontSize * 0.2;
+            int verticalShift = 0;
 
             bgColor.Set(windGradient.GetUintColor(data.windSpeedKt));
             dc.SetPen(wxPen(bgColor));
