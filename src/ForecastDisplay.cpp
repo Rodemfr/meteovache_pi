@@ -20,18 +20,18 @@ ForecastDisplay::ForecastDisplay(wxWindow *parent, ConfigContainer *config, wxWi
     (void)label;
     this->config = config;
 
-    float    value           = 0;
-    wxColour backgroundColor = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW);
-    wxColour foregroundColor = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT);
-    float    colorScale      = 255.0f;
+    float value      = 0;
+    windowBgColor    = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW);
+    windowFgColor    = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT);
+    float colorScale = 255.0f;
 
-    if (GetLuma(backgroundColor) < GetLuma(foregroundColor))
+    if (GetLuma(windowBgColor) < GetLuma(windowFgColor))
     {
         // We have a inverted color scheme (dark theme) : adapt color gradient accordingly
-        colorScale = 320.0f;
+        colorScale = 400.0f;
     }
 
-    windGradient.AddColorPoint(backgroundColor.Red() / 255.0f, backgroundColor.Green() / 255.0, backgroundColor.Blue() / 255.0, value += 3.0);
+    windGradient.AddColorPoint(windowBgColor.Red() / 255.0f, windowBgColor.Green() / 255.0, windowBgColor.Blue() / 255.0, value += 3.0);
     windGradient.AddColorPoint(140.0 / colorScale, 255.0 / colorScale, 120.0 / colorScale, value += 4.5);
     windGradient.AddColorPoint(255.0 / colorScale, 255.0 / colorScale, 100.0 / colorScale, value += 9.0);
     windGradient.AddColorPoint(255.0 / colorScale, 128.0 / colorScale, 0.0 / colorScale, value += 11.0);
@@ -41,20 +41,20 @@ ForecastDisplay::ForecastDisplay(wxWindow *parent, ConfigContainer *config, wxWi
     windGradient.Generate();
 
     tempGradient.AddColorPoint(9.0 / colorScale, 247.0 / colorScale, 250.0 / colorScale, -10.0);
-    tempGradient.AddColorPoint(backgroundColor.Red() / 255.0f, backgroundColor.Green() / 255.0, backgroundColor.Blue() / 255.0, 5.0);
-    tempGradient.AddColorPoint(backgroundColor.Red() / 255.0f, backgroundColor.Green() / 255.0, backgroundColor.Blue() / 255.0, 20.0);
+    tempGradient.AddColorPoint(windowBgColor.Red() / 255.0f, windowBgColor.Green() / 255.0, windowBgColor.Blue() / 255.0, 5.0);
+    tempGradient.AddColorPoint(windowBgColor.Red() / 255.0f, windowBgColor.Green() / 255.0, windowBgColor.Blue() / 255.0, 20.0);
     tempGradient.AddColorPoint(255.0 / colorScale, 255.0 / colorScale, 128.0 / colorScale, 30.0);
     tempGradient.AddColorPoint(255.0 / colorScale, 32.0 / colorScale, 0.0 / colorScale, 42.0);
     tempGradient.Generate();
 
-    precipitationGradient.AddColorPoint(backgroundColor.Red() / 255.0f, backgroundColor.Green() / 255.0, backgroundColor.Blue() / 255.0, 0.0);
+    precipitationGradient.AddColorPoint(windowBgColor.Red() / 255.0f, windowBgColor.Green() / 255.0, windowBgColor.Blue() / 255.0, 0.0);
     precipitationGradient.AddColorPoint(153.0 / colorScale, 254.0 / colorScale, 255.0 / colorScale, 0.5);
     precipitationGradient.AddColorPoint(64.0 / colorScale, 150.0 / colorScale, 244.0 / colorScale, 5.0);
     precipitationGradient.AddColorPoint(0.0 / colorScale, 50.0 / colorScale, 231.0 / colorScale, 10.0);
     precipitationGradient.Generate();
 
-    cloudGradient.AddColorPoint(backgroundColor.Red() / 255.0f, backgroundColor.Green() / 255.0, backgroundColor.Blue() / 255.0, 0.0);
-    cloudGradient.AddColorPoint(foregroundColor.Red() / 255.0f, foregroundColor.Green() / 255.0, foregroundColor.Blue() / 255.0, 100.0);
+    cloudGradient.AddColorPoint(windowBgColor.Red() / 255.0f, windowBgColor.Green() / 255.0, windowBgColor.Blue() / 255.0, 0.0);
+    cloudGradient.AddColorPoint(windowFgColor.Red() / 255.0f, windowFgColor.Green() / 255.0, windowFgColor.Blue() / 255.0, 100.0);
     cloudGradient.Generate();
 
     Create(parent, winId, pos, size, style | wxVSCROLL, name);
@@ -101,6 +101,9 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event)
 {
     (void)event;
 
+    windowBgColor = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW);
+    windowFgColor = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT);
+
     wxPaintDC dc(this);
     wxBitmap  arrowBitmap(arrowSlotSize, arrowSlotSize);
 
@@ -112,9 +115,6 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event)
 
     DoPrepareDC(dc);
     dc.SetFont(reportFont);
-
-    wxColour windowBgColor = wxSystemSettings::GetColour(wxSYS_COLOUR_DESKTOP);
-    wxColour windowFgColor = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT);
     dc.SetBackground(wxBrush(windowBgColor));
     dc.SetTextForeground(windowFgColor);
     dc.Clear();

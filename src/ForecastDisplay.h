@@ -54,6 +54,8 @@ class ForecastDisplay : public wxScrolledWindow
     int              verticalFontSize;
     int              horizontalFontSize;
     int              arrowSlotSize;
+    wxColour         windowBgColor;
+    wxColour         windowFgColor;
 };
 
 #endif /* SRC_FORECASTDISPLAY_H_ */
