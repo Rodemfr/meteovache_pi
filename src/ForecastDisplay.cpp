@@ -59,11 +59,7 @@ ForecastDisplay::ForecastDisplay(wxWindow *parent, ConfigContainer *config, wxWi
 
     Create(parent, winId, pos, size, style | wxVSCROLL, name);
 
-    // reportFont = wxFont(9, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, "Courier 10 Pitch");
-    reportFont         = wxFont(10, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, "Courier");
-    verticalFontSize   = reportFont.GetPixelSize().GetHeight() * 1.2;
-    horizontalFontSize = reportFont.GetPixelSize().GetWidth();
-    arrowSlotSize      = reportFont.GetPixelSize().GetHeight();
+    CalculateReportFontSize();
 
     Connect(wxEVT_PAINT, wxPaintEventHandler(ForecastDisplay::OnPaint));
     Connect(wxEVT_SIZE, wxSizeEventHandler(ForecastDisplay::OnSize));
@@ -78,6 +74,19 @@ void ForecastDisplay::UpdateScrollBar()
     SetVirtualSize(wxSize(GetRequestedHorizontalSize(), GetRequestedVerticalSize()));
     SetScrollbars(1, 1, GetRequestedHorizontalSize(), GetRequestedVerticalSize(), 0, 0, false);
     SetScrollRate(0, verticalFontSize);
+}
+
+void ForecastDisplay::CalculateReportFontSize()
+{
+    wxPaintDC dc(this);
+    dc.SetFont(wxFont());
+    const wxSize sizeM         = GetTextExtent("M");
+    int          fontPixelSize = sizeM.x * 10 / 8;
+
+    reportFont         = wxFont(fontPixelSize, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, "Courier");
+    verticalFontSize   = reportFont.GetPixelSize().GetHeight() * 1.2;
+    horizontalFontSize = reportFont.GetPixelSize().GetWidth();
+    arrowSlotSize      = reportFont.GetPixelSize().GetHeight();
 }
 
 ForecastDisplay::~ForecastDisplay()
@@ -103,6 +112,8 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event)
 
     windowBgColor = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW);
     windowFgColor = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT);
+
+    CalculateReportFontSize();
 
     wxPaintDC dc(this);
     wxBitmap  arrowBitmap(arrowSlotSize, arrowSlotSize);
@@ -197,9 +208,9 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event)
             {
                 precipitationString = "";
             }
-            stringToDraw += wxString::Format("%4s %4s %5s %5s       %4s\n", "", "", "", "", "");
 
             int verticalShift = verticalFontSize * 0.2;
+
             bgColor.Set(windGradient.GetUintColor(data.windSpeedKt));
             dc.SetPen(wxPen(bgColor));
             dc.SetBrush(wxBrush(bgColor));

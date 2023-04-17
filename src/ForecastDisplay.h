@@ -41,6 +41,7 @@ class ForecastDisplay : public wxScrolledWindow
     int      GetRequestedVerticalSize();
     int      GetRequestedHorizontalSize();
     void     UpdateScrollBar();
+    void     CalculateReportFontSize();
 
   private:
     ConfigContainer *config; // Configuration parameters
