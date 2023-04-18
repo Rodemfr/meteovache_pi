@@ -37,11 +37,9 @@ set(PKG_PRERELEASE "")  # Empty, or a tag like 'beta'
 
 set(DISPLAY_NAME MeteoVache)    # Dialogs, installer artifacts, ...
 set(PLUGIN_API_NAME MeteoVache) # As of GetCommonName() in plugin API
-set(PKG_SUMMARY "Provide local weather forecasts")
+set(PKG_SUMMARY "Local weather forecasts even on very limited internet connection")
 set(PKG_DESCRIPTION [=[
-Provides weather forecasts anywhere in the world by a simple right click on  the map.
-MeteoVache is desgined to reduce the required data to make it usable on very low
-bandwidth internet connections like Edge-GSM or with paying data.
+MeteoVache provides weather forecasts anywhere in the world by a simple right click on the map. It is desgined to reduce the required data to make it usable on very low bandwidth internet connections like Edge-GSM or with paying data.
 ]=])
 
 set(PKG_AUTHOR "Ronan Demoment")
@@ -79,6 +77,10 @@ set(SRC
 )
 
 include_directories(${CMAKE_SOURCE_DIR}/src)
+
+if (WIN32)
+  add_compile_definitions(__WIN32__)
+endif (WIN32)
 
 set(PKG_API_LIB api-16)  #  A dir in opencpn-libs/ e. g., api-17 or api-16
 

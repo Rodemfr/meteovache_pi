@@ -80,17 +80,19 @@ void ForecastDisplay::UpdateScrollBar()
 
 void ForecastDisplay::SetReportFontSize()
 {
-    wxCoord w,h, descent, eLeading;
+    wxCoord w, h, descent, eLeading;
 
     wxPaintDC dc(this);
     // First we select the default 10 point teletype font used for displays with a "normal" dpi
     // and check the actual size of the letter 'M'.This size takes into account the potential font
     // scale factor used by OS on high dpi screens (while the actual font size does not change !?)
-    wxFont baseFont(10, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, "");
-    GetTextExtent("M", &w, &h, &descent, &eLeading, &baseFont);
+    reportFont = wxFont(10, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, "");
+    GetTextExtent("M", &w, &h, &descent, &eLeading, &reportFont);
+#ifndef __WIN32__
     // Now, we select a new font taking into account the scale factor between the actual font size and the expected one : it will give
     // the font that provides the same look than on a normal dpi screen
-    reportFont         = wxFont(h * REPORT_TEXT_POINT_SIZE / 16, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, "");
+    reportFont = wxFont(h * REPORT_TEXT_POINT_SIZE / 16, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, "");
+#endif
     horizontalFontSize = w;
     verticalFontSize   = h;
     arrowSlotSize      = verticalFontSize;
