@@ -12,6 +12,8 @@
 #include <wx/graphics.h>
 #include <wx/wx.h>
 
+#define REPORT_TEXT_POINT_SIZE 10
+
 ForecastDisplay::ForecastDisplay(wxWindow *parent, ConfigContainer *config, wxWindowID winId, const wxString &label, const wxPoint &pos,
                                  const wxSize &size, long style, const wxValidator &validator, const wxString &name)
     : modelIndex(-1)
@@ -59,7 +61,7 @@ ForecastDisplay::ForecastDisplay(wxWindow *parent, ConfigContainer *config, wxWi
 
     Create(parent, winId, pos, size, style | wxVSCROLL, name);
 
-    CalculateReportFontSize();
+    SetReportFontSize();
 
     Connect(wxEVT_PAINT, wxPaintEventHandler(ForecastDisplay::OnPaint));
     Connect(wxEVT_SIZE, wxSizeEventHandler(ForecastDisplay::OnSize));
@@ -76,19 +78,21 @@ void ForecastDisplay::UpdateScrollBar()
     SetScrollRate(0, verticalFontSize);
 }
 
-void ForecastDisplay::CalculateReportFontSize()
+void ForecastDisplay::SetReportFontSize()
 {
+    wxCoord w,h, descent, eLeading;
+
     wxPaintDC dc(this);
-    dc.SetFont(wxFont());
-    wxSize sizeM         = GetTextExtent("M");
-    int    fontPixelSize = sizeM.x * 11 / 8;
-
-    reportFont = wxFont(fontPixelSize, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, "");
-
-    dc.SetFont(reportFont);
-    sizeM              = GetTextExtent("M");
-    horizontalFontSize = sizeM.x + 1;
-    verticalFontSize   = sizeM.y;
+    // First we select the default 10 point teletype font used for displays with a "normal" dpi
+    // and check the actual size of the letter 'M'.This size takes into account the potential font
+    // scale factor used by OS on high dpi screens (while the actual font size does not change !?)
+    wxFont baseFont(10, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, "");
+    GetTextExtent("M", &w, &h, &descent, &eLeading, &baseFont);
+    // Now, we select a new font taking into account the scale factor between the actual font size and the expected one : it will give
+    // the font that provides the same look than on a normal dpi screen
+    reportFont         = wxFont(h * REPORT_TEXT_POINT_SIZE / 16, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, "");
+    horizontalFontSize = w;
+    verticalFontSize   = h;
     arrowSlotSize      = verticalFontSize;
 }
 
@@ -116,7 +120,7 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event)
     windowBgColor = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW);
     windowFgColor = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT);
 
-    CalculateReportFontSize();
+    SetReportFontSize();
 
     wxPaintDC dc(this);
     wxBitmap  arrowBitmap(arrowSlotSize, arrowSlotSize);
