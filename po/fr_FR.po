@@ -1,121 +1,128 @@
+# meteovache_pi translation file
+# Copyright (C)2020 R. Demoment
+# This file is distributed under the same license as meteovache_pi plug-in (GPL v2).
+# FIRST AUTHOR <ronan@vendredi.homelinux.net>, 2020.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: meteovachepi\n"
+"Project-Id-Version: meteovache_pi 0.9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-19 14:42+0200\n"
-"PO-Revision-Date: 2023-04-19 17:08\n"
-"Last-Translator: \n"
-"Language-Team: Spanish\n"
-"Language: es_ES\n"
+"POT-Creation-Date: 2023-04-19 13:56+0200\n"
+"PO-Revision-Date: 2023-04-19 14:00+0200\n"
+"Last-Translator: Ronan Demoment\n"
+"Language-Team: French\n"
+"Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Crowdin-Project: meteovachepi\n"
-"X-Crowdin-Project-ID: 581957\n"
-"X-Crowdin-Language: es-ES\n"
-"X-Crowdin-File: meteovache_pi.pot\n"
-"X-Crowdin-File-ID: 3\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #: src/MeteoVachePlugin.cpp:101 src/MeteoVachePlugin.cpp:102
 #: src/MeteoVachePlugin.cpp:117 src/MeteoVachePlugin.cpp:165
 msgid "MeteoVache"
-msgstr "MeteoVache"
+msgstr "MétéoVache"
 
 #. TRANSLATORS: Right click menu entry
 #: src/MeteoVachePlugin.cpp:108
 msgid "Weather forecast"
-msgstr "Previsión meteorológica"
+msgstr "Prévisions météo"
 
 #: src/MeteoVachePlugin.cpp:109
 msgid "Request weather forecast from MeteoVache server at cursor location"
-msgstr "Solicitar previsión meteorológica del servidor MeteoVache en ubicación del cursor"
+msgstr ""
+"Télécharge les prévisions météo pour la position du curseur depuis le "
+"serveur MétéoVache"
 
 #: src/MeteoVachePlugin.cpp:170
 msgid "MeteoVache weather plug-in for OpenCPN"
-msgstr "Plug-in meteoVache para OpenCPN"
+msgstr "Extension MétéoVache pour OpenCPN"
 
 #: src/MeteoVachePlugin.cpp:175
-msgid "MeteoVache is a weather plug-in for OpenCPN. It provides weather forecasts everywhere in the world even with a very low bandwidth Internet connection."
-msgstr "MeteoVache es un plug-in meteorológico para OpenCPN que proporciona previsión meteorológica en todo el mundo, incluso con una conexión de banda muy baja a Internet."
+msgid ""
+"MeteoVache is a weather plug-in for OpenCPN. It provides weather forecasts "
+"everywhere in the world even with a very low bandwidth Internet connection."
+msgstr ""
+"MétéoVache est une extension météo pour OpenCPN. Elle fournit des prévisions "
+"météorologiques partout dans le monde, même avec une connexion Internet à "
+"très faible débit."
 
 #: src/MeteoVachePlugin.cpp:215
 msgid "MeteoVache preferences"
-msgstr "Opciones de MeteoVache"
+msgstr "Préférences MétéoVache"
 
 #: src/ReportWindow.cpp:84
 msgid "Weather model :"
-msgstr "Modelo climático:"
+msgstr "Modèle météo :"
 
 #: src/ReportWindow.cpp:95
 msgid "Weather report"
-msgstr "Informe meteorológico"
+msgstr "Rapport de prévisions"
 
 #: src/ReportWindow.cpp:104
 msgid "Save As..."
-msgstr "Guardar como..."
+msgstr "Enregistrer sous..."
 
 #: src/ReportWindow.cpp:206
 msgid "Data successfully downloaded from server"
-msgstr "Datos descargados con éxito del servidor"
+msgstr "Données téléchargées avec succès"
 
 #: src/ReportWindow.cpp:238 src/ReportWindow.cpp:418
 msgid "Contacting server ..."
-msgstr "Contactando al servidor..."
+msgstr "Interrogation du serveur ..."
 
 #. TRANSLATORS: Must be 17 characters max
 #: src/ReportWindow.cpp:301 src/ForecastDisplay.cpp:151
 msgid "Position"
-msgstr "Posición"
+msgstr "Position"
 
 #. TRANSLATORS: Must be 17 characters max
 #: src/ReportWindow.cpp:303 src/ForecastDisplay.cpp:157
 msgid "Model"
-msgstr "Modelo"
+msgstr "Modèle"
 
 #. TRANSLATORS: Must be 17 characters max
 #: src/ReportWindow.cpp:304 src/ForecastDisplay.cpp:162
 msgid "Provider"
-msgstr "Proveedor"
+msgstr "Fournisseur"
 
 #. TRANSLATORS: Must be 17 characters max
-#: src/ReportWindow.cpp:308 src/ReportWindow.cpp:314 src/ForecastDisplay.cpp:171
-#: src/ForecastDisplay.cpp:177
+#: src/ReportWindow.cpp:308 src/ReportWindow.cpp:314
+#: src/ForecastDisplay.cpp:171 src/ForecastDisplay.cpp:177
 msgid "Run date"
-msgstr "Hora del parte"
+msgstr "Date de calcul"
 
 #. TRANSLATORS: Must be 17 characters max
 #: src/ReportWindow.cpp:317 src/PreferenceDialog.cpp:91
 #: src/ForecastDisplay.cpp:184
 msgid "Time zone"
-msgstr "Huso horario"
+msgstr "Fuseau horaire"
 
 #. TRANSLATORS: Must be 4 characters max
 #: src/ReportWindow.cpp:320 src/ForecastDisplay.cpp:189
 msgid "Wind"
-msgstr "Vto."
+msgstr "Vent"
 
 #. TRANSLATORS: Must be 4 characters max
 #: src/ReportWindow.cpp:320 src/ForecastDisplay.cpp:191
 msgid "Gust"
-msgstr "Ráf."
+msgstr "Rafl"
 
-#. TRANSLATORS: Must be 5 characters max : abbreviation of "Direction"
+#. TRANSLATORS: Must be 5 characters max
 #: src/ReportWindow.cpp:320 src/ForecastDisplay.cpp:193
 msgid "Dir"
-msgstr "Dir."
+msgstr "Dir"
 
-#. TRANSLATORS: Must be 5 characters max : A short word for "Rainfall"
+#. TRANSLATORS: Must be 5 characters max
 #: src/ReportWindow.cpp:320 src/ForecastDisplay.cpp:195
 msgid "Rain"
-msgstr "Lluv."
+msgstr "Précp"
 
-#. TRANSLATORS: Must be 5 characters max : a short word for "Cloud Cover"
+#. TRANSLATORS: Must be 5 characters max
 #: src/ReportWindow.cpp:320 src/ForecastDisplay.cpp:197
 msgid "Cloud"
-msgstr "Nubes"
+msgstr "CouvN"
 
-#. TRANSLATORS: Must be 4 characters max : abbreviation of "Temperature"
+#. TRANSLATORS: Must be 4 characters max
 #: src/ReportWindow.cpp:320 src/ForecastDisplay.cpp:199
 msgid "Temp"
 msgstr "Temp"
@@ -127,11 +134,11 @@ msgstr "mm/h"
 
 #: src/ReportWindow.cpp:413
 msgid "No data"
-msgstr "Sin datos"
+msgstr "Pas de données"
 
 #. TRANSLATORS: Cardinal letter for "South"
-#: src/ReportWindow.cpp:429 src/ReportWindow.cpp:453 src/ForecastDisplay.cpp:325
-#: src/ForecastDisplay.cpp:389
+#: src/ReportWindow.cpp:429 src/ReportWindow.cpp:453
+#: src/ForecastDisplay.cpp:325 src/ForecastDisplay.cpp:389
 msgid "S"
 msgstr "S"
 
@@ -143,46 +150,46 @@ msgid "N"
 msgstr "N"
 
 #. TRANSLATORS: Cardinal letter for "West"
-#: src/ReportWindow.cpp:440 src/ReportWindow.cpp:461 src/ForecastDisplay.cpp:375
-#: src/ForecastDisplay.cpp:401
+#: src/ReportWindow.cpp:440 src/ReportWindow.cpp:461
+#: src/ForecastDisplay.cpp:375 src/ForecastDisplay.cpp:401
 msgid "W"
-msgstr "W"
+msgstr "O"
 
 #. TRANSLATORS: Cardinal letter for "East"
-#: src/ReportWindow.cpp:440 src/ReportWindow.cpp:477 src/ForecastDisplay.cpp:375
-#: src/ForecastDisplay.cpp:425
+#: src/ReportWindow.cpp:440 src/ReportWindow.cpp:477
+#: src/ForecastDisplay.cpp:375 src/ForecastDisplay.cpp:425
 msgid "E"
 msgstr "E"
 
 #. TRANSLATORS: Cardinal letters for "South-SouthWest"
 #: src/ReportWindow.cpp:455 src/ForecastDisplay.cpp:392
 msgid "S-SW"
-msgstr "S-SW"
+msgstr "S-SO"
 
 #. TRANSLATORS: Cardinal letters for "SouthWest"
 #: src/ReportWindow.cpp:457 src/ForecastDisplay.cpp:395
 msgid "SW"
-msgstr "SW"
+msgstr "SO"
 
 #. TRANSLATORS: Cardinal letters for "West-SouthWest"
 #: src/ReportWindow.cpp:459 src/ForecastDisplay.cpp:398
 msgid "W-SW"
-msgstr "W-SW"
+msgstr "O-SO"
 
 #. TRANSLATORS: Cardinal letters for "West-NorthWest"
 #: src/ReportWindow.cpp:463 src/ForecastDisplay.cpp:404
 msgid "W-NW"
-msgstr "W-NW"
+msgstr "O-NO"
 
 #. TRANSLATORS: Cardinal letters for "North-NorthWest"
 #: src/ReportWindow.cpp:465 src/ForecastDisplay.cpp:407
 msgid "NW"
-msgstr "NW"
+msgstr "NO"
 
 #. TRANSLATORS: Cardinal letters for "North-NorthWest"
 #: src/ReportWindow.cpp:467 src/ForecastDisplay.cpp:410
 msgid "N-NW"
-msgstr "N-NW"
+msgstr "N-NO"
 
 #. TRANSLATORS: Cardinal letters for "North-NorthEast"
 #: src/ReportWindow.cpp:471 src/ForecastDisplay.cpp:416
@@ -226,101 +233,101 @@ msgstr "C"
 
 #: src/ReportWindow.cpp:565
 msgid "Save weather report"
-msgstr "Guardar parte del tiempo"
+msgstr "Sauvegarder les prévisions"
 
 #: src/ReportWindow.cpp:566
 msgid "Text File"
-msgstr "Archivo de Texto"
+msgstr "Fichier texte"
 
 #: src/ReportWindow.cpp:566
 msgid "Column Text File"
-msgstr "Archivo de texto de Columna"
+msgstr "Fichier texte en colonnes"
 
 #: src/ReportWindow.cpp:593
 msgid "WForecast"
-msgstr "PredicciónM"
+msgstr "Prev"
 
 #: src/DateTime.cpp:298
 msgid "January"
-msgstr "Enero"
+msgstr "Janvier"
 
 #: src/DateTime.cpp:301
 msgid "February"
-msgstr "Febrero"
+msgstr "Février"
 
 #: src/DateTime.cpp:304
 msgid "March"
-msgstr "Marzo"
+msgstr "Mars"
 
 #: src/DateTime.cpp:307
 msgid "April"
-msgstr "Abril"
+msgstr "Avril"
 
 #: src/DateTime.cpp:310
 msgid "May"
-msgstr "Mayo"
+msgstr "Mai"
 
 #: src/DateTime.cpp:313
 msgid "June"
-msgstr "Junio"
+msgstr "Juin"
 
 #: src/DateTime.cpp:316
 msgid "July"
-msgstr "Julio"
+msgstr "Juillet"
 
 #: src/DateTime.cpp:319
 msgid "August"
-msgstr "Agosto"
+msgstr "Août"
 
 #: src/DateTime.cpp:322
 msgid "September"
-msgstr "Septiembre"
+msgstr "Septembre"
 
 #: src/DateTime.cpp:325
 msgid "October"
-msgstr "Octubre"
+msgstr "Octobre"
 
 #: src/DateTime.cpp:328
 msgid "November"
-msgstr "Noviembre"
+msgstr "Novembre"
 
 #: src/DateTime.cpp:331
 msgid "December"
-msgstr "Diciembre"
+msgstr "Décembre"
 
 #: src/DateTime.cpp:343
 msgid "Sunday"
-msgstr "Domingo"
+msgstr "Dimanche"
 
 #: src/DateTime.cpp:346
 msgid "Monday"
-msgstr "Lunes"
+msgstr "Lundi"
 
 #: src/DateTime.cpp:349
 msgid "Tuesday"
-msgstr "Martes"
+msgstr "Mardi"
 
 #: src/DateTime.cpp:352
 msgid "Wednesday"
-msgstr "Miércoles"
+msgstr "Mercredi"
 
 #: src/DateTime.cpp:355
 msgid "Thursday"
-msgstr "Jueves"
+msgstr "Jeudi"
 
 #: src/DateTime.cpp:358
 msgid "Friday"
-msgstr "Viernes"
+msgstr "Vendredi"
 
 #: src/DateTime.cpp:361
 msgid "Saturday"
-msgstr "Sábado"
+msgstr "Samedi"
 
 #. TRANSLATORS: knots wind speed unit
 #: src/PreferenceDialog.cpp:60 src/PreferenceDialog.cpp:74
 #: src/PreferenceDialog.cpp:192
 msgid "kt"
-msgstr "kt"
+msgstr "nd"
 
 #. TRANSLATORS: beaufort wind speed unit
 #: src/PreferenceDialog.cpp:60 src/PreferenceDialog.cpp:197
@@ -340,7 +347,7 @@ msgstr "km/h"
 #. TRANSLATORS: miles per hour wind speed unit
 #: src/PreferenceDialog.cpp:60 src/PreferenceDialog.cpp:212
 msgid "mph"
-msgstr "mph"
+msgstr "mi/h"
 
 #. TRANSLATORS: Temperature unit
 #: src/PreferenceDialog.cpp:61 src/PreferenceDialog.cpp:82
@@ -355,25 +362,25 @@ msgstr "Farenheit"
 
 #: src/PreferenceDialog.cpp:69
 msgid "Units"
-msgstr "Unidades"
+msgstr "Unités"
 
 #: src/PreferenceDialog.cpp:71
 msgid "Wind unit"
-msgstr "Un. velocidad viento"
+msgstr "Unités de vent"
 
 #: src/PreferenceDialog.cpp:79
 msgid "Temperature unit"
-msgstr "Unidades de temperatura"
+msgstr "Unités de température"
 
 #: src/PreferenceDialog.cpp:89
 msgid "Display"
-msgstr "Visualización"
+msgstr "Affichage"
 
 #. TRANSLATORS: Time zone reference
 #: src/PreferenceDialog.cpp:94 src/PreferenceDialog.cpp:95
 #: src/PreferenceDialog.cpp:239
 msgid "Local / system"
-msgstr "Local / sistema"
+msgstr "Local / système"
 
 #. TRANSLATORS: Time zone reference
 #: src/PreferenceDialog.cpp:96 src/PreferenceDialog.cpp:244
@@ -382,15 +389,15 @@ msgstr "UTC"
 
 #: src/PreferenceDialog.cpp:102
 msgid "Disable toolbar icon"
-msgstr "Desactivar icono de la barra de herramientas"
+msgstr "Désactiver l’icône"
 
 #: src/PreferenceDialog.cpp:108
 msgid "Auto save"
-msgstr "Auto guardado"
+msgstr "Sauvegarde automatique"
 
 #: src/PreferenceDialog.cpp:110
 msgid "Save directory"
-msgstr "Guardar al directorio"
+msgstr "Répertoire de sauvegarde"
 
 #: src/PreferenceDialog.cpp:115
 msgid "..."
@@ -398,41 +405,63 @@ msgstr "..."
 
 #: src/PreferenceDialog.cpp:121
 msgid "Enable"
-msgstr "Activar"
+msgstr "Activer"
 
 #: src/PreferenceDialog.cpp:123
 msgid "Column format"
-msgstr "Formato de columna"
+msgstr "Format en colonnes"
 
 #: src/PreferenceDialog.cpp:125
 msgid "Compress"
-msgstr "Comprimir"
+msgstr "Compression"
 
 #: src/PreferenceDialog.cpp:131
 msgid "Server"
-msgstr "Servidor"
+msgstr "Serveur"
 
 #: src/PreferenceDialog.cpp:134
 msgid "Server name"
-msgstr "Nombre del servidor"
+msgstr "Nom du serveur"
 
 #: src/PreferenceDialog.cpp:137
 msgid "Server port"
-msgstr "Puerto del servidor"
+msgstr "Port"
 
 #: src/PreferenceDialog.cpp:159
 msgid "Cancel"
-msgstr "Cancelar"
+msgstr "Abandon"
 
 #: src/PreferenceDialog.cpp:263
 msgid "Select automatic save directory"
-msgstr "Selec. carpeta de guardado automática"
+msgstr "Sélectionnez le répertoire de sauvegarde automatique"
 
 #: src/ForecastDisplay.cpp:205
 msgid "%"
 msgstr "%"
 
 #: src/ForecastDisplay.cpp:285
-msgid "Right click on the map and select \"Weather forecast\" to get forecast at this point."
-msgstr "Haga clic derecho en el mapa y seleccione \"Previsión Meteorológica\" para obtener la previsión en este punto."
+msgid ""
+"Right click on the map and select \"Weather forecast\" to get forecast at "
+"this point."
+msgstr ""
+"Cliquez avec le bouton droit sur la carte et sélectionnez \"Prévisions "
+"météo\" pour obtenir les prévisions à ce point."
 
+#~ msgid "MeteoVache plug-in"
+#~ msgstr "Extension MétéoVache"
+
+#~ msgid "Position :       %s %s\n"
+#~ msgstr "Position :       %s %s\n"
+
+#~ msgid "Model :          %s (%s)\n"
+#~ msgstr "Modèle :         %s (%s)\n"
+
+#~ msgid ""
+#~ "Run date :       %02d/%02d/%d %dh%02d\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Date de calcul : %02d/%02d/%d %dh%02d\n"
+#~ "\n"
+
+#~ msgid "Report"
+#~ msgstr "Rapport"
