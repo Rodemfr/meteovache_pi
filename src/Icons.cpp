@@ -3,11 +3,13 @@
 #ifndef WX_PRECOMP
 #	include <wx/wx.h>
 #endif
+#include <wx/filename.h>
 #include <wx/mstream.h>
 #include <Icons.h>
+#include "ocpn_plugin.h"
 
 wxBitmap *_img_meteovache_pi;
-wxBitmap *_img_meteovache_tb;
+wxString gMeteoVacheSvgToolbarIcon;
 
 void initialize_images(void)
 {
@@ -17,11 +19,21 @@ void initialize_images(void)
 				4167);
 		_img_meteovache_pi = new wxBitmap(wxImage(sm));
 	}
-	{
-		wxMemoryInputStream sm(
-				"\211PNG\r\n\032\n\000\000\000\rIHDR\000\000\000 \000\000\000 \b\002\000\000\000\374\030\355\243\000\000\000\011pHYs\000\000\036\302\000\000\036\302\001n\320u>\000\000\011\333iTXtXML:com.adobe.xmp\000\000\000\000\000<?xpacket begin=\"\357\273\277\" id=\"W5M0MpCehiHzreSzNTczkc9d\"?> <x:xmpmeta xmlns:x=\"adobe:ns:meta/\" x:xmptk=\"Adobe XMP Core 5.6-c142 79.160924, 2017/07/13-01:06:39        \"> <rdf:RDF xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"> <rdf:Description rdf:about=\"\" xmlns:xmp=\"http://ns.adobe.com/xap/1.0/\" xmlns:dc=\"http://purl.org/dc/elements/1.1/\" xmlns:photoshop=\"http://ns.adobe.com/photoshop/1.0/\" xmlns:xmpMM=\"http://ns.adobe.com/xap/1.0/mm/\" xmlns:stEvt=\"http://ns.adobe.com/xap/1.0/sType/ResourceEvent#\" xmlns:stRef=\"http://ns.adobe.com/xap/1.0/sType/ResourceRef#\" xmp:CreatorTool=\"Adobe Photoshop CC (Windows)\" xmp:CreateDate=\"2019-10-31T19:18:31+01:00\" xmp:ModifyDate=\"2020-03-28T19:07:34+01:00\" xmp:MetadataDate=\"2020-03-28T19:07:34+01:00\" dc:format=\"image/png\" photoshop:ColorMode=\"3\" photoshop:ICCProfile=\"sRGB IEC61966-2.1\" xmpMM:InstanceID=\"xmp.iid:f9b7f71f-6779-9147-be27-6c39e3b4efda\" xmpMM:DocumentID=\"adobe:docid:photoshop:b8d190c1-4ff8-7148-a5a8-b0799516ecd9\" xmpMM:OriginalDocumentID=\"xmp.did:98cd66c1-35bb-e747-bbe4-bec15424092e\"> <xmpMM:History> <rdf:Seq> <rdf:li stEvt:action=\"created\" stEvt:instanceID=\"xmp.iid:98cd66c1-35bb-e747-bbe4-bec15424092e\" stEvt:when=\"2019-10-31T19:18:31+01:00\" stEvt:softwareAgent=\"Adobe Photoshop CC (Windows)\"/> <rdf:li stEvt:action=\"converted\" stEvt:parameters=\"from image/png to application/vnd.adobe.photoshop\"/> <rdf:li stEvt:action=\"saved\" stEvt:instanceID=\"xmp.iid:abbd18bb-1041-574b-8f84-2e71aa0b4d96\" stEvt:when=\"2020-03-28T18:52:38+01:00\" stEvt:softwareAgent=\"Adobe Photoshop CC (Windows)\" stEvt:changed=\"/\"/> <rdf:li stEvt:action=\"saved\" stEvt:instanceID=\"xmp.iid:b699652d-b7a8-c54a-adbe-68e65e480009\" stEvt:when=\"2020-03-28T19:07:34+01:00\" stEvt:softwareAgent=\"Adobe Photoshop CC (Windows)\" stEvt:changed=\"/\"/> <rdf:li stEvt:action=\"converted\" stEvt:parameters=\"from application/vnd.adobe.photoshop to image/png\"/> <rdf:li stEvt:action=\"derived\" stEvt:parameters=\"converted from application/vnd.adobe.photoshop to image/png\"/> <rdf:li stEvt:action=\"saved\" stEvt:instanceID=\"xmp.iid:f9b7f71f-6779-9147-be27-6c39e3b4efda\" stEvt:when=\"2020-03-28T19:07:34+01:00\" stEvt:softwareAgent=\"Adobe Photoshop CC (Windows)\" stEvt:changed=\"/\"/> </rdf:Seq> </xmpMM:History> <xmpMM:DerivedFrom stRef:instanceID=\"xmp.iid:b699652d-b7a8-c54a-adbe-68e65e480009\" stRef:documentID=\"xmp.did:98cd66c1-35bb-e747-bbe4-bec15424092e\" stRef:originalDocumentID=\"xmp.did:98cd66c1-35bb-e747-bbe4-bec15424092e\"/> </rdf:Description> </rdf:RDF> </x:xmpmeta> <?xpacket end=\"r\"?>a\033\200\321\000\000\005\253IDATH\307\235VwH]g\024\277\342CM\264\202h\032\214\376S[0\245\342\236u\357\272\321`\034AMT\254\0237I\035\210{\020A\r\016\334#\2501\216\2425\240\242\230XD(n\353\306\275\352&\030\347{\276\376\364\312\313\315}j4\207\313\343{\337\375\356\371}g\374\3169\304\303kEQQ188\270\272\272\272\277\277\177sss\377\\\260\350\355\355\255\252\252\302+yy\371\3535\020W\275066\206\336O\237>\261\257\025\034\250\254\254422\272\005\200\234\234\\~~\376\361\3611\373\306\202\303\370DVV\366\353\000&&&ccc\354o\222\341\341aCC\303\353\000\354\354\354\340_xfaa\341\033\000\020\222\325\325UKK\313\313\001p\367\255\255\255\262\2622aa\341\201\201\201\233\353enm\035-,\260\230L11\261G\217\036\315\314\314@\025\035\000\311\000\317 \\AAA\346\346\346\247\247\247\334\212`\034\366\021\325\203\203\203\317\273,\326)\203qz\347\016\226\215\215\215\370\334\302\302btt\224\023\217\013\200\302\302\302\271\2719WW\327\310\310\310\211\211\211\253\"9>>\336\323\323344\364\205\005\017\036\260\011\342\364\340\200\305b\351\351\351\265\266\266&&&\346\346\346~\006\200E'''\260n}}\335\300\300\340\350\350\210\246zgg\247\273\273\273\241\241!:::***>>\276\257\257ooo\217|\373\267\262r%A\354ooc\035\027\0277;;\213X677\223\271{\006P[[\213w\252\252\252\370\005\370\353\327\2579\030L&355\325\312\312*++\253\246\246\306\305\305%!!\341\325\253W\261\261\261fff\316\316\316KKK\210*A\020p\340\364\364\264\276\276>\356\032\023\023###\003&\236\001())\221>\r\017\017\207\355\360rNN\216\232\232\032>\206RGG\307\212\212\n\216)4\343\220l\352\352\352gZ\b\002\032\237={\266\274\274\014\r\272\272\272\213\213\2130QAA\201\b\011\011\341pRSSsjj\212\374\013w!\036\001\001\001T\215\3602~\337\277\177\017\236\303\261\320\322\325\325E\234Kgg'\031'\304\271\245\245\205<\037\030\030H\274}\373\226\363\375\306\306\206\223\223Shh\350\332\332\032\376:88 \265\220\273)))\270\224\212\252\252\272\306\257?HI\361\361\361\221J\341\034@\362\363\363c\375\356\335;\370PKK\253\243\243\203\243\020iI\014\016\016\322B\212\272\006\325666\"\"\"\310<\005%\245\274\342\222\325\335\217{,\366\306\336\276\245\375cm\323\337\344\325\324E\357\337\a\322\341\341\241\200\200\000\000\244\244\244\212\212\212P\n\251\252P\023\211\355\363\350\323\322\321\315\315-\"\"\002a\227WQ\033\\\335\231\335gOl\357\217\256\177\254\355\372\307\352\351\357\346O\275\315\360\270y\377$\257\002\366\222\326HJJ\302c\334\324!\020t\332.\034G\232\371\344\311\223\250\202\232\2665v\333\177\354\230\227Y\177$\244\245\325w>\365\017u\361\017\263x\236\216\307,<M\340\256 \011P^^\256\254\254\214\310QU!}\b$\"u\013NGl\3115\342o\375<=\355_v\332(;\254\250)(\263\302\277i\3221,\336*:O7\265Q/\265\321\374\345\237\274\014\006\011\320\324\324\004\027!\376t\000\220\210\272\225\227\227\207,\206\177\264\265\265A:\276\273\337i\246\374e\331\316\266:\177\214\233\367\177\316\233\220\316\031{\230;\256\220=\360\275\234\266\264\2644\011\240\241\241Af'\335E4\336#\000H\270\221\221\021,>|\370\000\352\213\335\273' k,\350U$\224\330/\224\265(\224>%\030\336,h\036\364\343/\n~~~\270\212\270\2708\000\346\347\347\271\253\013\bO\2204\246\011\030\004\242\2424%%%\245\247\247C\0138\014>[[[\203\200\250\026mmm\034\337\242\256\001 ;;\233[\017\310L\200\300\264]8\016\306\202\023\324M\320\222\3449wZ\213\212\212\002\000)G\322\220* \035\241\242\242\202\\\246\356\326\325\325!b\264\243\036\036\036@\315\310\310\220\220\220\240\356\357\356\356B;:\201\273\273;\326\324W\340\004f\206\263bW__O}\221\234\234<99I\003@\300\341qhA9\241\356\267\267\267\003@GG\a\256\243\001\274y\363\346\242\232\302\335\324d-((@xi\000\350\205\b>\262\020\211A#\r\000^\274x\001\014j\233\002\275\310\276v\321pJJJ8\357VVV\274\275\275\251\203\011\352;\017\017\017\231\216\014\006\303\327\327\227\324\205{\b\n\236\021\r\366\241aP\201qKz\313\344\324Q\b\222\207\223\025\3503\004\227 \221\354\355\355yyy\261\306/\316\320\330\312\031\310\350M\237<\201\013\202\226hI\305\305\305h\201d\"^*\3500\350\265T\355PrI\323'\005]\223\203\001A\035D\021\316\314\314D\361\360\361\361A\030\021-///OOO$7\372\032\006!\332x\200\b\331\332\332^7x\231\232\232r\247\320\r\005#\001\365\356W\216\216p_ii)\255\b~e4b21\227`\346\274\305\360\013o\200q_\214@\227\011\016\240\330\300\356[O\327\244\200\347p7T`\226BHP\014pY,\340}\364Z4W\364\200\3535\374\017\301*\204\334\205\253\034\322\000\000\000\000IEND\256B`\202",
-				4064);
-		_img_meteovache_tb = new wxBitmap(wxImage(sm));
-	}
+
+    wxFileName fileName;
+    wxString dataPath;
+
+    dataPath = GetPluginDataDir("meteovache_pi");
+    fileName.SetPath(dataPath);
+    fileName.AppendDir("data");
+
+    fileName.SetFullName("meteovache_pi.svg");
+    gMeteoVacheSvgToolbarIcon = fileName.GetFullPath();
+
 	return;
+}
+
+void delete_images(void)
+{
+    delete _img_meteovache_pi;
 }

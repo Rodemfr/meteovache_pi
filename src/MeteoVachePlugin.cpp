@@ -79,13 +79,11 @@ MeteoVachePlugin::MeteoVachePlugin(void *pluginManager) : opencpn_plugin_116(plu
     // Create bitmap of the plug-in icon
     initialize_images();
     pluginIcon  = _img_meteovache_pi;
-    toolbarIcon = _img_meteovache_tb;
 }
 
 MeteoVachePlugin::~MeteoVachePlugin()
 {
-    delete _img_meteovache_tb;
-    delete _img_meteovache_pi;
+    delete_images();
 }
 
 int MeteoVachePlugin::Init(void)
@@ -100,15 +98,10 @@ int MeteoVachePlugin::Init(void)
     config.SetConfigObject(GetOCPNConfigObject());
     config.LoadConfig();
 
-    // plug-in icon for the plug-in manager
-    toolBarIconId =
-        InsertPlugInTool(_("MeteoVache"), pluginIcon, pluginIcon, wxITEM_NORMAL, _("MeteoVache"), _("MeteoVache plug-in"), NULL, -1, 0, this);
+    toolBarIconId = InsertPlugInToolSVG(_("MeteoVache"), gMeteoVacheSvgToolbarIcon, gMeteoVacheSvgToolbarIcon, gMeteoVacheSvgToolbarIcon, wxITEM_CHECK,
+                                        _("MeteoVache"), _T( "MeteoVache plug-in" ), NULL, -1, 0, this);
 
     SetToolbarToolViz(toolBarIconId, !config.disableToolbarIcon);
-
-    // Tool-bar icon
-    SetToolbarToolBitmaps(toolBarIconId, toolbarIcon, toolbarIcon);
-    plugInFlags |= INSTALLS_TOOLBAR_TOOL;
 
     // Create the context menu item
     contextMenu   = new wxMenuItem(NULL, wxID_ANY, wxString(_("Weather forecast")),

@@ -7,9 +7,10 @@
 #	include <wx/wx.h>
 #endif
 
-extern void initialize_images(void);
+void initialize_images(void);
+void delete_images(void);
 
 extern wxBitmap *_img_meteovache_pi;
-extern wxBitmap *_img_meteovache_tb;
+extern wxString gMeteoVacheSvgToolbarIcon;
 
 #endif /* ICONS_H */

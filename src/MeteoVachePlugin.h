@@ -81,7 +81,6 @@ private:
 	ReportWindow *weatherWindow; // Dialog display weather report
 	ConfigContainer config;      // Configuration of the plug-in
 	wxBitmap *pluginIcon;        // Plug-in icon for the plug-in manager (bright background)
-	wxBitmap *toolbarIcon;       // plug-in icon for the tool-bar (dark background)
 	int toolBarIconId;           // Id of the plug-in icon in the tool-bar
 	int contextMenuId;           // Id of the plug-in item in context menu
 	wxWindow *ocpnParentWindow;  // Pointer to the OpenCPN parent window
