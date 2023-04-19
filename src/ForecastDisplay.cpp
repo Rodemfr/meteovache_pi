@@ -189,13 +189,13 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event)
         DrawCenteredText(dc, _("Wind"), horizontalFontSize * 11, verticalPos, horizontalFontSize * 4);
         /* TRANSLATORS: Must be 4 characters max */
         DrawCenteredText(dc, _("Gust"), horizontalFontSize * 16, verticalPos, horizontalFontSize * 4);
-        /* TRANSLATORS: Must be 5 characters max */
+        /* TRANSLATORS: Must be 5 characters max : abbreviation of "Direction"*/
         DrawCenteredText(dc, _("Dir"), horizontalFontSize * 21, verticalPos, horizontalFontSize * 4);
-        /* TRANSLATORS: Must be 5 characters max */
+        /* TRANSLATORS: Must be 5 characters max : A short word for "Rainfall" */
         DrawCenteredText(dc, _("Rain"), horizontalFontSize * 27, verticalPos, horizontalFontSize * 5);
-        /* TRANSLATORS: Must be 5 characters max */
+        /* TRANSLATORS: Must be 5 characters max : a short word for "Cloud Cover" */
         DrawCenteredText(dc, _("Cloud"), horizontalFontSize * 33, verticalPos, horizontalFontSize * 5);
-        /* TRANSLATORS: Must be 4 characters max */
+        /* TRANSLATORS: Must be 4 characters max : abbreviation of "Temperature" */
         DrawCenteredText(dc, _("Temp"), horizontalFontSize * 39, verticalPos, horizontalFontSize * 4);
         verticalPos += verticalFontSize;
 
