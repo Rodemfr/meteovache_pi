@@ -37,10 +37,8 @@ set(PKG_PRERELEASE "")  # Empty, or a tag like 'beta'
 
 set(DISPLAY_NAME MeteoVache)    # Dialogs, installer artifacts, ...
 set(PLUGIN_API_NAME MeteoVache) # As of GetCommonName() in plugin API
-set(PKG_SUMMARY "Local weather forecasts even on very limited internet connection")
-set(PKG_DESCRIPTION [=[
-MeteoVache provides weather forecasts anywhere in the world by a simple right click on the map. It is desgined to reduce the required data to make it usable on very low bandwidth internet connections like Edge-GSM or with paying data.
-]=])
+set(PKG_SUMMARY "MeteoVache weather plug-in for OpenCPN")
+set(PKG_DESCRIPTION [=[MeteoVache is a weather plug-in for OpenCPN. It provides weather forecasts everywhere in the world even with a very low bandwidth Internet connection.]=])
 
 set(PKG_AUTHOR "Ronan Demoment")
 set(PKG_IS_OPEN_SOURCE "yes")

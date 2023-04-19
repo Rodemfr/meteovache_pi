@@ -147,15 +147,18 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event)
         int      verticalPos = 0;
         wxString stringToDraw;
 
+        /* TRANSLATORS: Must be 17 characters max */
         stringToDraw = wxString::Format("%-20s%s %s\n", _("Position") + " : ", GetLatitudeString(spotForecasts.GetLatitude()),
                                         GetLongitudeString(spotForecasts.GetLongitude()));
         dc.DrawText(stringToDraw, 0, verticalPos);
         verticalPos += verticalFontSize;
 
+        /* TRANSLATORS: Must be 17 characters max */
         stringToDraw = wxString::Format("%-20s%s\n", _("Model") + " : ", wxString::FromUTF8(forecast.GetModelName().c_str()));
         dc.DrawText(stringToDraw, 0, verticalPos);
         verticalPos += verticalFontSize;
 
+        /* TRANSLATORS: Must be 17 characters max */
         stringToDraw = wxString::Format("%-20s%s\n", _("Provider") + " : ", wxString::FromUTF8(forecast.GetProviderName().c_str()));
         dc.DrawText(stringToDraw, 0, verticalPos);
         verticalPos += verticalFontSize;
@@ -164,26 +167,35 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event)
         runDate.SetTimeCode(forecast.GetRunTimeCode());
         if (config->timeZoneString.IsSameAs("UTC"))
         {
+            /* TRANSLATORS: Must be 17 characters max */
             stringToDraw = wxString::Format("%-20s%02d/%02d/%d %dh%02d\n", _("Run date") + " : ", runDate.GetGmtDay(), runDate.GetGmtMonth(),
                                             runDate.GetGmtYear(), runDate.GetGmtHour(), runDate.GetGmtMinute());
         }
         else
         {
+            /* TRANSLATORS: Must be 17 characters max */
             stringToDraw = wxString::Format("%-20s%02d/%02d/%d %dh%02d\n", _("Run date") + " : ", runDate.GetLocalDay(), runDate.GetLocalMonth(),
                                             runDate.GetLocalYear(), runDate.GetLocalHour(), runDate.GetLocalMinute());
         }
         dc.DrawText(stringToDraw, 0, verticalPos);
         verticalPos += verticalFontSize;
 
+        /* TRANSLATORS: Must be 17 characters max */
         stringToDraw = wxString::Format("%-20s%s\n\n", _("Time zone") + " : ", _(config->timeZoneString));
         dc.DrawText(stringToDraw, 0, verticalPos);
         verticalPos += verticalFontSize * 2;
 
+        /* TRANSLATORS: Must be 4 characters max */
         DrawCenteredText(dc, _("Wind"), horizontalFontSize * 11, verticalPos, horizontalFontSize * 4);
+        /* TRANSLATORS: Must be 4 characters max */
         DrawCenteredText(dc, _("Gust"), horizontalFontSize * 16, verticalPos, horizontalFontSize * 4);
+        /* TRANSLATORS: Must be 5 characters max */
         DrawCenteredText(dc, _("Dir"), horizontalFontSize * 21, verticalPos, horizontalFontSize * 4);
+        /* TRANSLATORS: Must be 5 characters max */
         DrawCenteredText(dc, _("Rain"), horizontalFontSize * 27, verticalPos, horizontalFontSize * 5);
+        /* TRANSLATORS: Must be 5 characters max */
         DrawCenteredText(dc, _("Cloud"), horizontalFontSize * 33, verticalPos, horizontalFontSize * 5);
+        /* TRANSLATORS: Must be 4 characters max */
         DrawCenteredText(dc, _("Temp"), horizontalFontSize * 39, verticalPos, horizontalFontSize * 4);
         verticalPos += verticalFontSize;
 
@@ -373,36 +385,52 @@ wxString ForecastDisplay::GetTextDirection(float windDirectionDeg)
     if (windDirectionDeg < 0.0f)
         windDirectionDeg += 360.0f;
     if (windDirectionDeg < angle)
+        /* TRANSLATORS: Cardinal letter for "South" */
         return (_("S"));
     else if (windDirectionDeg < angle + angleStep)
+        /* TRANSLATORS: Cardinal letters for "South-SouthWest" */
         return (_("S-SW"));
     else if (windDirectionDeg < angle + 2 * angleStep)
+        /* TRANSLATORS: Cardinal letters for "SouthWest" */
         return (_("SW"));
     else if (windDirectionDeg < angle + 3 * angleStep)
+        /* TRANSLATORS: Cardinal letters for "West-SouthWest" */
         return (_("W-SW"));
     else if (windDirectionDeg < angle + 4 * angleStep)
+        /* TRANSLATORS: Cardinal letter for "West" */
         return (_("W"));
     else if (windDirectionDeg < angle + 5 * angleStep)
+        /* TRANSLATORS: Cardinal letters for "West-NorthWest" */
         return (_("W-NW"));
     else if (windDirectionDeg < angle + 6 * angleStep)
+        /* TRANSLATORS: Cardinal letters for "North-NorthWest" */
         return (_("NW"));
     else if (windDirectionDeg < angle + 7 * angleStep)
+        /* TRANSLATORS: Cardinal letters for "North-NorthWest" */
         return (_("N-NW"));
     else if (windDirectionDeg < angle + 8 * angleStep)
+        /* TRANSLATORS: Cardinal letter for "North" */
         return (_("N"));
     else if (windDirectionDeg < angle + 9 * angleStep)
+        /* TRANSLATORS: Cardinal letters for "North-NorthEast" */
         return (_("N-NE"));
     else if (windDirectionDeg < angle + 10 * angleStep)
+        /* TRANSLATORS: Cardinal letters for "North-NorthEast" */
         return (_("NE"));
     else if (windDirectionDeg < angle + 11 * angleStep)
+        /* TRANSLATORS: Cardinal letters for "East-NorthEast" */
         return (_("E-NE"));
     else if (windDirectionDeg < angle + 12 * angleStep)
+        /* TRANSLATORS: Cardinal letter for "East" */
         return (_("E"));
     else if (windDirectionDeg < angle + 13 * angleStep)
+        /* TRANSLATORS: Cardinal letters for "East-SouthEast" */
         return (_("E-SE"));
     else if (windDirectionDeg < angle + 14 * angleStep)
+        /* TRANSLATORS: Cardinal letters for "SouthEast" */
         return (_("SE"));
     else if (windDirectionDeg < angle + 15 * angleStep)
+        /* TRANSLATORS: Cardinal letters for "South-SouthEast" */
         return (_("S-SE"));
     else
         return (_("N"));

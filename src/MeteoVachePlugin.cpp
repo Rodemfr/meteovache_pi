@@ -104,6 +104,7 @@ int MeteoVachePlugin::Init(void)
     SetToolbarToolViz(toolBarIconId, !config.disableToolbarIcon);
 
     // Create the context menu item
+    /* TRANSLATORS: Right click menu entry */
     contextMenu   = new wxMenuItem(NULL, wxID_ANY, wxString(_("Weather forecast")),
                                    wxString(_("Request weather forecast from MeteoVache server at "
                                                 "cursor location")),
@@ -171,9 +172,7 @@ wxString MeteoVachePlugin::GetShortDescription()
 
 wxString MeteoVachePlugin::GetLongDescription()
 {
-    return _("MeteoVache is a weather plug-in for OpenCPN.\n\
-It provides weather forecasts everywhere in the world with only\n\
-a low bandwidth Internet connection.");
+    return _("MeteoVache is a weather plug-in for OpenCPN. It provides weather forecasts everywhere in the world even with a very low bandwidth Internet connection.");
 }
 
 void MeteoVachePlugin::OnToolbarToolCallback(int id)

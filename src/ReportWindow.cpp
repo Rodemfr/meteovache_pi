@@ -41,7 +41,6 @@
 #include <wx/wfstream.h>
 #include <wx/zipstrm.h>
 
-
 /***************************************************************************/
 /*                              Constants                                  */
 /***************************************************************************/
@@ -320,6 +319,7 @@ wxString ReportWindow::PrintWeatherReport(int modelIndex)
     modelInfo =
         modelInfo.Append(wxString::Format("           %4s %4s %5s %5s %5s %4s\n", _("Wind"), _("Gust"), _("Dir"), _("Rain"), _("Cloud"), _("Temp")));
     modelInfo = modelInfo.Append(wxString::Format("           %4s %4s %5s %5s %5s %4s\n", _(config->windUnitString), _(config->windUnitString), " ",
+                                                  /* TRANSLATORS: Precipitation unit in mm/h */
                                                   _("mm/h"), "%", GetConvertedTempUnit()));
 
     DateTime    stepTime = runDate;
@@ -552,9 +552,11 @@ wxString ReportWindow::GetConvertedTempUnit()
 {
     if (config->tempUnitString.IsSameAs("Farenheit"))
     {
+        /* TRANSLATORS: One letter abbreviation of the Farenheit temperature unit */
         return (_("F"));
     }
 
+        /* TRANSLATORS: One letter abbreviation of the Celsius temperature unit */
     return (_("C"));
 }
 
