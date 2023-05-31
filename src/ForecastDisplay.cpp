@@ -207,8 +207,11 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event)
         {
             stepTime.AddHours(forecast.GetTimeStepInHours());
             dayName = stepTime.GetLocalDayName();
+            
+            wxString shortDayName(dayName);
+            shortDayName = shortDayName.substr(0, 2);
 
-            stringToDraw = wxString::Format("%c%c.%02d  %2dh ", dayName[0], dayName[1], stepTime.GetLocalDay(), stepTime.GetLocalHour());
+            stringToDraw = wxString::Format("%s.%02d  %2dh ", shortDayName.c_str(), stepTime.GetLocalDay(), stepTime.GetLocalHour());
 
             data       = forecast.GetForecastData(step);
             cloudCover = data.lowCloudCoverPer;
