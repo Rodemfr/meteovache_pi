@@ -93,7 +93,7 @@ msgstr "Fuso orario:"
 #. TRANSLATORS: Must be 4 characters max
 #: src/ReportWindow.cpp:320 src/ForecastDisplay.cpp:189
 msgid "Wind"
-msgstr "Vento"
+msgstr "Vent"
 
 #. TRANSLATORS: Must be 4 characters max
 #: src/ReportWindow.cpp:320 src/ForecastDisplay.cpp:191
@@ -103,7 +103,7 @@ msgstr "Rfca"
 #. TRANSLATORS: Must be 5 characters max : abbreviation of "Direction"
 #: src/ReportWindow.cpp:320 src/ForecastDisplay.cpp:193
 msgid "Dir"
-msgstr "Cartella"
+msgstr "Cartl"
 
 #. TRANSLATORS: Must be 5 characters max : A short word for "Rainfall"
 #: src/ReportWindow.cpp:320 src/ForecastDisplay.cpp:195
@@ -118,7 +118,7 @@ msgstr "Nuvol"
 #. TRANSLATORS: Must be 4 characters max : abbreviation of "Temperature"
 #: src/ReportWindow.cpp:320 src/ForecastDisplay.cpp:199
 msgid "Temp"
-msgstr "Tempe"
+msgstr "Temp"
 
 #. TRANSLATORS: Precipitation unit in mm/h
 #: src/ReportWindow.cpp:323 src/ForecastDisplay.cpp:204
