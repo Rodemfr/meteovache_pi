@@ -286,9 +286,9 @@ class DECL_EXP PlugInChartBase : public wxObject
             virtual void GetValidCanvasRegion(const PlugIn_ViewPort& VPoint, wxRegion *pValidRegion);
 
             virtual int GetCOVREntries(){ return  0; }
-            virtual int GetCOVRTablePoints(int iTable) { (void) iTable; return 0; }
-            virtual int  GetCOVRTablenPoints(int iTable){ (void) iTable; return 0; }
-            virtual float *GetCOVRTableHead(int iTable){ (void) iTable; return (float *)NULL; }
+            virtual int GetCOVRTablePoints(int iTable) { return 0; }
+            virtual int  GetCOVRTablenPoints(int iTable){ return 0; }
+            virtual float *GetCOVRTableHead(int iTable){ return (float *)NULL; }
 
             virtual wxBitmap *GetThumbnail(int tnx, int tny, int cs);
 
@@ -376,7 +376,7 @@ class DECL_EXP opencpn_plugin
 {
 
 public:
-      opencpn_plugin(void *pmgr) {(void)pmgr;}
+      opencpn_plugin(void *pmgr) {}
       virtual ~opencpn_plugin();
 
       //    Public API to the PlugIn class
@@ -437,6 +437,11 @@ public:
  typedef opencpn_plugin* create_t(void*);
  typedef void destroy_t(opencpn_plugin*);
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Woverloaded-virtual"
+#endif
+
  class DECL_EXP opencpn_plugin_16 : public opencpn_plugin
  {
        public:
@@ -474,6 +479,10 @@ class DECL_EXP opencpn_plugin_18 : public opencpn_plugin
             virtual void SetPositionFixEx(PlugIn_Position_Fix_Ex &pfix);
 
 };
+
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 class DECL_EXP opencpn_plugin_19 : public opencpn_plugin_18
 {
