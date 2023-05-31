@@ -55,12 +55,14 @@ class NetworkThread: public wxThread {
 public:
 	NetworkThread(SpotForecasts *spotForecast, JobQueue *jobQueue);
 	virtual ~NetworkThread();
+	void Exit();
 
 private:
 	virtual ExitCode Entry();
 	SpotForecasts *spotForecast;
 	JobQueue *jobQueue;
 	MeteoVacheClient *meteoVacheClient;
+	bool exitThread;
 };
 
 #endif /* _METEOVACHETHREAD_H_ */

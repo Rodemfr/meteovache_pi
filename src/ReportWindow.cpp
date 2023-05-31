@@ -188,14 +188,9 @@ void ReportWindow::StopThread()
     // Stop the network thread
     if (workerThread != nullptr)
     {
-        if (workerThread->Delete(NULL, wxTHREAD_WAIT_BLOCK) != wxTHREAD_NO_ERROR)
-        {
-            wxLogError("MeteoVache: Can't delete background thread");
-        }
-        else
-        {
-            workerThread = nullptr;
-        }
+        workerThread->Exit();
+        workerThread->Wait();
+        workerThread = nullptr;
     }
 }
 
@@ -556,7 +551,7 @@ wxString ReportWindow::GetConvertedTempUnit()
         return (_("F"));
     }
 
-        /* TRANSLATORS: One letter abbreviation of the Celsius temperature unit */
+    /* TRANSLATORS: One letter abbreviation of the Celsius temperature unit */
     return (_("C"));
 }
 

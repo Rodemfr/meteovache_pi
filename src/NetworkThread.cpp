@@ -55,7 +55,7 @@
 /***************************************************************************/
 
 NetworkThread::NetworkThread(SpotForecasts *spotForecast, JobQueue *jobQueue) :
-		wxThread(wxTHREAD_DETACHED)
+		wxThread(wxTHREAD_JOINABLE), exitThread(false)
 {
 	this->spotForecast = spotForecast;
 	this->jobQueue = jobQueue;
@@ -67,13 +67,18 @@ NetworkThread::~NetworkThread()
 	delete meteoVacheClient;
 }
 
+void NetworkThread::Exit()
+{
+	exitThread = true;
+}
+
 wxThread::ExitCode NetworkThread::Entry()
 {
 	JobRequest job;
 	int retries;
 
 	// We check at each loop if the thread has been requested to be deleted
-	while (TestDestroy() == false)
+	while ((TestDestroy() == false) && (exitThread == false))
 	{
 		// GetNextJobTimeout is a blocking function but we limit the blocking time to 500ms to avoid
 		// blocking OpenCPN for too long when exiting the application (OpenCPN will indirectly wait
