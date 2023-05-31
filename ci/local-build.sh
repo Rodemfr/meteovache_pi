@@ -19,7 +19,7 @@ fi
 
 cd $builddir
 
-cmake -DCMAKE_BUILD_TYPE=MinSizeRel $OCPN_WX_ABI_OPT $TARGET_OPT ..
+cmake -DCMAKE_BUILD_TYPE=Debug $OCPN_WX_ABI_OPT $TARGET_OPT ..
 make -sj8 tarball
 ldd app/*/lib/opencpn/*.so
 

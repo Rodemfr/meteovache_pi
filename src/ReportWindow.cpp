@@ -190,6 +190,7 @@ void ReportWindow::StopThread()
     {
         workerThread->Exit();
         workerThread->Wait();
+        delete workerThread;
         workerThread = nullptr;
     }
 }
