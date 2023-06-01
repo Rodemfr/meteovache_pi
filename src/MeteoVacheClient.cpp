@@ -72,7 +72,6 @@ MeteoVacheClient::MeteoVacheClient()
 
 MeteoVacheClient::~MeteoVacheClient()
 {
-	localSocket->Close();
 	localSocket->Destroy();
 }
 

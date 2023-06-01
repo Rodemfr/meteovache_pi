@@ -55,7 +55,7 @@
 /***************************************************************************/
 
 NetworkThread::NetworkThread(SpotForecasts *spotForecast, JobQueue *jobQueue) :
-		wxThread(wxTHREAD_JOINABLE), exitThread(false)
+		wxThread(wxTHREAD_DETACHED), exitThread(false), condition(mutex), finished(false)
 {
 	this->spotForecast = spotForecast;
 	this->jobQueue = jobQueue;
@@ -67,9 +67,15 @@ NetworkThread::~NetworkThread()
 	delete meteoVacheClient;
 }
 
-void NetworkThread::Exit()
+void NetworkThread::RequestEnd()
 {
 	exitThread = true;
+	
+	mutex.Lock();
+	if (!finished)
+		condition.Wait();
+
+	mutex.Unlock();
 }
 
 wxThread::ExitCode NetworkThread::Entry()
@@ -113,6 +119,11 @@ wxThread::ExitCode NetworkThread::Entry()
 			}
 		}
 	}
+
+	mutex.Lock();
+	finished = true;
+	condition.Signal();
+	mutex.Unlock();
 
 	return (wxThread::ExitCode) 0;
 }

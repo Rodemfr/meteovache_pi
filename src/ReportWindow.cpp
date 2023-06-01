@@ -176,7 +176,7 @@ void ReportWindow::StartThread()
     if (workerThread->Run() != wxTHREAD_NO_ERROR)
     {
         delete workerThread;
-        workerThread = NULL;
+        workerThread = nullptr;
         // Not beeing able to create the network thread is really a bad situation never supposed to happen
         // So we trigger a fatal error in this case
         wxLogFatalError("MeteoVache: Can't create the network thread !");
@@ -188,9 +188,7 @@ void ReportWindow::StopThread()
     // Stop the network thread
     if (workerThread != nullptr)
     {
-        workerThread->Exit();
-        workerThread->Wait();
-        delete workerThread;
+        workerThread->RequestEnd();
         workerThread = nullptr;
     }
 }

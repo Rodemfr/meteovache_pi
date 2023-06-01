@@ -33,7 +33,7 @@ set(OCPN_RELEASE_REPO
 #
 set(PKG_NAME meteovache_pi)
 set(PKG_VERSION  1.0.0)
-set(PKG_PRERELEASE "beta")  # Empty, or a tag like 'beta'
+set(PKG_PRERELEASE "alpha2")  # Empty, or a tag like 'beta'
 
 set(DISPLAY_NAME MeteoVache)    # Dialogs, installer artifacts, ...
 set(PLUGIN_API_NAME MeteoVache) # As of GetCommonName() in plugin API
