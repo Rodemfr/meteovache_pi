@@ -323,7 +323,10 @@ wxString ReportWindow::PrintWeatherReport(int modelIndex)
         stepTime.AddHours(forecast->GetTimeStepInHours());
         dayName = stepTime.GetLocalDayName();
 
-        modelInfo  = modelInfo.Append(wxString::Format("%c%c.%02d  %2dh ", dayName[0], dayName[1], stepTime.GetLocalDay(), stepTime.GetLocalHour()));
+        wxString shortDayName(dayName);
+        shortDayName = shortDayName.substr(0, 2);
+
+        modelInfo  = modelInfo.Append(wxString::Format("%s.%02d  %2dh ", shortDayName.c_str(), stepTime.GetLocalDay(), stepTime.GetLocalHour()));
         data       = forecast->GetForecastData(step);
         cloudCover = data.lowCloudCoverPer;
         if (data.midCloudCoverPer * 0.66f > cloudCover)
@@ -584,7 +587,7 @@ void ReportWindow::OnSaveAs(wxCommandEvent &)
 wxString ReportWindow::GetReportBaseName()
 {
     wxDateTime dateTime = wxDateTime::Now();
-    return (wxString::Format(_("WForecast") + "_%d-%02d-%02d_%02dh%02dm%02ds", dateTime.GetYear(), dateTime.GetMonth(), dateTime.GetDay(),
+    return (wxString::Format(_("WForecast") + "_%d-%02d-%02d_%02dh%02dm%02ds", dateTime.GetYear(), dateTime.GetMonth() + 1, dateTime.GetDay(),
                              dateTime.GetHour(), dateTime.GetMinute(), dateTime.GetSecond()));
 }
 
