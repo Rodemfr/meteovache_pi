@@ -135,8 +135,9 @@ ReportWindow::~ReportWindow()
 void ReportWindow::OnClose(wxCloseEvent &event)
 {
     (void)event;
+
     // If the close button is pressed, we just hide the window We don't delete it because the network
-    // thread needs it the window is only deleted when the plug-in is stopped or when OpenCPN is exiting
+    // thread needs it. The window is only deleted when the plug-in is stopped or when OpenCPN is exiting
     this->Show(false);
 }
 
