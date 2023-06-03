@@ -29,9 +29,11 @@
 /*                              Includes                                   */
 /***************************************************************************/
 
-#include <Icons.h>
-#include <MeteoVachePlugin.h>
-#include <PreferenceDialog.h>
+#include "Icons.h"
+#include "MeteoVachePlugin.h"
+#include "PreferenceDialog.h"
+
+#include <wx/display.h>
 #include <wx/menuitem.h>
 #include <wx/mstream.h>
 #include <wx/stdpaths.h>
@@ -78,7 +80,7 @@ MeteoVachePlugin::MeteoVachePlugin(void *pluginManager) : opencpn_plugin_116(plu
 
     // Create bitmap of the plug-in icon
     initialize_images();
-    pluginIcon  = _img_meteovache_pi;
+    pluginIcon = _img_meteovache_pi;
 }
 
 MeteoVachePlugin::~MeteoVachePlugin()
@@ -98,8 +100,8 @@ int MeteoVachePlugin::Init(void)
     config.SetConfigObject(GetOCPNConfigObject());
     config.LoadConfig();
 
-    toolBarIconId = InsertPlugInToolSVG(_("MeteoVache"), gMeteoVacheSvgToolbarIcon, gMeteoVacheSvgToolbarIcon, gMeteoVacheSvgToolbarIcon, wxITEM_CHECK,
-                                        _("MeteoVache"), _T( "MeteoVache plug-in" ), NULL, -1, 0, this);
+    toolBarIconId = InsertPlugInToolSVG(_("MeteoVache"), gMeteoVacheSvgToolbarIcon, gMeteoVacheSvgToolbarIcon, gMeteoVacheSvgToolbarIcon,
+                                        wxITEM_CHECK, _("MeteoVache"), _T( "MeteoVache plug-in" ), NULL, -1, 0, this);
 
     SetToolbarToolViz(toolBarIconId, !config.disableToolbarIcon);
 
@@ -112,10 +114,30 @@ int MeteoVachePlugin::Init(void)
     contextMenuId = AddCanvasContextMenuItem(contextMenu, this);
     plugInFlags |= INSTALLS_CONTEXTMENU_ITEMS;
 
-    // Create the weather report window
+    // Ensure that window dimensions are not out of the screen
     ocpnParentWindow = GetOCPNCanvasWindow();
-    weatherWindow    = new ReportWindow(nullptr, &config, wxID_ANY, wxString(_("MeteoVache")), wxPoint(config.windowXPos, config.windowYPos),
-                                        wxSize(config.windowWidth, config.windowHeight), wxCLOSE_BOX | wxCAPTION | wxSTAY_ON_TOP | wxRESIZE_BORDER);
+    wxDisplay display(ocpnParentWindow);
+    wxRect clientArea = display.GetGeometry();
+    if ((config.windowWidth > clientArea.GetWidth()) || (config.windowWidth < 0))
+    {
+        config.windowWidth = clientArea.GetWidth() / 2;
+    }
+    if ((config.windowHeight > clientArea.GetHeight()) || (config.windowHeight < 0))
+    {
+        config.windowHeight = clientArea.GetHeight() / 2;
+    }
+    if ((config.windowXPos > clientArea.GetWidth()) || (config.windowXPos + config.windowWidth < 0))
+    {
+        config.windowXPos = clientArea.GetWidth() / 4;
+    }
+    if ((config.windowYPos > clientArea.GetHeight()) || (config.windowYPos + config.windowHeight < 0))
+    {
+        config.windowYPos = clientArea.GetHeight();
+    }
+
+    // Create the weather report window
+    weatherWindow = new ReportWindow(ocpnParentWindow, &config, wxID_ANY, wxString(_("MeteoVache")), wxPoint(config.windowXPos, config.windowYPos),
+                                     wxSize(config.windowWidth, config.windowHeight), wxCLOSE_BOX | wxCAPTION | wxRESIZE_BORDER);
     weatherWindow->SetPosition(wxPoint(config.windowXPos, config.windowYPos));
     weatherWindow->SetReportForecast(-1);
 
@@ -172,7 +194,8 @@ wxString MeteoVachePlugin::GetShortDescription()
 
 wxString MeteoVachePlugin::GetLongDescription()
 {
-    return _("MeteoVache is a weather plug-in for OpenCPN. It provides weather forecasts everywhere in the world even with a very low bandwidth Internet connection.");
+    return _("MeteoVache is a weather plug-in for OpenCPN. It provides weather forecasts everywhere in the world even with a very low bandwidth "
+             "Internet connection.");
 }
 
 void MeteoVachePlugin::OnToolbarToolCallback(int id)
