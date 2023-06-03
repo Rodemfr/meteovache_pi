@@ -117,8 +117,8 @@ int MeteoVachePlugin::Init(void)
     // Ensure that window dimensions are not out of the screen
     ocpnParentWindow = GetOCPNCanvasWindow();
     wxDisplay display(ocpnParentWindow);
-    wxRect clientArea = display.GetGeometry();
-    
+    wxRect    clientArea = display.GetGeometry();
+
     if ((config.windowWidth > clientArea.GetWidth()) || (config.windowWidth < 0))
     {
         config.windowWidth = clientArea.GetWidth() / 2;
@@ -136,9 +136,16 @@ int MeteoVachePlugin::Init(void)
         config.windowYPos = clientArea.GetHeight() / 4;
     }
 
-    // Create the weather report window
+// Create the weather report window
+#ifdef __MACOS__
+    // On MacOS the window needs wxSTAY_ON_TOP flag no to pass behinf OCPN's window
     weatherWindow = new ReportWindow(ocpnParentWindow, &config, wxID_ANY, wxString(_("MeteoVache")), wxPoint(config.windowXPos, config.windowYPos),
                                      wxSize(config.windowWidth, config.windowHeight), wxCLOSE_BOX | wxCAPTION | wxRESIZE_BORDER | wxSTAY_ON_TOP);
+#else
+    weatherWindow = new ReportWindow(ocpnParentWindow, &config, wxID_ANY, wxString(_("MeteoVache")), wxPoint(config.windowXPos, config.windowYPos),
+                                     wxSize(config.windowWidth, config.windowHeight), wxCLOSE_BOX | wxCAPTION | wxRESIZE_BORDER);
+#endif
+
     weatherWindow->SetPosition(wxPoint(config.windowXPos, config.windowYPos));
     weatherWindow->SetReportForecast(-1);
 

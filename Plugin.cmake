@@ -80,6 +80,10 @@ if (WIN32)
   add_compile_definitions(__WIN32__)
 endif (WIN32)
 
+if (APPLE)
+  add_compile_definitions(__MACOS__)
+endif (APPLE)
+
 set(PKG_API_LIB api-16)  #  A dir in opencpn-libs/ e. g., api-17 or api-16
 
 macro(late_init)
