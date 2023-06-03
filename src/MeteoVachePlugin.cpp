@@ -119,8 +119,6 @@ int MeteoVachePlugin::Init(void)
     wxDisplay display(ocpnParentWindow);
     wxRect clientArea = display.GetGeometry();
     
-    printf("DISPLAY : %d x %d\n", clientArea.GetWidth(), clientArea.GetHeight());
-
     if ((config.windowWidth > clientArea.GetWidth()) || (config.windowWidth < 0))
     {
         config.windowWidth = clientArea.GetWidth() / 2;
@@ -140,7 +138,7 @@ int MeteoVachePlugin::Init(void)
 
     // Create the weather report window
     weatherWindow = new ReportWindow(ocpnParentWindow, &config, wxID_ANY, wxString(_("MeteoVache")), wxPoint(config.windowXPos, config.windowYPos),
-                                     wxSize(config.windowWidth, config.windowHeight), wxCLOSE_BOX | wxCAPTION | wxRESIZE_BORDER);
+                                     wxSize(config.windowWidth, config.windowHeight), wxCLOSE_BOX | wxCAPTION | wxRESIZE_BORDER | wxSTAY_ON_TOP);
     weatherWindow->SetPosition(wxPoint(config.windowXPos, config.windowYPos));
     weatherWindow->SetReportForecast(-1);
 
