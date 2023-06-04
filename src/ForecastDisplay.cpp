@@ -157,18 +157,26 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event)
 
         DateTime runDate;
         runDate.SetTimeCode(forecast.GetRunTimeCode());
+        int year, month, day, hour, minute;
         if (config->timeZoneString.IsSameAs("UTC"))
         {
-            /* TRANSLATORS: Must be 17 characters max */
-            stringToDraw = wxString::Format("%-20s%02d/%02d/%d %dh%02d\n", _("Run date") + " : ", runDate.GetGmtDay(), runDate.GetGmtMonth(),
-                                            runDate.GetGmtYear(), runDate.GetGmtHour(), runDate.GetGmtMinute());
+            year   = runDate.GetGmtYear();
+            month  = runDate.GetGmtMonth();
+            day    = runDate.GetGmtDay();
+            hour   = runDate.GetGmtHour();
+            minute = runDate.GetGmtMinute();
         }
         else
         {
-            /* TRANSLATORS: Must be 17 characters max */
-            stringToDraw = wxString::Format("%-20s%02d/%02d/%d %dh%02d\n", _("Run date") + " : ", runDate.GetLocalDay(), runDate.GetLocalMonth(),
-                                            runDate.GetLocalYear(), runDate.GetLocalHour(), runDate.GetLocalMinute());
+            year   = runDate.GetLocalYear();
+            month  = runDate.GetLocalMonth();
+            day    = runDate.GetLocalDay();
+            hour   = runDate.GetLocalHour();
+            minute = runDate.GetLocalMinute();
         }
+        /* TRANSLATORS: Must be 17 characters max */
+        stringToDraw = wxString::Format("%-20s%d/%02d/%02d %dh%02d\n", _("Run date") + " : ", year, month, day, hour, minute);
+
         dc.DrawText(stringToDraw, 0, verticalPos);
         verticalPos += verticalFontSize;
 
@@ -207,7 +215,7 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event)
         {
             stepTime.AddHours(forecast.GetTimeStepInHours());
             dayName = stepTime.GetLocalDayName();
-            
+
             wxString shortDayName(dayName);
             shortDayName = shortDayName.substr(0, 2);
 
