@@ -116,7 +116,7 @@ int MeteoVachePlugin::Init(void)
 
     // Ensure that window dimensions are not out of the screen
     ocpnParentWindow = GetOCPNCanvasWindow();
-    wxDisplay display(ocpnParentWindow);
+    wxDisplay display(wxDisplay::GetFromWindow(ocpnParentWindow));
     wxRect    clientArea = display.GetGeometry();
 
     if ((config.windowWidth > clientArea.GetWidth()) || (config.windowWidth < 0))
