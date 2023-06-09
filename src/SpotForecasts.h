@@ -43,35 +43,37 @@
 /*                               Classes                                   */
 /***************************************************************************/
 
+#include "Forecast.h"
+
 #include <stdint.h>
-#include <Forecast.h>
 #include <vector>
 #include <wx/thread.h>
 
 using namespace std;
 
-class SpotForecasts {
-public:
-	SpotForecasts();
-	virtual ~SpotForecasts();
-	SpotForecasts(const SpotForecasts &layer);
-	SpotForecasts& operator=(const SpotForecasts &layer);
+class SpotForecasts
+{
+  public:
+    SpotForecasts();
+    virtual ~SpotForecasts();
+    SpotForecasts(const SpotForecasts &layer);
+    SpotForecasts &operator=(const SpotForecasts &layer);
 
-	void Lock();
-	void Unlock();
-	void Reset();
-	Forecast &Get(uint32_t i);
-	void Add(Forecast &i);
-	void SetPosition(float latitudeDeg, float longitudeDeg);
-	float GetLatitude();
-	float GetLongitude();
-	uint32_t GetNumberOfForecast();
+    void      Lock();
+    void      Unlock();
+    void      Reset();
+    Forecast &Get(uint32_t i);
+    void      Add(Forecast &i);
+    void      SetPosition(float latitudeDeg, float longitudeDeg);
+    float     GetLatitude();
+    float     GetLongitude();
+    uint32_t  GetNumberOfForecast();
 
-private:
-	float latitudeDeg;
-	float longitudeDeg;
-	vector<Forecast> forecastList;
-	wxCriticalSection locker;
+  private:
+    float             latitudeDeg;
+    float             longitudeDeg;
+    vector<Forecast>  forecastList;
+    wxCriticalSection locker;
 };
 
 #endif /* _SPOTFORECASTS_H_ */

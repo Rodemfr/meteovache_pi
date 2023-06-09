@@ -31,8 +31,8 @@
 /*                              Includes                                   */
 /***************************************************************************/
 
-#include <wx/wx.h>
 #include <wx/fileconf.h>
+#include <wx/wx.h>
 
 /***************************************************************************/
 /*                              Constants                                  */
@@ -48,30 +48,30 @@
 
 class ConfigContainer
 {
-private:
-	wxFileConfig *configObject;    // Pointer to the OpenCPN configuration object
+  private:
+    wxFileConfig *configObject; // Pointer to the OpenCPN configuration object
 
-public:
-	int windowWidth, windowHeight; // Current report window size
-	int windowXPos, windowYPos;    // Current report window position
-	wxString selectedModelName;    // Currently selected weather model
-	wxString windUnitString;       // String of the wind unit to use
-	wxString tempUnitString;       // String of the temperature unit to use
-	wxString timeZoneString;       // Selected time zone for display
-	bool disableToolbarIcon;       // Don't display icon in toolbar
-	wxString autoSavePath;         // Path where to automatically save weather reports
-	bool autoSaveEnable;           // Enable autosave
-	bool autoSaveColumn;           // Enable column format for autosaved reports
-	bool autoSaveCompress;         // Enable compression for autosaved reports
-	wxString manualSavePath;       // Last used path for manual saving
-	int manualSaveFormat;          // Last used format for manual saving
+  public:
+    int      windowWidth, windowHeight; // Current report window size
+    int      windowXPos, windowYPos;    // Current report window position
+    wxString selectedModelName;         // Currently selected weather model
+    wxString windUnitString;            // String of the wind unit to use
+    wxString tempUnitString;            // String of the temperature unit to use
+    wxString timeZoneString;            // Selected time zone for display
+    bool     disableToolbarIcon;        // Don't display icon in toolbar
+    wxString autoSavePath;              // Path where to automatically save weather reports
+    bool     autoSaveEnable;            // Enable autosave
+    bool     autoSaveColumn;            // Enable column format for autosaved reports
+    bool     autoSaveCompress;          // Enable compression for autosaved reports
+    wxString manualSavePath;            // Last used path for manual saving
+    int      manualSaveFormat;          // Last used format for manual saving
 
-	ConfigContainer();
-	virtual ~ConfigContainer();
+    ConfigContainer();
+    virtual ~ConfigContainer();
 
-	void SetConfigObject(wxFileConfig *configObject);
-	bool LoadConfig(void);
-	bool SaveConfig(void);
+    void SetConfigObject(wxFileConfig *configObject);
+    bool LoadConfig(void);
+    bool SaveConfig(void);
 };
 
 #endif /* _CONFIGCONTAINER_H_ */

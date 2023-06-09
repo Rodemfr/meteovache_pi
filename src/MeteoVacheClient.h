@@ -31,9 +31,10 @@
 /*                              Includes                                   */
 /***************************************************************************/
 
-#include <wx/wx.h>
-#include <wx/socket.h>
 #include "SpotForecasts.h"
+
+#include <wx/socket.h>
+#include <wx/wx.h>
 
 /***************************************************************************/
 /*                              Constants                                  */
@@ -52,22 +53,23 @@
 /*                               Classes                                   */
 /***************************************************************************/
 
-class MeteoVacheClient {
-public:
-	MeteoVacheClient();
-	virtual ~MeteoVacheClient();
+class MeteoVacheClient
+{
+  public:
+    MeteoVacheClient();
+    virtual ~MeteoVacheClient();
 
-	// Download all available forecasts at a given location
-	bool DownloadAllForecasts(float latitudeDeg, float longitudeDeg, SpotForecasts &spotHandler);
+    // Download all available forecasts at a given location
+    bool DownloadAllForecasts(float latitudeDeg, float longitudeDeg, SpotForecasts &spotHandler);
 
-private:
-	wxIPV4address localIpAddr, serverIpAddr;       // Addresses of the local and distant sockets
-	wxDatagramSocket *localSocket;                 // Local socket object for communication with MeteoVache server
-	char gzippedResponse[MVC_MAX_RESPONSE_LENGTH]; // Buffer storing compressed response from server
-	char serverResponse[MVC_MAX_RESPONSE_LENGTH];  // Buffer storing uncompressed response from server
+  private:
+    wxIPV4address     localIpAddr, serverIpAddr;                // Addresses of the local and distant sockets
+    wxDatagramSocket *localSocket;                              // Local socket object for communication with MeteoVache server
+    char              gzippedResponse[MVC_MAX_RESPONSE_LENGTH]; // Buffer storing compressed response from server
+    char              serverResponse[MVC_MAX_RESPONSE_LENGTH];  // Buffer storing uncompressed response from server
 
-	// Uncompress a gzipped response from the server
-	unsigned int UncompressBuffer(void *inputBuffer, unsigned int inputLength, void *outputBuffer, unsigned int outputLength);
+    // Uncompress a gzipped response from the server
+    unsigned int UncompressBuffer(void *inputBuffer, unsigned int inputLength, void *outputBuffer, unsigned int outputLength);
 };
 
 #endif /* _METEOVACHECLIENT_H_ */

@@ -29,7 +29,8 @@
 /*                              Includes                                   */
 /***************************************************************************/
 
-#include <PreferenceDialog.h>
+#include "PreferenceDialog.h"
+
 #include <stdint.h>
 #include <wx/dirdlg.h>
 

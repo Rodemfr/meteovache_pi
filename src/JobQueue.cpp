@@ -28,7 +28,8 @@
 /*                              Includes                                   */
 /***************************************************************************/
 
-#include <JobQueue.h>
+#include "JobQueue.h"
+
 #include "wx/wx.h"
 
 /***************************************************************************/
@@ -55,81 +56,93 @@ DEFINE_EVENT_TYPE(wxEVT_THREAD_JOB_FAILED)
 /*                              Functions                                  */
 /***************************************************************************/
 
-JobRequest::JobRequest() :
-		cmd(CMD_UNDEFINED), latitude(0.0f), longitude(0.0f) {
+JobRequest::JobRequest() : cmd(CMD_UNDEFINED), latitude(0.0f), longitude(0.0f)
+{
 }
 
-JobRequest::JobRequest(JobCommand cmd) {
-	this->cmd = cmd;
-	this->latitude = 0.0f;
-	this->longitude = 0.0f;
+JobRequest::JobRequest(JobCommand cmd)
+{
+    this->cmd       = cmd;
+    this->latitude  = 0.0f;
+    this->longitude = 0.0f;
 }
 
-JobRequest::JobRequest(JobCommand cmd, float latitude, float longitude) {
-	this->cmd = cmd;
-	this->latitude = latitude;
-	this->longitude = longitude;
+JobRequest::JobRequest(JobCommand cmd, float latitude, float longitude)
+{
+    this->cmd       = cmd;
+    this->latitude  = latitude;
+    this->longitude = longitude;
 }
 
-JobRequest::~JobRequest() {
+JobRequest::~JobRequest()
+{
 }
 
-JobQueue::JobQueue(wxEvtHandler *pParent) :
-		parentEvtHandler(pParent) {
+JobQueue::JobQueue(wxEvtHandler *pParent) : parentEvtHandler(pParent)
+{
 }
 
-void JobQueue::AddJobRequest(const JobRequest &job) {
-	mapMutex.Lock();
-	jobMap.insert(std::make_pair(0, job));
-	mapMutex.Unlock();
-	queueCount.Post();
+void JobQueue::AddJobRequest(const JobRequest &job)
+{
+    mapMutex.Lock();
+    jobMap.insert(std::make_pair(0, job));
+    mapMutex.Unlock();
+    queueCount.Post();
 }
 
-void JobQueue::GetNextJob(JobRequest *jobRequest) {
-	JobRequest element;
+void JobQueue::GetNextJob(JobRequest *jobRequest)
+{
+    JobRequest element;
 
-	queueCount.Wait();
-	mapMutex.Lock();
-	element = (jobMap.begin())->second;
-	jobMap.erase(jobMap.begin());
-	mapMutex.Unlock();
+    queueCount.Wait();
+    mapMutex.Lock();
+    element = (jobMap.begin())->second;
+    jobMap.erase(jobMap.begin());
+    mapMutex.Unlock();
 
-	*jobRequest = element;
+    *jobRequest = element;
 }
 
-bool JobQueue::GetNextJobTimeout(JobRequest *jobRequest, unsigned long timeOut) {
-	JobRequest element;
+bool JobQueue::GetNextJobTimeout(JobRequest *jobRequest, unsigned long timeOut)
+{
+    JobRequest element;
 
-	if (queueCount.WaitTimeout(timeOut) == wxSEMA_NO_ERROR) {
-		mapMutex.Lock();
-		element = (jobMap.begin())->second;
-		jobMap.erase(jobMap.begin());
-		mapMutex.Unlock();
+    if (queueCount.WaitTimeout(timeOut) == wxSEMA_NO_ERROR)
+    {
+        mapMutex.Lock();
+        element = (jobMap.begin())->second;
+        jobMap.erase(jobMap.begin());
+        mapMutex.Unlock();
 
-		*jobRequest = element;
-		return true;
-	}
-	else {
-		return false;
-	}
+        *jobRequest = element;
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
-void JobQueue::ReportResult(const JobRequest::JobCommand &cmd, JobResult result) {
+void JobQueue::ReportResult(const JobRequest::JobCommand &cmd, JobResult result)
+{
 
-	if (result == JOB_SUCCESSFUL) {
-		wxCommandEvent evt(wxEVT_THREAD_JOB_COMPLETED);
-		evt.SetInt(cmd);
-		wxQueueEvent(parentEvtHandler, evt.Clone());
-	}
-	else if (result == JOB_FAILED) {
-		wxCommandEvent evt(wxEVT_THREAD_JOB_FAILED);
-		evt.SetInt(cmd);
-		wxQueueEvent(parentEvtHandler, evt.Clone());
-	}
-	else if (result == JOB_ONGOING) {
-		wxCommandEvent evt(wxEVT_THREAD_JOB_ONGOING);
-		evt.SetInt(cmd);
-		wxQueueEvent(parentEvtHandler, evt.Clone());
-	}
+    if (result == JOB_SUCCESSFUL)
+    {
+        wxCommandEvent evt(wxEVT_THREAD_JOB_COMPLETED);
+        evt.SetInt(cmd);
+        wxQueueEvent(parentEvtHandler, evt.Clone());
+    }
+    else if (result == JOB_FAILED)
+    {
+        wxCommandEvent evt(wxEVT_THREAD_JOB_FAILED);
+        evt.SetInt(cmd);
+        wxQueueEvent(parentEvtHandler, evt.Clone());
+    }
+    else if (result == JOB_ONGOING)
+    {
+        wxCommandEvent evt(wxEVT_THREAD_JOB_ONGOING);
+        evt.SetInt(cmd);
+        wxQueueEvent(parentEvtHandler, evt.Clone());
+    }
     wxWakeUpIdle();
 }

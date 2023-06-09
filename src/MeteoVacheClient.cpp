@@ -28,9 +28,10 @@
 /*                              Includes                                   */
 /***************************************************************************/
 
-#include <MeteoVacheClient.h>
-#include <SpotForecasts.h>
-#include <Forecast.h>
+#include "MeteoVacheClient.h"
+#include "Forecast.h"
+#include "SpotForecasts.h"
+
 #include <wx/mstream.h>
 #include <wx/zstream.h>
 
@@ -58,72 +59,72 @@
 
 MeteoVacheClient::MeteoVacheClient()
 {
-	// Setup IP address of distant server
-	serverIpAddr.Hostname(DEFAULT_METEOVACHE_SERVER_NAME);
-	serverIpAddr.Service(DEFAULT_METEOVACHE_SERVER_PORT);
+    // Setup IP address of distant server
+    serverIpAddr.Hostname(DEFAULT_METEOVACHE_SERVER_NAME);
+    serverIpAddr.Service(DEFAULT_METEOVACHE_SERVER_PORT);
 
-	// Create the local UDP socket
-	localIpAddr.AnyAddress();
-	localIpAddr.Service(0x8000);
-	localSocket = new wxDatagramSocket(localIpAddr, wxSOCKET_NONE);
-	// Set 1 second timeout
-	localSocket->SetTimeout(1);
+    // Create the local UDP socket
+    localIpAddr.AnyAddress();
+    localIpAddr.Service(0x8000);
+    localSocket = new wxDatagramSocket(localIpAddr, wxSOCKET_NONE);
+    // Set 1 second timeout
+    localSocket->SetTimeout(1);
 }
 
 MeteoVacheClient::~MeteoVacheClient()
 {
-	localSocket->Destroy();
+    localSocket->Destroy();
 }
 
 bool MeteoVacheClient::DownloadAllForecasts(float latitude, float longitude, SpotForecasts &spotForecast)
 {
-	char requestBuffer[9];
-	int nbForecasts;
-	Forecast forecast;
-	wxUint32 responseLength;
+    char     requestBuffer[9];
+    int      nbForecasts;
+    Forecast forecast;
+    wxUint32 responseLength;
 
-	// Prepare REQUEST_ALL_FORECATS_AT_LOCATION :
-	// 1 byte = command
-	// 1 float = latitude (little endian)
-	// 1 float = longitude (little endian)
-	requestBuffer[0] = MV_CMD_REQUEST_ALL_FORECAST_AT_LOCATION;
-	// TODO : Handle endianess
-	*((float*) (requestBuffer + 1)) = latitude;
-	*((float*) (requestBuffer + 5)) = longitude;
+    // Prepare REQUEST_ALL_FORECATS_AT_LOCATION :
+    // 1 byte = command
+    // 1 float = latitude (little endian)
+    // 1 float = longitude (little endian)
+    requestBuffer[0] = MV_CMD_REQUEST_ALL_FORECAST_AT_LOCATION;
+    // TODO : Handle endianess
+    *((float *)(requestBuffer + 1)) = latitude;
+    *((float *)(requestBuffer + 5)) = longitude;
 
-	localSocket->Discard();
-	localSocket->SendTo(serverIpAddr, requestBuffer, sizeof(requestBuffer));
-	localSocket->Read(gzippedResponse, sizeof(gzippedResponse));
-	responseLength = localSocket->LastReadCount();
-	if (localSocket->Error() || (responseLength == 0))
-	{
-		return (false);
-	}
-	UncompressBuffer(gzippedResponse, responseLength, serverResponse, sizeof(serverResponse));
+    localSocket->Discard();
+    localSocket->SendTo(serverIpAddr, requestBuffer, sizeof(requestBuffer));
+    localSocket->Read(gzippedResponse, sizeof(gzippedResponse));
+    responseLength = localSocket->LastReadCount();
+    if (localSocket->Error() || (responseLength == 0))
+    {
+        return (false);
+    }
+    UncompressBuffer(gzippedResponse, responseLength, serverResponse, sizeof(serverResponse));
 
-	nbForecasts = serverResponse[0];
-	spotForecast.Lock();
-	spotForecast.Reset();
-	spotForecast.SetPosition(latitude, longitude);
+    nbForecasts = serverResponse[0];
+    spotForecast.Lock();
+    spotForecast.Reset();
+    spotForecast.SetPosition(latitude, longitude);
 
-	int dataOffset = 1;
-	for (int i = 0; i < nbForecasts; i++)
-	{
-		dataOffset += forecast.ReadBinary(serverResponse + dataOffset);
-		spotForecast.Add(forecast);
-	}
+    int dataOffset = 1;
+    for (int i = 0; i < nbForecasts; i++)
+    {
+        dataOffset += forecast.ReadBinary(serverResponse + dataOffset);
+        spotForecast.Add(forecast);
+    }
 
-	spotForecast.Unlock();
+    spotForecast.Unlock();
 
-	return (true);
+    return (true);
 }
 
 unsigned int MeteoVacheClient::UncompressBuffer(void *inputBuffer, unsigned int inputLength, void *outputBuffer, unsigned int outputLength)
 {
-	wxMemoryInputStream inputStream(inputBuffer, inputLength);
-	wxZlibInputStream zlibStream(inputStream);
+    wxMemoryInputStream inputStream(inputBuffer, inputLength);
+    wxZlibInputStream   zlibStream(inputStream);
 
-	zlibStream.Read(outputBuffer, outputLength);
+    zlibStream.Read(outputBuffer, outputLength);
 
-	return (zlibStream.LastRead());
+    return (zlibStream.LastRead());
 }

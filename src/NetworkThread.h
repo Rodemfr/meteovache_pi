@@ -31,8 +31,9 @@
 /*                              Includes                                   */
 /***************************************************************************/
 
-#include <JobQueue.h>
-#include <MeteoVacheClient.h>
+#include "JobQueue.h"
+#include "MeteoVacheClient.h"
+
 #include <wx/event.h>
 #include <wx/thread.h>
 

@@ -28,10 +28,11 @@
 /*                              Includes                                   */
 /***************************************************************************/
 
+#include "ReportWindow.h"
 #include "DateTime.h"
 #include "JobQueue.h"
 #include "NetworkThread.h"
-#include "ReportWindow.h"
+
 #include <math.h>
 #include <stdint.h>
 #include <wx/file.h>
@@ -298,7 +299,7 @@ wxString ReportWindow::PrintWeatherReport(int modelIndex)
     modelInfo = modelInfo.Append(wxString::Format("%-20s%s\n", _("Model") + " : ", wxString::FromUTF8(forecast->GetModelName().c_str())));
     modelInfo = modelInfo.Append(wxString::Format("%-20s%s\n", _("Provider") + " : ", wxString::FromUTF8(forecast->GetProviderName().c_str())));
 
-    int      year, month, day, hour, minute;
+    int year, month, day, hour, minute;
     if (config->timeZoneString.IsSameAs("UTC"))
     {
         year   = runDate.GetGmtYear();

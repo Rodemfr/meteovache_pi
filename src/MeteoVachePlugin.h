@@ -31,17 +31,18 @@
 /*                              Includes                                   */
 /***************************************************************************/
 
-#include <ReportWindow.h>
-#include <ConfigContainer.h>
-#include <wx/wx.h>
+#include "ConfigContainer.h"
+#include "ReportWindow.h"
+
 #include <config.h>
 #include <ocpn_plugin.h>
+#include <wx/wx.h>
 
 /***************************************************************************/
 /*                              Constants                                  */
 /***************************************************************************/
 
-// This plug-in uses OpenCPN Plug-in API v1.8
+// This plug-in uses OpenCPN Plug-in API v1.16
 #define PI_API_VERSION_MAJOR 1
 #define PI_API_VERSION_MINOR 16
 
@@ -53,39 +54,39 @@
 /*                               Classes                                   */
 /***************************************************************************/
 
-class MeteoVachePlugin: public opencpn_plugin_116
+class MeteoVachePlugin : public opencpn_plugin_116
 {
-public:
-	MeteoVachePlugin(void *ppimgr);
-	~MeteoVachePlugin();
+  public:
+    MeteoVachePlugin(void *ppimgr);
+    ~MeteoVachePlugin();
 
-	// Plug-in methods for OpenCPN main program
-	int Init(void);
-	bool DeInit(void);
-	void ShowPreferencesDialog(wxWindow *parent);
-	int GetAPIVersionMajor();
-	int GetAPIVersionMinor();
-	int GetPlugInVersionMajor();
-	int GetPlugInVersionMinor();
-	wxBitmap* GetPlugInBitmap();
-	wxString GetCommonName();
-	wxString GetShortDescription();
-	wxString GetLongDescription();
+    // Plug-in methods for OpenCPN main program
+    int       Init(void);
+    bool      DeInit(void);
+    void      ShowPreferencesDialog(wxWindow *parent);
+    int       GetAPIVersionMajor();
+    int       GetAPIVersionMinor();
+    int       GetPlugInVersionMajor();
+    int       GetPlugInVersionMinor();
+    wxBitmap *GetPlugInBitmap();
+    wxString  GetCommonName();
+    wxString  GetShortDescription();
+    wxString  GetLongDescription();
 
-	void OnToolbarToolCallback(int id);
-	int GetToolbarToolCount(void);
-	void OnContextMenuItemCallback(int id);
-	void SetCursorLatLon(double lat, double lon);
+    void OnToolbarToolCallback(int id);
+    int  GetToolbarToolCount(void);
+    void OnContextMenuItemCallback(int id);
+    void SetCursorLatLon(double lat, double lon);
 
-private:
-	ReportWindow *weatherWindow; // Dialog display weather report
-	ConfigContainer config;      // Configuration of the plug-in
-	wxBitmap *pluginIcon;        // Plug-in icon for the plug-in manager (bright background)
-	int toolBarIconId;           // Id of the plug-in icon in the tool-bar
-	int contextMenuId;           // Id of the plug-in item in context menu
-	wxWindow *ocpnParentWindow;  // Pointer to the OpenCPN parent window
-	wxMenuItem *contextMenu;     // Pointer to plug-in context menu item object
-	float cursorLat, cursorLon;  // Latest known position of the mouse cursor
+  private:
+    ReportWindow   *weatherWindow;        // Dialog display weather report
+    ConfigContainer config;               // Configuration of the plug-in
+    wxBitmap       *pluginIcon;           // Plug-in icon for the plug-in manager (bright background)
+    int             toolBarIconId;        // Id of the plug-in icon in the tool-bar
+    int             contextMenuId;        // Id of the plug-in item in context menu
+    wxWindow       *ocpnParentWindow;     // Pointer to the OpenCPN parent window
+    wxMenuItem     *contextMenu;          // Pointer to plug-in context menu item object
+    float           cursorLat, cursorLon; // Latest known position of the mouse cursor
 };
 
 #endif

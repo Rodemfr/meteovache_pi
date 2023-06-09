@@ -34,8 +34,6 @@
 #include <stdint.h>
 #include <string>
 
-using namespace std;
-
 /***************************************************************************/
 /*                              Constants                                  */
 /***************************************************************************/
@@ -65,8 +63,8 @@ typedef struct
 class Forecast
 {
 private:
-	string providerName;
-	string modelName;
+	std::string providerName;
+	std::string modelName;
 	uint32_t runTimeCode;
 	uint16_t timeStepInHours;
 	uint16_t numberOfSteps;
@@ -89,13 +87,13 @@ public:
 	uint32_t WriteBinary(void *buffer);
 	uint32_t ReadBinary(void *buffer);
 
-	void SetProviderName(string &providerName);
-	void SetModelName(string &modelName);
+	void SetProviderName(std::string &providerName);
+	void SetModelName(std::string &modelName);
 	void SetRunTimeCode(uint32_t runTimeCode);
 	void SetTimeStepInHours(uint32_t timeStepInHours);
 
-	string GetModelName();
-	string GetProviderName();
+	std::string GetModelName();
+	std::string GetProviderName();
 	uint32_t GetRunTimeCode();
 	uint32_t GetTimeStepInHours();
 

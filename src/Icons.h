@@ -4,13 +4,13 @@
 
 #include <wx/wxprec.h>
 #ifndef WX_PRECOMP
-#	include <wx/wx.h>
+#include <wx/wx.h>
 #endif
 
 void initialize_images(void);
 void delete_images(void);
 
 extern wxBitmap *_img_meteovache_pi;
-extern wxString gMeteoVacheSvgToolbarIcon;
+extern wxString  gMeteoVacheSvgToolbarIcon;
 
 #endif /* ICONS_H */

@@ -28,7 +28,8 @@
 /*                              Includes                                   */
 /***************************************************************************/
 
-#include <ConfigContainer.h>
+#include "ConfigContainer.h"
+
 #include <wx/stdpaths.h>
 
 /***************************************************************************/
@@ -53,35 +54,35 @@
 
 ConfigContainer::ConfigContainer()
 {
-	windowWidth = 500;
-	windowHeight = 500;
-	windowXPos = 500;
-	windowYPos = 500;
+    windowWidth  = 500;
+    windowHeight = 500;
+    windowXPos   = 500;
+    windowYPos   = 500;
 
-	windUnitString = "kt";
-	tempUnitString = "C";
+    windUnitString = "kt";
+    tempUnitString = "C";
 
-	selectedModelName = "Arpege";
-	windUnitString = "nd";
-	tempUnitString = "Celsius";
-	timeZoneString = "Local / system";
-	disableToolbarIcon = 0;
+    selectedModelName  = "Arpege";
+    windUnitString     = "nd";
+    tempUnitString     = "Celsius";
+    timeZoneString     = "Local / system";
+    disableToolbarIcon = 0;
 
-	wxStandardPaths standardPaths = wxStandardPaths::Get();
-	autoSavePath = standardPaths.GetDocumentsDir();
+    wxStandardPaths standardPaths = wxStandardPaths::Get();
+    autoSavePath                  = standardPaths.GetDocumentsDir();
 
-	autoSaveEnable = false;
-	autoSaveColumn = false;
-	autoSaveCompress = false;
-	manualSavePath = "";
-	manualSaveFormat = 0;
+    autoSaveEnable   = false;
+    autoSaveColumn   = false;
+    autoSaveCompress = false;
+    manualSavePath   = "";
+    manualSaveFormat = 0;
 
-	configObject = nullptr;
+    configObject = nullptr;
 }
 
 void ConfigContainer::SetConfigObject(wxFileConfig *configObject)
 {
-	this->configObject = configObject;
+    this->configObject = configObject;
 }
 
 ConfigContainer::~ConfigContainer()
@@ -90,56 +91,58 @@ ConfigContainer::~ConfigContainer()
 
 bool ConfigContainer::LoadConfig(void)
 {
-	wxFileConfig *pConf = (wxFileConfig*) configObject;
+    wxFileConfig *pConf = (wxFileConfig *)configObject;
 
-	if (pConf)
-	{
-		pConf->SetPath("/Settings/MeteoVache");
-		pConf->Read("WindowWidth", &windowWidth, 500);
-		pConf->Read("WindowHeight", &windowHeight, 500);
-		pConf->Read("WindowXPos", &windowXPos, 250);
-		pConf->Read("WindowYPos", &windowYPos, 250);
-		pConf->Read("ModelName", &selectedModelName, "");
-		pConf->Read("WindUnitString", &windUnitString, "kt");
-		pConf->Read("TempUnitString", &tempUnitString, "C");
-		pConf->Read("TimeZoneString", &timeZoneString, "Local / system");
-		pConf->Read("DisableToolbarIcon", &disableToolbarIcon, false);
-		pConf->Read("AutoSavePath", &autoSavePath, autoSavePath);
-		pConf->Read("AutoSaveEnable", &autoSaveEnable, false);
-		pConf->Read("AutoSaveColumn", &autoSaveColumn, false);
-		pConf->Read("AutoSaveCompress", &autoSaveCompress, true);
-		pConf->Read("ManualSavePath", &manualSavePath, "");
-		pConf->Read("ManualSaveFormat", &manualSaveFormat, 0);
+    if (pConf)
+    {
+        pConf->SetPath("/Settings/MeteoVache");
+        pConf->Read("WindowWidth", &windowWidth, 500);
+        pConf->Read("WindowHeight", &windowHeight, 500);
+        pConf->Read("WindowXPos", &windowXPos, 250);
+        pConf->Read("WindowYPos", &windowYPos, 250);
+        pConf->Read("ModelName", &selectedModelName, "");
+        pConf->Read("WindUnitString", &windUnitString, "kt");
+        pConf->Read("TempUnitString", &tempUnitString, "C");
+        pConf->Read("TimeZoneString", &timeZoneString, "Local / system");
+        pConf->Read("DisableToolbarIcon", &disableToolbarIcon, false);
+        pConf->Read("AutoSavePath", &autoSavePath, autoSavePath);
+        pConf->Read("AutoSaveEnable", &autoSaveEnable, false);
+        pConf->Read("AutoSaveColumn", &autoSaveColumn, false);
+        pConf->Read("AutoSaveCompress", &autoSaveCompress, true);
+        pConf->Read("ManualSavePath", &manualSavePath, "");
+        pConf->Read("ManualSaveFormat", &manualSaveFormat, 0);
 
-		return true;;
-	} else
-		return false;
+        return true;
+        ;
+    }
+    else
+        return false;
 }
 
 bool ConfigContainer::SaveConfig(void)
 {
-	wxFileConfig *pConf = (wxFileConfig*) configObject;
+    wxFileConfig *pConf = (wxFileConfig *)configObject;
 
-	if (pConf)
-	{
-		pConf->SetPath("/Settings/MeteoVache");
-		pConf->Write("WindowWidth", windowWidth);
-		pConf->Write("WindowHeight", windowHeight);
-		pConf->Write("WindowXPos", windowXPos);
-		pConf->Write("WindowYPos", windowYPos);
-		pConf->Write("ModelName", selectedModelName);
-		pConf->Write("WindUnitString", windUnitString);
-		pConf->Write("TempUnitString", tempUnitString);
-		pConf->Write("TimeZoneString", timeZoneString);
-		pConf->Write("DisableToolbarIcon", disableToolbarIcon);
-		pConf->Write("AutoSavePath", autoSavePath);
-		pConf->Write("AutoSaveEnable", autoSaveEnable);
-		pConf->Write("AutoSaveColumn", autoSaveColumn);
-		pConf->Write("AutoSaveCompress", autoSaveCompress);
-		pConf->Write("ManualSavePath", manualSavePath);
-		pConf->Write("ManualSaveFormat", manualSaveFormat);
-		return true;
-	} else
-		return false;
+    if (pConf)
+    {
+        pConf->SetPath("/Settings/MeteoVache");
+        pConf->Write("WindowWidth", windowWidth);
+        pConf->Write("WindowHeight", windowHeight);
+        pConf->Write("WindowXPos", windowXPos);
+        pConf->Write("WindowYPos", windowYPos);
+        pConf->Write("ModelName", selectedModelName);
+        pConf->Write("WindUnitString", windUnitString);
+        pConf->Write("TempUnitString", tempUnitString);
+        pConf->Write("TimeZoneString", timeZoneString);
+        pConf->Write("DisableToolbarIcon", disableToolbarIcon);
+        pConf->Write("AutoSavePath", autoSavePath);
+        pConf->Write("AutoSaveEnable", autoSaveEnable);
+        pConf->Write("AutoSaveColumn", autoSaveColumn);
+        pConf->Write("AutoSaveCompress", autoSaveCompress);
+        pConf->Write("ManualSavePath", manualSavePath);
+        pConf->Write("ManualSaveFormat", manualSaveFormat);
+        return true;
+    }
+    else
+        return false;
 }
-

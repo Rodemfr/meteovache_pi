@@ -9,7 +9,7 @@
 #define COLORGRADIENTC_H_
 
 #define MAX_COLORS_PER_GRADIENT 64
-#define GRADIENT_RESOLUTION 255
+#define GRADIENT_RESOLUTION     255
 
 typedef enum
 {
@@ -19,28 +19,28 @@ typedef enum
 
 class ColorGradient
 {
-private:
-    int number_of_colors;
-    float red_list[MAX_COLORS_PER_GRADIENT];
-    float green_list[MAX_COLORS_PER_GRADIENT];
-    float blue_list[MAX_COLORS_PER_GRADIENT];
-    float scalar_list[MAX_COLORS_PER_GRADIENT];
+  private:
+    int          number_of_colors;
+    float        red_list[MAX_COLORS_PER_GRADIENT];
+    float        green_list[MAX_COLORS_PER_GRADIENT];
+    float        blue_list[MAX_COLORS_PER_GRADIENT];
+    float        scalar_list[MAX_COLORS_PER_GRADIENT];
     unsigned int gradient[GRADIENT_RESOLUTION];
-    float gradient_min;
-    float gradient_max;
+    float        gradient_min;
+    float        gradient_max;
 
-public:
+  public:
     ColorGradient();
     virtual ~ColorGradient();
 
     color_gradient_error_t AddColorPoint(float red, float green, float blue, float scalar_value);
-    void Generate();
-    unsigned int GetUintColor(float value);
-    unsigned int GetFloorUintColor(float value);
+    void                   Generate();
+    unsigned int           GetUintColor(float value);
+    unsigned int           GetFloorUintColor(float value);
 
     static unsigned int ColorToUint(float red, float green, float blue);
 
-private:
+  private:
     unsigned int InterpolateColor(float value);
 };
 
