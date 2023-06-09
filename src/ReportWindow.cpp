@@ -28,10 +28,10 @@
 /*                              Includes                                   */
 /***************************************************************************/
 
-#include <DateTime.h>
-#include <JobQueue.h>
-#include <NetworkThread.h>
-#include <ReportWindow.h>
+#include "DateTime.h"
+#include "JobQueue.h"
+#include "NetworkThread.h"
+#include "ReportWindow.h"
 #include <math.h>
 #include <stdint.h>
 #include <wx/file.h>
@@ -298,17 +298,26 @@ wxString ReportWindow::PrintWeatherReport(int modelIndex)
     modelInfo = modelInfo.Append(wxString::Format("%-20s%s\n", _("Model") + " : ", wxString::FromUTF8(forecast->GetModelName().c_str())));
     modelInfo = modelInfo.Append(wxString::Format("%-20s%s\n", _("Provider") + " : ", wxString::FromUTF8(forecast->GetProviderName().c_str())));
 
+    int      year, month, day, hour, minute;
     if (config->timeZoneString.IsSameAs("UTC"))
     {
-        modelInfo = modelInfo.Append(wxString::Format("%-20s%02d/%02d/%d %dh%02d\n", _("Run date") + " : ", runDate.GetGmtDay(),
-                                                      runDate.GetGmtMonth(), runDate.GetGmtYear(), runDate.GetGmtHour(), runDate.GetGmtMinute()));
+        year   = runDate.GetGmtYear();
+        month  = runDate.GetGmtMonth();
+        day    = runDate.GetGmtDay();
+        hour   = runDate.GetGmtHour();
+        minute = runDate.GetGmtMinute();
     }
     else
     {
-        modelInfo =
-            modelInfo.Append(wxString::Format("%-20s%02d/%02d/%d %dh%02d\n", _("Run date") + " : ", runDate.GetLocalDay(), runDate.GetLocalMonth(),
-                                              runDate.GetLocalYear(), runDate.GetLocalHour(), runDate.GetLocalMinute()));
+        year   = runDate.GetLocalYear();
+        month  = runDate.GetLocalMonth();
+        day    = runDate.GetLocalDay();
+        hour   = runDate.GetLocalHour();
+        minute = runDate.GetLocalMinute();
     }
+
+    /* TRANSLATORS: Must be 17 characters max */
+    modelInfo = wxString::Format("%-20s%d/%02d/%02d %dh%02d\n", _("Run date") + " : ", year, month, day, hour, minute);
     modelInfo = modelInfo.Append(wxString::Format("%-20s%s\n\n", _("Time zone") + " : ", _(config->timeZoneString)));
 
     modelInfo =
