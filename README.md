@@ -1,12 +1,12 @@
 # MeteoVache plug-in for OpenCPN
 
-meteovache_pi is a small weather plug-in for OpenCPN. It provides weather forecasts anywhere in the World as long as you have an Internet connection.
+*MeteoVache* (a.k.a *meteovache_pi*) is a small weather plug-in for *OpenCPN*. It provides weather forecasts anywhere in the World as long as you have an Internet connection.
 
 ![Sample picture](files/meteovache_en_256.png)
 
 ## Description
 
-meteovache_pi provides weather forecasts based on the following meteorological models :
+*MeteoVache* provides weather forecasts based on the following meteorological models :
 
 - "Arome" : high resolution model (0.05°) from [Météo France](http://www.meteofrance.com) (Coverage : France)
 - "Arome Antilles" : high resolution model (0.05°) from [Météo France](http://www.meteofrance.com) (Coverage : Antilles)
@@ -19,7 +19,7 @@ meteovache_pi provides weather forecasts based on the following meteorological m
 - "Icon Eu" : regional model (0.125°) from [Deutscher Wetterdienst](https://www.dwd.de/EN) (Coverage : Europe)
 - "Arpege" : global model (0.5°) from [Météo France](http://www.meteofrance.com) (Coverage : World)
 
-meteovache_pi needs an Internet connection to retrieve weather data from MeteoVache server. It has been specifically designed to minimize the amount of data required to get a forecast at a given location. A typical request weights between 500 and 1500 bytes, making it suitable for very low bandwidth Internet connections like Edge GSM.
+*MeteoVache* needs an Internet connection to retrieve weather data from *MeteoVache* server. It has been specifically designed to minimize the amount of data required to get a forecast at a given location. A typical request weights between 500 and 1500 bytes, making it suitable for very low bandwidth Internet connections like Edge GSM.
 
 ## Author
 
@@ -31,25 +31,21 @@ This program is distributed under the terms of the GPL v2. - see the [gpl.txt](c
 
 ## Download
 
-Latest release is v0.8
-
-Pre-compiled binaries and source code are available here :
-
-https://github.com/Rodemfr/meteovache_pi/releases/tag/v0.8
-
-Windows 32bit, Debian amd64 and Raspberry Pi 32bit binaries are provided for download. Any other unix-like platform should also compile without much troubles.
-
-## Compilation
-
-Compilation instructions for various platforms are provided in here :
-
-https://github.com/Rodemfr/meteovache_pi/blob/master/Compilation.txt
+Since v1.1, *MeteoVache* switched to *OpenCPN*'s *managed plugin scheme* which allow you to download it directly from *OpenCPN* GUI. Just go to the *plugin settings* page and download the master catalog. Meteovache should be in if your platform is supported.
 
 ## Acknowledgments
 
 * Thanks to @OpenCPN team for providing a comprehensive set of templates and examples to develop plug-ins and to maintain this wonderful Open Source application.
 
 ## Release history
+
+**v1.1**
+* Support for *OpenCPN*'s managed plugin scheme
+* Added Spanish & Italian translations
+* Handles wxWidgets 3.2 and hi-DPI displays
+* Support for dark color themes
+* Fixed crash on exit
+* Other minor bugfixes
 
 **v0.8**
 * Wind direction is now display with nice graphical arrows
