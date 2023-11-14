@@ -127,7 +127,7 @@ if (NOT "${OCPN_WX_ABI}" STREQUAL "")
 endif ()
 
 if ("${_git_tag}" STREQUAL "")
-  set(pkg_displayname "${PLUGIN_API_NAME}-${VERSION_MAJOR}.${VERSION_MINOR}")
+  set(pkg_displayname "${PLUGIN_API_NAME}-${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
 else ()
   set(pkg_displayname "${PLUGIN_API_NAME}-${_git_tag}")
 endif ()
