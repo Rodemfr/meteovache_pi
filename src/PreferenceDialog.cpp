@@ -140,7 +140,7 @@ PreferenceDialog::PreferenceDialog(wxWindow *parent, ConfigContainer *config, wx
     serverLabelSizer->Add(serverPortLabel, 1, wxALIGN_CENTER_VERTICAL | wxALL, 5);
     serverPrefSizer->Add(serverLabelSizer, 1, wxEXPAND, 5);
     wxBoxSizer *serverPortSizer = new wxBoxSizer(wxVERTICAL);
-    serverNameEdit = new wxTextCtrl(serverSizer->GetStaticBox(), wxID_ANY, "meteovache.dyndns.org", wxDefaultPosition, wxDefaultSize, wxTE_RIGHT);
+    serverNameEdit = new wxTextCtrl(serverSizer->GetStaticBox(), wxID_ANY, "meteovache.dynv6.org", wxDefaultPosition, wxDefaultSize, wxTE_RIGHT);
     serverPortSizer->Add(serverNameEdit, 1, wxALIGN_CENTER_VERTICAL | wxALL | wxEXPAND, 5);
     serverPortEdit = new wxTextCtrl(serverSizer->GetStaticBox(), wxID_ANY, "31837", wxDefaultPosition, wxDefaultSize, wxTE_RIGHT);
     serverPortSizer->Add(serverPortEdit, 1, wxALIGN_CENTER_VERTICAL | wxALL | wxEXPAND, 5);
