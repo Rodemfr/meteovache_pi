@@ -222,25 +222,32 @@ jobs:
 
   build-android-arm64:
     docker:
-      - image: circleci/android:api-28-ndk
+      - image: cimg/android:2021.10.2-ndk
+        resource_class: large
     environment:
-      - OCPN_TARGET: android-aarch64
-      - CMAKE_BUILD_PARALLEL_LEVEL: 2
+      - OCPN_TARGET:  android-arm64
+      - DEPLOY_USE_ORB: true
     steps:
       - checkout
-      - run: ci/circleci-build-android.sh
-      - run: ci/maybe-push-upload.sh
+      - run: chmod a+x ci/*.sh
+      - run: bash ci/circleci-build-android-arm64.sh
+      - run: ls -l
+      - run: ls -l build*
+      - deploy-code:
+      install-python: true
 
   build-android-armhf:
     docker:
-      - image: circleci/android:api-28-ndk
+      - image: cimg/android:2021.10.2-ndk
+        resource_class: large
     environment:
-      - OCPN_TARGET: android-armhf
-      - CMAKE_BUILD_PARALLEL_LEVEL: 2
+      - OCPN_TARGET:  android-armhf
     steps:
       - checkout
-      - run: ci/circleci-build-android.sh
-      - run: ci/maybe-push-upload.sh
+      - run: chmod a+x ci/*.sh
+      - run: bash ci/circleci-build-android-armhf.sh
+      - deploy-code:
+        install-python: true
 
 std-filters: &std-filters
   filters:
@@ -263,11 +270,11 @@ workflows:
       - build-macos:
           <<: *std-filters
 
-      # - build-android-arm64:
-      #     <<: *std-filters
+      - build-android-arm64:
+          <<: *std-filters
 
-      # - build-android-armhf:
-      #     <<: *std-filters
+#      - build-android-armhf:
+#          <<: *std-filters
 
       - build-bullseye-wx32:
           <<: *std-filters
