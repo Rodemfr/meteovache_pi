@@ -288,14 +288,14 @@ workflows:
   build_all:
     jobs:
 
-      - build-flatpak-arm64:
-          <<: *std-filters
+      # - build-flatpak-arm64:
+      #     <<: *std-filters
 
-      - build-flatpak-x86:
-          <<: *std-filters
+      # - build-flatpak-x86:
+      #     <<: *std-filters
 
-      - build-macos:
-          <<: *std-filters
+      # - build-macos:
+      #     <<: *std-filters
 
       - build-android-arm64:
           <<: *std-filters
@@ -303,35 +303,35 @@ workflows:
 #      - build-android-armhf:
 #          <<: *std-filters
 
-      - build-bullseye-wx32:
-          <<: *std-filters
+      # - build-bullseye-wx32:
+      #     <<: *std-filters
 
-      - build-bullseye-wx32-arm64:
-          <<: *std-filters
+      # - build-bullseye-wx32-arm64:
+      #     <<: *std-filters
 
-      - build-bullseye-wx32-armhf:
-          <<: *std-filters
+      # - build-bullseye-wx32-armhf:
+      #     <<: *std-filters
 
-      - build-bullseye:
-          <<: *std-filters
+      # - build-bullseye:
+      #     <<: *std-filters
 
-      - build-bullseye-armhf:
-          <<: *std-filters
+      # - build-bullseye-armhf:
+      #     <<: *std-filters
 
-      - build-bullseye-arm64:
-          <<: *std-filters
+      # - build-bullseye-arm64:
+      #     <<: *std-filters
 
-      - build-bookworm-arm64:
-          <<: *std-filters
+      # - build-bookworm-arm64:
+      #     <<: *std-filters
 
-      - build-bookworm-armhf:
-          <<: *std-filters
+      # - build-bookworm-armhf:
+      #     <<: *std-filters
 
-      - build-bookworm:
-          <<: *std-filters
+      # - build-bookworm:
+      #     <<: *std-filters
 
-      - build-buster:
-          <<: *std-filters
+      # - build-buster:
+      #     <<: *std-filters
 
-      - build-buster-armhf:
-          <<: *std-filters
+      # - build-buster-armhf:
+      #     <<: *std-filters
