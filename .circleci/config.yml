@@ -1,35 +1,6 @@
 ---
 version: 2.1
 
-orbs:
-    cloudsmith: cloudsmith/cloudsmith@1.0.4
-    win: circleci/windows@5.0
-
-commands:
-    deploy-code:
-        parameters:
-            install-python:
-                type: boolean
-                default: false
-            DEPLOY-USE-ORB:
-                type: boolean
-                default: true
-        steps:
-            - when:
-                condition: <<pipeline.parameters.run_workflow_deploy>>
-                steps:
-                - when:
-                    condition: <<parameters.install-python>>
-                    steps:
-                    - run: sudo apt install -y python3-pip
-                    - run: python3.8 -m pip install cloudsmith-cli
-                - when:
-                    condition: <<parameters.DEPLOY-USE-ORB>>
-                    steps:
-                    - cloudsmith/ensure-api-key
-                    - cloudsmith/install-cli
-                - run: bash ci/cloudsmith-upload.sh
-
 debian-steps: &debian-steps
   steps:
     - checkout
@@ -260,8 +231,6 @@ jobs:
       - run: chmod a+x ci/*.sh
       - run: bash ci/circleci-build-android-arm64.sh
       - run: ls -l build*
-#      - deploy-code:
-#          install-python: true
           
   build-android-armhf:
       docker:
@@ -273,8 +242,6 @@ jobs:
       - checkout
       - run: chmod a+x ci/*.sh
       - run: bash ci/circleci-build-android-armhf.sh
- #     - deploy-code:
- #         install-python: true
 
 std-filters: &std-filters
   filters:
