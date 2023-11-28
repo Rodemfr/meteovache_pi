@@ -167,22 +167,22 @@ jobs:
         - run: chmod a+x ci/*.sh
         - run: bash ci/circleci-build-macos.sh
         # - deploy-code
-    build-msvc-wx32-2022:
-        # executor:
-        #     name: win/server-2022
-        #     shell: cmd.exe
-        environment:
-        - OCPN_TARGET: MSVC
-        - MSVC_VERSION: 2022
-        - WX_VER: 32
-        steps:
-        - checkout
-        - run:
-            privileged: False
-            shell: cmd.exe
-            command: ci\circleci-build-msvc.bat
-        # - deploy-code:
-        #     DEPLOY-USE-ORB: false
+    # build-msvc-wx32-2022:
+    #     executor:
+    #         name: win/server-2022
+    #         shell: cmd.exe
+    #     environment:
+    #     - OCPN_TARGET: MSVC
+    #     - MSVC_VERSION: 2022
+    #     - WX_VER: 32
+    #     steps:
+    #     - checkout
+    #     - run:
+    #         privileged: False
+    #         shell: cmd.exe
+    #         command: ci\circleci-build-msvc.bat
+    #     - deploy-code:
+    #         DEPLOY-USE-ORB: false
     build-flatpak-arm64-2208:
         machine:
             image: ubuntu-2004:202101-01
@@ -363,22 +363,22 @@ jobs:
         # - deploy-code
 ## Appveyor doesn't build for Windows now.
 ## If below is used, WinXT will not work.
-    build-msvc-2022:
-        # executor:
-        #     name: win/server-2022
-        #     shell: cmd.exe
-        environment:
-        - OCPN_TARGET: MSVC
-        - MSVC_VERSION: 2022
-        - WX_VER: 31
-        steps:
-        - checkout
-        - run:
-            privileged: False
-            shell: cmd.exe
-            command: ci\circleci-build-msvc.bat
-        # - deploy-code:
-        #     DEPLOY-USE-ORB: false
+    # build-msvc-2022:
+    #     # executor:
+    #     #     name: win/server-2022
+    #     #     shell: cmd.exe
+    #     environment:
+    #     - OCPN_TARGET: MSVC
+    #     - MSVC_VERSION: 2022
+    #     - WX_VER: 31
+    #     steps:
+    #     - checkout
+    #     - run:
+    #         privileged: False
+    #         shell: cmd.exe
+    #         command: ci\circleci-build-msvc.bat
+    #     - deploy-code:
+    #         DEPLOY-USE-ORB: false
     build-debian-armhf-10-buster:
         machine:
             image: ubuntu-2004:202104-01
