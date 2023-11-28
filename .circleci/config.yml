@@ -41,8 +41,8 @@ workflows:
             <<: *std-filters
 ## flatpak-armhf has Insufficient performance.
 ## Appveyor can also build for Windows.
-        # - build-msvc-wx32-2022:
-        #     <<: *std-filters
+        - build-msvc-wx32-2022:
+            <<: *std-filters
         - build-debian-arm64-12-bookworm:
             <<: *std-filters
         - build-debian-armhf-12-bookworm:
@@ -65,8 +65,8 @@ workflows:
         - build-macos:
              <<: *std-filters
 ## Appveyor no longer builds for Windows.
-        # - build-msvc-2022:
-        #     <<: *std-filters
+        - build-msvc-2022:
+            <<: *std-filters
         - build-debian-armhf-10-buster:
             <<: *std-filters
         - build-debian-armhf-10-buster-gtk3:
@@ -82,42 +82,42 @@ workflows:
 ## KEEP needed for Raspbian OpenCPN v5.6
         - build-ubuntu-armhf-1804-buster:
             <<: *std-filters
-##        - build-ubuntu-x86_64-1804-bionic:
-##            <<: *std-filters
-##        - build-ubuntu-x86_64-1804-bionic-gtk3:
-##            <<: *std-filters
-##        - build-ubuntu-armhf-2004-focal-gtk3:
-##            <<: *std-filters
-##        - build-ubuntu-x86_64-2004-focal-gtk3:
-##            <<: *std-filters
-# orbs:
-#     cloudsmith: cloudsmith/cloudsmith@1.0.4
-#     win: circleci/windows@5.0
+#        - build-ubuntu-x86_64-1804-bionic:
+#            <<: *std-filters
+#        - build-ubuntu-x86_64-1804-bionic-gtk3:
+#            <<: *std-filters
+#        - build-ubuntu-armhf-2004-focal-gtk3:
+#            <<: *std-filters
+#        - build-ubuntu-x86_64-2004-focal-gtk3:
+#            <<: *std-filters
+orbs:
+    cloudsmith: cloudsmith/cloudsmith@1.0.5
+    win: circleci/windows@5.0
 
-# commands:
-#     deploy-code:
-#         parameters:
-#             install-python:
-#                 type: boolean
-#                 default: false
-#             DEPLOY-USE-ORB:
-#                 type: boolean
-#                 default: true
-#         steps:
-#             - when:
-#                 condition: <<pipeline.parameters.run_workflow_deploy>>
-#                 steps:
-#                 - when:
-#                     condition: <<parameters.install-python>>
-#                     steps:
-#                     - run: sudo apt install -y python3-pip
-#                     - run: python3.8 -m pip install cloudsmith-cli
-#                 - when:
-#                     condition: <<parameters.DEPLOY-USE-ORB>>
-#                     steps:
-#                     - cloudsmith/ensure-api-key
-#                     - cloudsmith/install-cli
-#                 - run: bash ci/cloudsmith-upload.sh
+commands:
+    deploy-code:
+        parameters:
+            install-python:
+                type: boolean
+                default: false
+            DEPLOY-USE-ORB:
+                type: boolean
+                default: true
+        steps:
+            - when:
+                condition: <<pipeline.parameters.run_workflow_deploy>>
+                steps:
+                - when:
+                    condition: <<parameters.install-python>>
+                    steps:
+                    - run: sudo apt install -y python3-pip
+                    - run: python3.8 -m pip install cloudsmith-cli
+                - when:
+                    condition: <<parameters.DEPLOY-USE-ORB>>
+                    steps:
+                    - cloudsmith/ensure-api-key
+                    - cloudsmith/install-cli
+                - run: bash ci/cloudsmith-upload.sh
 
     # if you want to use a local proxy add Acquire::http::Proxy \"http://192.168.1.1:3142\"; to a file called circleci-cache/apt-proxy. This will require
     #    --volume {your local directory}/circleci-cache:/home/circleci/circleci-cache
@@ -140,8 +140,8 @@ jobs:
         - checkout
         - run: chmod a+x ci/*.sh
         - run: bash ci/circleci-build-android-arm64.sh
-        # - deploy-code:
-        #     install-python: true
+        - deploy-code:
+            install-python: true
     build-android-armhf:
         docker:
         - image: cimg/android:2021.10.2-ndk
@@ -152,8 +152,8 @@ jobs:
         - checkout
         - run: chmod a+x ci/*.sh
         - run: bash ci/circleci-build-android-armhf.sh
-        # - deploy-code:
-        #     install-python: true
+        - deploy-code:
+            install-python: true
     build-macos-wx32:
         macos:
             xcode: "13.4"
@@ -166,23 +166,23 @@ jobs:
         - checkout
         - run: chmod a+x ci/*.sh
         - run: bash ci/circleci-build-macos.sh
-        # - deploy-code
-    # build-msvc-wx32-2022:
-    #     executor:
-    #         name: win/server-2022
-    #         shell: cmd.exe
-    #     environment:
-    #     - OCPN_TARGET: MSVC
-    #     - MSVC_VERSION: 2022
-    #     - WX_VER: 32
-    #     steps:
-    #     - checkout
-    #     - run:
-    #         privileged: False
-    #         shell: cmd.exe
-    #         command: ci\circleci-build-msvc.bat
-    #     - deploy-code:
-    #         DEPLOY-USE-ORB: false
+        - deploy-code
+    build-msvc-wx32-2022:
+        executor:
+            name: win/server-2022
+            shell: cmd.exe
+        environment:
+        - OCPN_TARGET: MSVC
+        - MSVC_VERSION: 2022
+        - WX_VER: 32
+        steps:
+        - checkout
+        - run:
+            privileged: False
+            shell: cmd.exe
+            command: ci\circleci-build-msvc.bat
+        - deploy-code:
+            DEPLOY-USE-ORB: false
     build-flatpak-arm64-2208:
         machine:
             image: ubuntu-2004:202101-01
@@ -198,7 +198,7 @@ jobs:
         - run: chmod a+x ci/*.sh
         - run:
             command: bash ci/circleci-build-flatpak.sh
-        # - deploy-code
+        - deploy-code
     build-flatpak-x86-2208:
         machine:
             image: ubuntu-2004:202010-01
@@ -214,7 +214,7 @@ jobs:
         - run:
             command: bash ci/circleci-build-flatpak.sh
             no_output_timeout: 30m
-        # - deploy-code
+        - deploy-code
     build-debian-arm64-12-bookworm:
         machine:
             image: ubuntu-2004:202104-01
@@ -232,7 +232,7 @@ jobs:
         - run:
             command: ci/circleci-build-ubuntu-docker.sh
             no_output_timeout: 30m
-        # - deploy-code
+        - deploy-code
     build-debian-armhf-12-bookworm:
         machine:
             image: ubuntu-2004:202104-01
@@ -251,7 +251,7 @@ jobs:
         - run:
             command: ci/circleci-build-ubuntu-docker.sh
             no_output_timeout: 30m
-        # - deploy-code
+        - deploy-code
     build-debian-x86_64-12-bookworm:
         machine:
             image: ubuntu-2004:202104-01
@@ -268,7 +268,7 @@ jobs:
         - run:
             command: ci/circleci-build-ubuntu-docker.sh
             no_output_timeout: 30m
-        # - deploy-code
+        - deploy-code
     build-debian-armhf-11-bullseye:
         machine:
             image: ubuntu-2004:202104-01
@@ -285,7 +285,7 @@ jobs:
         - run:
             command: ci/circleci-build-ubuntu-docker.sh
             no_output_timeout: 30m
-        # - deploy-code
+        - deploy-code
     build-debian-arm64-11-bullseye:
         machine:
             image: ubuntu-2004:202104-01
@@ -302,7 +302,7 @@ jobs:
         - run:
             command: ci/circleci-build-ubuntu-docker.sh
             no_output_timeout: 30m
-        # - deploy-code
+        - deploy-code
     build-debian-x86_64-11-bullseye:
         docker:
         - image: circleci/buildpack-deps:bullseye-scm
@@ -322,7 +322,7 @@ jobs:
         - run: cat /etc/apt/sources.list
         - run: chmod a+x ci/*.sh
         - run: ci/circleci-build-debian.sh
-        # - deploy-code
+        - deploy-code
 ## KEEP needed for OpenCPN v5.8 Jammy wx32 build
     build-ubuntu-x86_64-2204-jammy:
         docker:
@@ -344,7 +344,7 @@ jobs:
         - run: cat /etc/apt/sources.list
         - run: chmod a+x ci/*.sh
         - run: ci/circleci-build-debian.sh
-        # - deploy-code
+        - deploy-code
 ## ---------------------
 ## OpenCPN 5.6.2 Plugins
 ## ---------------------
@@ -360,25 +360,25 @@ jobs:
         - checkout
         - run: chmod a+x ci/*.sh
         - run: bash ci/circleci-build-macos.sh
-        # - deploy-code
-## Appveyor doesn't build for Windows now.
-## If below is used, WinXT will not work.
-    # build-msvc-2022:
-    #     # executor:
-    #     #     name: win/server-2022
-    #     #     shell: cmd.exe
-    #     environment:
-    #     - OCPN_TARGET: MSVC
-    #     - MSVC_VERSION: 2022
-    #     - WX_VER: 31
-    #     steps:
-    #     - checkout
-    #     - run:
-    #         privileged: False
-    #         shell: cmd.exe
-    #         command: ci\circleci-build-msvc.bat
-    #     - deploy-code:
-    #         DEPLOY-USE-ORB: false
+        - deploy-code
+# Appveyor doesn't build for Windows now.
+# If below is used, WinXT will not work.
+    build-msvc-2022:
+        executor:
+            name: win/server-2022
+            shell: cmd.exe
+        environment:
+        - OCPN_TARGET: MSVC
+        - MSVC_VERSION: 2022
+        - WX_VER: 31
+        steps:
+        - checkout
+        - run:
+            privileged: False
+            shell: cmd.exe
+            command: ci\circleci-build-msvc.bat
+        - deploy-code:
+            DEPLOY-USE-ORB: false
     build-debian-armhf-10-buster:
         machine:
             image: ubuntu-2004:202104-01
@@ -394,7 +394,7 @@ jobs:
         - run:
             command: ci/circleci-build-ubuntu-docker.sh
             no_output_timeout: 30m
-        # - deploy-code
+        - deploy-code
     build-debian-armhf-10-buster-gtk3:
         machine:
             image: ubuntu-2004:202104-01
@@ -411,7 +411,7 @@ jobs:
         - run:
             command: ci/circleci-build-ubuntu-docker.sh
             no_output_timeout: 30m
-        # - deploy-code
+        - deploy-code
     build-debian-arm64-10-buster:
         machine:
             image: ubuntu-2004:202104-01
@@ -428,7 +428,7 @@ jobs:
         - run:
             command: ci/circleci-build-ubuntu-docker.sh
             no_output_timeout: 30m
-        # - deploy-code
+        - deploy-code
     build-debian-x86_64-10-buster:
         docker:
         - image: circleci/buildpack-deps:buster-scm
@@ -446,7 +446,7 @@ jobs:
         - run: cat /etc/apt/sources.list
         - run: chmod a+x ci/*.sh
         - run: ci/circleci-build-debian.sh
-        # - deploy-code
+        - deploy-code
 
 ## -------------------------------------------
 ## Ubuntu OS - Generally deprecated and not used.
@@ -467,7 +467,7 @@ jobs:
         - run:
             command: ci/circleci-build-ubuntu-docker.sh
             no_output_timeout: 30m
-        # - deploy-code
+        - deploy-code
     build-ubuntu-x86_64-1804-bionic:
         docker:
         - image: cimg/base:stable-18.04
@@ -485,7 +485,7 @@ jobs:
         - run: cat /etc/apt/sources.list
         - run: chmod a+x ci/*.sh
         - run: ci/circleci-build-debian.sh
-        # - deploy-code
+        - deploy-code
     build-ubuntu-x86_64-1804-bionic-gtk3:
         docker:
         - image: cimg/base:stable-18.04
@@ -505,7 +505,7 @@ jobs:
         - run: cat /etc/apt/sources.list
         - run: chmod a+x ci/*.sh
         - run: ci/circleci-build-debian.sh
-        # - deploy-code
+        - deploy-code
     build-ubuntu-armhf-2004-focal-gtk3:
         machine:
             image: ubuntu-2004:202104-01
@@ -525,7 +525,7 @@ jobs:
         - run:
             command: ci/circleci-build-ubuntu-docker.sh
             no_output_timeout: 30m
-        # - deploy-code
+        - deploy-code
     build-ubuntu-x86_64-2004-focal-gtk3:
         docker:
         - image: cimg/base:stable-20.04
@@ -543,4 +543,4 @@ jobs:
         - run: cat /etc/apt/sources.list
         - run: chmod a+x ci/*.sh
         - run: ci/circleci-build-debian.sh
-        # - deploy-code
+        - deploy-code
