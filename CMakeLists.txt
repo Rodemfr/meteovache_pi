@@ -81,7 +81,7 @@ set(ALPHA "alpha") #Standard Repos
 set(CLOUDSMITH_BASE_REPOSITORY "meteovache_pi")    #without the pi
 
 # Set the following to use OpenCPN cloudsmith repositories instead of own repositories
-set(CLOUDSMITH_USER "ronan-demoment")
+set(CLOUDSMITH_USER "meteovache_pi")
 
 set(XML_INFO_URL "https://github.com/Rodemfr/meteovache_pi")
 set(XML_SUMMARY ${SHORT_DESCRIPTION})
