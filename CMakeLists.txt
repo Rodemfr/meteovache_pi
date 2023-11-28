@@ -73,7 +73,7 @@ set(PARENT "opencpn")
 #set(GIT_REPOSITORY_SERVER "github.com")
 
 ## Specifies Cloudsmith upload repository suffix for each catalog
-set(PROD "prod")   #Standard Repos
+set(PROD "")   #Standard Repos
 set(BETA "beta")   #Standard Repos
 set(ALPHA "alpha") #Standard Repos
 
@@ -81,7 +81,7 @@ set(ALPHA "alpha") #Standard Repos
 set(CLOUDSMITH_BASE_REPOSITORY "meteovache_pi")    #without the pi
 
 # Set the following to use OpenCPN cloudsmith repositories instead of own repositories
-set(CLOUDSMITH_USER "rodemfr")
+set(CLOUDSMITH_USER "ronan-demoment")
 
 set(XML_INFO_URL "https://github.com/Rodemfr/meteovache_pi")
 set(XML_SUMMARY ${SHORT_DESCRIPTION})
@@ -212,18 +212,6 @@ if(NOT OCPN_FLATPAK_CONFIG)
 
     add_subdirectory(opencpn-libs/api-17)
     target_link_libraries(${PACKAGE_NAME} ocpn::api)
-
-    add_subdirectory(opencpn-libs/tinyxml)
-    target_link_libraries(${PACKAGE_NAME} ocpn::tinyxml)
-
-    add_subdirectory(opencpn-libs/odapi)
-    target_link_libraries(${PACKAGE_NAME} ocpn::odapi)
-
-    add_subdirectory(opencpn-libs/jsonlib)
-    target_link_libraries(${PACKAGE_NAME} ocpn::jsonlib)
-
-    add_subdirectory(opencpn-libs/wxJSON)
-    target_link_libraries(${PACKAGE_NAME} ocpn::wxjson)
 
     add_subdirectory(opencpn-libs/plugin_dc)
     target_link_libraries(${PACKAGE_NAME} ocpn::plugin-dc)
