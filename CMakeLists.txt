@@ -1,120 +1,283 @@
-# ~~~
-# Summary:      Main plugin build script
-# Copyright (c) 2020-2021 Mike Rossiter
-# License:      GPLv3+
-# ~~~
+## ---------------------------------------------------------------------------
+## Frontend2 Author:   jongough aka. Jon Gough Copyright: License:  wxWidgets License
+## ---------------------------------------------------------------------------
+## *   Copyright (C)  by Jon Gough                            *
+## *   License:     GPLv3+
+## *   This program is free software; you can redistribute it and/or modify  *
+## *   it under the terms of the GNU General Public License as published by  *
+## *   the Free Software Foundation; either version 2 of the License, or     *
+## *   (at your option) any later version.                                   *
+## *                                                                         *
+## *   This program is distributed in the hope that it will be useful,       *
+## *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+## *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+## *   GNU General Public License for more details.                          *
+## *                                                                         *
+## *   You should have received a copy of the GNU General Public License     *
+## *   along with this program; if not, write to the                         *
+## *   xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,                                       *
+## *   xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx                                       *
+#-----------------------------------------------------------------------------
+# Frontend2 Author: Jon Gough 
+# Testplugin(TP) v1.0.278.0 31/10/2023 DD/MM/YYYY format
+# buildCI:yes useODAPI:yes validateJSON:yes
+# ---------------------------------------------------------------------------
+## -- When changing this file do NOT change the order of the sections.    -- ##
+## -- Make changes only between the section blocks identified             -- ##
+## -- The whole configuration process relies on this sequence for success.-- ##
+##
+## -- Modify section below to include all the details for your plugin.    -- ##
 
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 3 of the License, or
-# (at your option) any later version.
+set(CMLOC "CMakeLists: ")
 
-# -------- Cmake setup ---------
-#
-cmake_minimum_required(VERSION 3.12.0)
-include(${CMAKE_SOURCE_DIR}/cmake/CmakeSetup.cmake NO_POLICY_SCOPE)
-message(STATUS "Cmake version: ${CMAKE_VERSION}.")
+# define minimum cmake version
+cmake_minimum_required(VERSION 3.5.1)
+if(COMMAND cmake_policy)
+    if(POLICY CMP0043)
+        cmake_policy(SET CMP0043 NEW)
+    endif(POLICY CMP0043)
+    cmake_policy(SET CMP0048 NEW)
+# Need cmake 3.13 to implement this, but raspbian builds are at 3.7.2 and bionic at 3.10 and xenial builds at 3.5.1
+    if(POLICY CMP0076)
+        cmake_policy(SET CMP0076 NEW)
+    endif(POLICY CMP0076)
+    if(POLICY CMP0077)
+        cmake_policy(SET CMP0077 NEW)
+    endif(POLICY CMP0077)
+endif(COMMAND cmake_policy)
 
+# define plugin name, owner and versions
+set(VERBOSE_NAME "MeteoVache")
+set(COMMON_NAME "MeteoVache")
+set(TITLE_NAME "MeteoVache")
+set(PACKAGE_CONTACT "Ronan Demoment")
+set(PACKAGE "meteovache")
+set(SHORT_DESCRIPTION "MeteoVache weather plug-in for OpenCPN")
+set(LONG_DESCRIPTION "MeteoVache is a local weather plug-in for OpenCPN. It provides weather forecasts everywhere in the world even with a very low bandwidth Internet connection.")
 
-# -------- Build setup  --------
-#
-include(PluginOptions)
-if (BUILD_TYPE)
-  message(STATUS "Building: ${BUILD_TYPE}")
-else ()
-  message(STATUS "Configuring")
-endif ()
+set(VERSION_MAJOR "1")
+set(VERSION_MINOR "1")
+set(VERSION_PATCH "6")
+set(VERSION_TWEAK "0")
+set(VERSION_DATE  "28/11/2023")#DD/MM/YYYY format
+set(OCPN_MIN_VERSION "ov58")
 
-# -------- Plugin setup ----------
-#
-include(Plugin.cmake)
+set(OCPN_API_VERSION_MAJOR "1")
+set(OCPN_API_VERSION_MINOR "17")
+set(TP_COMMENT "  * Release using CI")
 
-# -------- Setup completed, build the plugin --------
-#
-project(${PKG_NAME} VERSION ${PKG_VERSION})
-include(PluginCompiler)
+set(PARENT "opencpn")
 
-add_library(${CMAKE_PROJECT_NAME} SHARED EXCLUDE_FROM_ALL ${SRC})
-include_directories(BEFORE ${CMAKE_BINARY_DIR}/include)
+#Use to set up a local webserver with git installed.
+#Default is github.com. Now set in pluginconfigure.cmake
+#set(GIT_REPOSITORY_SERVER "github.com")
 
-add_subdirectory("opencpn-libs/${PKG_API_LIB}")
-target_link_libraries(${CMAKE_PROJECT_NAME} ocpn::api)
+## Specifies Cloudsmith upload repository suffix for each catalog
+set(PROD "prod")   #Standard Repos
+set(BETA "beta")   #Standard Repos
+set(ALPHA "alpha") #Standard Repos
 
-set(VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
-set(VERSION_MINOR ${PROJECT_VERSION_MINOR})
-set(VERSION_PATCH ${PROJECT_VERSION_PATCH})
+# Set if  Cloudsmith Base Repository name does not match your Git Repository name.
+set(CLOUDSMITH_BASE_REPOSITORY "meteovache_pi")    #without the pi
 
-set(PACKAGE_NAME ${CMAKE_PROJECT_NAME})
+# Set the following to use OpenCPN cloudsmith repositories instead of own repositories
+set(CLOUDSMITH_USER "rodemfr")
 
-# Create the minimim ocpn version id string like ov50
-string(REGEX REPLACE "\([0-9]\)\.\([0-9]\).*" "ov\\1\\2"
-       OCPN_MIN_VERSION ${API_OCPN_MIN_VERSION})
+set(XML_INFO_URL "https://github.com/Rodemfr/meteovache_pi")
+set(XML_SUMMARY ${SHORT_DESCRIPTION})
+set(XML_DESCRIPTION ${LONG_DESCRIPTION})
 
-if (COMMAND late_init)
-  late_init()
-endif ()
+## ----- Modify section above to include all the details for your plugin ------- ##
+## ----- Modify section below if there are special requirements for the plugin --##
 
-# Configure the flatpak manifest
-file(
-  GLOB manifest ${PROJECT_SOURCE_DIR}/flatpak/org.opencpn.OpenCPN.Plugin.*.yaml
+option(PLUGIN_USE_SVG "Use SVG graphics" ON)
+
+set(CMAKE_CXX_STANDARD 11)
+
+# Use local version of GLU library
+# requires libs/glu directory
+set(USE_LOCAL_GLU FALSE)
+# Prefer libGL.so to libOpenGL.so, see CMP0072
+set(OpenGL_GL_PREFERENCE "LEGACY")   #not operational
+
+option(USE_GL "Enable OpenGL support" ON)
+message(STATUS "${CMLOC}USE_GL: ${USE_GL}")
+
+if("${CMAKE_BUILD_TYPE}" STREQUAL "")
+    set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Choose the type of build" FORCE)
+endif("${CMAKE_BUILD_TYPE}" STREQUAL "")
+set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "" "Debug" "Release" "RelWithDebInfo" "MinSizeRel")
+message(STATUS "${CMLOC}Build type: ${CMAKE_BUILD_TYPE}")
+
+## ----- Statements below used to setup standard variables required by the CMAKE process -- Do not remove - ##
+
+project(${PACKAGE})
+
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+
+##========================================================
+
+include("PluginSetup")
+
+##========================================================
+## ----- Above sets up standard variables required by CMAKE - Do not remove -----##
+## ----- Modify section below if there are special requirements for the plugin --##
+
+set(CMAKE_VERBOSE_MAKEFILE "Activate verbose mode for make files" ON)
+
+option(Plugin_CXX11 "Use c++11" OFF)
+
+## ----- Modify section above if there are special requirements for the plugin --##
+## ----- Do not change next section - needed to configure build process ---------##
+##===========================================================
+
+include("PluginConfigure")
+
+##===========================================================
+## ----- Do not change section above - needed to configure build process --------##
+## ----- Change below to match project requirements for source, headers, etc. ---##
+
+add_definitions(-DUSE_S57)
+
+## ---- Section Below - Add your project SET(SRCS and SET(HDRS  etc..
+
+set(SRCS
+    src/DateTime.h
+    src/Forecast.h
+    src/JobQueue.h
+    src/MeteoVacheClient.h
+    src/MeteoVachePlugin.h
+    src/NetworkThread.h
+    src/Icons.h
+    src/ReportWindow.h
+    src/PreferenceDialog.h
+    src/SpotForecasts.h
+    src/ConfigContainer.h
+    src/ForecastDisplay.h
+    src/ColorGradient.h
 )
-include(ConfigureManifest)
-configure_manifest(${manifest} _new_manifest)
 
-# Set up targets. Targets sets up new targets with BUILD_TYPE set to
-# 'flatpak', 'android' or 'tarball'. The initial call without BUILD_TYPE ends
-# here.
-#
-include(Targets)
-create_targets(${_new_manifest})
-
-if ("${BUILD_TYPE}" STREQUAL "")
-  return ()
-endif ()
-
- 
-if (NOT ${BUILD_TYPE} STREQUAL "flatpak")
-  # Build package as required (flatpak already dealt with).
-  #
-  if (APPLE)
-    include(MacosWxwidgets)
-  endif ()
-  include(PluginInstall)
-  if (QT_ANDROID)
-    include(AndroidLibs)
-  else ()
-    include(PluginLibs)
-  endif ()
-  include(PluginLocalization)
-
-  include_directories(BEFORE ${CMAKE_BINARY_DIR}/include)
- 
-  if (COMMAND add_plugin_libraries)
-    add_plugin_libraries()
-  endif ()
-
-endif ()
-
-configure_file(
-  ${CMAKE_SOURCE_DIR}/config.h.in ${CMAKE_BINARY_DIR}/include/config.h
-  @ONLY
+set(HDRS
+    src/DateTime.h
+    src/Forecast.h
+    src/JobQueue.h
+    src/MeteoVacheClient.h
+    src/MeteoVachePlugin.h
+    src/NetworkThread.h
+    src/Icons.h
+    src/ReportWindow.h
+    src/PreferenceDialog.h
+    src/SpotForecasts.h
+    src/ConfigContainer.h
+    src/ForecastDisplay.h
+    src/ColorGradient.h
 )
 
-configure_file(
-  # The cloudsmith upload script
-  ${CMAKE_SOURCE_DIR}/ci/upload.sh.in ${CMAKE_BINARY_DIR}/upload.sh
-  @ONLY
-)
-configure_file(
-  # The cloudsmith upload script, windows bat file.
-  ${CMAKE_SOURCE_DIR}/ci/upload.bat.in ${CMAKE_BINARY_DIR}/upload.bat
-  @ONLY
-)
+add_definitions(-DPLUGIN_USE_SVG)
 
-set(checksum "@checksum@")
-configure_file(
-  # The XML metadata file
-  ${CMAKE_SOURCE_DIR}/plugin.xml.in
-  ${CMAKE_BINARY_DIR}/${pkg_displayname}.xml.in
-  @ONLY
-)
+## ----- Section above - Add your project SET(SRCS and SET(HDRS  etc.-------##
+
+if(QT_ANDROID)
+endif(QT_ANDROID)
+
+##=============================================================
+## Change as required to collect all the set( headers and SRCS
+## This add_library  can be used in conditionals below.
+##=============================================================
+
+SET(SRC ${SRCS} ${HDRS} )
+
+##=============================================================
+## Modify/configure 'Include' Directories below for the Plugin
+##=============================================================
+
+include_directories(BEFORE ${PROJECT_SOURCE_DIR}/include)
+
+## Change target_sources to match your project needs.
+##==============================================================
+
+target_sources(${PACKAGE_NAME} PUBLIC ${SRC} )
+
+##==============================================================
+
+if(NOT OCPN_FLATPAK_CONFIG)
+    # Build environment not available when flatpak is being configured 
+	# so following statements will not work
+    message(STATUS "${CMLOC}Adding target link libraries to ${PACKAGE_NAME}")
+
+    if (WIN32)
+        add_subdirectory(opencpn-libs/WindowsHeaders)
+        target_link_libraries(${PACKAGE_NAME} windows::headers)
+    endif (WIN32)
+
+    add_subdirectory(opencpn-libs/api-17)
+    target_link_libraries(${PACKAGE_NAME} ocpn::api)
+
+    add_subdirectory(opencpn-libs/tinyxml)
+    target_link_libraries(${PACKAGE_NAME} ocpn::tinyxml)
+
+    add_subdirectory(opencpn-libs/odapi)
+    target_link_libraries(${PACKAGE_NAME} ocpn::odapi)
+
+    add_subdirectory(opencpn-libs/jsonlib)
+    target_link_libraries(${PACKAGE_NAME} ocpn::jsonlib)
+
+    add_subdirectory(opencpn-libs/wxJSON)
+    target_link_libraries(${PACKAGE_NAME} ocpn::wxjson)
+
+    add_subdirectory(opencpn-libs/plugin_dc)
+    target_link_libraries(${PACKAGE_NAME} ocpn::plugin-dc)
+
+endif(NOT OCPN_FLATPAK_CONFIG)
+
+add_definitions(-DTIXML_USE_STL)
+
+##
+## ----- If using JSON validation section below is needed ---------------##
+##
+
+if(UNIX AND NOT APPLE AND NOT QT_ANDRIOD)
+    if(PI_JSON_SCHEMA_VALIDATOR)
+        # Change OS/ABI to be UNIX - System V to make it run with OCPN
+        set(lib_name lib${PACKAGE_NAME}.so)
+        message(STATUS "${CMLOC}lib-name: ${lib_name}")
+        find_file(elfedit elfedit)
+        if(NOT (${elfedit} STREQUAL "elfedit-NOTFOUND"))
+            message(STATUS "${CMLOC}Will ensure OS/ABI is set to 0 to match OCPN")
+            add_custom_command(
+                TARGET ${PACKAGE_NAME}
+                POST_BUILD
+                WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+                DEPENDS ${PACKAGE_NAME}
+                COMMENT " Running post build action on ${lib_name}."
+                COMMAND sh -c 'elfedit --input-osabi=Linux --output-osabi=none ${lib_name} || (echo 0) ')
+        else(NOT (${elfedit} STREQUAL "elfedit-NOTFOUND"))
+            message(STATUS "${CMLOC}Cannot correct OS/ABI to match OCPN if it is generated incorrectly. Package binutils needed")
+        endif(NOT (${elfedit} STREQUAL "elfedit-NOTFOUND"))
+    endif(PI_JSON_SCHEMA_VALIDATOR)
+endif(UNIX AND NOT APPLE AND NOT QT_ANDRIOD)
+
+
+##------- Change below to match project requirements --------------------##
+
+# Needed for android builds
+if(QT_ANDROID)
+    include_directories(BEFORE ${qt_android_include})
+endif(QT_ANDROID)
+
+## Needed for all builds Do not change - needed to build app -------------##
+##===============================================================
+
+include("PluginInstall")
+include("PluginLocalization")
+include("PluginPackage")
+
+##================================================================
+## ----- Do not change section above - needed to configure build process --##
+
+message(STATUS "${CMLOC}include directories: ")
+get_property(dirs DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY INCLUDE_DIRECTORIES)
+foreach(dir ${dirs})
+    message(STATUS "${CMLOC}dir='${dir}'")
+endforeach()
+
