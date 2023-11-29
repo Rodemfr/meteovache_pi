@@ -110,8 +110,7 @@ set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "" "Debug" "Release" "RelWi
 message(STATUS "${CMLOC}Build type: ${CMAKE_BUILD_TYPE}")
 
 ## ----- Statements below used to setup standard variables required by the CMAKE process -- Do not remove - ##
-
-project(${PACKAGE} LANGUAGES C CXX)
+project(${PACKAGE})
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
@@ -142,19 +141,19 @@ add_definitions(-DUSE_S57)
 ## ---- Section Below - Add your project SET(SRCS and SET(HDRS  etc..
 
 set(SRCS
-    src/DateTime.h
-    src/Forecast.h
-    src/JobQueue.h
-    src/MeteoVacheClient.h
-    src/MeteoVachePlugin.h
-    src/NetworkThread.h
-    src/Icons.h
-    src/ReportWindow.h
-    src/PreferenceDialog.h
-    src/SpotForecasts.h
-    src/ConfigContainer.h
-    src/ForecastDisplay.h
-    src/ColorGradient.h
+    src/DateTime.cpp
+    src/Forecast.cpp
+    src/JobQueue.cpp
+    src/MeteoVacheClient.cpp
+    src/MeteoVachePlugin.cpp
+    src/NetworkThread.cpp
+    src/Icons.cpp
+    src/ReportWindow.cpp
+    src/PreferenceDialog.cpp
+    src/SpotForecasts.cpp
+    src/ConfigContainer.cpp
+    src/ForecastDisplay.cpp
+    src/ColorGradient.cpp
 )
 
 set(HDRS

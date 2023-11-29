@@ -34,7 +34,7 @@
 #include "ConfigContainer.h"
 #include "ReportWindow.h"
 
-#include <config.h>
+#include <version.h>
 #include <ocpn_plugin.h>
 #include <wx/wx.h>
 
