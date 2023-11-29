@@ -63,7 +63,7 @@ set(VERSION_DATE  "29/11/2023")#DD/MM/YYYY format
 set(OCPN_MIN_VERSION "ov58")
 
 set(OCPN_API_VERSION_MAJOR "1")
-set(OCPN_API_VERSION_MINOR "17")
+set(OCPN_API_VERSION_MINOR "16")
 set(TP_COMMENT "  * Release using CI")
 
 set(PARENT "opencpn")
@@ -210,23 +210,8 @@ if(NOT OCPN_FLATPAK_CONFIG)
         target_link_libraries(${PACKAGE_NAME} windows::headers)
     endif (WIN32)
 
-    add_subdirectory(opencpn-libs/api-17)
+    add_subdirectory(opencpn-libs/api-16)
     target_link_libraries(${PACKAGE_NAME} ocpn::api)
-
-    add_subdirectory(opencpn-libs/tinyxml)
-    target_link_libraries(${PACKAGE_NAME} ocpn::tinyxml)
-
-    add_subdirectory(opencpn-libs/odapi)
-    target_link_libraries(${PACKAGE_NAME} ocpn::odapi)
-
-    add_subdirectory(opencpn-libs/jsonlib)
-    target_link_libraries(${PACKAGE_NAME} ocpn::jsonlib)
-
-    add_subdirectory(opencpn-libs/wxJSON)
-    target_link_libraries(${PACKAGE_NAME} ocpn::wxjson)
-
-    add_subdirectory(opencpn-libs/plugin_dc)
-    target_link_libraries(${PACKAGE_NAME} ocpn::plugin-dc)
 
 endif(NOT OCPN_FLATPAK_CONFIG)
 
