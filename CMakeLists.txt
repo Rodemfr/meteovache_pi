@@ -111,7 +111,7 @@ message(STATUS "${CMLOC}Build type: ${CMAKE_BUILD_TYPE}")
 
 ## ----- Statements below used to setup standard variables required by the CMAKE process -- Do not remove - ##
 
-project(${PACKAGE})
+project(${PACKAGE} LANGUAGES C CXX)
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
@@ -212,6 +212,9 @@ if(NOT OCPN_FLATPAK_CONFIG)
 
     add_subdirectory(opencpn-libs/api-16)
     target_link_libraries(${PACKAGE_NAME} ocpn::api)
+
+    add_subdirectory(opencpn-libs/zlib)
+    target_link_libraries(${PACKAGE_NAME} ocpn::zlib)
 
 endif(NOT OCPN_FLATPAK_CONFIG)
 
