@@ -58,7 +58,7 @@ set(LONG_DESCRIPTION "MeteoVache is a local weather plug-in for OpenCPN. It prov
 set(VERSION_MAJOR "1")
 set(VERSION_MINOR "1")
 set(VERSION_PATCH "6")
-set(VERSION_TWEAK "1")
+set(VERSION_TWEAK "2")
 set(VERSION_DATE  "29/11/2023")#DD/MM/YYYY format
 set(OCPN_MIN_VERSION "ov58")
 
