@@ -58,8 +58,8 @@ set(LONG_DESCRIPTION "MeteoVache is a local weather plug-in for OpenCPN. It prov
 set(VERSION_MAJOR "1")
 set(VERSION_MINOR "1")
 set(VERSION_PATCH "6")
-set(VERSION_TWEAK "0")
-set(VERSION_DATE  "28/11/2023")#DD/MM/YYYY format
+set(VERSION_TWEAK "1")
+set(VERSION_DATE  "29/11/2023")#DD/MM/YYYY format
 set(OCPN_MIN_VERSION "ov58")
 
 set(OCPN_API_VERSION_MAJOR "1")
@@ -212,6 +212,18 @@ if(NOT OCPN_FLATPAK_CONFIG)
 
     add_subdirectory(opencpn-libs/api-17)
     target_link_libraries(${PACKAGE_NAME} ocpn::api)
+
+    add_subdirectory(opencpn-libs/tinyxml)
+    target_link_libraries(${PACKAGE_NAME} ocpn::tinyxml)
+
+    add_subdirectory(opencpn-libs/odapi)
+    target_link_libraries(${PACKAGE_NAME} ocpn::odapi)
+
+    add_subdirectory(opencpn-libs/jsonlib)
+    target_link_libraries(${PACKAGE_NAME} ocpn::jsonlib)
+
+    add_subdirectory(opencpn-libs/wxJSON)
+    target_link_libraries(${PACKAGE_NAME} ocpn::wxjson)
 
     add_subdirectory(opencpn-libs/plugin_dc)
     target_link_libraries(${PACKAGE_NAME} ocpn::plugin-dc)
