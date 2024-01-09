@@ -124,29 +124,53 @@ jobs:
 ## ---------------------
     build-android-arm64:
         docker:
-        - image: cimg/android:2021.10.2-ndk
-        resource_class: large
+        - image: circleci/android:api-28-ndk
         environment:
-        - OCPN_TARGET:  android-arm64
-        - DEPLOY_USE_ORB: true
+        - OCPN_TARGET: android-aarch64
+        - CMAKE_BUILD_PARALLEL_LEVEL: 2
         steps:
         - checkout
-        - run: chmod a+x ci/*.sh
-        - run: bash ci/circleci-build-android-arm64.sh
-        - deploy-code:
-            install-python: true
+        - run: ci/circleci-build-android.sh
+        - run: sh -c "cd /build-$OCPN_TARGET; /bin/bash < upload.sh"
+#        - run: sh -c "ci/git-push.sh /build-$OCPN_TARGET"
+
     build-android-armhf:
         docker:
-        - image: cimg/android:2021.10.2-ndk
-        resource_class: large
+            - image: circleci/android:api-28-ndk
         environment:
-        - OCPN_TARGET:  android-armhf
+            - OCPN_TARGET: android-armhf
+            - CMAKE_BUILD_PARALLEL_LEVEL: 2
         steps:
-        - checkout
-        - run: chmod a+x ci/*.sh
-        - run: bash ci/circleci-build-android-armhf.sh
-        - deploy-code:
-            install-python: true
+            - checkout
+            - run: ci/circleci-build-android.sh
+            - run: sh -c "cd /build-$OCPN_TARGET; /bin/bash < upload.sh"
+#            - run: sh -c "ci/git-push.sh /build-$OCPN_TARGET"
+
+    # build-android-arm64:
+    #     docker:
+    #     - image: cimg/android:2021.10.2-ndk
+    #     resource_class: large
+    #     environment:
+    #     - OCPN_TARGET:  android-arm64
+    #     - DEPLOY_USE_ORB: true
+    #     steps:
+    #     - checkout
+    #     - run: chmod a+x ci/*.sh
+    #     - run: bash ci/circleci-build-android-arm64.sh
+    #     - deploy-code:
+    #         install-python: true
+    # build-android-armhf:
+    #     docker:
+    #     - image: cimg/android:2021.10.2-ndk
+    #     resource_class: large
+    #     environment:
+    #     - OCPN_TARGET:  android-armhf
+    #     steps:
+    #     - checkout
+    #     - run: chmod a+x ci/*.sh
+    #     - run: bash ci/circleci-build-android-armhf.sh
+    #     - deploy-code:
+    #         install-python: true
     build-macos-wx32:
         macos:
             xcode: "13.4"
