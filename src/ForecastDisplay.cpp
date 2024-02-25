@@ -82,7 +82,6 @@ void ForecastDisplay::SetReportFontSize()
 {
     wxCoord w, h, descent, eLeading;
 
-    wxPaintDC dc(this);
     reportFont = wxFont(wxFontInfo().Family(wxFONTFAMILY_TELETYPE));
     GetTextExtent("M", &w, &h, &descent, &eLeading, &reportFont);
     horizontalFontSize = w;
