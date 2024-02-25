@@ -83,7 +83,7 @@ jobs:
       image: ubuntu-2004:202101-01
     resource_class: arm.medium
     environment:
-      - TARGET_TUPLE: debian;11;armhf
+      - TARGET_TUPLE: debian-wx32;11;armhf
       - OCPN_TARGET: bullseye
       - BUILD_WX32: true
       - CMAKE_BUILD_PARALLEL_LEVEL: 2
@@ -263,11 +263,11 @@ workflows:
       - build-macos:
           <<: *std-filters
 
-      # - build-android-arm64:
-      #     <<: *std-filters
+      - build-android-arm64:
+          <<: *std-filters
 
-      # - build-android-armhf:
-      #     <<: *std-filters
+      - build-android-armhf:
+          <<: *std-filters
 
       - build-bullseye-wx32:
           <<: *std-filters
