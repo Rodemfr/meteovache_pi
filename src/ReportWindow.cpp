@@ -91,7 +91,7 @@ wxBEGIN_EVENT_TABLE(ReportWindow, wxDialog) EVT_COMMAND(wxID_ANY, wxEVT_THREAD_J
 
     statusLabel = new wxStaticText(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0);
     statusLabel->Wrap(-1);
-    reportGlobalSizer->Add(statusLabel, 0, wxALIGN_CENTER_VERTICAL | wxALIGN_LEFT | wxALL, 5);
+    reportGlobalSizer->Add(statusLabel, 0, wxALIGN_LEFT | wxALL, 5);
 
     reportTextArea    = new ForecastDisplay(this, config, wxID_ANY, _("Weather report"), wxDefaultPosition, wxDefaultSize, 0);
     wxFont reportFont = reportTextArea->GetFont();
