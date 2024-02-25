@@ -44,7 +44,7 @@
 
 // This plug-in uses OpenCPN Plug-in API v1.16
 #define PI_API_VERSION_MAJOR 1
-#define PI_API_VERSION_MINOR 16
+#define PI_API_VERSION_MINOR 18
 
 /***************************************************************************/
 /*                                Types                                    */
@@ -54,24 +54,28 @@
 /*                               Classes                                   */
 /***************************************************************************/
 
-class MeteoVachePlugin : public opencpn_plugin_116
+class MeteoVachePlugin : public opencpn_plugin_118
 {
   public:
     MeteoVachePlugin(void *ppimgr);
     ~MeteoVachePlugin();
 
     // Plug-in methods for OpenCPN main program
-    int       Init(void);
-    bool      DeInit(void);
-    void      ShowPreferencesDialog(wxWindow *parent);
-    int       GetAPIVersionMajor();
-    int       GetAPIVersionMinor();
-    int       GetPlugInVersionMajor();
-    int       GetPlugInVersionMinor();
-    wxBitmap *GetPlugInBitmap();
-    wxString  GetCommonName();
-    wxString  GetShortDescription();
-    wxString  GetLongDescription();
+    int         Init(void);
+    bool        DeInit(void);
+    void        ShowPreferencesDialog(wxWindow *parent);
+    int         GetAPIVersionMajor();
+    int         GetAPIVersionMinor();
+    int         GetPlugInVersionMajor();
+    int         GetPlugInVersionMinor();
+    wxBitmap   *GetPlugInBitmap();
+    wxString    GetCommonName();
+    wxString    GetShortDescription();
+    wxString    GetLongDescription();
+    int         GetPlugInVersionPatch();
+    int         GetPlugInVersionPost();
+    const char *GetPlugInVersionPre();
+    const char *GetPlugInVersionBuild();
 
     void OnToolbarToolCallback(int id);
     int  GetToolbarToolCount(void);

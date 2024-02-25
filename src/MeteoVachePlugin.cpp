@@ -68,7 +68,7 @@ extern "C" DECL_EXP void destroy_pi(opencpn_plugin *pluginInstance)
     delete pluginInstance;
 }
 
-MeteoVachePlugin::MeteoVachePlugin(void *pluginManager) : opencpn_plugin_116(pluginManager)
+MeteoVachePlugin::MeteoVachePlugin(void *pluginManager) : opencpn_plugin_118(pluginManager)
 {
     toolBarIconId    = 0;
     contextMenuId    = 0;
@@ -138,7 +138,8 @@ int MeteoVachePlugin::Init(void)
 
 // Create the weather report window
 #ifdef __MACOS__
-    // On MacOS the window needs wxSTAY_ON_TOP flag no to pass behinf OCPN's window
+    // On MacOS the window needs wxSTAY_ON_TOP flag no to pass behinf OCPN's
+    // window
     weatherWindow = new ReportWindow(ocpnParentWindow, &config, wxID_ANY, wxString(_("MeteoVache")), wxPoint(config.windowXPos, config.windowYPos),
                                      wxSize(config.windowWidth, config.windowHeight), wxCLOSE_BOX | wxCAPTION | wxRESIZE_BORDER | wxSTAY_ON_TOP);
 #else
@@ -185,6 +186,26 @@ int MeteoVachePlugin::GetPlugInVersionMinor()
     return PLUGIN_VERSION_MINOR;
 }
 
+int MeteoVachePlugin::GetPlugInVersionPatch()
+{
+    return PLUGIN_VERSION_PATCH;
+}
+
+int MeteoVachePlugin::GetPlugInVersionPost()
+{
+    return PLUGIN_VERSION_TWEAK;
+}
+
+const char *MeteoVachePlugin::GetPlugInVersionPre()
+{
+    return PKG_PRERELEASE;
+}
+
+const char *MeteoVachePlugin::GetPlugInVersionBuild()
+{
+    return PKG_BUILD_INFO;
+}
+
 wxBitmap *MeteoVachePlugin::GetPlugInBitmap()
 {
     return pluginIcon;
@@ -202,7 +223,8 @@ wxString MeteoVachePlugin::GetShortDescription()
 
 wxString MeteoVachePlugin::GetLongDescription()
 {
-    return _("MeteoVache is a weather plug-in for OpenCPN. It provides weather forecasts everywhere in the world even with a very low bandwidth "
+    return _("MeteoVache is a weather plug-in for OpenCPN. It provides weather "
+             "forecasts everywhere in the world even with a very low bandwidth "
              "Internet connection.");
 }
 
