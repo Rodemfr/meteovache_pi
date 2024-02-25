@@ -42,7 +42,7 @@ sudo apt-get -q --allow-unauthenticated install -f
 
 cd /ci-source
 rm -rf build-ubuntu; mkdir build-ubuntu; cd build-ubuntu
-cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DOCPN_TARGET_TUPLE="@TARGET_TUPLE@" ..
+cmake -DCMAKE_BUILD_TYPE=Release -DOCPN_TARGET_TUPLE="@TARGET_TUPLE@" ..
 make -j $(nproc) VERBOSE=1 tarball
 ldd  app/*/lib/opencpn/*.so
 sudo chown --reference=.. .
