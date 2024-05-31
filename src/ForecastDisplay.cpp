@@ -14,13 +14,12 @@
 
 #define REPORT_TEXT_POINT_SIZE 10
 
-ForecastDisplay::ForecastDisplay(wxWindow *parent, ConfigContainer *config, wxWindowID winId, const wxString &label, const wxPoint &pos,
-                                 const wxSize &size, long style, const wxValidator &validator, const wxString &name)
+ForecastDisplay::ForecastDisplay(wxWindow *parent, wxWindowID winId, const wxString &label, const wxPoint &pos, const wxSize &size, long style,
+                                 const wxValidator &validator, const wxString &name)
     : modelIndex(-1)
 {
     (void)validator;
     (void)label;
-    this->config = config;
 
     float value      = 0;
     windowBgColor    = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW);
@@ -69,6 +68,11 @@ ForecastDisplay::ForecastDisplay(wxWindow *parent, ConfigContainer *config, wxWi
     EnableScrolling(false, true);
     ShowScrollbars(wxSHOW_SB_NEVER, wxSHOW_SB_ALWAYS);
     UpdateScrollBar();
+}
+
+void ForecastDisplay::SetConfig(ConfigContainer *config)
+{
+    this->config = config;
 }
 
 void ForecastDisplay::UpdateScrollBar()

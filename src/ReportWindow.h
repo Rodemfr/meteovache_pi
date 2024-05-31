@@ -36,6 +36,7 @@
 #include "JobQueue.h"
 #include "NetworkThread.h"
 #include "SpotForecasts.h"
+#include "ReportWindowBase.h"
 
 #include <wx/colour.h>
 #include <wx/combobox.h>
@@ -61,16 +62,10 @@
 /*                               Classes                                   */
 /***************************************************************************/
 
-class ReportWindow : public wxDialog
+class ReportWindow : public ReportWindowBase
 {
   private:
     DECLARE_EVENT_TABLE()
-
-    // Widgets
-    wxStaticText    *statusLabel;
-    wxComboBox      *modelSelector;
-    ForecastDisplay *reportTextArea;
-    wxButton        *saveButton;
 
     ConfigContainer *config;        // Configuration parameters
     NetworkThread   *workerThread;  // Thread making the network job

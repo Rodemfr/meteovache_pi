@@ -2,6 +2,7 @@
 #define _MVPREFDIALOG_H_
 
 #include "ConfigContainer.h"
+#include "PreferenceDialogBase.h"
 
 #include <wx/artprov.h>
 #include <wx/button.h>
@@ -19,27 +20,9 @@
 #include <wx/textctrl.h>
 #include <wx/xrc/xmlres.h>
 
-class PreferenceDialog : public wxDialog
+class PreferenceDialog : public PreferenceDialogBase
 {
   protected:
-    wxStaticText *windUnitLabel;
-    wxComboBox   *windUnitSelection;
-    wxStaticText *tempUnitLabel;
-    wxComboBox   *tempUnitSelection;
-    wxStaticText *timeZoneLabel;
-    wxComboBox   *timeZoneSelection;
-    wxCheckBox   *disableToolbarIconCheckBox;
-    wxStaticText *serverNameLabel;
-    wxStaticText *serverPortLabel;
-    wxTextCtrl   *serverNameEdit;
-    wxTextCtrl   *serverPortEdit;
-    wxStaticText *autoSavePathLabel;
-    wxTextCtrl   *autoSavePathEdit;
-    wxButton     *autoSavePathEditButton;
-    wxCheckBox   *autoSaveEnableCheckbox;
-    wxCheckBox   *autoSaveColumnCheckbox;
-    wxCheckBox   *autoSaveCompressCheckbox;
-
     ConfigContainer *config;
 
   public:

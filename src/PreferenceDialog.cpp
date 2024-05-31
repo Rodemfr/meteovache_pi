@@ -56,127 +56,12 @@
 
 PreferenceDialog::PreferenceDialog(wxWindow *parent, ConfigContainer *config, wxWindowID id, const wxString &title, const wxPoint &pos,
                                    const wxSize &size, long style)
-    : wxDialog(parent, id, title, pos, size, style)
+    : PreferenceDialogBase(parent, id, title, pos, size, style)
 {
     wxString windUnits[] = {_("kt"), _("bft"), _("m/s"), _("kph"), _("mph")};
     wxString tempUnits[] = {_("Celsius"), _("Farenheit")};
 
     this->config = config;
-    this->SetSizeHints(wxDefaultSize, wxDefaultSize);
-
-    wxBoxSizer *globalSizer = new wxBoxSizer(wxVERTICAL);
-
-    // Unit configuration
-    wxStaticBoxSizer *unitSizer     = new wxStaticBoxSizer(wxVERTICAL, this, _("Units"));
-    wxBoxSizer       *windUnitSizer = new wxBoxSizer(wxHORIZONTAL);
-    windUnitLabel                   = new wxStaticText(unitSizer->GetStaticBox(), wxID_ANY, _("Wind unit"), wxDefaultPosition, wxDefaultSize, 0);
-    windUnitLabel->Wrap(-1);
-    windUnitSizer->Add(windUnitLabel, 1, wxALIGN_CENTER_VERTICAL | wxALL, 5);
-    windUnitSelection = new wxComboBox(unitSizer->GetStaticBox(), wxID_ANY, _("kt"), wxDefaultPosition, wxDefaultSize, 5, windUnits, 0);
-    windUnitSizer->Add(windUnitSelection, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
-    unitSizer->Add(windUnitSizer, 0, wxEXPAND, 5);
-
-    wxBoxSizer *tempUnitSizer = new wxBoxSizer(wxHORIZONTAL);
-    tempUnitLabel             = new wxStaticText(unitSizer->GetStaticBox(), wxID_ANY, _("Temperature unit"), wxDefaultPosition, wxDefaultSize, 0);
-    tempUnitLabel->Wrap(-1);
-    tempUnitSizer->Add(tempUnitLabel, 1, wxALIGN_CENTER_VERTICAL | wxALL, 5);
-    tempUnitSelection = new wxComboBox(unitSizer->GetStaticBox(), wxID_ANY, _("Celsius"), wxDefaultPosition, wxDefaultSize, 2, tempUnits, 0);
-    tempUnitSizer->Add(tempUnitSelection, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
-    unitSizer->Add(tempUnitSizer, 0, wxEXPAND, 5);
-    unitSizer->Add(0, 1, wxEXPAND, 5);
-    globalSizer->Add(unitSizer, 0, wxALL | wxEXPAND, 5);
-
-    // Display
-    wxStaticBoxSizer *displaySizer    = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Display")), wxVERTICAL);
-    wxBoxSizer       *displaySubSizer = new wxBoxSizer(wxHORIZONTAL);
-    timeZoneLabel                     = new wxStaticText(displaySizer->GetStaticBox(), wxID_ANY, _("Time zone"), wxDefaultPosition, wxDefaultSize, 0);
-    timeZoneLabel->Wrap(-1);
-    displaySubSizer->Add(timeZoneLabel, 1, wxALIGN_CENTER_VERTICAL | wxALL, 5);
-    timeZoneSelection = new wxComboBox(displaySizer->GetStaticBox(), wxID_ANY, _("Local / system"), wxDefaultPosition, wxDefaultSize, 0, NULL, 0);
-    timeZoneSelection->Append(_("Local / system"));
-    timeZoneSelection->Append(_("UTC"));
-    displaySubSizer->Add(timeZoneSelection, 0, wxALIGN_CENTER_VERTICAL | wxTOP | wxLEFT | wxRIGHT, 5);
-    displaySizer->Add(displaySubSizer, 1, wxEXPAND, 0);
-    wxBoxSizer *disableToolbarIconSizer = new wxBoxSizer(wxHORIZONTAL);
-    disableToolbarIconSizer->Add(0, 0, 1, wxEXPAND, 5);
-    disableToolbarIconCheckBox =
-        new wxCheckBox(displaySizer->GetStaticBox(), wxID_ANY, _("Disable toolbar icon"), wxDefaultPosition, wxDefaultSize, 0);
-    disableToolbarIconSizer->Add(disableToolbarIconCheckBox, 0, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, 5);
-    displaySizer->Add(disableToolbarIconSizer, 1, wxEXPAND, 5);
-    globalSizer->Add(displaySizer, 0, wxBOTTOM | wxEXPAND | wxLEFT | wxRIGHT, 5);
-
-    // Auto save configuration
-    wxStaticBoxSizer *autosaveSizer     = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Auto save")), wxVERTICAL);
-    wxBoxSizer       *autosavePathSizer = new wxBoxSizer(wxHORIZONTAL);
-    autoSavePathLabel = new wxStaticText(autosaveSizer->GetStaticBox(), wxID_ANY, _("Save directory"), wxDefaultPosition, wxDefaultSize, 0);
-    autoSavePathLabel->Wrap(-1);
-    autosavePathSizer->Add(autoSavePathLabel, 0, wxALIGN_CENTER_VERTICAL | wxALL, 5);
-    autoSavePathEdit = new wxTextCtrl(autosaveSizer->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
-    autosavePathSizer->Add(autoSavePathEdit, 1, wxALIGN_CENTER_VERTICAL | wxALL, 5);
-    autoSavePathEditButton = new wxButton(autosaveSizer->GetStaticBox(), wxID_ANY, _("..."), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT);
-    autosavePathSizer->Add(autoSavePathEditButton, 0, wxALIGN_CENTER_VERTICAL, 5);
-    autosaveSizer->Add(autosavePathSizer, 0, wxEXPAND, 5);
-
-    wxBoxSizer *autosaveCheckboxSizer = new wxBoxSizer(wxHORIZONTAL);
-    autosaveCheckboxSizer->Add(0, 0, 1, wxEXPAND, 5);
-    autoSaveEnableCheckbox = new wxCheckBox(autosaveSizer->GetStaticBox(), wxID_ANY, _("Enable"), wxDefaultPosition, wxDefaultSize, 0);
-    autosaveCheckboxSizer->Add(autoSaveEnableCheckbox, 0, wxALL, 5);
-    autoSaveColumnCheckbox = new wxCheckBox(autosaveSizer->GetStaticBox(), wxID_ANY, _("Column format"), wxDefaultPosition, wxDefaultSize, 0);
-    autosaveCheckboxSizer->Add(autoSaveColumnCheckbox, 0, wxALL, 5);
-    autoSaveCompressCheckbox = new wxCheckBox(autosaveSizer->GetStaticBox(), wxID_ANY, _("Compress"), wxDefaultPosition, wxDefaultSize, 0);
-    autosaveCheckboxSizer->Add(autoSaveCompressCheckbox, 0, wxALL, 5);
-    autosaveSizer->Add(autosaveCheckboxSizer, 1, wxEXPAND, 5);
-    globalSizer->Add(autosaveSizer, 0, wxBOTTOM | wxEXPAND | wxLEFT | wxRIGHT, 5);
-
-    // Server preferences
-    wxStaticBoxSizer *serverSizer      = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Server")), wxVERTICAL);
-    wxBoxSizer       *serverPrefSizer  = new wxBoxSizer(wxHORIZONTAL);
-    wxBoxSizer       *serverLabelSizer = new wxBoxSizer(wxVERTICAL);
-    serverNameLabel = new wxStaticText(serverSizer->GetStaticBox(), wxID_ANY, _("Server name"), wxDefaultPosition, wxDefaultSize, 0);
-    serverNameLabel->Wrap(-1);
-    serverLabelSizer->Add(serverNameLabel, 1, wxALIGN_CENTER_VERTICAL | wxALL, 5);
-    serverPortLabel = new wxStaticText(serverSizer->GetStaticBox(), wxID_ANY, _("Server port"), wxDefaultPosition, wxDefaultSize, 0);
-    serverPortLabel->Wrap(-1);
-    serverLabelSizer->Add(serverPortLabel, 1, wxALIGN_CENTER_VERTICAL | wxALL, 5);
-    serverPrefSizer->Add(serverLabelSizer, 1, wxEXPAND, 5);
-    wxBoxSizer *serverPortSizer = new wxBoxSizer(wxVERTICAL);
-    serverNameEdit = new wxTextCtrl(serverSizer->GetStaticBox(), wxID_ANY, "meteovache.dynv6.org", wxDefaultPosition, wxDefaultSize, wxTE_RIGHT);
-    serverPortSizer->Add(serverNameEdit, 1, wxALIGN_CENTER_VERTICAL | wxALL | wxEXPAND, 5);
-    serverPortEdit = new wxTextCtrl(serverSizer->GetStaticBox(), wxID_ANY, "31837", wxDefaultPosition, wxDefaultSize, wxTE_RIGHT);
-    serverPortSizer->Add(serverPortEdit, 1, wxALIGN_CENTER_VERTICAL | wxALL | wxEXPAND, 5);
-    serverPrefSizer->Add(serverPortSizer, 3, wxEXPAND, 5);
-    serverSizer->Add(serverPrefSizer, 0, wxEXPAND, 5);
-    serverSizer->Add(0, 1, wxEXPAND, 5);
-    globalSizer->Add(serverSizer, 0, wxALL | wxEXPAND, 5);
-    globalSizer->Add(0, 1, wxEXPAND, 5);
-
-    serverNameEdit->Disable();
-    serverPortEdit->Disable();
-
-    // Standard buttons
-    wxStdDialogButtonSizer *stdButtonsSizer = new wxStdDialogButtonSizer();
-    wxButton               *prefOkButton    = new wxButton(this, wxID_OK);
-    stdButtonsSizer->AddButton(prefOkButton);
-    wxButton *prefCancelButton = new wxButton(this, wxID_CANCEL, _("Cancel"));
-    stdButtonsSizer->AddButton(prefCancelButton);
-    stdButtonsSizer->Realize();
-    globalSizer->Add(stdButtonsSizer, 0, wxBOTTOM, 5);
-
-    this->SetSizer(globalSizer);
-
-    windUnitSelection->SetStringSelection(_(config->windUnitString));
-    tempUnitSelection->SetStringSelection(_(config->tempUnitString));
-    timeZoneSelection->SetStringSelection(_(config->timeZoneString));
-    disableToolbarIconCheckBox->SetValue(config->disableToolbarIcon);
-    autoSavePathEdit->SetValue(config->autoSavePath);
-    autoSaveEnableCheckbox->SetValue(config->autoSaveEnable);
-    autoSaveColumnCheckbox->SetValue(config->autoSaveColumn);
-    autoSaveCompressCheckbox->SetValue(config->autoSaveCompress);
-
-    this->Layout();
-    globalSizer->Fit(this);
-
-    this->Centre(wxBOTH);
 
     autoSavePathEditButton->Connect(wxEVT_BUTTON, wxCommandEventHandler(PreferenceDialog::OnAutoSavePathBrowse), NULL, this);
 }

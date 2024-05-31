@@ -62,8 +62,12 @@ set(SRC
     src/Icons.cpp
     src/ReportWindow.h
     src/ReportWindow.cpp
+    src/ReportWindowBase.h
+    src/ReportWindowBase.cpp
     src/PreferenceDialog.h
     src/PreferenceDialog.cpp
+    src/PreferenceDialogBase.h
+    src/PreferenceDialogBase.cpp
     src/SpotForecasts.h
     src/SpotForecasts.cpp
     src/ConfigContainer.h

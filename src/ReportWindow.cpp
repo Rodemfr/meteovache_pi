@@ -67,8 +67,7 @@ wxBEGIN_EVENT_TABLE(ReportWindow, wxDialog) EVT_COMMAND(wxID_ANY, wxEVT_THREAD_J
     /***************************************************************************/
 
     ReportWindow::ReportWindow(wxWindow *parent, ConfigContainer *config, wxWindowID id, const wxString &title, const wxPoint &pos,
-                               const wxSize &size, long style)
-    : wxDialog(parent, id, title, pos, size, style)
+                               const wxSize &size, long style) : ReportWindowBase(parent, id, title, pos, size, style)
 {
     // Initialize all useful fields
     this->config  = config;
@@ -76,40 +75,12 @@ wxBEGIN_EVENT_TABLE(ReportWindow, wxDialog) EVT_COMMAND(wxID_ANY, wxEVT_THREAD_J
     workerThread  = nullptr;
     jobQueue      = new JobQueue(GetEventHandler());
 
-    // Create the UI
-    this->SetSizeHints(wxDefaultSize, wxDefaultSize);
-
-    wxBoxSizer *reportGlobalSizer = new wxBoxSizer(wxVERTICAL);
-
-    wxBoxSizer   *reportTopSizer = new wxBoxSizer(wxHORIZONTAL);
-    wxStaticText *modelLabel     = new wxStaticText(this, wxID_ANY, _("Weather model :"), wxDefaultPosition, wxDefaultSize, 0);
-    modelLabel->Wrap(-1);
-    reportTopSizer->Add(modelLabel, 0, wxALIGN_CENTER | wxALL, 5);
-    modelSelector = new wxComboBox(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
-    reportTopSizer->Add(modelSelector, 0, wxLEFT | wxRIGHT | wxTOP, 5);
-    reportGlobalSizer->Add(reportTopSizer, 0, wxEXPAND, 5);
-
-    statusLabel = new wxStaticText(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0);
-    statusLabel->Wrap(-1);
-    reportGlobalSizer->Add(statusLabel, 0, wxALIGN_LEFT | wxALL, 5);
-
-    reportTextArea    = new ForecastDisplay(this, config, wxID_ANY, _("Weather report"), wxDefaultPosition, wxDefaultSize, 0);
     wxFont reportFont = reportTextArea->GetFont();
     reportFont.SetFamily(wxFONTFAMILY_TELETYPE);
     reportTextArea->SetFont(reportFont);
     reportTextArea->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_LISTBOX));
     reportTextArea->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
-    reportGlobalSizer->Add(reportTextArea, 1, wxLEFT | wxRIGHT | wxTOP | wxEXPAND, 5);
-
-    wxBoxSizer *buttonSizer = new wxBoxSizer(wxHORIZONTAL);
-    saveButton              = new wxButton(this, wxID_ANY, _("Save As..."));
-    buttonSizer->Add(saveButton, 0, wxLEFT | wxRIGHT | wxTOP | wxBOTTOM, 5);
-    reportGlobalSizer->Add(buttonSizer, 0, wxEXPAND, 5);
-
-    this->SetSizer(reportGlobalSizer);
-    this->Layout();
-
-    this->Centre(wxBOTH);
+    reportTextArea->SetConfig(config);
 
     // Connect Events
     this->Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(ReportWindow::OnClose));
