@@ -39,8 +39,8 @@
 #include <wx/filedlg.h>
 #include <wx/filename.h>
 #include <wx/log.h>
-#include <wx/wfstream.h>
-#include <wx/zipstrm.h>
+// #include <wx/wfstream.h>
+// #include <wx/zipstrm.h>
 
 /***************************************************************************/
 /*                              Constants                                  */
@@ -213,40 +213,40 @@ void ReportWindow::OnThreadEvent(wxCommandEvent &evt)
 
 void ReportWindow::AutoSaveReport()
 {
-    if (config->autoSaveEnable)
-    {
-        wxString fileReport;
-        if (config->autoSaveColumn)
-        {
-            fileReport = PrintWeatherColumnReports();
-        }
-        else
-        {
-            fileReport = PrintWeatherReports();
-        }
-        if (config->autoSaveCompress)
-        {
-            wxFileOutputStream outputStream(config->autoSavePath + wxFileName::GetPathSeparator() + GetReportBaseName() + ".zip");
-            if (outputStream.IsOk())
-            {
-                wxZipOutputStream zipStream(outputStream);
-                zipStream.SetLevel(9);
-                zipStream.PutNextEntry(GetReportBaseName() + ".txt");
-                zipStream.Write(fileReport.ToUTF8(), fileReport.length());
-                zipStream.CloseEntry();
-                zipStream.Close();
-            }
-        }
-        else
-        {
-            wxFileOutputStream outputStream(config->autoSavePath + wxFileName::GetPathSeparator() + GetReportBaseName() + ".txt");
-            if (outputStream.IsOk())
-            {
-                outputStream.Write(fileReport.ToUTF8(), fileReport.length());
-                outputStream.Close();
-            }
-        }
-    }
+    // if (config->autoSaveEnable)
+    // {
+    //     wxString fileReport;
+    //     if (config->autoSaveColumn)
+    //     {
+    //         fileReport = PrintWeatherColumnReports();
+    //     }
+    //     else
+    //     {
+    //         fileReport = PrintWeatherReports();
+    //     }
+    //     if (config->autoSaveCompress)
+    //     {
+    //         wxFileOutputStream outputStream(config->autoSavePath + wxFileName::GetPathSeparator() + GetReportBaseName() + ".zip");
+    //         if (outputStream.IsOk())
+    //         {
+    //             wxZipOutputStream zipStream(outputStream);
+    //             zipStream.SetLevel(9);
+    //             zipStream.PutNextEntry(GetReportBaseName() + ".txt");
+    //             zipStream.Write(fileReport.ToUTF8(), fileReport.length());
+    //             zipStream.CloseEntry();
+    //             zipStream.Close();
+    //         }
+    //     }
+    //     else
+    //     {
+    //         wxFileOutputStream outputStream(config->autoSavePath + wxFileName::GetPathSeparator() + GetReportBaseName() + ".txt");
+    //         if (outputStream.IsOk())
+    //         {
+    //             outputStream.Write(fileReport.ToUTF8(), fileReport.length());
+    //             outputStream.Close();
+    //         }
+    //     }
+    // }
 }
 
 wxString ReportWindow::PrintWeatherReport(int modelIndex)
