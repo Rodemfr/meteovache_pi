@@ -63,6 +63,7 @@ class MeteoVacheClient
     bool DownloadAllForecasts(float latitudeDeg, float longitudeDeg, SpotForecasts &spotHandler);
 
   private:
+    bool              serverIpOk;
     wxIPV4address     localIpAddr, serverIpAddr;                // Addresses of the local and distant sockets
     wxDatagramSocket *localSocket;                              // Local socket object for communication with MeteoVache server
     char              gzippedResponse[MVC_MAX_RESPONSE_LENGTH]; // Buffer storing compressed response from server

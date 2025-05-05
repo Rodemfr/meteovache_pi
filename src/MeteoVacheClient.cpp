@@ -60,7 +60,7 @@
 MeteoVacheClient::MeteoVacheClient()
 {
     // Setup IP address of distant server
-    serverIpAddr.Hostname(DEFAULT_METEOVACHE_SERVER_NAME);
+    serverIpOk = serverIpAddr.Hostname(DEFAULT_METEOVACHE_SERVER_NAME);
     serverIpAddr.Service(DEFAULT_METEOVACHE_SERVER_PORT);
 
     // Create the local UDP socket
@@ -82,6 +82,16 @@ bool MeteoVacheClient::DownloadAllForecasts(float latitude, float longitude, Spo
     int      nbForecasts;
     Forecast forecast;
     wxUint32 responseLength;
+
+    if (!serverIpOk)
+    {
+        // Setup IP address of distant server
+        serverIpOk = serverIpAddr.Hostname(DEFAULT_METEOVACHE_SERVER_NAME);
+    }
+
+    if (!serverIpOk) {
+        return false;
+    }
 
     // Prepare REQUEST_ALL_FORECATS_AT_LOCATION :
     // 1 byte = command
