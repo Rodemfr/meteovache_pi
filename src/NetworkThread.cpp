@@ -54,12 +54,13 @@
 /*                              Functions                                  */
 /***************************************************************************/
 
-NetworkThread::NetworkThread(SpotForecasts *spotForecast, JobQueue *jobQueue)
-    : wxThread(wxTHREAD_DETACHED), exitThread(false), condition(mutex), finished(false)
+NetworkThread::NetworkThread(SpotForecasts *spotForecast, JobQueue *jobQueue) : exitThread(false)
 {
     this->spotForecast = spotForecast;
     this->jobQueue     = jobQueue;
     meteoVacheClient   = new MeteoVacheClient();
+
+    netThread = std::thread(StaticEntry, this);
 }
 
 NetworkThread::~NetworkThread()
@@ -70,24 +71,27 @@ NetworkThread::~NetworkThread()
 void NetworkThread::RequestEnd()
 {
     exitThread = true;
-
-    mutex.Lock();
-    if (!finished)
-        condition.Wait();
-
-    mutex.Unlock();
+    if (netThread.joinable())
+    {
+        netThread.join();
+    }
 }
 
-wxThread::ExitCode NetworkThread::Entry()
+void NetworkThread::StaticEntry(NetworkThread *pObject)
+{
+    pObject->Entry();
+}
+
+void NetworkThread::Entry()
 {
     JobRequest job;
     int        retries;
 
     // We check at each loop if the thread has been requested to be deleted
-    while ((TestDestroy() == false) && (exitThread == false))
+    while (exitThread == false)
     {
         // GetNextJobTimeout is a blocking function but we limit the blocking time to 500ms to avoid
-        // blocking OpenCPN for too long when exiting the application (OpenCPN will indirectly wait
+        // blocking OpenCPN for too long when exiting the application (OpenCPN will wait
         // for the end of this thread when stopping the plug-in
         if (jobQueue->GetNextJobTimeout(&job, 500) == true)
         {
@@ -105,9 +109,9 @@ wxThread::ExitCode NetworkThread::Entry()
                     // Send an "on going" event to the ReportWindow
                     jobQueue->ReportResult(job.cmd, JobQueue::JOB_ONGOING);
                     // Check if thread deletion was requested meanwhile
-                    if (TestDestroy())
+                    if (exitThread == true)
                     {
-                        return (wxThread::ExitCode)0;
+                        return;
                     }
                 }
                 // Check if request succeeded or if we reach retry limit
@@ -123,10 +127,5 @@ wxThread::ExitCode NetworkThread::Entry()
         }
     }
 
-    mutex.Lock();
-    finished = true;
-    condition.Signal();
-    mutex.Unlock();
-
-    return (wxThread::ExitCode)0;
+    return;
 }

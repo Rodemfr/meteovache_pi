@@ -146,14 +146,6 @@ void ReportWindow::StartThread()
     StopThread();
     // And we start the new one
     workerThread = new NetworkThread(&spotForecast, jobQueue);
-    if (workerThread->Run() != wxTHREAD_NO_ERROR)
-    {
-        delete workerThread;
-        workerThread = nullptr;
-        // Not beeing able to create the network thread is really a bad situation never supposed to happen
-        // So we trigger a fatal error in this case
-        wxLogFatalError("MeteoVache: Can't create the network thread !");
-    }
 }
 
 void ReportWindow::StopThread()
