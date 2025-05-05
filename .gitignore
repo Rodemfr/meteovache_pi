@@ -9,4 +9,4 @@ cache
 plugins
 *.bat
 *.bak
-.vscode
+buildwin/*.7z
