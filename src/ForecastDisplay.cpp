@@ -210,7 +210,7 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event)
         verticalPos += verticalFontSize;
 
         DateTime    stepTime = runDate;
-        string      dayName;
+        std::string dayName;
         WeatherData data;
         float       cloudCover;
 

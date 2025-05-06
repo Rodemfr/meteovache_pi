@@ -49,8 +49,6 @@
 #include <vector>
 #include <wx/thread.h>
 
-using namespace std;
-
 class SpotForecasts
 {
   public:
@@ -70,10 +68,10 @@ class SpotForecasts
     uint32_t  GetNumberOfForecast();
 
   private:
-    float             latitudeDeg;
-    float             longitudeDeg;
-    vector<Forecast>  forecastList;
-    wxCriticalSection locker;
+    float                  latitudeDeg;
+    float                  longitudeDeg;
+    std::vector<Forecast>  forecastList;
+    wxCriticalSection      locker;
 };
 
 #endif /* _SPOTFORECASTS_H_ */
