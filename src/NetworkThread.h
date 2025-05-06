@@ -34,8 +34,8 @@
  #include "JobQueue.h"
  #include "MeteoVacheClient.h"
  
+ #include <thread>
  #include <wx/event.h>
- #include <wx/thread.h>
  
  /***************************************************************************/
  /*                              Constants                                  */
@@ -52,7 +52,7 @@
  // Prototyped here to avoid including ReportWindow.h and having a circular dependency between header files
  class ReportWindow;
  
- class NetworkThread : public wxThread
+ class NetworkThread
  {
    public:
      NetworkThread(SpotForecasts *spotForecast, JobQueue *jobQueue);
@@ -60,14 +60,13 @@
      void RequestEnd();
  
    private:
-     virtual ExitCode  Entry();
+     std::thread       netThread;
+     static void       StaticEntry(NetworkThread *pObject);
+     void              Entry();
      SpotForecasts    *spotForecast;
      JobQueue         *jobQueue;
      MeteoVacheClient *meteoVacheClient;
      bool              exitThread;
-     wxMutex           mutex;
-     wxCondition       condition;
-     bool              finished;
  };
  
  #endif /* _METEOVACHETHREAD_H_ */
