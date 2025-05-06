@@ -10,16 +10,20 @@
 :: Fix PATH so it can be used in this script
 ::
 if not exist "%HomeDrive%%HomePath%\.local\bin\pathman.exe" (
+    echo *** STAGE 1 ***
     pushd "%HomeDrive%%HomePath%"
     curl.exe https://webi.ms/pathman | powershell
     popd
 )
+echo *** STAGE 2 ***
 pathman list > nul 2>&1
 if errorlevel 1 set PATH=%PATH%;%HomeDrive%\%HomePath%\.local\bin
+echo *** STAGE 3 ***
 pathman add %HomeDrive%%HomePath%\.local\bin >nul
 
 :: Install choco cmake and add it's persistent user path element
 ::
+echo *** STAGE 4 ***
 set CMAKE_HOME=C:\Program Files\CMake
 if not exist "%CMAKE_HOME%\bin\cmake.exe" choco install --no-progress -y cmake
 pathman add "%CMAKE_HOME%\bin" > nul
