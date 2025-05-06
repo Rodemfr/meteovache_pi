@@ -34,7 +34,6 @@
 #include "NetworkThread.h"
 
 #include <math.h>
-#include <stdint.h>
 #include <wx/file.h>
 #include <wx/filedlg.h>
 #include <wx/filename.h>
