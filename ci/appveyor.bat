@@ -10,10 +10,23 @@ set "GIT_HOME=C:\Program Files\Git"
 :: %CONFIGURATION% comes from appveyor.yml, set a default if invoked elsewise.
 if "%CONFIGURATION%" == "" set "CONFIGURATION=RelWithDebInfo"
 
+echo stage 1
+
 call %SCRIPTDIR%..\buildwin\win_deps.bat
+
+echo stage 2
+
 call %SCRIPTDIR%..\cache\wx-config.bat
+
+echo stage 3
+
 echo USING wxWidgets_LIB_DIR: !wxWidgets_LIB_DIR!
+
+echo stage 4
+
 echo USING wxWidgets_ROOT_DIR: !wxWidgets_ROOT_DIR!
+
+echo stage 5
 
 if not defined VCINSTALLDIR (
   for /f "tokens=* USEBACKQ" %%p in (
