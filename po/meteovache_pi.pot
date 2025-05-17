@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-17 19:44+0200\n"
+"POT-Creation-Date: 2025-05-17 20:48+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -75,7 +75,8 @@ msgid "Run date"
 msgstr ""
 
 #. TRANSLATORS: Must be 17 characters max
-#: src/ReportWindow.cpp:285 src/ForecastDisplay.cpp:187
+#: src/ReportWindow.cpp:285 src/PreferenceDialogBase.cpp:64
+#: src/ForecastDisplay.cpp:187
 msgid "Time zone"
 msgstr ""
 
@@ -323,51 +324,123 @@ msgstr ""
 
 #. TRANSLATORS: knots wind speed unit
 #: src/PreferenceDialog.cpp:61 src/PreferenceDialog.cpp:78
+#: src/PreferenceDialogBase.cpp:29 src/PreferenceDialogBase.cpp:30
 msgid "kt"
 msgstr ""
 
 #. TRANSLATORS: beaufort wind speed unit
 #: src/PreferenceDialog.cpp:61 src/PreferenceDialog.cpp:83
+#: src/PreferenceDialogBase.cpp:31
 msgid "bft"
 msgstr ""
 
 #. TRANSLATORS: m/s wind speed unit
 #: src/PreferenceDialog.cpp:61 src/PreferenceDialog.cpp:88
+#: src/PreferenceDialogBase.cpp:32
 msgid "m/s"
 msgstr ""
 
 #. TRANSLATORS: kilometers per hour wind speed unit
 #: src/PreferenceDialog.cpp:61 src/PreferenceDialog.cpp:93
+#: src/PreferenceDialogBase.cpp:33
 msgid "kph"
 msgstr ""
 
 #. TRANSLATORS: miles per hour wind speed unit
 #: src/PreferenceDialog.cpp:61 src/PreferenceDialog.cpp:98
+#: src/PreferenceDialogBase.cpp:34
 msgid "mph"
 msgstr ""
 
 #. TRANSLATORS: Temperature unit
 #: src/PreferenceDialog.cpp:62 src/PreferenceDialog.cpp:109
+#: src/PreferenceDialogBase.cpp:47 src/PreferenceDialogBase.cpp:48
 msgid "Celsius"
 msgstr ""
 
 #. TRANSLATORS: Temperature unit
 #: src/PreferenceDialog.cpp:62 src/PreferenceDialog.cpp:114
+#: src/PreferenceDialogBase.cpp:49
 msgid "Farenheit"
 msgstr ""
 
 #. TRANSLATORS: Time zone reference
-#: src/PreferenceDialog.cpp:125
+#: src/PreferenceDialog.cpp:125 src/PreferenceDialogBase.cpp:68
+#: src/PreferenceDialogBase.cpp:69
 msgid "Local / system"
 msgstr ""
 
 #. TRANSLATORS: Time zone reference
-#: src/PreferenceDialog.cpp:130
+#: src/PreferenceDialog.cpp:130 src/PreferenceDialogBase.cpp:70
 msgid "UTC"
 msgstr ""
 
 #: src/PreferenceDialog.cpp:149
 msgid "Select automatic save directory"
+msgstr ""
+
+#: src/PreferenceDialogBase.cpp:20
+msgid "Units"
+msgstr ""
+
+#: src/PreferenceDialogBase.cpp:25
+msgid "Wind unit"
+msgstr ""
+
+#: src/PreferenceDialogBase.cpp:43
+msgid "Temperature unit"
+msgstr ""
+
+#: src/PreferenceDialogBase.cpp:59
+msgid "Display"
+msgstr ""
+
+#: src/PreferenceDialogBase.cpp:79
+msgid "Disable toolbar icon"
+msgstr ""
+
+#: src/PreferenceDialogBase.cpp:90
+msgid "Auto save"
+msgstr ""
+
+#: src/PreferenceDialogBase.cpp:95
+msgid "Save directory"
+msgstr ""
+
+#: src/PreferenceDialogBase.cpp:102
+msgid "..."
+msgstr ""
+
+#: src/PreferenceDialogBase.cpp:114
+msgid "Enable"
+msgstr ""
+
+#: src/PreferenceDialogBase.cpp:117
+msgid "Column format"
+msgstr ""
+
+#: src/PreferenceDialogBase.cpp:121
+msgid "Compress"
+msgstr ""
+
+#: src/PreferenceDialogBase.cpp:132
+msgid "Server"
+msgstr ""
+
+#: src/PreferenceDialogBase.cpp:137
+msgid "Server name"
+msgstr ""
+
+#: src/PreferenceDialogBase.cpp:141
+msgid "Server port"
+msgstr ""
+
+#: src/PreferenceDialogBase.cpp:151
+msgid "meteovache.dynv6.org"
+msgstr ""
+
+#: src/PreferenceDialogBase.cpp:156
+msgid "31837"
 msgstr ""
 
 #: src/ForecastDisplay.cpp:208

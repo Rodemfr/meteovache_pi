@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: meteovachepi\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-17 19:44+0200\n"
-"PO-Revision-Date: 2025-05-17 19:50+0200\n"
+"POT-Creation-Date: 2025-05-17 20:48+0200\n"
+"PO-Revision-Date: 2025-05-17 20:50+0200\n"
 "Last-Translator: \n"
 "Language-Team: Italian\n"
 "Language: it_IT\n"
@@ -79,7 +79,8 @@ msgid "Run date"
 msgstr "Data esecuzione"
 
 #. TRANSLATORS: Must be 17 characters max
-#: src/ReportWindow.cpp:285 src/ForecastDisplay.cpp:187
+#: src/ReportWindow.cpp:285 src/PreferenceDialogBase.cpp:64
+#: src/ForecastDisplay.cpp:187
 msgid "Time zone"
 msgstr "Fuso orario:"
 
@@ -327,52 +328,124 @@ msgstr "Sabato"
 
 #. TRANSLATORS: knots wind speed unit
 #: src/PreferenceDialog.cpp:61 src/PreferenceDialog.cpp:78
+#: src/PreferenceDialogBase.cpp:29 src/PreferenceDialogBase.cpp:30
 msgid "kt"
 msgstr "kt."
 
 #. TRANSLATORS: beaufort wind speed unit
 #: src/PreferenceDialog.cpp:61 src/PreferenceDialog.cpp:83
+#: src/PreferenceDialogBase.cpp:31
 msgid "bft"
 msgstr "bft"
 
 #. TRANSLATORS: m/s wind speed unit
 #: src/PreferenceDialog.cpp:61 src/PreferenceDialog.cpp:88
+#: src/PreferenceDialogBase.cpp:32
 msgid "m/s"
 msgstr "m/s"
 
 #. TRANSLATORS: kilometers per hour wind speed unit
 #: src/PreferenceDialog.cpp:61 src/PreferenceDialog.cpp:93
+#: src/PreferenceDialogBase.cpp:33
 msgid "kph"
 msgstr "km/h"
 
 #. TRANSLATORS: miles per hour wind speed unit
 #: src/PreferenceDialog.cpp:61 src/PreferenceDialog.cpp:98
+#: src/PreferenceDialogBase.cpp:34
 msgid "mph"
 msgstr "mi/h"
 
 #. TRANSLATORS: Temperature unit
 #: src/PreferenceDialog.cpp:62 src/PreferenceDialog.cpp:109
+#: src/PreferenceDialogBase.cpp:47 src/PreferenceDialogBase.cpp:48
 msgid "Celsius"
 msgstr "Celsius"
 
 #. TRANSLATORS: Temperature unit
 #: src/PreferenceDialog.cpp:62 src/PreferenceDialog.cpp:114
+#: src/PreferenceDialogBase.cpp:49
 msgid "Farenheit"
 msgstr "Farenheit"
 
 #. TRANSLATORS: Time zone reference
-#: src/PreferenceDialog.cpp:125
+#: src/PreferenceDialog.cpp:125 src/PreferenceDialogBase.cpp:68
+#: src/PreferenceDialogBase.cpp:69
 msgid "Local / system"
 msgstr "Locale / Sistema"
 
 #. TRANSLATORS: Time zone reference
-#: src/PreferenceDialog.cpp:130
+#: src/PreferenceDialog.cpp:130 src/PreferenceDialogBase.cpp:70
 msgid "UTC"
 msgstr "UTC"
 
 #: src/PreferenceDialog.cpp:149
 msgid "Select automatic save directory"
 msgstr "Seleziona cartella di salvataggio automatica"
+
+#: src/PreferenceDialogBase.cpp:20
+msgid "Units"
+msgstr "Unità"
+
+#: src/PreferenceDialogBase.cpp:25
+msgid "Wind unit"
+msgstr "Unità vento"
+
+#: src/PreferenceDialogBase.cpp:43
+msgid "Temperature unit"
+msgstr "Unità temperatura"
+
+#: src/PreferenceDialogBase.cpp:59
+msgid "Display"
+msgstr "Visualizza"
+
+#: src/PreferenceDialogBase.cpp:79
+msgid "Disable toolbar icon"
+msgstr "Disabilita icona della barra strumenti"
+
+#: src/PreferenceDialogBase.cpp:90
+msgid "Auto save"
+msgstr "Salva automaticamente"
+
+#: src/PreferenceDialogBase.cpp:95
+msgid "Save directory"
+msgstr "Cartella di salvataggio"
+
+#: src/PreferenceDialogBase.cpp:102
+msgid "..."
+msgstr "..."
+
+#: src/PreferenceDialogBase.cpp:114
+msgid "Enable"
+msgstr "Attiva"
+
+#: src/PreferenceDialogBase.cpp:117
+msgid "Column format"
+msgstr "Formato colonna"
+
+#: src/PreferenceDialogBase.cpp:121
+msgid "Compress"
+msgstr "Comprimi"
+
+#: src/PreferenceDialogBase.cpp:132
+msgid "Server"
+msgstr "Server"
+
+#: src/PreferenceDialogBase.cpp:137
+msgid "Server name"
+msgstr "Nome del server"
+
+#: src/PreferenceDialogBase.cpp:141
+msgid "Server port"
+msgstr "Porta server"
+
+#: src/PreferenceDialogBase.cpp:151
+msgid "meteovache.dynv6.org"
+msgstr ""
+
+#: src/PreferenceDialogBase.cpp:156
+msgid "31837"
+msgstr ""
 
 #: src/ForecastDisplay.cpp:208
 msgid "%"
@@ -385,48 +458,6 @@ msgid ""
 msgstr ""
 "Fare clic destro sulla carta e selezionare \"Previsioni del tempo\" per "
 "ottenere previsioni a questo punto."
-
-#~ msgid "Units"
-#~ msgstr "Unità"
-
-#~ msgid "Wind unit"
-#~ msgstr "Unità vento"
-
-#~ msgid "Temperature unit"
-#~ msgstr "Unità temperatura"
-
-#~ msgid "Display"
-#~ msgstr "Visualizza"
-
-#~ msgid "Disable toolbar icon"
-#~ msgstr "Disabilita icona della barra strumenti"
-
-#~ msgid "Auto save"
-#~ msgstr "Salva automaticamente"
-
-#~ msgid "Save directory"
-#~ msgstr "Cartella di salvataggio"
-
-#~ msgid "..."
-#~ msgstr "..."
-
-#~ msgid "Enable"
-#~ msgstr "Attiva"
-
-#~ msgid "Column format"
-#~ msgstr "Formato colonna"
-
-#~ msgid "Compress"
-#~ msgstr "Comprimi"
-
-#~ msgid "Server"
-#~ msgstr "Server"
-
-#~ msgid "Server name"
-#~ msgstr "Nome del server"
-
-#~ msgid "Server port"
-#~ msgstr "Porta server"
 
 #~ msgid "Cancel"
 #~ msgstr "Annulla"

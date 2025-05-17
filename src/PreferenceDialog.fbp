@@ -15,7 +15,7 @@
     <property name="encoding">UTF-8</property>
     <property name="file">PreferenceDialogBase</property>
     <property name="first_id">1000</property>
-    <property name="internationalize">0</property>
+    <property name="internationalize">1</property>
     <property name="lua_skip_events">1</property>
     <property name="lua_ui_table">UI</property>
     <property name="name">PreferenceDialogBase</property>
@@ -165,7 +165,7 @@
                     <property name="caption"></property>
                     <property name="caption_visible">1</property>
                     <property name="center_pane">0</property>
-                    <property name="choices">&quot;nd&quot; &quot;bft&quot; &quot;m/s&quot; &quot;km/h&quot; &quot;mi/h&quot;</property>
+                    <property name="choices">&quot;kt&quot; &quot;bft&quot; &quot;m/s&quot; &quot;kph&quot; &quot;mph&quot;</property>
                     <property name="close_button">1</property>
                     <property name="context_help"></property>
                     <property name="context_menu">1</property>
@@ -207,7 +207,7 @@
                     <property name="validator_style">wxFILTER_NONE</property>
                     <property name="validator_type">wxDefaultValidator</property>
                     <property name="validator_variable"></property>
-                    <property name="value">nd</property>
+                    <property name="value">kt</property>
                     <property name="window_extra_style"></property>
                     <property name="window_name"></property>
                     <property name="window_style"></property>
