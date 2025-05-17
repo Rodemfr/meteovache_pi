@@ -17,7 +17,7 @@
 - "Icon D2" : high resolution model (0.02°) from [Deutscher Wetterdienst](https://www.dwd.de/EN) (Coverage : Germany)
 - "Arpege HD" : regional model (0.1°) from [Météo France](http://www.meteofrance.com) (Coverage : Europe)
 - "Icon Eu" : regional model (0.125°) from [Deutscher Wetterdienst](https://www.dwd.de/EN) (Coverage : Europe)
-- "Arpege" : global model (0.5°) from [Météo France](http://www.meteofrance.com) (Coverage : World)
+- "Arpege" : global model (0.25°) from [Météo France](http://www.meteofrance.com) (Coverage : World)
 
 *MeteoVache* needs an Internet connection to retrieve weather data from *MeteoVache* server. It has been specifically designed to minimize the amount of data required to get a forecast at a given location. A typical request weights between 500 and 1500 bytes, making it suitable for very low bandwidth Internet connections like Edge GSM.
 
