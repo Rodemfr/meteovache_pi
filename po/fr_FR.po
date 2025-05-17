@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: meteovache_pi 0.9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-17 18:51+0200\n"
-"PO-Revision-Date: 2025-05-17 18:52+0200\n"
+"POT-Creation-Date: 2025-05-17 19:44+0200\n"
+"PO-Revision-Date: 2025-05-17 19:45+0200\n"
 "Last-Translator: Ronan Demoment\n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
@@ -234,6 +234,22 @@ msgstr "Fichier texte en colonnes"
 msgid "WForecast"
 msgstr "Prev"
 
+#: src/ReportWindowBase.cpp:21
+msgid "Weather model :"
+msgstr "Modèle météo :"
+
+#: src/ReportWindowBase.cpp:25
+msgid "No Data"
+msgstr "Pas de données"
+
+#: src/ReportWindowBase.cpp:35
+msgid "Weather report"
+msgstr "Rapport de prévisions"
+
+#: src/ReportWindowBase.cpp:41
+msgid "Save As..."
+msgstr "Enregistrer sous..."
+
 #: src/DateTime.cpp:297
 msgid "January"
 msgstr "Janvier"
@@ -370,15 +386,6 @@ msgid ""
 msgstr ""
 "Cliquez avec le bouton droit sur la carte et sélectionnez \"Prévisions "
 "météo\" pour obtenir les prévisions à ce point."
-
-#~ msgid "Weather model :"
-#~ msgstr "Modèle météo :"
-
-#~ msgid "Weather report"
-#~ msgstr "Rapport de prévisions"
-
-#~ msgid "Save As..."
-#~ msgstr "Enregistrer sous..."
 
 #~ msgid "Units"
 #~ msgstr "Unités"

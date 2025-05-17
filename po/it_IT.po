@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: meteovachepi\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-17 18:51+0200\n"
-"PO-Revision-Date: 2025-05-17 18:53+0200\n"
+"POT-Creation-Date: 2025-05-17 19:44+0200\n"
+"PO-Revision-Date: 2025-05-17 19:50+0200\n"
 "Last-Translator: \n"
 "Language-Team: Italian\n"
 "Language: it_IT\n"
@@ -233,6 +233,22 @@ msgstr "File Di Testo Colonna"
 msgid "WForecast"
 msgstr "WPrevisioni"
 
+#: src/ReportWindowBase.cpp:21
+msgid "Weather model :"
+msgstr "Modello meteo :"
+
+#: src/ReportWindowBase.cpp:25
+msgid "No Data"
+msgstr "Nessun dato"
+
+#: src/ReportWindowBase.cpp:35
+msgid "Weather report"
+msgstr "Bollettino meteo"
+
+#: src/ReportWindowBase.cpp:41
+msgid "Save As..."
+msgstr "Salva come..."
+
 #: src/DateTime.cpp:297
 msgid "January"
 msgstr "Gennaio"
@@ -369,15 +385,6 @@ msgid ""
 msgstr ""
 "Fare clic destro sulla carta e selezionare \"Previsioni del tempo\" per "
 "ottenere previsioni a questo punto."
-
-#~ msgid "Weather model :"
-#~ msgstr "Modello meteo :"
-
-#~ msgid "Weather report"
-#~ msgstr "Bollettino meteo"
-
-#~ msgid "Save As..."
-#~ msgstr "Salva come..."
 
 #~ msgid "Units"
 #~ msgstr "Unità"

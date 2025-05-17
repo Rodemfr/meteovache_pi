@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: meteovachepi\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-17 18:51+0200\n"
-"PO-Revision-Date: 2025-05-17 18:53+0200\n"
+"POT-Creation-Date: 2025-05-17 19:44+0200\n"
+"PO-Revision-Date: 2025-05-17 19:48+0200\n"
 "Last-Translator: \n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -233,6 +233,22 @@ msgstr "Spaltentextdatei"
 msgid "WForecast"
 msgstr "WVorhersage"
 
+#: src/ReportWindowBase.cpp:21
+msgid "Weather model :"
+msgstr "Wettermodell:"
+
+#: src/ReportWindowBase.cpp:25
+msgid "No Data"
+msgstr "Keine daten"
+
+#: src/ReportWindowBase.cpp:35
+msgid "Weather report"
+msgstr "Wetterbericht"
+
+#: src/ReportWindowBase.cpp:41
+msgid "Save As..."
+msgstr "Speichern unter..."
+
 #: src/DateTime.cpp:297
 msgid "January"
 msgstr "Januar"
@@ -369,15 +385,6 @@ msgid ""
 msgstr ""
 "Klicken Sie mit der rechten Maustaste auf die Karte und wählen Sie die "
 "\"Wettervorhersage\" für diesen Ort."
-
-#~ msgid "Weather model :"
-#~ msgstr "Wettermodell:"
-
-#~ msgid "Weather report"
-#~ msgstr "Wetterbericht"
-
-#~ msgid "Save As..."
-#~ msgstr "Speichern unter..."
 
 #~ msgid "Units"
 #~ msgstr "Einheiten"

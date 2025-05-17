@@ -1,6 +1,7 @@
 src/MeteoVachePlugin.cpp
 src/ReportWindow.cpp
+src/ReportWindowBase.cpp
 src/DateTime.cpp
 src/PreferenceDialog.cpp
+src/PreferenceDialogBase.cpp
 src/ForecastDisplay.cpp
-

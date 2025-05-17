@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-17 18:51+0200\n"
+"POT-Creation-Date: 2025-05-17 19:44+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -227,6 +227,22 @@ msgstr ""
 
 #: src/ReportWindow.cpp:564
 msgid "WForecast"
+msgstr ""
+
+#: src/ReportWindowBase.cpp:21
+msgid "Weather model :"
+msgstr ""
+
+#: src/ReportWindowBase.cpp:25
+msgid "No Data"
+msgstr ""
+
+#: src/ReportWindowBase.cpp:35
+msgid "Weather report"
+msgstr ""
+
+#: src/ReportWindowBase.cpp:41
+msgid "Save As..."
 msgstr ""
 
 #: src/DateTime.cpp:297
