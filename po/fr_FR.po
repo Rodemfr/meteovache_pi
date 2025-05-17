@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: meteovache_pi 0.9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-19 13:56+0200\n"
-"PO-Revision-Date: 2023-04-19 14:00+0200\n"
+"POT-Creation-Date: 2023-04-19 14:42+0200\n"
+"PO-Revision-Date: 2025-05-17 17:48+0200\n"
 "Last-Translator: Ronan Demoment\n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #: src/MeteoVachePlugin.cpp:101 src/MeteoVachePlugin.cpp:102
 #: src/MeteoVachePlugin.cpp:117 src/MeteoVachePlugin.cpp:165
@@ -107,22 +107,22 @@ msgstr "Vent"
 msgid "Gust"
 msgstr "Rafl"
 
-#. TRANSLATORS: Must be 5 characters max
+#. TRANSLATORS: Must be 5 characters max : abbreviation of "Direction"
 #: src/ReportWindow.cpp:320 src/ForecastDisplay.cpp:193
 msgid "Dir"
 msgstr "Dir"
 
-#. TRANSLATORS: Must be 5 characters max
+#. TRANSLATORS: Must be 5 characters max : A short word for "Rainfall"
 #: src/ReportWindow.cpp:320 src/ForecastDisplay.cpp:195
 msgid "Rain"
 msgstr "Précp"
 
-#. TRANSLATORS: Must be 5 characters max
+#. TRANSLATORS: Must be 5 characters max : a short word for "Cloud Cover"
 #: src/ReportWindow.cpp:320 src/ForecastDisplay.cpp:197
 msgid "Cloud"
 msgstr "CouvN"
 
-#. TRANSLATORS: Must be 4 characters max
+#. TRANSLATORS: Must be 4 characters max : abbreviation of "Temperature"
 #: src/ReportWindow.cpp:320 src/ForecastDisplay.cpp:199
 msgid "Temp"
 msgstr "Temp"

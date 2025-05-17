@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: meteovachepi\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-04-19 14:42+0200\n"
-"PO-Revision-Date: 2023-06-11 10:11\n"
+"PO-Revision-Date: 2025-05-17 17:52+0200\n"
 "Last-Translator: \n"
 "Language-Team: German\n"
 "Language: de_DE\n"
@@ -16,6 +16,7 @@ msgstr ""
 "X-Crowdin-Language: de\n"
 "X-Crowdin-File: meteovache_pi.pot\n"
 "X-Crowdin-File-ID: 3\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #: src/MeteoVachePlugin.cpp:101 src/MeteoVachePlugin.cpp:102
 #: src/MeteoVachePlugin.cpp:117 src/MeteoVachePlugin.cpp:165
@@ -36,8 +37,13 @@ msgid "MeteoVache weather plug-in for OpenCPN"
 msgstr "MeteoVache Wetterplug-in für OpenCPN"
 
 #: src/MeteoVachePlugin.cpp:175
-msgid "MeteoVache is a weather plug-in for OpenCPN. It provides weather forecasts everywhere in the world even with a very low bandwidth Internet connection."
-msgstr "MeteoVache ist ein Wetterplug-in für OpenCPN. Es bietet Wettervorhersagen auf der ganzen Welt, und das selbst bei Internetverbindungen mit sehr eingeschränkter Bandbreite."
+msgid ""
+"MeteoVache is a weather plug-in for OpenCPN. It provides weather forecasts "
+"everywhere in the world even with a very low bandwidth Internet connection."
+msgstr ""
+"MeteoVache ist ein Wetterplug-in für OpenCPN. Es bietet Wettervorhersagen "
+"auf der ganzen Welt, und das selbst bei Internetverbindungen mit sehr "
+"eingeschränkter Bandbreite."
 
 #: src/MeteoVachePlugin.cpp:215
 msgid "MeteoVache preferences"
@@ -79,8 +85,8 @@ msgid "Provider"
 msgstr "Anbieter"
 
 #. TRANSLATORS: Must be 17 characters max
-#: src/ReportWindow.cpp:308 src/ReportWindow.cpp:314 src/ForecastDisplay.cpp:171
-#: src/ForecastDisplay.cpp:177
+#: src/ReportWindow.cpp:308 src/ReportWindow.cpp:314
+#: src/ForecastDisplay.cpp:171 src/ForecastDisplay.cpp:177
 msgid "Run date"
 msgstr "Laufdatum"
 
@@ -130,8 +136,8 @@ msgid "No data"
 msgstr "Keine Daten"
 
 #. TRANSLATORS: Cardinal letter for "South"
-#: src/ReportWindow.cpp:429 src/ReportWindow.cpp:453 src/ForecastDisplay.cpp:325
-#: src/ForecastDisplay.cpp:389
+#: src/ReportWindow.cpp:429 src/ReportWindow.cpp:453
+#: src/ForecastDisplay.cpp:325 src/ForecastDisplay.cpp:389
 msgid "S"
 msgstr "S"
 
@@ -143,14 +149,14 @@ msgid "N"
 msgstr "N"
 
 #. TRANSLATORS: Cardinal letter for "West"
-#: src/ReportWindow.cpp:440 src/ReportWindow.cpp:461 src/ForecastDisplay.cpp:375
-#: src/ForecastDisplay.cpp:401
+#: src/ReportWindow.cpp:440 src/ReportWindow.cpp:461
+#: src/ForecastDisplay.cpp:375 src/ForecastDisplay.cpp:401
 msgid "W"
 msgstr "W"
 
 #. TRANSLATORS: Cardinal letter for "East"
-#: src/ReportWindow.cpp:440 src/ReportWindow.cpp:477 src/ForecastDisplay.cpp:375
-#: src/ForecastDisplay.cpp:425
+#: src/ReportWindow.cpp:440 src/ReportWindow.cpp:477
+#: src/ForecastDisplay.cpp:375 src/ForecastDisplay.cpp:425
 msgid "E"
 msgstr "O"
 
@@ -433,6 +439,9 @@ msgid "%"
 msgstr "%"
 
 #: src/ForecastDisplay.cpp:285
-msgid "Right click on the map and select \"Weather forecast\" to get forecast at this point."
-msgstr "Klicken Sie mit der rechten Maustaste auf die Karte und wählen Sie die \"Wettervorhersage\" für diesen Ort."
-
+msgid ""
+"Right click on the map and select \"Weather forecast\" to get forecast at "
+"this point."
+msgstr ""
+"Klicken Sie mit der rechten Maustaste auf die Karte und wählen Sie die "
+"\"Wettervorhersage\" für diesen Ort."
