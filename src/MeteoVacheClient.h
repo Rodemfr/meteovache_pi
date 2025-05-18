@@ -40,8 +40,10 @@
 /*                              Constants                                  */
 /***************************************************************************/
 
-#define DEFAULT_METEOVACHE_SERVER_NAME "meteovache.dynv6.net"
-#define DEFAULT_METEOVACHE_SERVER_PORT 31837
+#define DEFAULT_METEOVACHE_SERVER_PORT  31837
+#define DEFAULT_METEOVACHE_SERVER_NAME  "meteovache.dynv6.net"
+#define ROLLBACK_METEOVACHE_SERVER_NAME "82.66.129.191"
+
 // Maximum size of server's response to a forecast request
 #define MVC_MAX_RESPONSE_LENGTH 8192
 
@@ -69,6 +71,8 @@ class MeteoVacheClient
     char              gzippedResponse[MVC_MAX_RESPONSE_LENGTH]; // Buffer storing compressed response from server
     char              serverResponse[MVC_MAX_RESPONSE_LENGTH];  // Buffer storing uncompressed response from server
 
+    // Get MeteoVache server address from DNS
+    void GetServerAddress();
     // Uncompress a gzipped response from the server
     unsigned int UncompressBuffer(void *inputBuffer, unsigned int inputLength, void *outputBuffer, unsigned int outputLength);
 };

@@ -60,7 +60,6 @@
 MeteoVacheClient::MeteoVacheClient()
 {
     // Setup IP address of distant server
-    serverIpOk = serverIpAddr.Hostname(DEFAULT_METEOVACHE_SERVER_NAME);
     serverIpAddr.Service(DEFAULT_METEOVACHE_SERVER_PORT);
 
     // Create the local UDP socket
@@ -83,15 +82,7 @@ bool MeteoVacheClient::DownloadAllForecasts(float latitude, float longitude, Spo
     Forecast forecast;
     wxUint32 responseLength;
 
-    if (!serverIpOk)
-    {
-        // Setup IP address of distant server
-        serverIpOk = serverIpAddr.Hostname(DEFAULT_METEOVACHE_SERVER_NAME);
-    }
-
-    if (!serverIpOk) {
-        return false;
-    }
+    GetServerAddress();
 
     // Prepare REQUEST_ALL_FORECATS_AT_LOCATION :
     // 1 byte = command
@@ -127,6 +118,24 @@ bool MeteoVacheClient::DownloadAllForecasts(float latitude, float longitude, Spo
     spotForecast.Unlock();
 
     return (true);
+}
+
+void MeteoVacheClient::GetServerAddress()
+{
+    if (!serverIpOk)
+    {
+        // Setup IP address of distant server
+        serverIpOk = serverIpAddr.Hostname(DEFAULT_METEOVACHE_SERVER_NAME);
+        if (!serverIpOk)
+        {
+            // If DNS is not responding, use hard coded rollback address
+            serverIpOk = serverIpAddr.Hostname(ROLLBACK_METEOVACHE_SERVER_NAME);
+        }
+        else
+        {
+            printf("MeteoVache : DNS address received\n");
+        }
+    }
 }
 
 unsigned int MeteoVacheClient::UncompressBuffer(void *inputBuffer, unsigned int inputLength, void *outputBuffer, unsigned int outputLength)
