@@ -129,11 +129,7 @@ void MeteoVacheClient::GetServerAddress()
         if (!serverIpOk)
         {
             // If DNS is not responding, use hard coded rollback address
-            serverIpOk = serverIpAddr.Hostname(ROLLBACK_METEOVACHE_SERVER_NAME);
-        }
-        else
-        {
-            printf("MeteoVache : DNS address received\n");
+            serverIpAddr.Hostname(ROLLBACK_METEOVACHE_SERVER_NAME);
         }
     }
 }
