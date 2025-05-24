@@ -46,6 +46,8 @@
 
 // Maximum size of server's response to a forecast request
 #define MVC_MAX_RESPONSE_LENGTH 8192
+// Maximum number of data packets
+#define MVC_MAX_DATA_PACKET 16
 
 /***************************************************************************/
 /*                                Types                                    */
@@ -68,7 +70,9 @@ class MeteoVacheClient
     bool              serverIpOk;
     wxIPV4address     localIpAddr, serverIpAddr;                // Addresses of the local and distant sockets
     wxDatagramSocket *localSocket;                              // Local socket object for communication with MeteoVache server
-    char              gzippedResponse[MVC_MAX_RESPONSE_LENGTH]; // Buffer storing compressed response from server
+    char              packetStatus[MVC_MAX_DATA_PACKET];
+    char              packetData[MVC_MAX_RESPONSE_LENGTH];      // Buffer storing a data packet received from server
+    char              gzippedResponse[MVC_MAX_RESPONSE_LENGTH]; // Buffer storing an entire compressed response from server
     char              serverResponse[MVC_MAX_RESPONSE_LENGTH];  // Buffer storing uncompressed response from server
 
     // Get MeteoVache server address from DNS

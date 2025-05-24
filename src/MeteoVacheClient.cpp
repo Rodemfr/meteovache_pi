@@ -39,7 +39,8 @@
 /*                              Constants                                  */
 /***************************************************************************/
 
-#define MV_CMD_REQUEST_ALL_FORECAST_AT_LOCATION 1
+#define MV_CMD_REQUEST_ALL_FORECAST_GZIP  1
+#define MV_CMD_REQUEST_ALL_FORECAST_SPLIT 2
 
 /***************************************************************************/
 /*                             Local types                                 */
@@ -80,27 +81,83 @@ bool MeteoVacheClient::DownloadAllForecasts(float latitude, float longitude, Spo
     char     requestBuffer[9];
     int      nbForecasts;
     Forecast forecast;
-    wxUint32 responseLength;
 
     GetServerAddress();
 
-    // Prepare REQUEST_ALL_FORECATS_AT_LOCATION :
+    // Prepare REQUEST_ALL_FORECATS_AT_LOCATION_SPLIT :
     // 1 byte = command
     // 1 float = latitude (little endian)
     // 1 float = longitude (little endian)
-    requestBuffer[0] = MV_CMD_REQUEST_ALL_FORECAST_AT_LOCATION;
+    requestBuffer[0] = MV_CMD_REQUEST_ALL_FORECAST_SPLIT;
     // TODO : Handle endianess
     *((float *)(requestBuffer + 1)) = latitude;
     *((float *)(requestBuffer + 5)) = longitude;
 
+    memset(packetStatus, 0, sizeof(packetStatus));
+
     localSocket->Discard();
     localSocket->SendTo(serverIpAddr, requestBuffer, sizeof(requestBuffer));
-    localSocket->Read(gzippedResponse, sizeof(gzippedResponse));
-    responseLength = localSocket->LastReadCount();
-    if (localSocket->Error() || (responseLength == 0))
+
+    localSocket->Read(packetData, sizeof(packetData));
+    if (localSocket->Error() || (localSocket->LastReadCount() == 0))
     {
         return (false);
     }
+
+    wxUint32 nbPackets       = *((uint8_t *)packetData);
+    wxUint32 packetIndex     = *((uint8_t *)(packetData + 1));
+    wxUint32 responseLength  = *((uint16_t *)(packetData + 2));
+    wxUint32 baseSplitLength = *((uint16_t *)(packetData + 4));
+    wxUint32 packetLength    = *((uint16_t *)(packetData + 6));
+
+    if ((nbPackets > MVC_MAX_DATA_PACKET) || (packetIndex > nbPackets))
+    {
+        return false;
+    }
+    memset(packetStatus, 0, nbPackets);
+    memcpy(gzippedResponse + baseSplitLength * packetIndex, packetData + 8, packetLength);
+    packetStatus[packetIndex] = 1;
+
+    do
+    {
+        uint8_t downloadComplete;
+        downloadComplete = 0xff;
+        for (wxUint32 i = 0; i < nbPackets; i++)
+        {
+            downloadComplete &= packetStatus[i];
+        }
+        if (downloadComplete != 0)
+        {
+            break;
+        }
+
+        localSocket->Read(packetData, sizeof(packetData));
+        if (localSocket->Error() || (localSocket->LastReadCount() == 0))
+        {
+            return (false);
+        }
+
+        if (*((uint8_t *)packetData) != nbPackets)
+        {
+            return false;
+        }
+        packetIndex = *((uint8_t *)(packetData + 1));
+        if (packetIndex > nbPackets)
+        {
+            return false;
+        }
+        if (*((uint16_t *)(packetData + 2)) != responseLength)
+        {
+            return false;
+        }
+        if (*((uint16_t *)(packetData + 4)) != baseSplitLength)
+        {
+            break;
+        }
+        packetLength = *((uint16_t *)(packetData + 6));
+        memcpy(gzippedResponse + baseSplitLength * packetIndex, packetData + 8, packetLength);
+        packetStatus[packetIndex] = 1;
+    } while (true);
     UncompressBuffer(gzippedResponse, responseLength, serverResponse, sizeof(serverResponse));
 
     nbForecasts = serverResponse[0];
