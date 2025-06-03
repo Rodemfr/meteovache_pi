@@ -105,6 +105,7 @@ bool ConfigContainer::LoadConfig(void)
         pConf->Read("TempUnitString", &tempUnitString, "C");
         pConf->Read("TimeZoneString", &timeZoneString, "Local / system");
         pConf->Read("DisableToolbarIcon", &disableToolbarIcon, false);
+        pConf->Read("GraphicalWindArrows", &graphicalWindArrows, true);
         pConf->Read("AutoSavePath", &autoSavePath, autoSavePath);
         pConf->Read("AutoSaveEnable", &autoSaveEnable, false);
         pConf->Read("AutoSaveColumn", &autoSaveColumn, false);
@@ -135,6 +136,7 @@ bool ConfigContainer::SaveConfig(void)
         pConf->Write("TempUnitString", tempUnitString);
         pConf->Write("TimeZoneString", timeZoneString);
         pConf->Write("DisableToolbarIcon", disableToolbarIcon);
+        pConf->Write("GraphicalWindArrows", graphicalWindArrows);
         pConf->Write("AutoSavePath", autoSavePath);
         pConf->Write("AutoSaveEnable", autoSaveEnable);
         pConf->Write("AutoSaveColumn", autoSaveColumn);

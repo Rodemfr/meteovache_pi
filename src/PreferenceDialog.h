@@ -29,6 +29,7 @@ class PreferenceDialog : public PreferenceDialogBase
     PreferenceDialog(wxWindow *parent, ConfigContainer *config, wxWindowID id = wxID_ANY, const wxString &title = wxEmptyString,
                      const wxPoint &pos = wxDefaultPosition, const wxSize &size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE);
     ~PreferenceDialog();
+    void LoadConfig();
     void UpdateConfig();
     void OnAutoSavePathBrowse(wxCommandEvent &evt);
 };

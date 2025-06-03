@@ -44,6 +44,7 @@ class PreferenceDialogBase : public wxDialog
 		wxStaticText* timeZoneLabel;
 		wxComboBox* timeZoneSelection;
 		wxCheckBox* disableToolbarIconCheckBox;
+		wxCheckBox* graphicalWindArrows;
 		wxStaticText* autoSavePathLabel;
 		wxTextCtrl* autoSavePathEdit;
 		wxButton* autoSavePathEditButton;

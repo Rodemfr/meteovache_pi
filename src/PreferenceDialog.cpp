@@ -70,6 +70,71 @@ PreferenceDialog::~PreferenceDialog()
 {
 }
 
+void PreferenceDialog::LoadConfig()
+{
+    // wind unit
+    if (config->windUnitString.IsSameAs("bft"))
+    {
+        /* TRANSLATORS: beaufort wind speed unit */
+        windUnitSelection->SetStringSelection(_("bft"));
+    }
+    else if (config->windUnitString.IsSameAs("m/s"))
+    {
+        /* TRANSLATORS: m/s wind speed unit */
+        windUnitSelection->SetStringSelection(_("m/s"));
+    }
+    else if (config->windUnitString.IsSameAs("kph"))
+    {
+        /* TRANSLATORS: kilometers per hour wind speed unit */
+        windUnitSelection->SetStringSelection(_("kph"));
+    }
+    else if (config->windUnitString.IsSameAs("mph"))
+    {
+        /* TRANSLATORS: miles per hour wind speed unit */
+        windUnitSelection->SetStringSelection(_("mph"));
+    }
+    else
+    {
+        /* TRANSLATORS: knots wind speed unit */
+        windUnitSelection->SetStringSelection(_("kt"));
+    }
+
+    // Temperature unit
+    if (config->tempUnitString.IsSameAs("Farenheit"))
+    {
+        /* TRANSLATORS: Temperature unit */
+        tempUnitSelection->SetStringSelection(_("Farenheit"));
+    }
+    else
+    {
+        /* TRANSLATORS: Temperature unit */
+        tempUnitSelection->SetStringSelection(_("Celsius"));
+    }
+
+    // Time zone selection
+    if (config->tempUnitString.IsSameAs("UTC"))
+    {
+        /* TRANSLATORS: Time zone reference */
+        timeZoneSelection->SetStringSelection(_("UTC"));
+        config->timeZoneString = "UTC";
+    }
+    else
+    {
+        /* TRANSLATORS: Time zone reference */
+        timeZoneSelection->SetStringSelection(_("Local / system"));
+    }
+
+    // Toolbar icon display
+    disableToolbarIconCheckBox->SetValue(config->disableToolbarIcon);
+    // Graphical wind arroaws
+    graphicalWindArrows->SetValue(config->graphicalWindArrows);
+    // Autosave options
+    autoSavePathEdit->SetValue(config->autoSavePath);
+    autoSaveEnableCheckbox->SetValue(config->autoSaveEnable);
+    autoSaveColumnCheckbox->SetValue(config->autoSaveColumn);
+    autoSaveCompressCheckbox->SetValue(config->autoSaveCompress);
+}
+
 void PreferenceDialog::UpdateConfig()
 {
     // wind unit
@@ -136,7 +201,8 @@ void PreferenceDialog::UpdateConfig()
         config->timeZoneString = "Local / system";
     }
     // Toolbar icon display
-    config->disableToolbarIcon = disableToolbarIconCheckBox->GetValue();
+    config->disableToolbarIcon  = disableToolbarIconCheckBox->GetValue();
+    config->graphicalWindArrows = graphicalWindArrows->GetValue();
     // Autosave options
     config->autoSavePath     = autoSavePathEdit->GetValue();
     config->autoSaveEnable   = autoSaveEnableCheckbox->GetValue();

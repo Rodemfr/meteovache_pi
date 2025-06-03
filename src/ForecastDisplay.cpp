@@ -7,6 +7,7 @@
 
 #include "ForecastDisplay.h"
 #include "DateTime.h"
+#include "ReportWindow.h"
 
 #include <wx/dcgraph.h>
 #include <wx/graphics.h>
@@ -252,8 +253,17 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event)
             dc.SetTextForeground(GetContrastedColor(bgColor, windowFgColor, windowBgColor));
             DrawCenteredText(dc, GetConvertedWind(data.gustSpeedKt), horizontalFontSize * 16, verticalPos, horizontalFontSize * 4);
 
-            DrawArrow(arrowDc, arrowSlotSize / 2, arrowSlotSize / 2, data.windDirectionDeg, windowFgColor, windowBgColor);
-            dc.DrawBitmap(arrowBitmap, horizontalFontSize * 22, verticalPos);
+            if (config->graphicalWindArrows)
+            {
+                DrawArrow(arrowDc, arrowSlotSize / 2, arrowSlotSize / 2, data.windDirectionDeg, windowFgColor, windowBgColor);
+                dc.DrawBitmap(arrowBitmap, horizontalFontSize * 22, verticalPos);
+            }
+            else
+            {
+                dc.SetTextForeground(windowFgColor);
+                DrawCenteredText(dc, ReportWindow::GetTextDirection(data.windDirectionDeg), horizontalFontSize * 21, verticalPos,
+                                 horizontalFontSize * 4);
+            }
 
             bgColor.Set(precipitationGradient.GetUintColor(data.precipitationMmH));
             dc.SetPen(wxPen(bgColor));

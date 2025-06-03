@@ -269,6 +269,7 @@ void MeteoVachePlugin::ShowPreferencesDialog(wxWindow *parent)
 
     prefDialog->Fit();
     prefDialog->Layout();
+    prefDialog->LoadConfig();
 
     if (prefDialog->ShowModal() == wxID_OK)
     {
