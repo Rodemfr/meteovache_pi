@@ -60,8 +60,8 @@ rm -f CMakeCache.txt
 if [ -f Makefile ]; then make clean; fi
 
 
-cmake -T v141_xp -G "Visual Studio 15 2017" -DCMAKE_BUILD_TYPE=RelWithDebInfo ..
-cmake --build . --target tarball --config RelWithDebInfo
+cmake -T v141_xp -G "Visual Studio 15 2017" -DCMAKE_BUILD_TYPE=Release ..
+cmake --build . --target tarball --config Release
 
 echo "export PATH=$last_pythonpath:$last_pythonpath/Scripts:\$PATH" >> ~/.uploadrc
 echo "export PYTHONPATH=$last_pythonpath/lib/site-packages:" >>  ~/.uploadrc

@@ -8,7 +8,7 @@ set "SCRIPTDIR=%~dp0"
 set "GIT_HOME=C:\Program Files\Git"
 
 :: %CONFIGURATION% comes from appveyor.yml, set a default if invoked elsewise.
-if "%CONFIGURATION%" == "" set "CONFIGURATION=RelWithDebInfo"
+if "%CONFIGURATION%" == "" set "CONFIGURATION=Release"
 
 call %SCRIPTDIR%..\buildwin\win_deps.bat
 call %SCRIPTDIR%..\cache\wx-config.bat
