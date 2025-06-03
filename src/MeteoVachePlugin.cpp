@@ -203,7 +203,7 @@ const char *MeteoVachePlugin::GetPlugInVersionPre()
 
 const char *MeteoVachePlugin::GetPlugInVersionBuild()
 {
-    return PKG_BUILD_INFO;
+    return "";
 }
 
 wxBitmap *MeteoVachePlugin::GetPlugInBitmap()

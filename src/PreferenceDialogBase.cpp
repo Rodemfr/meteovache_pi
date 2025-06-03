@@ -76,15 +76,18 @@ PreferenceDialogBase::PreferenceDialogBase( wxWindow* parent, wxWindowID id, con
 	wxBoxSizer* disableToolbarIconSizer;
 	disableToolbarIconSizer = new wxBoxSizer( wxHORIZONTAL );
 
+
+	disableToolbarIconSizer->Add( 0, 0, 1, wxEXPAND, 5 );
+
 	disableToolbarIconCheckBox = new wxCheckBox( displaySizer->GetStaticBox(), wxID_ANY, _("Disable toolbar icon"), wxDefaultPosition, wxDefaultSize, 0 );
-	disableToolbarIconSizer->Add( disableToolbarIconCheckBox, 1, 0, 5 );
+	disableToolbarIconSizer->Add( disableToolbarIconCheckBox, 0, wxALL, 5 );
 
 	graphicalWindArrows = new wxCheckBox( displaySizer->GetStaticBox(), wxID_ANY, _("Graphical wind arrows"), wxDefaultPosition, wxDefaultSize, 0 );
 	graphicalWindArrows->SetValue(true);
-	disableToolbarIconSizer->Add( graphicalWindArrows, 1, 0, 5 );
+	disableToolbarIconSizer->Add( graphicalWindArrows, 0, wxALL, 5 );
 
 
-	displaySizer->Add( disableToolbarIconSizer, 1, wxALIGN_RIGHT, 5 );
+	displaySizer->Add( disableToolbarIconSizer, 1, wxEXPAND, 5 );
 
 
 	globalSizer->Add( displaySizer, 0, wxBOTTOM|wxEXPAND|wxLEFT|wxRIGHT, 5 );
