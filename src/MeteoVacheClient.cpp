@@ -57,9 +57,9 @@
 /*                              Functions                                  */
 /***************************************************************************/
 
-MeteoVacheClient::MeteoVacheClient()
+MeteoVacheClient::MeteoVacheClient() : serverIpOk(false)
 {
-    // Setup IP address of distant server
+    // Setup port address of distant server
     serverIpAddr.Service(DEFAULT_METEOVACHE_SERVER_PORT);
 
     // Create the local UDP socket

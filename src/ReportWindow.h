@@ -35,8 +35,8 @@
 #include "ForecastDisplay.h"
 #include "JobQueue.h"
 #include "NetworkThread.h"
-#include "SpotForecasts.h"
 #include "ReportWindowBase.h"
+#include "SpotForecasts.h"
 
 #include <wx/colour.h>
 #include <wx/combobox.h>
@@ -73,18 +73,17 @@ class ReportWindow : public ReportWindowBase
     JobQueue        *jobQueue;      // JobQueue used to dialog safely with the network thread
     int              progressCount; // A simple counter to animate the status message in case of delayed server response
 
-    wxString GetLatitudeString(float latitude);        // Change a float latitude in a display-able string
-    wxString GetLongitudeString(float longitude);      // Change a float longitude in a display-able string
-    wxString GetTextDirection(float windDirectionDeg); // Returns a display-able string of direction from a float angle
-    wxString GetReportBaseName();                      // Generate a report filename from the current date and time
-    void     AutoSaveReport();                         // Save the current report with the appropriate options
-    wxString PrintWeatherReport(int model);            // Print a single forecast model in a string
-    wxString PrintWeatherReports();                    // Print all forecast models in a serialized string
-    wxString PrintWeatherColumnReports();              // Print all forecast models in column formatted string
-    wxString GetConvertedWind(float windSpeedKt);      // Get wind speed string converted in the appropriate unit
-    wxString GetConvertedTemp(float tempC);            // Get temperature string converted in the appropriate unit
-    wxString GetConvertedTempUnit();                   // Get the temperature unit symbol
-    char     GetNextWaitingChar();                     // Get the next animated char for out low-cost progress indicator
+    wxString GetLatitudeString(float latitude);   // Change a float latitude in a display-able string
+    wxString GetLongitudeString(float longitude); // Change a float longitude in a display-able string
+    wxString GetReportBaseName();                 // Generate a report filename from the current date and time
+    void     AutoSaveReport();                    // Save the current report with the appropriate options
+    wxString PrintWeatherReport(int model);       // Print a single forecast model in a string
+    wxString PrintWeatherReports();               // Print all forecast models in a serialized string
+    wxString PrintWeatherColumnReports();         // Print all forecast models in column formatted string
+    wxString GetConvertedWind(float windSpeedKt); // Get wind speed string converted in the appropriate unit
+    wxString GetConvertedTemp(float tempC);       // Get temperature string converted in the appropriate unit
+    wxString GetConvertedTempUnit();              // Get the temperature unit symbol
+    char     GetNextWaitingChar();                // Get the next animated char for out low-cost progress indicator
 
     void StartThread(); // Start the network thread
     void StopThread();  // Stop the network thread
@@ -102,9 +101,10 @@ class ReportWindow : public ReportWindowBase
                               wxTAB_TRAVERSAL);
     ~ReportWindow();
 
-    void UpdateConfig();                                   // Save all parameters related to the report window into the configuration object
-    void SetReportForecast(int modelSelection);            // Change the text displayed by the report window
-    void RequestForecast(float latitude, float longitude); // Start a new forecast query
+    void            UpdateConfig();                        // Save all parameters related to the report window into the configuration object
+    void            SetReportForecast(int modelSelection); // Change the text displayed by the report window
+    void            RequestForecast(float latitude, float longitude); // Start a new forecast query
+    static wxString GetTextDirection(float windDirectionDeg);         // Returns a display-able string of direction from a float angle
 };
 
 #endif //_MVREPORTFRAME_H__
