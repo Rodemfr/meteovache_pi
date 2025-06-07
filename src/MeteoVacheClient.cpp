@@ -65,7 +65,7 @@ MeteoVacheClient::MeteoVacheClient() : serverIpOk(false)
     // Create the local UDP socket
     localIpAddr.AnyAddress();
     localIpAddr.Service(0x8000);
-    localSocket = new wxDatagramSocket(localIpAddr, wxSOCKET_NONE);
+    localSocket = new wxDatagramSocket(localIpAddr, wxSOCKET_BLOCK);
     // Set 1 second timeout
     localSocket->SetTimeout(1);
 }

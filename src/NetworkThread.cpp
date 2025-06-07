@@ -54,27 +54,33 @@
 /*                              Functions                                  */
 /***************************************************************************/
 
-NetworkThread::NetworkThread(SpotForecasts *spotForecast, JobQueue *jobQueue) : exitThread(false)
+NetworkThread::NetworkThread(SpotForecasts *spotForecast, JobQueue *jobQueue) : meteoVacheClient(nullptr), exitThread(false)
 {
     this->spotForecast = spotForecast;
     this->jobQueue     = jobQueue;
-    meteoVacheClient   = new MeteoVacheClient();
 
-    netThread = std::thread(StaticEntry, this);
+    netThread = new std::thread(StaticEntry, this);
 }
 
 NetworkThread::~NetworkThread()
 {
-    delete meteoVacheClient;
 }
 
 void NetworkThread::RequestEnd()
 {
     exitThread = true;
-    if (netThread.joinable())
+    if (netThread->joinable())
     {
-        netThread.join();
+        netThread->join();
     }
+    else
+    {
+        while (exitThread)
+        {
+        }
+    }
+
+    delete netThread;
 }
 
 void NetworkThread::StaticEntry(NetworkThread *pObject)
@@ -86,6 +92,11 @@ void NetworkThread::Entry()
 {
     JobRequest job;
     int        retries;
+
+    if (meteoVacheClient == nullptr)
+    {
+        meteoVacheClient = new MeteoVacheClient();
+    }
 
     // We check at each loop if the thread has been requested to be deleted
     while (exitThread == false)
@@ -126,6 +137,11 @@ void NetworkThread::Entry()
             }
         }
     }
+
+    delete meteoVacheClient;
+    meteoVacheClient = nullptr;
+
+    exitThread = false;
 
     return;
 }

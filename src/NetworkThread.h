@@ -60,7 +60,7 @@
      void RequestEnd();
  
    private:
-     std::thread       netThread;
+     std::thread       *netThread;
      static void       StaticEntry(NetworkThread *pObject);
      void              Entry();
      SpotForecasts    *spotForecast;

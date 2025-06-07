@@ -39,6 +39,23 @@ Since v1.1, *MeteoVache* switched to *OpenCPN*'s *managed plugin scheme* which a
 
 ## Release history
 
+**v1.6.0**
+* Fixed crash when using MeteoVache just after having updated it from catalog
+
+**v1.5.4**
+* Add possibility to use non graphical wind arrows in weather reports
+* Remove commit hash from plugin version in plugin manager
+* Fixed DNS failure on some machines
+
+**v1.3.7**
+* Fixed translations issues with preference panel
+* Improved thread handling
+
+**v1.2**
+* Fixed wxWidgets warnings
+* Updated MacOS build errors
+* Updated CI templates from shipdriver_pi
+
 **v1.1**
 * Support for *OpenCPN*'s managed plugin scheme
 * Added Spanish & Italian translations
