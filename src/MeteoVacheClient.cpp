@@ -100,16 +100,17 @@ bool MeteoVacheClient::DownloadAllForecasts(float latitude, float longitude, Spo
     localSocket->Discard();
     localSocket->SendTo(serverIpAddr, requestBuffer, sizeof(requestBuffer));
 
-    // Since out socket is blovking and ignoring the timeout value, we have to implement the timeout
-    // by ourself by using IsData() method.
-    int waitCount = 1000;
-    while ((waitCount > 0) && !localSocket->IsData())
+    // Since out socket is in blocking mode and ignoring the timeout value, we have to implement the timeout
+    // by ourself, using IsData() method.
+    int i = 0;
+    for (i = 0; i < 10; i++)
     {
-        wxThread::Sleep(100);
-        waitCount -= 100;
+        if (localSocket->IsData())
+            break;
+        wxThread::Sleep(100);    
     }
 
-    if (!localSocket->IsData())
+    if (i >= 10)
     {
         return false;
     }

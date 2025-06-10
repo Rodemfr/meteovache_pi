@@ -39,7 +39,7 @@ Since v1.1, *MeteoVache* switched to *OpenCPN*'s *managed plugin scheme* which a
 
 ## Release history
 
-**v1.6.3**
+**v1.6.4**
 * Fixed possible infinite wait in socket read loop
 
 **v1.6.0**
