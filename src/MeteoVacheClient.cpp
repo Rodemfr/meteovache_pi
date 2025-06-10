@@ -65,8 +65,11 @@ MeteoVacheClient::MeteoVacheClient() : serverIpOk(false)
     // Create the local UDP socket
     localIpAddr.AnyAddress();
     localIpAddr.Service(0x8000);
+    // Socket are created as blocking to be useable in non UI thread
+    // It avoids wxWidget to try to interact with UI event queue
     localSocket = new wxDatagramSocket(localIpAddr, wxSOCKET_BLOCK);
-    // Set 1 second timeout
+    // Set 1 second timeout. This parameter is widely ignored by wxWidget
+    // when reading because of the blocking socket
     localSocket->SetTimeout(1);
 }
 
@@ -95,6 +98,21 @@ bool MeteoVacheClient::DownloadAllForecasts(float latitude, float longitude, Spo
 
     localSocket->Discard();
     localSocket->SendTo(serverIpAddr, requestBuffer, sizeof(requestBuffer));
+
+    // Since out socket is blovking and ignoring the timeout value, we have to implement the timeout
+    // by ourself by using IsData() method.
+    int waitCount = 1000;
+    while ((waitCount > 0) && !localSocket->IsData())
+    {
+        wxThread::Sleep(100);
+        waitCount -= 100;
+    }
+
+    if (!localSocket->IsData())
+    {
+        return false;
+    }
+
     localSocket->Read(gzippedResponse, sizeof(gzippedResponse));
     responseLength = localSocket->LastReadCount();
     if (localSocket->Error() || (responseLength == 0))
