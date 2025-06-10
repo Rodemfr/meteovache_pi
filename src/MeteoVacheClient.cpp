@@ -76,6 +76,7 @@ MeteoVacheClient::MeteoVacheClient() : serverIpOk(false)
 MeteoVacheClient::~MeteoVacheClient()
 {
     localSocket->Destroy();
+    //    delete localSocket;
 }
 
 bool MeteoVacheClient::DownloadAllForecasts(float latitude, float longitude, SpotForecasts &spotForecast)
