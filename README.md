@@ -15,9 +15,9 @@
 - "Arome Nouvelle Calédonie" : high resolution model (0.05°) from [Météo France](http://www.meteofrance.com) (Coverage : New Calédonia)
 - "Arome Polynésie" : high resolution model (0.05°) from [Météo France](http://www.meteofrance.com) (Coverage : French Polynésia)
 - "Icon D2" : high resolution model (0.02°) from [Deutscher Wetterdienst](https://www.dwd.de/EN) (Coverage : Germany)
+- "HRDPS" : high resolution model (0.05°) from [Meteorological Service of Canada](https://meteo.gc.ca/) (Coverage : Canada)
 - "Arpege HD" : regional model (0.1°) from [Météo France](http://www.meteofrance.com) (Coverage : Europe)
 - "Icon Eu" : regional model (0.125°) from [Deutscher Wetterdienst](https://www.dwd.de/EN) (Coverage : Europe)
-- "HRDPS" : regional model (0.05°) from [Meteorological Service of Canada](https://meteo.gc.ca/) (Coverage : Canada)
 - "Arpege" : global model (0.25°) from [Météo France](http://www.meteofrance.com) (Coverage : World)
 
 *MeteoVache* needs an Internet connection to retrieve weather data from *MeteoVache* server. It has been specifically designed to minimize the amount of data required to get a forecast at a given location. A typical request weights between 500 and 1500 bytes, making it suitable for very low bandwidth Internet connections like Edge GSM.
