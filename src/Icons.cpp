@@ -6,6 +6,7 @@
 #include <wx/filename.h>
 #include <wx/mstream.h>
 #include <Icons.h>
+#include <cstdint>
 #include "ocpn_plugin.h"
 
 wxBitmap *_img_meteovache_pi;
