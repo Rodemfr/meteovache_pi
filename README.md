@@ -1,16 +1,16 @@
-# MeteoVache plug-in for OpenCPN
+# MeteoVache Plugin for OpenCPN
 
-*MeteoVache* (a.k.a *meteovache_pi*) is a small weather plug-in for *OpenCPN*. It provides weather forecasts anywhere in the World as long as you have an Internet connection.
+*MeteoVache* (also known as *meteovache_pi*) is a weather plugin for *OpenCPN*. It provides weather forecasts for any location worldwide, requiring an internet connection.
 
 ![Sample picture](files/meteovache_en_256.png)
 
 ## Description
 
-*MeteoVache* provides weather forecasts based on the following meteorological models :
+*MeteoVache* provides weather forecasts based on the following meteorological models:
 
 - "Arome" : high resolution model (0.05°) from [Météo France](http://www.meteofrance.com) (Coverage : France)
 - "Arome Antilles" : high resolution model (0.05°) from [Météo France](http://www.meteofrance.com) (Coverage : Antilles)
-- "Arome Océan Indien" : high resolution model (0.05°) from [Météo France](http://www.meteofrance.com) (Coverage : Indian Océan)
+- "Arome Océan Indien" : high resolution model (0.05°) from [Météo France](http://www.meteofrance.com) (Coverage : Indian Ocean)
 - "Arome Guyane" : high resolution model (0.05°) from [Météo France](http://www.meteofrance.com) (Coverage : Guyana)
 - "Arome Nouvelle Calédonie" : high resolution model (0.05°) from [Météo France](http://www.meteofrance.com) (Coverage : New Calédonia)
 - "Arome Polynésie" : high resolution model (0.05°) from [Météo France](http://www.meteofrance.com) (Coverage : French Polynésia)
@@ -20,7 +20,7 @@
 - "Icon Eu" : regional model (0.125°) from [Deutscher Wetterdienst](https://www.dwd.de/EN) (Coverage : Europe)
 - "Arpege" : global model (0.25°) from [Météo France](http://www.meteofrance.com) (Coverage : World)
 
-*MeteoVache* needs an Internet connection to retrieve weather data from *MeteoVache* server. It has been specifically designed to minimize the amount of data required to get a forecast at a given location. A typical request weights between 500 and 1500 bytes, making it suitable for very low bandwidth Internet connections like Edge GSM.
+*MeteoVache* requires an internet connection to retrieve weather data from the MeteoVache server. It is specifically designed to minimize data consumption; a typical forecast request is only 500 to 1500 bytes. This makes it ideal for low-bandwidth connections, such as satellite or cellular networks (e.g., Edge/GSM).
 
 ## Author
 
@@ -32,7 +32,7 @@ This program is distributed under the terms of the GPL v2. - see the [gpl.txt](c
 
 ## Download
 
-Since v1.1, *MeteoVache* switched to *OpenCPN*'s *managed plugin scheme* which allow you to download it directly from *OpenCPN* GUI. Just go to the *plugin settings* page and download the master catalog. Meteovache should be available there if your platform is supported.
+Since v1.1, *MeteoVache* uses *OpenCPN*'s managed plugin system, allowing you to download it directly from the *OpenCPN* user interface. Navigate to the *Plugins* settings page and update the master catalog. *MeteoVache* will be available for installation if your platform is supported.
 
 ## Acknowledgments
 
@@ -40,66 +40,65 @@ Since v1.1, *MeteoVache* switched to *OpenCPN*'s *managed plugin scheme* which a
 
 ## Release history
 
-**v1.6.4**
-* Fixed possible infinite wait in socket read loop, preventing a clean exit from OpenCPN
+**v1.6.4** (Latest)
+*   Fixed a potential infinite wait in the socket read loop, ensuring a clean exit from OpenCPN.
 
 **v1.6.0**
-* Fixed crash when using MeteoVache just after having updated it from catalog
+*   Fixed a crash that occurred when using the plugin immediately after an update from the catalog.
 
 **v1.5.4**
-* Add possibility to use non graphical wind arrows in weather reports
-* Remove commit hash from plugin version in plugin manager
-* Fixed DNS failure on some machines
+*   Added an option to use non-graphical wind arrows in weather reports.
+*   Removed the commit hash from the version string in the plugin manager.
+*   Fixed a DNS failure on some systems.
 
 **v1.3.7**
-* Fixed translations issues with preference panel
-* Improved thread handling
+*   Fixed translation issues in the preferences panel.
+*   Improved thread handling.
 
 **v1.2**
-* Fixed wxWidgets warnings
-* Updated MacOS build errors
-* Updated CI templates from shipdriver_pi
+*   Fixed wxWidgets warnings.
+*   Resolved macOS build errors.
+*   Updated CI templates from `shipdriver_pi`.
 
 **v1.1**
-* Support for *OpenCPN*'s managed plugin scheme
-* Added Spanish & Italian translations
-* Handles wxWidgets 3.2 and hi-DPI displays
-* Support for dark color themes
-* Fixed crash on exit
-* Other minor bugfixes
+*   Implemented support for *OpenCPN*'s managed plugin system.
+*   Added Spanish & Italian translations.
+*   Added support for wxWidgets 3.2 and HiDPI displays.
+*   Added support for dark color themes.
+*   Fixed a crash on exit.
+*   Other minor bugfixes.
 
 **v0.8**
-* Wind direction is now display with nice graphical arrows
-* Recompiled against OpenCPN 5.2.4 to fix "small font issue" in contextual menu
+*   Wind direction is now displayed with graphical arrows.
+*   Recompiled against OpenCPN 5.2.4 to fix a "small font issue" in the context menu.
 
 **v0.7**
-* Weather report is now using colors for better readability
-* Cmake files are now arm64 compatible
-* Minor bug fixes
+*   Improved weather report readability with color-coding.
+*   Updated CMake files for arm64 compatibility.
+*   Minor bug fixes.
 
 **v0.5.2**
-* Added an option to remove plug-in icon from tool-bar
-* Minor translation fixes
+*   Added an option to hide the plugin icon from the toolbar.
+*   Minor translation fixes.
 
 **v0.5**
-* Fixed issues in networking thread in case of long server response
-* Added a status test in report window to inform on the status of the last forecast request (success, on-going, failed)
-* Fixed bad background color in case of dark theme under Debian
-* Added display of time zone in weather report
-* Added possibility to select select locale/system time zone or UTC in preference dialog
+*   Fixed networking thread issues during long server responses.
+*   Added a status indicator to the report window (success, ongoing, failed).
+*   Fixed incorrect background color with dark themes on Debian.
+*   Added time zone display to the weather report.
+*   Added an option to select between local time zone and UTC.
 
 **v0.4**
-* Added a button to manually save weather forecast in a text file (normal or column format)
-* Added options in the preference panel to enable automatic save of requested forecast (normal, column, with or without ZIP compression)
-* Added experimental ARMHF build for Raspberry PI (untested, may not work at all)
+*   Added a button to manually save forecasts to a text file.
+*   Added preferences for automatic forecast saving (with optional ZIP compression).
+*   Added experimental ARMHF build for Raspberry Pi.
 
 **v0.3**
-* Added a preference panel with the possibility to change display units
-* Fixed negative temperature bug
-* Plug-in now compiles stand-alone
-* Windows installer is now generated
-* On server side : added Arpege model with world wide coverage
+*   Added a preferences panel to change display units.
+*   Fixed a negative temperature display bug.
+*   The plugin now compiles as a standalone project.
+*   A Windows installer is now generated.
+*   Server-side: Added Arpège model for worldwide coverage.
 
 **v0.2.1**
-* First binary release for Windows x86 and Linux x64
-
+*   First binary release for Windows (x86) and Linux (x64).
