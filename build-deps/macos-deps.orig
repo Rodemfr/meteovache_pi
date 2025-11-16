@@ -2,5 +2,6 @@
 cmake
 gettext
 libexif
+python
 wget
 openssl@3

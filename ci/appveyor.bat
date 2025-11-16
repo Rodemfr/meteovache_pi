@@ -1,17 +1,16 @@
 :: Build script for appveyor, https://www.appveyor.com
 :: Builds one version linked against wxWidgets 3.2
 
-:: @echo off
+@echo off
 setlocal enabledelayedexpansion
 
 set "SCRIPTDIR=%~dp0"
 set "GIT_HOME=C:\Program Files\Git"
 
 :: %CONFIGURATION% comes from appveyor.yml, set a default if invoked elsewise.
-if "%CONFIGURATION%" == "" set "CONFIGURATION=Release"
+if "%CONFIGURATION%" == "" set "CONFIGURATION=RelWithDebInfo"
 
 call %SCRIPTDIR%..\buildwin\win_deps.bat
-call %SCRIPTDIR%..\cache\wx-config.bat
 echo USING wxWidgets_LIB_DIR: !wxWidgets_LIB_DIR!
 echo USING wxWidgets_ROOT_DIR: !wxWidgets_ROOT_DIR!
 
