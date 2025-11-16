@@ -145,7 +145,7 @@ jobs:
       - run: cd build-debian; /bin/bash < upload.sh
       - run: ci/git-push.sh build-debian
 
-build-trixie:
+  build-trixie:
     machine:
       image: ubuntu-2204:current
     resource_class: medium
