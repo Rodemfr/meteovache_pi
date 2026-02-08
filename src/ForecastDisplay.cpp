@@ -137,6 +137,10 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event)
 
     wxColour bgColor = windowBgColor;
 
+    wxPen    bgPen;
+    wxBrush  bgBrush;
+    wxColour textFgColour;
+
     if ((modelIndex >= 0) && ((int)spotForecasts.GetNumberOfForecast() > modelIndex))
     {
         Forecast forecast    = spotForecasts.Get(modelIndex);
@@ -240,17 +244,23 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event)
             int verticalShift = 0;
 
             bgColor.Set(windGradient.GetUintColor(data.windSpeedKt));
-            dc.SetPen(wxPen(bgColor));
-            dc.SetBrush(wxBrush(bgColor));
+            bgPen.SetColour(bgColor);
+            dc.SetPen(bgPen);
+            bgBrush.SetColour(bgColor);
+            dc.SetBrush(bgBrush);
             dc.DrawRectangle(horizontalFontSize * 11, verticalPos - verticalShift, horizontalFontSize * 4, verticalFontSize);
-            dc.SetTextForeground(GetContrastedColor(bgColor, windowFgColor, windowBgColor));
+            textFgColour = GetContrastedColor(bgColor, windowFgColor, windowBgColor);
+            dc.SetTextForeground(textFgColour);
             DrawCenteredText(dc, GetConvertedWind(data.windSpeedKt), horizontalFontSize * 11, verticalPos, horizontalFontSize * 4);
 
             bgColor.Set(windGradient.GetUintColor(data.gustSpeedKt));
-            dc.SetPen(wxPen(bgColor));
-            dc.SetBrush(wxBrush(bgColor));
+            bgPen.SetColour(bgColor);
+            dc.SetPen(bgPen);
+            bgBrush.SetColour(bgColor);
+            dc.SetBrush(bgBrush);
             dc.DrawRectangle(horizontalFontSize * 16, verticalPos - verticalShift, horizontalFontSize * 4, verticalFontSize);
-            dc.SetTextForeground(GetContrastedColor(bgColor, windowFgColor, windowBgColor));
+            textFgColour = GetContrastedColor(bgColor, windowFgColor, windowBgColor);
+            dc.SetTextForeground(textFgColour);
             DrawCenteredText(dc, GetConvertedWind(data.gustSpeedKt), horizontalFontSize * 16, verticalPos, horizontalFontSize * 4);
 
             if (config->graphicalWindArrows)
@@ -266,26 +276,35 @@ void ForecastDisplay::OnPaint(wxPaintEvent &event)
             }
 
             bgColor.Set(precipitationGradient.GetUintColor(data.precipitationMmH));
-            dc.SetPen(wxPen(bgColor));
-            dc.SetBrush(wxBrush(bgColor));
+            bgPen.SetColour(bgColor);
+            dc.SetPen(bgPen);
+            bgBrush.SetColour(bgColor);
+            dc.SetBrush(bgBrush);
             dc.DrawRectangle(horizontalFontSize * 27, verticalPos - verticalShift, horizontalFontSize * 5, verticalFontSize);
-            dc.SetTextForeground(GetContrastedColor(bgColor, windowFgColor, windowBgColor));
+            textFgColour = GetContrastedColor(bgColor, windowFgColor, windowBgColor);
+            dc.SetTextForeground(textFgColour);
             DrawCenteredText(dc, precipitationString, horizontalFontSize * 27, verticalPos, horizontalFontSize * 5);
 
             cloudCover /= 100;
             cloudCover = powf(cloudCover, 1.5) * 100.0f;
             bgColor.Set(cloudGradient.GetUintColor(cloudCover));
-            dc.SetPen(wxPen(bgColor));
-            dc.SetBrush(wxBrush(bgColor));
+            bgPen.SetColour(bgColor);
+            dc.SetPen(bgPen);
+            bgBrush.SetColour(bgColor);
+            dc.SetBrush(bgBrush);
             dc.DrawRectangle(horizontalFontSize * 33, verticalPos - verticalShift, horizontalFontSize * 5, verticalFontSize);
-            dc.SetTextForeground(GetContrastedColor(bgColor, windowFgColor, windowBgColor));
+            textFgColour = GetContrastedColor(bgColor, windowFgColor, windowBgColor);
+            dc.SetTextForeground(textFgColour);
             DrawCenteredText(dc, wxString::Format("%.0f", cloudCover), horizontalFontSize * 33, verticalPos, horizontalFontSize * 5);
 
             bgColor.Set(tempGradient.GetUintColor(data.TemperatureC));
-            dc.SetPen(wxPen(bgColor));
-            dc.SetBrush(wxBrush(bgColor));
+            bgPen.SetColour(bgColor);
+            dc.SetPen(bgPen);
+            bgBrush.SetColour(bgColor);
+            dc.SetBrush(bgBrush);
             dc.DrawRectangle(horizontalFontSize * 39, verticalPos - verticalShift, horizontalFontSize * 4, verticalFontSize);
-            dc.SetTextForeground(GetContrastedColor(bgColor, windowFgColor, windowBgColor));
+            textFgColour = GetContrastedColor(bgColor, windowFgColor, windowBgColor);
+            dc.SetTextForeground(textFgColour);
             DrawCenteredText(dc, GetConvertedTemp(data.TemperatureC), horizontalFontSize * 39, verticalPos, horizontalFontSize * 4);
 
             dc.SetTextForeground(windowFgColor);
