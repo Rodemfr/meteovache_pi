@@ -16,7 +16,7 @@
 #include <wx/font.h>
 #include <wx/colour.h>
 #include <wx/settings.h>
-#include <wx/combobox.h>
+#include <wx/choice.h>
 #include <wx/sizer.h>
 #include <ForecastDisplay.h>
 #include <wx/button.h>
@@ -37,7 +37,7 @@ class ReportWindowBase : public wxDialog
 	protected:
 		wxBoxSizer* reportGlobalSizer;
 		wxStaticText* modelLabel;
-		wxComboBox* modelSelector;
+		wxChoice* modelSelector;
 		wxStaticText* statusLabel;
 		ForecastDisplay* reportTextArea;
 		wxButton* saveButton;

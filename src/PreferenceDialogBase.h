@@ -16,7 +16,7 @@
 #include <wx/font.h>
 #include <wx/colour.h>
 #include <wx/settings.h>
-#include <wx/combobox.h>
+#include <wx/choice.h>
 #include <wx/sizer.h>
 #include <wx/statbox.h>
 #include <wx/checkbox.h>
@@ -38,11 +38,11 @@ class PreferenceDialogBase : public wxDialog
 
 	protected:
 		wxStaticText* windUnitLabel;
-		wxComboBox* windUnitSelection;
+		wxChoice* windUnitSelection;
 		wxStaticText* tempUnitLabel;
-		wxComboBox* tempUnitSelection;
+		wxChoice* tempUnitSelection;
 		wxStaticText* timeZoneLabel;
-		wxComboBox* timeZoneSelection;
+		wxChoice* timeZoneSelection;
 		wxCheckBox* disableToolbarIconCheckBox;
 		wxCheckBox* graphicalWindArrows;
 		wxStaticText* autoSavePathLabel;
