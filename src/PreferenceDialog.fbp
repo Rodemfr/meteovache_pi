@@ -64,11 +64,11 @@
         <property name="name">globalSizer</property>
         <property name="orient">wxVERTICAL</property>
         <property name="permission">none</property>
-        <object class="sizeritem" expanded="true">
+        <object class="sizeritem" expanded="false">
           <property name="border">5</property>
           <property name="flag">wxBOTTOM|wxEXPAND|wxLEFT|wxRIGHT</property>
           <property name="proportion">0</property>
-          <object class="wxStaticBoxSizer" expanded="true">
+          <object class="wxStaticBoxSizer" expanded="false">
             <property name="id">wxID_ANY</property>
             <property name="label">Units</property>
             <property name="minimum_size"></property>
@@ -147,11 +147,11 @@
                     <property name="wrap">-1</property>
                   </object>
                 </object>
-                <object class="sizeritem" expanded="true">
+                <object class="sizeritem" expanded="false">
                   <property name="border">5</property>
                   <property name="flag">wxALL</property>
                   <property name="proportion">0</property>
-                  <object class="wxChoice" expanded="true">
+                  <object class="wxChoice" expanded="false">
                     <property name="BottomDockable">1</property>
                     <property name="LeftDockable">1</property>
                     <property name="RightDockable">1</property>
@@ -214,11 +214,11 @@
                 </object>
               </object>
             </object>
-            <object class="sizeritem" expanded="true">
+            <object class="sizeritem" expanded="false">
               <property name="border">5</property>
               <property name="flag">wxEXPAND</property>
               <property name="proportion">1</property>
-              <object class="wxBoxSizer" expanded="true">
+              <object class="wxBoxSizer" expanded="false">
                 <property name="minimum_size"></property>
                 <property name="name">tempUnitSizer</property>
                 <property name="orient">wxHORIZONTAL</property>
@@ -285,11 +285,11 @@
                     <property name="wrap">-1</property>
                   </object>
                 </object>
-                <object class="sizeritem" expanded="true">
+                <object class="sizeritem" expanded="false">
                   <property name="border">5</property>
                   <property name="flag">wxALL</property>
                   <property name="proportion">0</property>
-                  <object class="wxChoice" expanded="true">
+                  <object class="wxChoice" expanded="false">
                     <property name="BottomDockable">1</property>
                     <property name="LeftDockable">1</property>
                     <property name="RightDockable">1</property>
@@ -437,11 +437,11 @@
                     <property name="wrap">-1</property>
                   </object>
                 </object>
-                <object class="sizeritem" expanded="true">
+                <object class="sizeritem" expanded="false">
                   <property name="border">5</property>
                   <property name="flag">wxALL</property>
                   <property name="proportion">0</property>
-                  <object class="wxChoice" expanded="true">
+                  <object class="wxChoice" expanded="false">
                     <property name="BottomDockable">1</property>
                     <property name="LeftDockable">1</property>
                     <property name="RightDockable">1</property>
@@ -1389,32 +1389,53 @@
             </object>
           </object>
         </object>
-        <object class="sizeritem" expanded="false">
+        <object class="sizeritem" expanded="true">
           <property name="border">5</property>
-          <property name="flag">wxBOTTOM|wxEXPAND|wxLEFT|wxRIGHT</property>
+          <property name="flag">wxEXPAND</property>
           <property name="proportion">1</property>
-          <object class="spacer" expanded="false">
-            <property name="height">0</property>
-            <property name="permission">protected</property>
-            <property name="width">0</property>
-          </object>
-        </object>
-        <object class="sizeritem" expanded="false">
-          <property name="border">5</property>
-          <property name="flag">wxBOTTOM|wxEXPAND|wxLEFT|wxRIGHT</property>
-          <property name="proportion">0</property>
-          <object class="wxStdDialogButtonSizer" expanded="false">
-            <property name="Apply">0</property>
-            <property name="Cancel">1</property>
-            <property name="ContextHelp">0</property>
-            <property name="Help">0</property>
-            <property name="No">0</property>
-            <property name="OK">1</property>
-            <property name="Save">0</property>
-            <property name="Yes">0</property>
+          <object class="wxBoxSizer" expanded="false">
             <property name="minimum_size"></property>
-            <property name="name">stdButtonsSizer</property>
-            <property name="permission">protected</property>
+            <property name="name">OkCancelSizer</property>
+            <property name="orient">wxHORIZONTAL</property>
+            <property name="permission">none</property>
+            <object class="sizeritem" expanded="false">
+              <property name="border">5</property>
+              <property name="flag">wxEXPAND</property>
+              <property name="proportion">1</property>
+              <object class="spacer" expanded="false">
+                <property name="height">0</property>
+                <property name="permission">protected</property>
+                <property name="width">0</property>
+              </object>
+            </object>
+            <object class="sizeritem" expanded="false">
+              <property name="border">5</property>
+              <property name="flag">wxBOTTOM|wxEXPAND|wxLEFT|wxRIGHT</property>
+              <property name="proportion">0</property>
+              <object class="wxStdDialogButtonSizer" expanded="false">
+                <property name="Apply">0</property>
+                <property name="Cancel">1</property>
+                <property name="ContextHelp">0</property>
+                <property name="Help">0</property>
+                <property name="No">0</property>
+                <property name="OK">1</property>
+                <property name="Save">0</property>
+                <property name="Yes">0</property>
+                <property name="minimum_size"></property>
+                <property name="name">stdButtonsSizer</property>
+                <property name="permission">protected</property>
+              </object>
+            </object>
+            <object class="sizeritem" expanded="false">
+              <property name="border">5</property>
+              <property name="flag">wxEXPAND</property>
+              <property name="proportion">1</property>
+              <object class="spacer" expanded="false">
+                <property name="height">0</property>
+                <property name="permission">protected</property>
+                <property name="width">0</property>
+              </object>
+            </object>
           </object>
         </object>
       </object>

@@ -42,7 +42,7 @@ ReportWindowBase::ReportWindowBase( wxWindow* parent, wxWindowID id, const wxStr
 	buttonSizer = new wxBoxSizer( wxVERTICAL );
 
 	saveButton = new wxButton( this, wxID_ANY, _("Save As..."), wxDefaultPosition, wxDefaultSize, 0 );
-	buttonSizer->Add( saveButton, 0, wxALL, 5 );
+	buttonSizer->Add( saveButton, 0, wxALIGN_CENTER|wxALL, 5 );
 
 
 	reportGlobalSizer->Add( buttonSizer, 0, wxEXPAND, 5 );

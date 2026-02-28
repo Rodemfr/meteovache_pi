@@ -170,8 +170,11 @@ PreferenceDialogBase::PreferenceDialogBase( wxWindow* parent, wxWindowID id, con
 
 	globalSizer->Add( serverSizer, 0, wxBOTTOM|wxEXPAND|wxLEFT|wxRIGHT, 5 );
 
+	wxBoxSizer* OkCancelSizer;
+	OkCancelSizer = new wxBoxSizer( wxHORIZONTAL );
 
-	globalSizer->Add( 0, 0, 1, wxBOTTOM|wxEXPAND|wxLEFT|wxRIGHT, 5 );
+
+	OkCancelSizer->Add( 0, 0, 1, wxEXPAND, 5 );
 
 	stdButtonsSizer = new wxStdDialogButtonSizer();
 	stdButtonsSizerOK = new wxButton( this, wxID_OK );
@@ -180,7 +183,13 @@ PreferenceDialogBase::PreferenceDialogBase( wxWindow* parent, wxWindowID id, con
 	stdButtonsSizer->AddButton( stdButtonsSizerCancel );
 	stdButtonsSizer->Realize();
 
-	globalSizer->Add( stdButtonsSizer, 0, wxBOTTOM|wxEXPAND|wxLEFT|wxRIGHT, 5 );
+	OkCancelSizer->Add( stdButtonsSizer, 0, wxBOTTOM|wxEXPAND|wxLEFT|wxRIGHT, 5 );
+
+
+	OkCancelSizer->Add( 0, 0, 1, wxEXPAND, 5 );
+
+
+	globalSizer->Add( OkCancelSizer, 1, wxEXPAND, 5 );
 
 
 	this->SetSizer( globalSizer );
