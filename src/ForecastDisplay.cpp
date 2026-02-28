@@ -516,8 +516,8 @@ wxString ForecastDisplay::GetConvertedTempUnit()
 {
     if (config->tempUnitString.IsSameAs("Farenheit"))
     {
-        return (_("F"));
+        return (_("°F"));
     }
 
-    return (_("C"));
+    return (_("°C"));
 }
