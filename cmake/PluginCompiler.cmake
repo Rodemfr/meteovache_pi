@@ -31,6 +31,11 @@ elseif (CMAKE_CXX_COMPILER_ID MATCHES "Clang")           # Apple is AppleClang
   string(APPEND CMAKE_CXX_FLAGS " -Wno-inconsistent-missing-override")
   string(APPEND CMAKE_CXX_FLAGS " -Wno-potentially-evaluated-expression")
   string(APPEND CMAKE_SHARED_LINKER_FLAGS " -Wl -undefined dynamic_lookup")
+
+  if (QT_ANDROID)
+    string(APPEND CMAKE_SHARED_LINKER_FLAGS "Wl,-z,max-page-size=16384")
+  endif (QT_ANDROID)
+
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
   add_definitions(-D_CRT_NONSTDC_NO_DEPRECATE -D_CRT_SECURE_NO_DEPRECATE)
   add_definitions(-DwxABI_VERSION=30202)     # See #584
