@@ -524,11 +524,11 @@ wxString ReportWindow::GetConvertedTempUnit()
     if (config->tempUnitString.IsSameAs("Farenheit"))
     {
         /* TRANSLATORS: One letter abbreviation of the Farenheit temperature unit */
-        return (_("°F"));
+        return (_("F"));
     }
 
     /* TRANSLATORS: One letter abbreviation of the Celsius temperature unit */
-    return (_("°C"));
+    return (_("C"));
 }
 
 void ReportWindow::OnSaveAs(wxCommandEvent &)
