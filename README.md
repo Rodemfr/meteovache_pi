@@ -40,7 +40,10 @@ Since v1.1, *MeteoVache* uses *OpenCPN*'s managed plugin system, allowing you to
 
 ## Release history
 
-**v1.6.5** (Latest)
+**v1.6.7** (Latest)
+*   Minor UI reworks.
+
+**v1.6.5**
 *   Added support for Trixie based platforms.
 
 **v1.6.4**
