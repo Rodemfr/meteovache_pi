@@ -26,12 +26,10 @@ PreferenceDialogBase::PreferenceDialogBase( wxWindow* parent, wxWindowID id, con
 	windUnitLabel->Wrap( -1 );
 	windUnitSizer->Add( windUnitLabel, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 
-	windUnitSelection = new wxComboBox( unitSizer->GetStaticBox(), wxID_ANY, _("kt"), wxDefaultPosition, wxDefaultSize, 0, NULL, 0 );
-	windUnitSelection->Append( _("kt") );
-	windUnitSelection->Append( _("bft") );
-	windUnitSelection->Append( _("m/s") );
-	windUnitSelection->Append( _("kph") );
-	windUnitSelection->Append( _("mph") );
+	wxString windUnitSelectionChoices[] = { _("kt"), _("bft"), _("m/s"), _("kph"), _("mph") };
+	int windUnitSelectionNChoices = sizeof( windUnitSelectionChoices ) / sizeof( wxString );
+	windUnitSelection = new wxChoice( unitSizer->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, windUnitSelectionNChoices, windUnitSelectionChoices, 0 );
+	windUnitSelection->SetSelection( 0 );
 	windUnitSizer->Add( windUnitSelection, 0, wxALL, 5 );
 
 
@@ -44,9 +42,10 @@ PreferenceDialogBase::PreferenceDialogBase( wxWindow* parent, wxWindowID id, con
 	tempUnitLabel->Wrap( -1 );
 	tempUnitSizer->Add( tempUnitLabel, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 
-	tempUnitSelection = new wxComboBox( unitSizer->GetStaticBox(), wxID_ANY, _("Celsius"), wxDefaultPosition, wxDefaultSize, 0, NULL, 0 );
-	tempUnitSelection->Append( _("Celsius") );
-	tempUnitSelection->Append( _("Farenheit") );
+	wxString tempUnitSelectionChoices[] = { _("Celsius"), _("Farenheit") };
+	int tempUnitSelectionNChoices = sizeof( tempUnitSelectionChoices ) / sizeof( wxString );
+	tempUnitSelection = new wxChoice( unitSizer->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, tempUnitSelectionNChoices, tempUnitSelectionChoices, 0 );
+	tempUnitSelection->SetSelection( 0 );
 	tempUnitSizer->Add( tempUnitSelection, 0, wxALL, 5 );
 
 
@@ -65,10 +64,11 @@ PreferenceDialogBase::PreferenceDialogBase( wxWindow* parent, wxWindowID id, con
 	timeZoneLabel->Wrap( -1 );
 	displaySubSizer->Add( timeZoneLabel, 1, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 
-	timeZoneSelection = new wxComboBox( displaySizer->GetStaticBox(), wxID_ANY, _("Local / system"), wxDefaultPosition, wxDefaultSize, 0, NULL, 0 );
-	timeZoneSelection->Append( _("Local / system") );
-	timeZoneSelection->Append( _("UTC") );
-	displaySubSizer->Add( timeZoneSelection, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	wxString timeZoneSelectionChoices[] = { _("Local / system"), _("UTC") };
+	int timeZoneSelectionNChoices = sizeof( timeZoneSelectionChoices ) / sizeof( wxString );
+	timeZoneSelection = new wxChoice( displaySizer->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, timeZoneSelectionNChoices, timeZoneSelectionChoices, 0 );
+	timeZoneSelection->SetSelection( 0 );
+	displaySubSizer->Add( timeZoneSelection, 0, wxALL, 5 );
 
 
 	displaySizer->Add( displaySubSizer, 1, wxEXPAND, 5 );
@@ -170,8 +170,11 @@ PreferenceDialogBase::PreferenceDialogBase( wxWindow* parent, wxWindowID id, con
 
 	globalSizer->Add( serverSizer, 0, wxBOTTOM|wxEXPAND|wxLEFT|wxRIGHT, 5 );
 
+	wxBoxSizer* OkCancelSizer;
+	OkCancelSizer = new wxBoxSizer( wxHORIZONTAL );
 
-	globalSizer->Add( 0, 0, 1, wxBOTTOM|wxEXPAND|wxLEFT|wxRIGHT, 5 );
+
+	OkCancelSizer->Add( 0, 0, 1, wxEXPAND, 5 );
 
 	stdButtonsSizer = new wxStdDialogButtonSizer();
 	stdButtonsSizerOK = new wxButton( this, wxID_OK );
@@ -180,7 +183,13 @@ PreferenceDialogBase::PreferenceDialogBase( wxWindow* parent, wxWindowID id, con
 	stdButtonsSizer->AddButton( stdButtonsSizerCancel );
 	stdButtonsSizer->Realize();
 
-	globalSizer->Add( stdButtonsSizer, 0, wxBOTTOM|wxEXPAND|wxLEFT|wxRIGHT, 5 );
+	OkCancelSizer->Add( stdButtonsSizer, 0, wxBOTTOM|wxEXPAND|wxLEFT|wxRIGHT, 5 );
+
+
+	OkCancelSizer->Add( 0, 0, 1, wxEXPAND, 5 );
+
+
+	globalSizer->Add( OkCancelSizer, 1, wxEXPAND, 5 );
 
 
 	this->SetSizer( globalSizer );

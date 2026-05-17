@@ -22,7 +22,10 @@ ReportWindowBase::ReportWindowBase( wxWindow* parent, wxWindowID id, const wxStr
 	modelLabel->Wrap( -1 );
 	reportTopSizer->Add( modelLabel, 0, wxALIGN_CENTER|wxALL, 5 );
 
-	modelSelector = new wxComboBox( this, wxID_ANY, _("No Data"), wxDefaultPosition, wxDefaultSize, 0, NULL, 0 );
+	wxString modelSelectorChoices[] = { _("No data") };
+	int modelSelectorNChoices = sizeof( modelSelectorChoices ) / sizeof( wxString );
+	modelSelector = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, modelSelectorNChoices, modelSelectorChoices, 0 );
+	modelSelector->SetSelection( 0 );
 	reportTopSizer->Add( modelSelector, 0, wxALL, 5 );
 
 
@@ -39,7 +42,7 @@ ReportWindowBase::ReportWindowBase( wxWindow* parent, wxWindowID id, const wxStr
 	buttonSizer = new wxBoxSizer( wxVERTICAL );
 
 	saveButton = new wxButton( this, wxID_ANY, _("Save As..."), wxDefaultPosition, wxDefaultSize, 0 );
-	buttonSizer->Add( saveButton, 0, wxALL, 5 );
+	buttonSizer->Add( saveButton, 0, wxALIGN_CENTER|wxALL, 5 );
 
 
 	reportGlobalSizer->Add( buttonSizer, 0, wxEXPAND, 5 );
