@@ -84,7 +84,7 @@ wxBEGIN_EVENT_TABLE(ReportWindow, wxDialog) EVT_COMMAND(wxID_ANY, wxEVT_THREAD_J
 
     // Connect Events
     this->Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(ReportWindow::OnClose));
-    modelSelector->Connect(wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(ReportWindow::OnModelSelect), NULL, this);
+    modelSelector->Connect(wxEVT_CHOICE, wxCommandEventHandler(ReportWindow::OnModelSelect), NULL, this);
     saveButton->Connect(wxEVT_BUTTON, wxCommandEventHandler(ReportWindow::OnSaveAs), NULL, this);
 
     // Start the network thread
